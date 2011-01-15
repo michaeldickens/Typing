@@ -1,0 +1,21 @@
+# You can put comments after a pound sign.
+# You can also put comments on the same line as a layout after you've typed in the layout.
+#
+#wpucyzld,.riesfbntaoj';gwxhvkq MTGAP 3.13
+#ycou;kmdpwisea.lhtnrjz',xvfgbq MTGAP 3.12.1
+#.lucbqhgy,oresdpntia'x;wzvfkjw MTGAP 3.11
+#,fhdkjcul.oantgmseriqxbpzyw'v; MTGAP 2.0
+#kcfgbjhuw.osatdlneriqv,pz;myx' MTGAP 3.2
+#'yldbjpum,oitschneraxqwgzvf.k; MTGAP 3.5
+qwfpgjluy;arstdhneiozxcvbkm,.' Colemak
+#ql,p';fudkarenbgsitozw.hjvcymx Arensito
+#.ymdfjpluqaersgbtnioxzcv;kwh,' Capewell
+gylmwpfub;rsntdhaeoizxcvqjk,.' Carpalx GYLMWP
+#k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
+#',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
+#qwertyuiopasdfghjkl;zxcvbnm,.' QWERTY
+#kpul.qhcgvinerfdotasz'w,m;ybxj no same finger cost
+#;h'xzpym,bareskgdnitulofjqcv.w no distance cost
+#.uldkxhcy,oertgpnsiaz'vmw;fbjq no inward roll cost
+#.lucmjhdy,oresgfntiazv;bxqpk'w no row change or jump home cost
+#klcdb'fhy,orstmueniaxvwgz;.pjq 'e' somehow ended up on the index finger

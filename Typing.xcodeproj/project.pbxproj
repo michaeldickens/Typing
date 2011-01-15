@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		861464E1104CC2C700052F69 /* costs.c in Sources */ = {isa = PBXBuildFile; fileRef = 861464E0104CC2C700052F69 /* costs.c */; };
+		862456351051D223002DD016 /* cjalgorithm.c in Sources */ = {isa = PBXBuildFile; fileRef = 862456341051D223002DD016 /* cjalgorithm.c */; };
+		862C5BB7102F905100D95A5C /* trikeys.c in Sources */ = {isa = PBXBuildFile; fileRef = 862C5BB6102F905100D95A5C /* trikeys.c */; };
+		862C5BE4102F973A00D95A5C /* algorithm.c in Sources */ = {isa = PBXBuildFile; fileRef = 862C5BE3102F973A00D95A5C /* algorithm.c */; };
+		867D402110309F1E00DCE1EE /* fitness.c in Sources */ = {isa = PBXBuildFile; fileRef = 867D402010309F1E00DCE1EE /* fitness.c */; };
+		8687000D1031FFA8000845D5 /* accessories.c in Sources */ = {isa = PBXBuildFile; fileRef = 8687000C1031FFA8000845D5 /* accessories.c */; };
+		86B41D3811D3CCC3005B910F /* trifitness.c in Sources */ = {isa = PBXBuildFile; fileRef = 86B41D3711D3CCC3005B910F /* trifitness.c */; };
+		86ECBA26102CE34E00E8AB8A /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */; };
+		86ECBA29102CE76500E8AB8A /* tools.c in Sources */ = {isa = PBXBuildFile; fileRef = 86ECBA28102CE76500E8AB8A /* tools.c */; };
+		86FE236E1041B22F005CD54C /* values.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FE236D1041B22F005CD54C /* values.c */; };
+		8DD76FAC0486AB0100D96B5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
+		8DD76FB00486AB0100D96B5E /* Typing.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* Typing.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76FB00486AB0100D96B5E /* Typing.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		861464E0104CC2C700052F69 /* costs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = costs.c; sourceTree = "<group>"; };
+		862456341051D223002DD016 /* cjalgorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cjalgorithm.c; sourceTree = "<group>"; };
+		862C5BB6102F905100D95A5C /* trikeys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trikeys.c; sourceTree = "<group>"; };
+		862C5BE2102F973A00D95A5C /* algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithm.h; sourceTree = "<group>"; };
+		862C5BE3102F973A00D95A5C /* algorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = algorithm.c; sourceTree = "<group>"; };
+		864C8C1812E211ED00899EA5 /* fulllayoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fulllayoutstore.txt; sourceTree = "<group>"; };
+		8652F53A12CD270600CAF998 /* cjalgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cjalgorithm.h; sourceTree = "<group>"; };
+		8652F62612CD307400CAF998 /* 30digraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30digraphs.txt; sourceTree = "<group>"; };
+		8652F64712CD329E00CAF998 /* alldigraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alldigraphs.txt; sourceTree = "<group>"; };
+		8652F72F12CD49F800CAF998 /* 30chars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30chars.txt; sourceTree = "<group>"; };
+		8652F77B12CD4CEA00CAF998 /* allchars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allchars.txt; sourceTree = "<group>"; };
+		865382BE1035344A00E1CFE8 /* layoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutstore.txt; sourceTree = "<group>"; };
+		86555A3510391690009250CC /* Timings for Lock-Ins */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timings for Lock-Ins"; sourceTree = "<group>"; };
+		86555A411039182C009250CC /* Conceptual */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Conceptual; sourceTree = "<group>"; };
+		867D402010309F1E00DCE1EE /* fitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fitness.c; sourceTree = "<group>"; };
+		867D4B7212D29AD90045BD97 /* Saved Full Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Full Keyboards"; sourceTree = "<group>"; };
+		867D4B7812D29B0F0045BD97 /* Timings for Full Keyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timings for Full Keyboard"; sourceTree = "<group>"; };
+		867DD36911D07B8900379D1F /* Ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ideas; sourceTree = "<group>"; };
+		86841A4711D3F137006F70A1 /* all_layouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_layouts.txt; sourceTree = "<group>"; };
+		8687000B1031FFA8000845D5 /* accessories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accessories.h; sourceTree = "<group>"; };
+		8687000C1031FFA8000845D5 /* accessories.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accessories.c; sourceTree = "<group>"; };
+		8687014F10321AE6000845D5 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = README; sourceTree = "<group>"; wrapsLines = 1; };
+		86B41D3711D3CCC3005B910F /* trifitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trifitness.c; sourceTree = "<group>"; };
+		86B5E16412CE6FBA0086D45C /* kinesislayoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kinesislayoutstore.txt; sourceTree = "<group>"; };
+		86C6DA6F10325B90000FF26E /* Saved Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Keyboards"; sourceTree = "<group>"; };
+		86C6DAF810326295000FF26E /* Alternative Layouts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Alternative Layouts"; sourceTree = "<group>"; };
+		86ECBA24102CE34E00E8AB8A /* keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyboard.h; sourceTree = "<group>"; };
+		86ECBA25102CE34E00E8AB8A /* keyboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keyboard.c; sourceTree = "<group>"; };
+		86ECBA27102CE76500E8AB8A /* tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tools.h; sourceTree = "<group>"; };
+		86ECBA28102CE76500E8AB8A /* tools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tools.c; sourceTree = "<group>"; };
+		86FE236C1041B22F005CD54C /* values.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = values.h; sourceTree = "<group>"; };
+		86FE236D1041B22F005CD54C /* values.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = values.c; sourceTree = "<group>"; };
+		8DD76FB20486AB0100D96B5E /* Typing */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Typing; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6A0FF2C0290799A04C91782 /* Typing.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Typing.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* Typing */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6A0FF2B0290797F04C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = Typing;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7796FE84155DC02AAC07 /* main.c */,
+				8652F53A12CD270600CAF998 /* cjalgorithm.h */,
+				862456341051D223002DD016 /* cjalgorithm.c */,
+				8687000B1031FFA8000845D5 /* accessories.h */,
+				8687000C1031FFA8000845D5 /* accessories.c */,
+				862C5BE2102F973A00D95A5C /* algorithm.h */,
+				862C5BE3102F973A00D95A5C /* algorithm.c */,
+				867D402010309F1E00DCE1EE /* fitness.c */,
+				86B41D3711D3CCC3005B910F /* trifitness.c */,
+				86ECBA24102CE34E00E8AB8A /* keyboard.h */,
+				86ECBA25102CE34E00E8AB8A /* keyboard.c */,
+				865382BE1035344A00E1CFE8 /* layoutstore.txt */,
+				864C8C1812E211ED00899EA5 /* fulllayoutstore.txt */,
+				86B5E16412CE6FBA0086D45C /* kinesislayoutstore.txt */,
+				86841A4711D3F137006F70A1 /* all_layouts.txt */,
+				86ECBA27102CE76500E8AB8A /* tools.h */,
+				86ECBA28102CE76500E8AB8A /* tools.c */,
+				862C5BB6102F905100D95A5C /* trikeys.c */,
+				861464E0104CC2C700052F69 /* costs.c */,
+				86FE236C1041B22F005CD54C /* values.h */,
+				86FE236D1041B22F005CD54C /* values.c */,
+				8652F62612CD307400CAF998 /* 30digraphs.txt */,
+				8652F64712CD329E00CAF998 /* alldigraphs.txt */,
+				8652F72F12CD49F800CAF998 /* 30chars.txt */,
+				8652F77B12CD4CEA00CAF998 /* allchars.txt */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FB20486AB0100D96B5E /* Typing */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				8687014F10321AE6000845D5 /* README */,
+				86C6DA6F10325B90000FF26E /* Saved Keyboards */,
+				867D4B7212D29AD90045BD97 /* Saved Full Keyboards */,
+				86C6DAF810326295000FF26E /* Alternative Layouts */,
+				C6A0FF2C0290799A04C91782 /* Typing.1 */,
+				86555A3510391690009250CC /* Timings for Lock-Ins */,
+				86555A411039182C009250CC /* Conceptual */,
+				867DD36911D07B8900379D1F /* Ideas */,
+				867D4B7812D29B0F0045BD97 /* Timings for Full Keyboard */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* Typing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "Typing" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Typing;
+			productInstallPath = "$(HOME)/bin";
+			productName = Typing;
+			productReference = 8DD76FB20486AB0100D96B5E /* Typing */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "Typing" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* Typing */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* Typing */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76FAC0486AB0100D96B5E /* main.c in Sources */,
+				86ECBA26102CE34E00E8AB8A /* keyboard.c in Sources */,
+				86ECBA29102CE76500E8AB8A /* tools.c in Sources */,
+				862C5BB7102F905100D95A5C /* trikeys.c in Sources */,
+				862C5BE4102F973A00D95A5C /* algorithm.c in Sources */,
+				867D402110309F1E00DCE1EE /* fitness.c in Sources */,
+				8687000D1031FFA8000845D5 /* accessories.c in Sources */,
+				86FE236E1041B22F005CD54C /* values.c in Sources */,
+				861464E1104CC2C700052F69 /* costs.c in Sources */,
+				862456351051D223002DD016 /* cjalgorithm.c in Sources */,
+				86B41D3811D3CCC3005B910F /* trifitness.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB928608733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Typing;
+			};
+			name = Debug;
+		};
+		1DEB928708733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Typing;
+			};
+			name = Release;
+		};
+		1DEB928A08733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB928B08733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "Typing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928608733DD80010E9CD /* Debug */,
+				1DEB928708733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "Typing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928A08733DD80010E9CD /* Debug */,
+				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
