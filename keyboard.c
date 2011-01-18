@@ -12,20 +12,22 @@ int initKeyboard(Keyboard *k)
 {
 	int i;
 	
-	memset(k->layout, 0xff, KSIZE * sizeof(char));
+	memset(k->layout, 0xff, ksize * sizeof(char));
 
-	if (FULL_KEYBOARD == FK_NO) {
+	if (full_keyboard == FK_NO) {
 		// This default keyboard is QWERTY.
 		setLayout(k, "qwertyuiopasdfghjkl;zxcvbnm,.'");
-	} else if (FULL_KEYBOARD == FK_STANDARD) {
-		setLayout(k, "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./");
+	} else if (full_keyboard == FK_STANDARD) {
+		// This default keyboard is QWERTY with the punctuation rearranged so as to use the 
+		// most common punctuation marks: , . ) ( _ " ; - ' = /
+		setLayout(k, "_1234567890-=qwertyuiop()\"asdfghjkl;'zxcvbnm,./");
 	} else {
 		// This default keyboard is QWERTY with the punctuation rearranged so as to use the 
-		// most common punctuation marks: , . ) ( _ \ " ; - ' = /
+		// most common punctuation marks: , . ) ( _ " ; - ' = /
 		setLayout(k, "1234567890-qwertyuiop_asdfghjkl;\"zxcvbnm,./'=()");		
 	}
 	
-	k->layout[KSIZE] = '\0';
+	k->layout[ksize] = '\0';
 		
 	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
 	
@@ -33,8 +35,8 @@ int initKeyboard(Keyboard *k)
 	
 	/* If KEEP_ZXCV is enabled, move ZXCV back to their positions. */
 	if (KEEP_ZXCV) {
-		NOT_WORK_WITH_FULL_KEYBOARD("KEEP_ZXCV")
-		for (i = 0; i < KSIZE; ++i) {
+		NOT_WORK_WITH_full_keyboard("KEEP_ZXCV")
+		for (i = 0; i < ksize; ++i) {
 			if (k->layout[i] == 'z') {
 				k->layout[i] = k->layout[20];
 				k->layout[20] = 'z';
@@ -54,11 +56,12 @@ int initKeyboard(Keyboard *k)
 	/* If KEEP_NUMBERS is enabled, move all numbers back to their positions. */
 	if (KEEP_NUMBERS) {
 		NOT_WORK_WITH_30_KEYBOARD("KEEP_NUMBERS")
-		for (i = 0; i < KSIZE; ++i) {
+		int numstart = full_keyboard == FK_STANDARD ? 1 : 0;
+		for (i = 0; i < ksize; ++i) {
 			if (k->layout[i] >= '0' && k->layout[i] <= '9') {
 				char temp = k->layout[i];
-				k->layout[i] = k->layout[(temp - '0' + 9) % 10];
-				k->layout[(temp - '0' + 9) % 10] = temp;
+				k->layout[i] = k->layout[(temp - '0' + 9) % 10 + numstart];
+				k->layout[(temp - '0' + 9) % 10 + numstart] = temp;
 			}
 		}
 	}
@@ -80,9 +83,8 @@ int initKeyboard(Keyboard *k)
 int setLayout(Keyboard *k, char *layout)
 {
 	int i;
-	for (i = 0; i < KSIZE; ++i)
-		if (printIt[i])
-			k->layout[i] = *(layout++);
+	for (i = 0; i < ksize; ++i)
+		if (printIt[i]) k->layout[i] = *(layout++);
 		else k->layout[i] = '*';
 
 	return 0;
@@ -91,7 +93,7 @@ int setLayout(Keyboard *k, char *layout)
 int copy(Keyboard *k, Keyboard *original)
 {
 	int i;
-	for (i = 0; i < KSIZE; ++i) k->layout[i] = original->layout[i];
+	for (i = 0; i < ksize; ++i) k->layout[i] = original->layout[i];
 	k->fitness = original->fitness;
 	k->inRoll = original->inRoll;
 	k->outRoll = original->outRoll;
@@ -107,7 +109,7 @@ int copy(Keyboard *k, Keyboard *original)
 
 int swap(Keyboard *k, int loc1, int loc2)
 {
-	if (loc1 >= KSIZE || loc2 >= KSIZE) return -1;
+	if (loc1 >= ksize || loc2 >= ksize) return -1;
 	if (printIt[loc1] ^ printIt[loc2]) return -2;
 	if (isLegalSwap(loc1, loc2) == FALSE) return -3;
 	
@@ -121,14 +123,14 @@ int numberOfSameKeys(Keyboard *k, Keyboard *m)
 {
 	int i;
 	int result;
-	for (i = 0, result = 0; i < KSIZE; i++) if (k->layout[i] == m->layout[i]) ++result;
+	for (i = 0, result = 0; i < ksize; i++) if (k->layout[i] == m->layout[i]) ++result;
 	return result;
 }
 
 int isEqual(Keyboard *k, Keyboard *m)
 {
 	int i;
-	for (i = 0; i < KSIZE; ++i) if (k->layout[i] != m->layout[i]) return FALSE;
+	for (i = 0; i < ksize; ++i) if (k->layout[i] != m->layout[i]) return FALSE;
 	if (k->fitness != m->fitness) return FALSE;
 	if (k->inRoll != m->inRoll) return FALSE;
 	if (k->outRoll != m->outRoll) return FALSE;
@@ -145,13 +147,17 @@ int isEqual(Keyboard *k, Keyboard *m)
 int printLayoutOnly(Keyboard *k)
 {
 	int i;
-	for (i = 0; i < KSIZE; ++i)
-		if (FULL_KEYBOARD == FK_NO) {
-			if (i % 10 == 9) printf("%c\n", k->layout[i]);
+	for (i = 0; i < ksize; ++i)
+		if (full_keyboard == FK_NO) {
+			if (printIt[i] == FALSE) printf("  ");
+			else if (i % 10 == 9) printf("%c\n", k->layout[i]);
 			else if (i % 10 == 4) printf("%c  ", k->layout[i]);
 			else printf("%c ", k->layout[i]);
-		} else if (FULL_KEYBOARD == FK_STANDARD) {
-			if (i % 14 == 13) printf("%c\n", k->layout[i]);
+		} else if (full_keyboard == FK_STANDARD) {
+			if (printIt[i] == FALSE) {
+				if (i % 14 == 13) printf("  \n");
+				else printf("  ");
+			} else if (i % 14 == 13) printf("%c\n", k->layout[i]);
 			else if (i % 14 == 5) printf("%c  ", k->layout[i]);
 			else printf("%c ", k->layout[i]);
 		} else {
@@ -183,7 +189,7 @@ int printKeyboard(Keyboard *k)
 	printf("Row change: %lld\n", k->rowChange);
 	printf("Home jump: %lld\n", k->homeJump);
 	printf("To center: %lld\n", k->toCenter);
-	if (KSIZE != 30) printf("To outside: %lld\n", k->toOutside);
+	if (ksize != 30) printf("To outside: %lld\n", k->toOutside);
 	printf("\n");
 	
 	return 0;
@@ -237,7 +243,7 @@ int printPercentages(Keyboard *k)
 	printf("Row change:    %.2f%%\n", ((double)(100*k->rowChange ) / totalDi ));
 	printf("Home jump:     %.2f%%\n", ((double)(100*k->homeJump  ) / totalDi ));
 	printf("To center:     %.2f%%\n", ((double)(100*k->toCenter  ) / totalDi ));
-	if (KSIZE != 30) printf("To outside:    %.2f%%\n", ((double)(100*k->toOutside) / totalDi ));
+	if (ksize != 30) printf("To outside:    %.2f%%\n", ((double)(100*k->toOutside) / totalDi ));
 	printf("\n");
 
 	return 0;
@@ -257,7 +263,7 @@ int simplePrintKeyboard(Keyboard *k)
 	printf("Row change: %lld\n", (long long) (k->rowChange / pow(10, SIMPLE_SHIFT)));
 	printf("Home jump: %lld\n", (long long) (k->homeJump / pow(10, SIMPLE_SHIFT)));
 	printf("To center: %lld\n", (long long) (k->toCenter / pow(10, SIMPLE_SHIFT)));
-	if (KSIZE != 30) printf("To outside: %lld\n", (long long) (k->toOutside / pow(10, SIMPLE_SHIFT)));
+	if (ksize != 30) printf("To outside: %lld\n", (long long) (k->toOutside / pow(10, SIMPLE_SHIFT)));
 	printf("\n");
 	
 	return 0;
@@ -271,7 +277,7 @@ int loc(Keyboard *k, char c)
 //	else return -1;
 	
 	int i;
-	for (i = 0; i < KSIZE; ++i) {
+	for (i = 0; i < ksize; ++i) {
 		if (k->layout[i] == c)
 			return i;
 	}

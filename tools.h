@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "values.h"
+
+#define streq(str1, str2) (strcmp(str1, str2) == 0)
+#define streqn(str1, str2, n) (strncmp(str1, str2, n) == 0)
  
 #define MAX_TRI_LEN 5000
 #define MAX_DI_LEN 5000
@@ -35,7 +38,7 @@ int monLen, diLen, triLen;
 #define DIVISOR 100
 
 typedef struct {
-	char layout[KSIZE + 1]; /* The one extra character is set to '\0' so 
+	char layout[KSIZE_MAX + 1]; /* The one extra character is set to '\0' so 
 								(layout) can be treated as a string. */
 	long long fingerUsage[8];
 	long long shortcut;
@@ -67,21 +70,25 @@ void copyArray(int out[], int in[], int length);
 int strNumsToArr(int arr[], char *str, int length);
 char layoutFromFile(FILE *fp, Keyboard *k);
 int initData();
+void initKeyboardData();
+void initTypingData();
+int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, char *legalKeys, int max);
+
+int sortTypingData(char **keys, int *values, int left, int right);
 
 int qwerty[30];
 
 int randomizer;
 struct timeval tv;
-FILE *input;
 
-int hand[KSIZE];
-int finger[KSIZE];
-int row[KSIZE];
-int isCenter[KSIZE];
-int isOutside[KSIZE];
-int isCenterOrOutside[KSIZE];
+int hand[KSIZE_MAX];
+int finger[KSIZE_MAX];
+int row[KSIZE_MAX];
+int isCenter[KSIZE_MAX];
+int isOutside[KSIZE_MAX];
+int isCenterOrOutside[KSIZE_MAX];
 
-int printIt[KSIZE];
+int printIt[KSIZE_MAX];
 
 int costs[900];
 
@@ -94,3 +101,5 @@ long long diValues[MAX_DI_LEN];
 char monKeys[MAX_MON_LEN];
 long long monValues[MAX_MON_LEN];
 
+/* Used in cjalgorithm.c. */
+int indices[KSIZE_MAX];

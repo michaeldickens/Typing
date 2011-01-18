@@ -7,8 +7,6 @@
  * Includes the keyboard struct and the fitness function.
  */
  
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <math.h>
@@ -56,7 +54,7 @@ void scoreTrigraph(Keyboard *k, char trigraph[], int multiplier, int allLocs[]);
 
 
 char shortcutKeys[4];
-char seedLayout[KSIZE]; // Holds every letter and is randomly shuffled. Used to seed the keyboards.
+char seedLayout[KSIZE_MAX]; // Holds every letter and is randomly shuffled. Used to seed the keyboards.
 unsigned int seedVal;
 
 int totalCalcFitness;

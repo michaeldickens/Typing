@@ -19,7 +19,7 @@ int initAlgorithm()
 
 Keyboard runAlgorithm()
 {
-	if (KSIZE != 30) { \
+	if (ksize != 30) { \
 		fprintf(stderr, "Error: runAlgorithm() does not work when keyboard size is not 30."); \
 		return nilKeyboard;
 	}
@@ -129,8 +129,8 @@ int runLoop(Keyboard pool[])
  */
 Keyboard atleMutate(Keyboard k)
 {
-	if (KSIZE != 30) {
-		printf("Error: atleMutate() does not work if KSIZE is not 30.\n");
+	if (ksize != 30) {
+		printf("Error: atleMutate() does not work if ksize is not 30.\n");
 		return nilKeyboard;
 	}
 	
@@ -171,8 +171,8 @@ Keyboard simpleMutate(Keyboard k)
 	int r0, r1;
 	char temp;
 	
-	r0 = rand() % KSIZE;
-	r1 = rand() % KSIZE;
+	r0 = rand() % ksize;
+	r1 = rand() % ksize;
 	swap(&k, r0, r1);
 	
 	return k;

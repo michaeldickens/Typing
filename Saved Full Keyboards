@@ -20,7 +20,7 @@ Home jump:     0.26%
 To center:     2.29%
 To outside:    0.50%
 
-MTGAP Full -- Tentative Version
+MTGAP Kinesis -- Tentative Version
 
 1 2 3 4 5  6 7 8 9 0 q
 y p o u -  v d l c w x
@@ -41,3 +41,24 @@ To outside:    0.39%
 
 
 Time elapsed: 0 hours, 6 minutes, 14 seconds
+
+MTGAP Full -- Tentative Version
+
+= 1 2 3 4 5  6 7 8 9 0 q z   
+  y p o u -  k d l c w x / j
+  i n e a ,  m h t s r "     
+  ( ) ; . _  v f g b '       
+
+Fitness:       184428299
+Distance:      364416
+Inward rolls:  10.16%
+Outward rolls: 2.36%
+Same hand:     34.93%
+Same finger:   1.60%
+Row change:    13.17%
+Home jump:     0.27%
+To center:     2.38%
+To outside:    0.52%
+
+
+Time elapsed: 0 hours, 23 minutes, 25 seconds

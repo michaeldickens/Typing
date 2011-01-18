@@ -8,16 +8,6 @@
 
 #include "cjalgorithm.h"
  
-/* Contains the full-size keyboard but if you're only using the main 30 
- * keys then the extra indices may as well not exist.
- */
-int indices[] = {
-	 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 
-	11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 
-	22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 
-	33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 
-	44, 45,                         52, 53, 
-};
 
 int legalBox1[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -38,12 +28,95 @@ int legalBox3[] = {
 };
 
 int bigLegalBox1[] = {
+	1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+};
+
+int kinesisLegalBox1[] = {
 	2, 3, 4, 5, 6, 7, 8, 9,10,11, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
+
+int run(char *filename)
+{
+	int start = time(NULL), finish;
+
+	long long curEval;
+	Keyboard k;
+	long long bestEval = LLONG_MAX;
+
+	int i, numberOfRounds, isFileEmpty;
+	
+	FILE *fp = fopen(filename, "r");
+	
+	int usedLastLayout = FALSE;
+	int intervalBetweenPrints = 60, intervalInc = 0;
+		
+	// Run Chris Johnson's simulated annealing algorithm.
+	isFileEmpty = FALSE;
+	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
+		if (INIT_FROM_FILE && !KEEP_NUMBERS) {
+			if (layoutFromFile(fp, &k) == -1) {
+				isFileEmpty = TRUE;
+				fclose(fp);
+			}
+		} else isFileEmpty = TRUE;
+		
+		if (isFileEmpty) {
+			if (numberOfRounds != 0 && (double) rand() / RAND_MAX <= CHANCE_TO_USE_LAST_LAYOUT) {
+				usedLastLayout = TRUE;
+				int j;
+				for (j = 0; j < LAST_LAYOUT_MUTATIONS; ++j)
+					k = mutate(k);
+			} else {
+				usedLastLayout = FALSE;
+				initKeyboard(&k);
+			}
+			
+			if (REPEAT_LAYOUTSTORE) {
+				fclose(fp);
+				fp = fopen(filename, "r");
+				isFileEmpty = FALSE;
+			}
+		}
+		
+		curEval = doRun(&k);
+		
+		if (curEval < bestEval) {
+			if (usedLastLayout) {
+				printf("\nEvolved from last layout: \n");
+			}
+			i = 0;
+			bestEval = curEval;
+			calcFitnessDirect(&k);
+			printPercentages(&k);
+
+			finish = time(NULL);
+			printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+		} else if (curEval == bestEval) {
+			printf("Same layout found\n");
+		} else if (time(NULL) - finish >= intervalBetweenPrints) {
+			finish = time(NULL);
+			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", numberOfRounds, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			++intervalInc;
+			if (intervalInc >= 4) {
+				intervalInc = 0;
+				intervalBetweenPrints *= 2;
+			}
+		}
+
+	}
+		
+	finish = time(NULL);
+	printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+
+    return 0;
+}
 
 long long doRun(Keyboard *k)
 {
@@ -74,7 +147,9 @@ long long doRun(Keyboard *k)
 
 int isLegalSwap(int i, int j)
 {
-	if (KEEP_NUMBERS) return bigLegalBox1[i] == bigLegalBox1[j];
+	if (KEEP_NUMBERS) 
+		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
+		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
 	return TRUE;
 }
 
@@ -84,8 +159,8 @@ long long improveLayout(long long evaluationToBeat, Keyboard *k)
 	int i, j;
 	
 	/* try swaps until we beat evaluationToBeat... */
-	for (i = 0; i < KSIZE; i++) {
-		for (j = i+1; j < KSIZE; j++) {
+	for (i = 0; i < ksize; i++) {
+		for (j = i+1; j < ksize; j++) {
 			if (isLegalSwap(indices[i], indices[j]) == FALSE) continue;
 			
 			swapChars(k->layout + indices[i], k->layout + indices[j]);
@@ -108,7 +183,7 @@ long long improveLayout(long long evaluationToBeat, Keyboard *k)
 
 void shuffleIndices()
 {
-	int temp, k, n = KSIZE;
+	int temp, k, n = ksize;
 
 	while (n > 1) {
 		k = rand() % n;
@@ -123,7 +198,7 @@ void shuffleIndices()
 void shuffleLayout(char array[])
 {
 	char temp;
-	int k, n = KSIZE;
+	int k, n = ksize;
 	while (n > 1) 
 	{
 		--n;

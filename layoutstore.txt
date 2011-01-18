@@ -8,9 +8,9 @@
 #kcfgbjhuw.osatdlneriqv,pz;myx' MTGAP 3.2
 #'yldbjpum,oitschneraxqwgzvf.k; MTGAP 3.5
 qwfpgjluy;arstdhneiozxcvbkm,.' Colemak
-#ql,p';fudkarenbgsitozw.hjvcymx Arensito
+ql,p';fudkarenbgsitozw.hjvcymx Arensito
 #.ymdfjpluqaersgbtnioxzcv;kwh,' Capewell
-gylmwpfub;rsntdhaeoizxcvqjk,.' Carpalx GYLMWP
+#gylmwpfub;rsntdhaeoizxcvqjk,.' Carpalx GYLMWP
 #k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
 #',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
 #qwertyuiopasdfghjkl;zxcvbnm,.' QWERTY

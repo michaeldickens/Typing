@@ -6,29 +6,29 @@
  *
  */
  
+#define TRUE 1
+#define FALSE 0
+
 #define FK_NO 0
 #define FK_STANDARD 1
 #define FK_KINESIS 2
 
-#define FULL_KEYBOARD FK_KINESIS
-//#define KSIZE 30 /* 3 rows of 10. Use this option for FK_NO. */
-//#define KSIZE 56 /* up to 4 rows of 14. Use this option for FK_STANDARD. */
-#define KSIZE 55 /* up to 5 rows of 11. Use this option for FK_KINESIS. */
+/* Set full_keyboard in initValues(). */
+int full_keyboard, ksize;
 
-#define NOT_WORK_WITH_FULL_KEYBOARD(str) \
-	if (KSIZE != 30) { \
+#define KSIZE_MAX 100
+
+#define NOT_WORK_WITH_full_keyboard(str) \
+	if (ksize != 30) { \
 		fprintf(stderr, "Error: Cannot use %s when keyboard size is not 30.", str); \
 		return -1; \
 	}
 
 #define NOT_WORK_WITH_30_KEYBOARD(str) \
-	if (KSIZE == 30) { \
+	if (ksize == 30) { \
 		fprintf(stderr, "Error: Cannot use %s when keyboard size is 30.", str); \
 		return -1; \
 	}
-
-#define TRUE  1
-#define FALSE 0
 
 // If TRUE, run through the layouts in layoutstore.txt repeatedly when 
 // running the algorithm. If FALSE, only run through once.
@@ -92,8 +92,13 @@
 #define PARENTHESES_COST	5000000000
 
 long long fingerCosts[5];
-long long distanceCosts[KSIZE];
-long long  trueDistance[KSIZE];
-long long shortcutCosts[KSIZE];
+long long distanceCosts[KSIZE_MAX];
+long long  trueDistance[KSIZE_MAX];
+long long shortcutCosts[KSIZE_MAX];
+
+int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
+	sameFingerI, rowChange, handWarp, handSmooth, homeJump, homeJumpIndex, 
+	doubleJump, toCenter, toOutside;
 
 int initValues();
+void setksize(int type);

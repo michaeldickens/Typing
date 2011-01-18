@@ -1,0 +1,4 @@
+/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'initKeyboard':
+/Users/MTGAP/XCodeProjects/Typing/keyboard.c:34: warning: implicit declaration of function 'shuffleLayout'
+/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'swap':
+/Users/MTGAP/XCodeProjects/Typing/keyboard.c:114: warning: implicit declaration of function 'isLegalSwap'

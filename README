@@ -1,13 +1,53 @@
+INSTALLATION
+
+1. If you don't have gcc installed, install it.
+2. Run "make" to produce an executable file.
+3. You may now execute "optimizer" with
+
+	./optimizer
+
+to run the program.
 
 - - - - - - - - - - - - - - - - - - - - - - - -
 
-main.c: Runs the core functions. It accepts the following values as command-line arguments.
-	"algorithm" -- Runs the algorithm to search for an optimal keyboard layout.
-	"compare"   -- Prints out detailed stats for each keyboard in "layoutstore.txt" for easy comparison.
-	"improve"   -- Calculates an improved version of the first layout in "layoutstore.txt".
-	"test"		-- Test the fitness functions to make sure that they work.
+HOW TO RUN THE ALGORITHM
 
-cjalgorithm.c: Runs an algorithm based on one written by Chris Johnson (kinky_b@hotmail.com). Has the same purpose as algorithm.c. Much faster, though possibly less thorough.
+The program itself provides documentation for the various options.
+
+- - - - - - - - - - - - - - - - - - - - - - - -
+
+USING THE FULL KEYBOARD
+
+The default setting is to evaluate the main 30 keys on the keyboard (this is how the program was originally written). You can also use it to evaluate the entire keyboard by changing this line near the beginning of initValues() in values.c: 
+
+full_keyboard = [FK_SETTING]
+
+To use the main 30 keys write FK_NO, for the full keyboard use FK_STANDARD, and for a full Kinesis keyboard use FK_KINESIS.
+
+Not everything works with the full keyboard so it is not recommended for most features.
+
+For the more casual keyboard optimizer I recommended just optimizing the main 30 keys, as the other keys don't have a very large effect and the rarer keys are much more difficult to re-learn. But if you want maximum optimization, this is the option for you. This option can use a standard keyboard or the Kinesis Advantage Pro keyboard (if you're willing to go to the trouble of re-learning your entire keyboard then you may as well buy a top-of-the-line ergonomic keyboard too).
+
+The full standard keyboard supposedly has 56 characters: 4 rows of 14. In truth it only has 47: 
+ - 13 on the number row, from [0] to [12]
+ - 13 on the top row, from [15] to [26]
+ - 11 on the home row, from [29] to [39]
+ - 10 on the bottom row, from [43] to [52]
+
+The full kinesis keyboard supposedly has 55 characters: 5 rows of 11. In truth it only has 47: 
+ - 11 on the number row, from [0] to [10]
+ - 11 on the top row, from [11] to [21]
+ - 11 on the home row, from [22] to [32]
+ - 10 on the bottom row, from [33] to [42]
+ -  4 on the lowest row, from [44] to [45] and from [52] to [53].
+
+ - - - - - - - - - - - - - - - - - - - - - - - -
+
+FILE SYSTEM
+
+main.c: Runs the core functions.
+
+cjalgorithm.c: Runs an algorithm based on one written by Chris Johnson (kinky_b@hotmail.com). It has the same purpose as algorithm.c but runs much faster.
 
 accessories.h: Header file for accessories.
 accessories.c: Contains various extras that are not directly related to the algorithm. Contains a keyboard improvement function, a function to collect timing data, a function that compares various layouts in a simple way, and a function to evaluate the cost of each individual digraph for a given keyboard.
@@ -20,8 +60,6 @@ keyboard.c: Contains functions that center around the keyboard structure itself.
 
 fitness.c: Contains the core "calcFitness" function as well as several smaller functions for individual aspects of fitness such as same hand usage, same finger, finger travel distance, etc.
 
-layoutstore.txt: You can write a layout in here and it will be pulled into the program. You can then run it through the improver or splice it into the all-star round of the algorithm. The first 30 characters on each line are the 30 keys on the keyboard. Every character after that is not used, so you can use the rest of the line for documentation.
-
 tools.h: Header file for tools and trikeys.
 tools.c: Contains necessary tools for running the algorithm. Contains the lists of digraphs and monographs. Also contains some miscellaneous functions such as the rand30() function.
 
@@ -30,46 +68,4 @@ trikeys.c: A list of trigraphs. This list was too long to include in any other f
 values.h: Contains various constants as well as the fitness costs.
 values.c: Contains some fitness costs as arrays.
 
-- - - - - - - - - - - - - - - - - - - - - - - -
-
-How To Run the Algorithm
-
-I. values.h contains all the values that you will likely want to modify. Change the values to whatever you wish. If you want to keep zxcv in place, set keepZXCV = TRUE. If you want to keep QWERTY positions in place, set keepQWERTY = TRUE.
-
-II. There are several different things that this program can do: 
-
-1. The default option is Chris Johnson's simulated annealing program. 
-2. runAlgorithm() will run my genetic algorithm. This and the simulated annealing program have much the same effect.
-3. runTimingTests() tests how many microseconds it will take to complete various operations. It is required that you have the <sys/time.h> library for this to work.
-4. compare() will compare some or all of the layouts in layouts.c.
-5. You can type a layout into layoutstore.txt if you want it to be put into the pool when the program runs "algorithm".
-
-- - - - - - - - - - - - - - - - - - - - - - - -
-
-Using the Full Keyboard
-
-The default setting is to evaluate the main 30 keys on the keyboard (this is how the program was originally written). You can also use it to evaluate the entire keyboard by changing this line near the beginning of values.h: 
-
-#define FULL_KEYBOARD [FK_SETTING]
-
-To use the main 30 keys write FK_NO, for the full keyboard use FK_STANDARD, and for a full Kinesis keyboard use FK_KINESIS.
-
-Not everything works with the full keyboard so it is not recommended for most features.
-
-For the more casual keyboard optimizer I recommended just optimizing the main 30 keys, as the other keys don't have a very large effect and the rarer keys are much more difficult to re-learn. But if you want maximum optimization, this is the option for you. This option assumes that you are using the Kinesis Advantage Pro keyboard (if you're willing to go to the trouble of re-learning your entire keyboard then you may as well buy a top-of-the-line ergonomic keyboard too).
-
-The full keyboard supposedly has 55 characters: 5 rows of 11. In truth it only has 47: 
- - 11 on the number row, from [0] to [10]
- - 11 on the top row, from [11] to [21]
- - 11 on the home row, from [22] to [32]
- - 10 on the bottom row, from [33] to [42]
- -  4 on the lowest row, from [44] to [45] and from [52] to [53].
- 
-The QWERTY keyboard looks like this: 
-
-    1 2 3 4 5 6 7 8 9 0 -
-    Q W E R T Y U I O P \
-    A S D F G H J K L ; '
-    Z X C V B N M , . /
-    ` =             [ ]
 

@@ -119,14 +119,17 @@ int compare(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
 	char c = '2';
-	while (c != EOF) {
+	while (c != EOF && c != 0) {
 		Keyboard k;
 		c = layoutFromFile(fp, &k);
-		calcFitnessDirect(&k);
-		printPercentages(&k);
+		if (c != 0) {
+			calcFitnessDirect(&k);
+			printPercentages(&k);
+		}
 	}
 	
 	fclose(fp);
+	printf("\n");
 	
 	return 0;
 }
@@ -167,6 +170,100 @@ Keyboard improver(Keyboard k)
 	}
 
 	return bestk;
+}
+
+/* 
+ * Uses compileTypingData() to create files for typing data.
+ */
+int makeTypingData()
+{
+	char *diFilenames[] = {
+		"freq_types/digraphs_00allProse.txt", 
+		"freq_types/digraphs_01allCasual.txt", 
+		"freq_types/digraphs_02allC.txt", 
+		"freq_types/digraphs_02allJava.txt", 
+		"freq_types/digraphs_02allPerl.txt", 
+		"freq_types/digraphs_02allRuby.txt", 
+		"freq_types/digraphs_03allFormal.txt", 
+		"freq_types/digraphs_04allNews.txt", 
+	};
+	
+	char *charFilenames[] = {
+		"freq_types/chars_00allProse.txt", 
+		"freq_types/chars_01allCasual.txt", 
+		"freq_types/chars_02allC.txt", 
+		"freq_types/chars_02allJava.txt", 
+		"freq_types/chars_02allPerl.txt", 
+		"freq_types/chars_02allRuby.txt", 
+		"freq_types/chars_03allFormal.txt", 
+		"freq_types/chars_04allNews.txt", 
+	};
+	
+	int multipliers[8];
+	
+	printf("There are several types of text. You must specify an integer multiplier for each one. The multiplier ");
+	printf("will determine how heavily to weight that file. For example if you do a lot of Java programming ");
+	printf("you might set the Java multiplier to a relatively large number, whereas if you don't program at all you would set ");
+	printf("the Java multiplier to 0. You may also use the default multipliers.\n");
+	printf("CAUTION: If you set any multipliers to be greater than about 100, this will cause integer overflow and the program  ");
+	printf("will not work properly.\n");
+	printf("The list of text types is { prose, casual, C, Java, Perl, Ruby, formal, news }.\n\n");
+	
+	char input[100];
+	
+	printf("Use default multipliers? (y/n) ");
+	fgets(input, 100, stdin);
+	
+	if (input[0] == 'y' || input[0] == 'Y') {
+		multipliers[0] = 18;
+		multipliers[1] = 25;
+		multipliers[2] =  5;
+		multipliers[3] =  6;
+		multipliers[4] =  2;
+		multipliers[5] =  2;
+		multipliers[6] = 15;
+		multipliers[7] = 20;
+	} else {
+		multipliers[0] = getNumber("prose: ");
+		multipliers[1] = getNumber("casual: ");
+		multipliers[2] = getNumber("C: ");
+		multipliers[3] = getNumber("Java: ");
+		multipliers[4] = getNumber("Perl: ");
+		multipliers[5] = getNumber("Ruby: ");
+		multipliers[6] = getNumber("formal: ");
+		multipliers[7] = getNumber("news: ");
+	}
+	
+	printf("\nPlease specify the maximum number of strings to put in the file. The optimizer will run faster ");
+	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-1500.)\n");
+	int max = getNumber("max: ");
+	
+	compileTypingData("alldigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
+	compileTypingData("allchars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
+	
+	printf("\nDone writing typing data. See allchars.txt and alldigraphs.txt for the result.\n\n");
+	
+	return 0;
+}
+
+int getNumber(char *description)
+{
+	char input[100];
+	int num;
+	
+	do {
+		printf("%s", description);
+		fgets(input, 100, stdin);
+		if (streq(input, "0")) {
+			return 0;
+		}
+		num = atoi(input);
+		if (num == 0) {
+			printf("Undefined input. Please try again.\n");
+		}
+	} while (num == 0);
+	
+	return num;
 }
 
 /*
@@ -291,7 +388,7 @@ int runTimingTests()
  */
 int testFitness()
 {
-	if (FULL_KEYBOARD == FK_NO) {
+	if (full_keyboard == FK_NO) {
 		printf("\nTesting calcInRoll():\n");
 		testResult(calcInRoll(0, 0), 0);
 		testResult(calcInRoll(10, 11), IN_ROLL);
@@ -346,8 +443,17 @@ int testFitness()
 		testResult(calcToCenter(25, 9), TO_CENTER);
 		testResult(calcToCenter(25, 15), 0);
 	
-	} else if (FULL_KEYBOARD == FK_STANDARD) {
+	} else if (full_keyboard == FK_STANDARD) {
 		printf("\nTesting calcHomeJump():\n");
+		testResult(calcHomeJump(8, 8), 0);
+		testResult(calcHomeJump(14, 0), 0);
+		testResult(calcHomeJump(15, 0), 0);
+		testResult(calcHomeJump(14, 1), 0);
+		testResult(calcHomeJump(8, 20), 0);
+		testResult(calcHomeJump(8, 34), HOME_JUMP + HOME_JUMP_INDEX);
+		testResult(calcHomeJump(36, 9), HOME_JUMP);
+		testResult(calcHomeJump(33, 5), HOME_JUMP);
+		
 	
 	} else {
 		printf("\nTesting calcInRoll():\n");
@@ -365,6 +471,16 @@ int testFitness()
 		testResult(calcSameFinger(7, 29), SAME_FINGER_M);
 		testResult(calcSameFinger(25, 15), SAME_FINGER_I);
 		testResult(calcSameFinger(0, 4), 0);
+
+		printf("\nTesting calcHomeJump():\n");
+		testResult(calcHomeJump(8, 8), 0);
+		testResult(calcHomeJump(11, 0), 0);
+		testResult(calcHomeJump(12, 0), 0);
+		testResult(calcHomeJump(11, 1), 0);
+		testResult(calcHomeJump(8, 17), 0);
+		testResult(calcHomeJump(8, 28), HOME_JUMP + HOME_JUMP_INDEX);
+		testResult(calcHomeJump(30, 9), HOME_JUMP);
+		testResult(calcHomeJump(27, 5), HOME_JUMP);
 	}
 
 	

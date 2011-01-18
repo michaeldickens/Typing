@@ -17,6 +17,9 @@ int compare(char *filename);
 void improveFromFile(char *filename);
 Keyboard improver(Keyboard k);
 
+int makeTypingData();
+int getNumber(char *description);
+
 int runTimingTests();
 
 int testFitness();

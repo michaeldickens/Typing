@@ -11,43 +11,43 @@
 int initValues()
 {
 	int i;
-
-	if (FULL_KEYBOARD == FK_NO) {
+	
+	if (full_keyboard == FK_NO) {
 		// Set keyboard position costs manually. These costs were determined by looking at how the positions were valued on some of the best alternative layouts.
-		long long costsCopy[KSIZE] = {
+		long long costsCopy[KSIZE_MAX] = {
 			 70,  40,  30,  30,  60,  80,  30,  30,  40,  70, 
 			 10,   4,   0,   0,  30,  30,   0,   0,   4,  10, 
 			 90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 			
 		};
-		for (i = 0; i < KSIZE; ++i)
+		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
 		// These costs are optimized for a symmetrical keyboard such as Kinesis.
-	/*	long long copyCosts[KSIZE] = {
+	/*	long long copyCosts[ksize] = {
 			65, 40, 30, 30, 75, 75, 30, 30, 40, 65, 
 			10,  4,  0,  0, 30, 30,  0,  0,  4, 10, 
 			90, 80, 60, 45, 90, 90, 45, 60, 80, 90, 
 		}
 	*/
 		
-	} else if (FULL_KEYBOARD == FK_STANDARD) {
+	} else if (full_keyboard == FK_STANDARD) {
 		
 		// These costs are optimized for a full standard layout. Any cost that 
 		// is 999 is not supposed to contain any character.
-		long long costsCopy[KSIZE] = {
+		long long costsCopy[KSIZE_MAX] = {
 			140, 120,  90,  75,  95, 130, 160,  95,  75,  90, 120, 120, 140, 999, 
 			999,  70,  40,  30,  30,  60,  80,  30,  30,  40,  70,  90, 110, 150, 
 			999,  10,   4,   0,   0,  30,  30,   0,   0,   4,  10,  85, 999, 999, 
 			999,  90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 999, 999, 999, 
 		};
-		for (i = 0; i < KSIZE; ++i)
+		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 
 	} else {
 		
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
-		long long costsCopy[KSIZE] = {
+		long long costsCopy[KSIZE_MAX] = {
 			120,  90,  75,  95, 130, 130,  95,  75,  90, 120, 140, 
 			 65,  40,  30,  30,  75,  75,  30,  30,  40,  65, 100, 
 			 10,   4,   0,   0,  30,  30,   0,   0,   4,  10,  80, 
@@ -55,7 +55,7 @@ int initValues()
 			170, 150, 999, 999, 999, 999, 999, 999, 150, 170, 999, 
 		
 		};
-		for (i = 0; i < KSIZE; ++i)
+		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
 	}	
@@ -79,3 +79,24 @@ int initValues()
 	return 0;
 }
 
+void initCosts()
+{
+// All values are compounding. For example, say we jump over the home row on the 
+// index finger. The cost is sameHand + rowChange + homeJump + homeJumpIndex.
+	distance =		  1;
+	inRoll =		-40;
+	outRoll =		  5;
+	sameHand =		  5;
+	sameFingerP =	150;
+	sameFingerR =	140;
+	sameFingerM =	110;
+	sameFingerI =	 90;
+	rowChange =		 15;
+	handWard =		 10;
+	handSmooth =	 -0;
+	homeJump =		100;
+	homeJumpIndex = -90;
+	doubleJump =	220; // Does not compound with HOME_JUMP.
+	toCenter =		 20;
+	toOutside =		 20;
+}

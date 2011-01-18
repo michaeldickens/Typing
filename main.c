@@ -9,120 +9,121 @@
 #include <stdio.h>
 #include "cjalgorithm.h"
 
-int run(char *filename);
-
 int main(int argc, const char *argv[])
 {		
-	/* init fitness evaluator */
-	initData();
-
-	/* init gen alg */
+	full_keyboard = FK_NO;
+	
+	/* Initialize the typing data and the keyboard layout settings. */
+	setksize(FK_NO);
+	
+	/* Initialize the genetic algorithm. */
 	initAlgorithm();
 	
 	char *filename;
-	if (FULL_KEYBOARD == FK_NO) filename = "layoutstore.txt";
-	else if (FULL_KEYBOARD == FK_STANDARD) filename = "fulllayoutstore.txt";
-	else if (FULL_KEYBOARD == FK_KINESIS) filename = "kinesislayoutstore.txt";
+	if (full_keyboard == FK_NO) filename = "layoutstore.txt";
+	else if (full_keyboard == FK_STANDARD) filename = "fulllayoutstore.txt";
+	else if (full_keyboard == FK_KINESIS) filename = "kinesislayoutstore.txt";	
 
-	if (argc > 1) {		
-		if (strcmp(argv[1], "algorithm") == 0) {
-			run(filename);
-		} else if (strcmp(argv[1], "compare") == 0) {
-			compare(filename);
-		} else if (strcmp(argv[1], "improve") == 0) {
-			FILE *fp = fopen(filename, "r");
-			Keyboard k;
-			layoutFromFile(fp, &k);
-			improver(k);
-		} else if (strcmp(argv[1], "improveFromFile") == 0) {
-			improveFromFile(filename);
-		} else if (strcmp(argv[1], "test") == 0) {
-			testFitness();
-		}
-	} else {
-		run(filename);
-//		runTimingTests();
-//		compare(filename);
-//		improveFromFile(filename);
-//		worstDigraphsFromFile(filename);
-//		testFitness();
-	}
+	char *diFilenames[] = {
+		"freq_types/digraphs_00allProse.txt", 
+		"freq_types/digraphs_01allCasual.txt", 
+		"freq_types/digraphs_02allC.txt", 
+		"freq_types/digraphs_02allJava.txt", 
+		"freq_types/digraphs_02allPerl.txt", 
+		"freq_types/digraphs_02allRuby.txt", 
+		"freq_types/digraphs_03allFormal.txt", 
+		"freq_types/digraphs_04allNews.txt", 
+	};
+	
+	char *charFilenames[] = {
+		"freq_types/chars_00allProse.txt", 
+		"freq_types/chars_01allCasual.txt", 
+		"freq_types/chars_02allC.txt", 
+		"freq_types/chars_02allJava.txt", 
+		"freq_types/chars_02allPerl.txt", 
+		"freq_types/chars_02allRuby.txt", 
+		"freq_types/chars_03allFormal.txt", 
+		"freq_types/chars_04allNews.txt", 
+	};
+	
+	int multipliers[] = { 18, 25, 5, 6, 2, 2, 15, 20 };
+
+//	compileTypingData("alldigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", 1500);
+//	compileTypingData("allchars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", 1500);
+		
+	getCommands(filename);
+	
+//	run(filename);
+//	runTimingTests();
+//	compare(filename);
+//	improveFromFile(filename);
+//	worstDigraphsFromFile(filename);
+//	testFitness();
 	
 	return 0;
 }
 
-int run(char *filename)
+int getCommands(char *filename)
 {
-	int start = time(NULL), finish;
-
-	long long curEval;
-	Keyboard k;
-	long long bestEval = LLONG_MAX;
-
-	int i, numberOfRounds, isFileEmpty;
+	printf("Welcome to the Keyboard Layout Optimizer. If you have questions or comments, contact Michael Dickens by email (mtgandp@gmail.com) or leave a comment at http://mathematicalmulticore.wordpress.com/category/keyboards/.\n");
+	printf("Type \"help\" for a listing of commands.\n\n");
 	
-	FILE *fp = fopen(filename, "r");
+	int length = 5000;
+	char cmd[length];
 	
-	int usedLastLayout = FALSE;
-	int intervalBetweenPrints = 60, intervalInc = 0;
+	do {
+		printf(">>> ");
+		fgets(cmd, length, stdin);
 		
-	// Run Chris Johnson's simulated annealing algorithm.
-	isFileEmpty = FALSE;
-	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
-		if (INIT_FROM_FILE && !KEEP_NUMBERS) {
-			if (layoutFromFile(fp, &k) == -1) {
-				isFileEmpty = TRUE;
-				fclose(fp);
-			}
-		} else isFileEmpty = TRUE;
+		cmd[strlen(cmd)-1] = '\0'; // Remove the newline.
 		
-		if (isFileEmpty) {
-			if (numberOfRounds != 0 && (double) rand() / RAND_MAX <= CHANCE_TO_USE_LAST_LAYOUT) {
-				usedLastLayout = TRUE;
-				int j;
-				for (j = 0; j < LAST_LAYOUT_MUTATIONS; ++j)
-					k = mutate(k);
-			} else {
-				usedLastLayout = FALSE;
-				initKeyboard(&k);
-			}
+		if (streq(cmd, "help")) {
+			printf("algorithm: Run the keyboard optimization algorithm.\n");
+			printf("compare <filename>: Print information about the keyboards in <filename>. The keyboards must be in the proper format.\n");
+			printf("improve <filename>: Try to improve the first keyboard in <filename>. The keyboard must be in the proper format.\n");
+			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
+			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk\" for more information.\n");
+			printf("quit: Quit the keyboard optimization program.\n");
+			printf("\n");
 			
-			if (REPEAT_LAYOUTSTORE) {
-				fclose(fp);
-				fp = fopen(filename, "r");
-				isFileEmpty = FALSE;
+		} else if (streq(cmd, "algorithm")) {
+			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
+			run(filename);
+			
+		} else if (streqn(cmd, "compare ", 8)) {
+			compare(cmd + 8);
+			
+		} else if (streqn(cmd, "improve ", 8)) {
+			improveFromFile(cmd + 8);
+		
+		} else if (streq(cmd, "make typing data")) {
+			makeTypingData();
+			
+		} else if (streqn(cmd, "setfk ", 6)) {
+			if (streq(cmd+6, "no")) {
+				setksize(FK_NO);
+				printf("Keyboard set to non-full.\n\n");
+			} else if (streq(cmd+6, "standard")) {
+				setksize(FK_STANDARD);
+				printf("Keyboard set to full standard.\n\n");
+			} else if (streq(cmd+6, "kinesis")) {
+				setksize(FK_KINESIS);
+				printf("Keyboard set to full Kinesis.\n\n");
+			} else {
+				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
 			}
+		
+		} else if (streq(cmd, "quit")) {
+			printf("Goodbye!\n");
+			break;
+			
+		} else {
+			printf("Unknown command. Type \"help\" for a listing of commands.\n\n");
 		}
-		
-		curEval = doRun(&k);
-		
-		if (curEval < bestEval) {
-			if (usedLastLayout) {
-				printf("\nEvolved from last layout: \n");
-			}
-			i = 0;
-			bestEval = curEval;
-			calcFitnessDirect(&k);
-			printPercentages(&k);
 
-			finish = time(NULL);
-			printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-		} else if (curEval == bestEval) {
-			printf("Same layout found\n");
-		} else if (time(NULL) - finish >= intervalBetweenPrints) {
-			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", numberOfRounds, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-			++intervalInc;
-			if (intervalInc >= 4) {
-				intervalInc = 0;
-				intervalBetweenPrints *= 2;
-			}
-		}
-
-	}
 		
-	finish = time(NULL);
-	printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-
-    return 0;
+	} while (strcmp(cmd, "exit") != 0);
+	
+	return 0;
 }
+

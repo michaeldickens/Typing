@@ -61,7 +61,7 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 
 int preCalculateFitness()
 {
-	NOT_WORK_WITH_FULL_KEYBOARD("preCalculateFitness")
+	NOT_WORK_WITH_full_keyboard("preCalculateFitness")
 	int i, j;
 	
 	int costs[900];
@@ -108,7 +108,7 @@ int calcFitness(Keyboard *k)
 	for (i = 0; i < 128; ++i) locs[i] = -1;
 	
 	/* Calculate all the locations before hand. This saves a lot of time. */
-	for (i = 0; i < KSIZE; ++i)
+	for (i = 0; i < ksize; ++i)
 		if (printIt[i]) locs[k->layout[i]] = i;
 
 	for (i = 0; i < diLen; ++i) {
@@ -162,7 +162,7 @@ int calcShortcuts(Keyboard *k)
 
 int calcQWERTY(Keyboard *k)
 {
-	NOT_WORK_WITH_FULL_KEYBOARD("calcQWERTY")
+	NOT_WORK_WITH_full_keyboard("calcQWERTY")
 	int result;
 
 	int i, j, pos, value;
@@ -179,7 +179,7 @@ int calcQWERTY(Keyboard *k)
 
 int calcParentheses(Keyboard *k)
 {
-	if (FULL_KEYBOARD != FK_NO) {
+	if (full_keyboard != FK_NO) {
 		int open_par = loc(k, '(');
 		int close_par = loc(k, ')');
 		
@@ -247,9 +247,11 @@ int calcRowChange(int loc0, int loc1)
 		int finger0 = finger[loc0];
 		int finger1 = finger[loc1];
 		if (row[loc0] < row[loc1]) { // loc0 is a higher row
+			if (finger0 == PINKY && finger1 == RING  ) return (ROW_CHANGE + HAND_WARP);
 			if (finger0 == INDEX && finger1 == MIDDLE) return (ROW_CHANGE + HAND_WARP);
 			if (finger1 == INDEX && finger0 == MIDDLE) return (ROW_CHANGE + HAND_SMOOTH);
 		} else { // loc0 is a lower row
+			if (finger1 == PINKY && finger0 == RING  ) return (ROW_CHANGE + HAND_WARP);
 			if (finger1 == INDEX && finger0 == MIDDLE) return (ROW_CHANGE + HAND_WARP);
 			if (finger0 == INDEX && finger1 == MIDDLE) return (ROW_CHANGE + HAND_SMOOTH);
 		}
@@ -261,19 +263,26 @@ int calcRowChange(int loc0, int loc1)
 
 int calcHomeJump(int loc0, int loc1)
 {
-	if (KSIZE == 30) {
-		if ((loc0 < 10 && loc1 >= 20) || (loc0 >= 20 && loc1 < 10))
-			if ((loc1 == 23 && (loc0 == 1 || loc0 == 2)) || (loc0 == 23 && (loc1 == 1 || loc1 == 2)) || 
-				((loc1 == 25 || loc1 == 26) && (loc0 == 7 || loc0 == 8)) || ((loc0 == 25 || loc0 == 26) && (loc1 == 7 || loc1 == 8))) return HOME_JUMP + HOME_JUMP_INDEX;
-			else return HOME_JUMP;
-	} else {
-		if (abs(row[loc0] - row[loc1]) > 2)
-			return DOUBLE_JUMP;
-		else if ((loc0 < 11 && loc1 >= 22) || (loc0 >= 22 && loc1 < 11))
-			if ((loc1 == 25 && (loc0 == 1 || loc0 == 2)) || (loc0 == 25 && (loc1 == 1 || loc1 == 2)) || 
-				(loc1 == 28 && (loc0 == 7 || loc0 == 8)) || (loc0 == 28 && (loc1 == 7 || loc1 == 8))) return HOME_JUMP + HOME_JUMP_INDEX;
-			else return HOME_JUMP;
-	}
+	if ((row[loc0] == 0 && row[loc1] == 2) || (row[loc0] == 2 && row[loc1] == 0))
+		if ((row[loc0] == 2 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
+			(row[loc1] == 2 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return HOME_JUMP + HOME_JUMP_INDEX;
+		else return HOME_JUMP;
+	else if (abs(row[loc0] - row[loc1]) > 2)
+		return DOUBLE_JUMP;
+	
+//	if (ksize == 30) {
+//		if ((loc0 < 10 && loc1 >= 20) || (loc0 >= 20 && loc1 < 10))
+//			if ((loc1 == 23 && (loc0 == 1 || loc0 == 2)) || (loc0 == 23 && (loc1 == 1 || loc1 == 2)) || 
+//				((loc1 == 25 || loc1 == 26) && (loc0 == 7 || loc0 == 8)) || ((loc0 == 25 || loc0 == 26) && (loc1 == 7 || loc1 == 8))) return HOME_JUMP + HOME_JUMP_INDEX;
+//			else return HOME_JUMP;
+//	} else {
+//		if (abs(row[loc0] - row[loc1]) > 2)
+//			return DOUBLE_JUMP;
+//		else if ((loc0 < 11 && loc1 >= 22) || (loc0 >= 22 && loc1 < 11))
+//			if ((loc1 == 25 && (loc0 == 1 || loc0 == 2)) || (loc0 == 25 && (loc1 == 1 || loc1 == 2)) || 
+//				(loc1 == 28 && (loc0 == 7 || loc0 == 8)) || (loc0 == 28 && (loc1 == 7 || loc1 == 8))) return HOME_JUMP + HOME_JUMP_INDEX;
+//			else return HOME_JUMP;
+//	}
 
 	return 0;
 }
@@ -288,6 +297,6 @@ int calcToCenter(int loc0, int loc1)
  */
 int calcToOutside(int loc0, int loc1)
 {
-	if (FULL_KEYBOARD != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return TO_OUTSIDE;
+	if (full_keyboard != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return TO_OUTSIDE;
 	else return 0;
 }

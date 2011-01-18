@@ -55,6 +55,7 @@
 		867D4B7812D29B0F0045BD97 /* Timings for Full Keyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timings for Full Keyboard"; sourceTree = "<group>"; };
 		867DD36911D07B8900379D1F /* Ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ideas; sourceTree = "<group>"; };
 		86841A4711D3F137006F70A1 /* all_layouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_layouts.txt; sourceTree = "<group>"; };
+		8685824612E363CB00D07E99 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8687000B1031FFA8000845D5 /* accessories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accessories.h; sourceTree = "<group>"; };
 		8687000C1031FFA8000845D5 /* accessories.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accessories.c; sourceTree = "<group>"; };
 		8687014F10321AE6000845D5 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = README; sourceTree = "<group>"; wrapsLines = 1; };
@@ -121,6 +122,7 @@
 				8652F64712CD329E00CAF998 /* alldigraphs.txt */,
 				8652F72F12CD49F800CAF998 /* 30chars.txt */,
 				8652F77B12CD4CEA00CAF998 /* allchars.txt */,
+				8685824612E363CB00D07E99 /* Makefile */,
 			);
 			name = Source;
 			sourceTree = "<group>";
