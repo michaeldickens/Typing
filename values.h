@@ -55,31 +55,7 @@ int full_keyboard, ksize;
 #define CHANCE_TO_USE_LAST_LAYOUT (1.0 / 3)
 #define LAST_LAYOUT_MUTATIONS 4 // Number of mutations to the last layout.
 
-#define KEEP_ZXCV   0 // 0 = FALSE, 1 = TRUE
-#define KEEP_QWERTY 0
-#define KEEP_NUMBERS 1
-#define KEEP_PARENTHESES 1
-
 #define INIT_FROM_FILE 1
-
-// All values are compounding. For example, say we jump over the home row on the 
-// index finger. The cost is sameHand + rowChange + homeJump + homeJumpIndex.
-#define DISTANCE		  1
-#define IN_ROLL			-40
-#define OUT_ROLL		  5
-#define SAME_HAND		  5
-#define SAME_FINGER_P	150
-#define SAME_FINGER_R	140
-#define SAME_FINGER_M	110
-#define SAME_FINGER_I	 90
-#define ROW_CHANGE		 15
-#define HAND_WARP		 10
-#define HAND_SMOOTH		- 0
-#define HOME_JUMP		100
-#define HOME_JUMP_INDEX	-90
-#define DOUBLE_JUMP		220 // Does not compound with HOME_JUMP.
-#define TO_CENTER		 20
-#define TO_OUTSIDE		 20
 
 #define SHORTCUT		100
 #define Z_COST 10
@@ -95,6 +71,8 @@ long long fingerCosts[5];
 long long distanceCosts[KSIZE_MAX];
 long long  trueDistance[KSIZE_MAX];
 long long shortcutCosts[KSIZE_MAX];
+
+int keepZXCV, keepQWERTY, keepNumbers, keepParentheses;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, rowChange, handWarp, handSmooth, homeJump, homeJumpIndex, 

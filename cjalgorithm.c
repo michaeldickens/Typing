@@ -60,7 +60,7 @@ int run(char *filename)
 	// Run Chris Johnson's simulated annealing algorithm.
 	isFileEmpty = FALSE;
 	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
-		if (INIT_FROM_FILE && !KEEP_NUMBERS) {
+		if (INIT_FROM_FILE && !keepNumbers) {
 			if (layoutFromFile(fp, &k) == -1) {
 				isFileEmpty = TRUE;
 				fclose(fp);
@@ -147,7 +147,7 @@ long long doRun(Keyboard *k)
 
 int isLegalSwap(int i, int j)
 {
-	if (KEEP_NUMBERS) 
+	if (keepNumbers) 
 		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
 		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
 	return TRUE;

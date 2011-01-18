@@ -1,0 +1,3 @@
+/Users/MTGAP/XCodeProjects/Typing/tools.c: In function 'layoutFromFile':
+/Users/MTGAP/XCodeProjects/Typing/tools.c:62: warning: implicit declaration of function 'copy'
+/Users/MTGAP/XCodeProjects/Typing/tools.c:77: warning: implicit declaration of function 'calcFitness'

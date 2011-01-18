@@ -33,9 +33,8 @@ int initKeyboard(Keyboard *k)
 	
 	shuffleLayout(k->layout);
 	
-	/* If KEEP_ZXCV is enabled, move ZXCV back to their positions. */
-	if (KEEP_ZXCV) {
-		NOT_WORK_WITH_full_keyboard("KEEP_ZXCV")
+	/* If keepZXCV is enabled, move ZXCV back to their positions. */
+	if (keepZXCV && ksize == 30) {
 		for (i = 0; i < ksize; ++i) {
 			if (k->layout[i] == 'z') {
 				k->layout[i] = k->layout[20];
@@ -53,9 +52,8 @@ int initKeyboard(Keyboard *k)
 		}
 	}
 	
-	/* If KEEP_NUMBERS is enabled, move all numbers back to their positions. */
-	if (KEEP_NUMBERS) {
-		NOT_WORK_WITH_30_KEYBOARD("KEEP_NUMBERS")
+	/* If keepNumbers is enabled, move all numbers back to their positions. */
+	if (keepNumbers && ksize != 30) {
 		int numstart = full_keyboard == FK_STANDARD ? 1 : 0;
 		for (i = 0; i < ksize; ++i) {
 			if (k->layout[i] >= '0' && k->layout[i] <= '9') {

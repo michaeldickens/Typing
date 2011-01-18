@@ -49,14 +49,14 @@ int worstDigraphs(Keyboard *k)
 		if (hand[locs[0]] == hand[locs[1]]) {
 			k->inRoll		= calcInRoll    (locs[0], locs[1]);	
 			k->outRoll		= calcOutRoll   (locs[0], locs[1]);	
-			k->sameHand		= SAME_HAND						  ;
+			k->sameHand		= sameHand						  ;
 			k->sameFinger	= calcSameFinger(locs[0], locs[1]);
 			k->rowChange	= calcRowChange (locs[0], locs[1]);
 			k->homeJump		= calcHomeJump  (locs[0], locs[1]);
 			k->toCenter		= calcToCenter  (locs[0], locs[1]);
 			k->toOutside	= calcToOutside (locs[0], locs[1]);
 		}
-		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * DISTANCE;
+		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
 //		printf("distance = %d, locs = [%d, %d]\n", k->distance, locs[0], locs[1]);
 		// Re-assign diValues[i] to the cost of that digraph.
 		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
@@ -391,9 +391,9 @@ int testFitness()
 	if (full_keyboard == FK_NO) {
 		printf("\nTesting calcInRoll():\n");
 		testResult(calcInRoll(0, 0), 0);
-		testResult(calcInRoll(10, 11), IN_ROLL);
+		testResult(calcInRoll(10, 11), inRoll);
 		testResult(calcInRoll(14, 15), 0);
-		testResult(calcInRoll(29, 28), IN_ROLL);
+		testResult(calcInRoll(29, 28), inRoll);
 		testResult(calcInRoll(3, 4), 0);
 		testResult(calcInRoll(4, 3), 0);
 		testResult(calcInRoll(11, 2), 0);
@@ -401,29 +401,29 @@ int testFitness()
 		
 		printf("\nTesting calcOutRoll():\n");
 		testResult(calcOutRoll(0, 0), 0);
-		testResult(calcOutRoll(11, 10), OUT_ROLL);
+		testResult(calcOutRoll(11, 10), outRoll);
 		testResult(calcOutRoll(15, 14), 0);
-		testResult(calcOutRoll(28, 29), OUT_ROLL);
+		testResult(calcOutRoll(28, 29), outRoll);
 		testResult(calcOutRoll(3, 4), 0);
 		testResult(calcOutRoll(14, 13), 0);
 		
 		printf("\nTesting calcSameFinger():\n");
 		testResult(calcSameFinger(0, 0), 0);
-		testResult(calcSameFinger(10, 0), SAME_FINGER_P);
-		testResult(calcSameFinger(11, 21), SAME_FINGER_R);
-		testResult(calcSameFinger(7, 27), SAME_FINGER_M);
-		testResult(calcSameFinger(13, 4), SAME_FINGER_I);
+		testResult(calcSameFinger(10, 0), sameFingerP);
+		testResult(calcSameFinger(11, 21), sameFingerR);
+		testResult(calcSameFinger(7, 27), sameFingerM);
+		testResult(calcSameFinger(13, 4), sameFingerI);
 		testResult(calcSameFinger(0, 4), 0);
 		
 		printf("\nTesting calcRowChange():\n");
 		testResult(calcRowChange(8, 8), 0);
-		testResult(calcRowChange(10, 0), ROW_CHANGE);
-		testResult(calcRowChange(11, 0), ROW_CHANGE + HAND_WARP);
-		testResult(calcRowChange(13, 2), ROW_CHANGE + HAND_SMOOTH);
-		testResult(calcRowChange(8, 16), ROW_CHANGE);
-		testResult(calcRowChange(8, 26), ROW_CHANGE);
-		testResult(calcRowChange(28, 9), ROW_CHANGE + HAND_WARP);
-		testResult(calcRowChange(25, 5), ROW_CHANGE);
+		testResult(calcRowChange(10, 0), rowChange);
+		testResult(calcRowChange(11, 0), rowChange + handWarp);
+		testResult(calcRowChange(13, 2), rowChange + handSmooth);
+		testResult(calcRowChange(8, 16), rowChange);
+		testResult(calcRowChange(8, 26), rowChange);
+		testResult(calcRowChange(28, 9), rowChange + handWarp);
+		testResult(calcRowChange(25, 5), rowChange);
 		
 		printf("\nTesting calcHomeJump():\n");
 		testResult(calcHomeJump(8, 8), 0);
@@ -431,16 +431,16 @@ int testFitness()
 		testResult(calcHomeJump(11, 0), 0);
 		testResult(calcHomeJump(10, 1), 0);
 		testResult(calcHomeJump(8, 16), 0);
-		testResult(calcHomeJump(8, 26), HOME_JUMP + HOME_JUMP_INDEX);
-		testResult(calcHomeJump(28, 9), HOME_JUMP);
-		testResult(calcHomeJump(25, 5), HOME_JUMP);
+		testResult(calcHomeJump(8, 26), homeJump + homeJumpIndex);
+		testResult(calcHomeJump(28, 9), homeJump);
+		testResult(calcHomeJump(25, 5), homeJump);
 		
 		printf("\nTesting calcToCenter():\n");
 		testResult(calcToCenter(0, 0), 0);
-		testResult(calcToCenter(13, 14), TO_CENTER);
-		testResult(calcToCenter(17, 15), TO_CENTER);
-		testResult(calcToCenter(4, 1), TO_CENTER);
-		testResult(calcToCenter(25, 9), TO_CENTER);
+		testResult(calcToCenter(13, 14), toCenter);
+		testResult(calcToCenter(17, 15), toCenter);
+		testResult(calcToCenter(4, 1), toCenter);
+		testResult(calcToCenter(25, 9), toCenter);
 		testResult(calcToCenter(25, 15), 0);
 	
 	} else if (full_keyboard == FK_STANDARD) {
@@ -450,26 +450,26 @@ int testFitness()
 		testResult(calcHomeJump(15, 0), 0);
 		testResult(calcHomeJump(14, 1), 0);
 		testResult(calcHomeJump(8, 20), 0);
-		testResult(calcHomeJump(8, 34), HOME_JUMP + HOME_JUMP_INDEX);
-		testResult(calcHomeJump(36, 9), HOME_JUMP);
-		testResult(calcHomeJump(33, 5), HOME_JUMP);
+		testResult(calcHomeJump(8, 34), homeJump + homeJumpIndex);
+		testResult(calcHomeJump(36, 9), homeJump);
+		testResult(calcHomeJump(33, 5), homeJump);
 		
 	
 	} else {
 		printf("\nTesting calcInRoll():\n");
 		testResult(calcInRoll(0, 0), 0);
-		testResult(calcInRoll(2, 3), IN_ROLL);
+		testResult(calcInRoll(2, 3), inRoll);
 		testResult(calcInRoll(2, 14), 0);
 		testResult(calcInRoll(13, 3), 0);
-		testResult(calcInRoll(29, 28), IN_ROLL);
+		testResult(calcInRoll(29, 28), inRoll);
 		testResult(calcInRoll(28, 27), 0);
 		
 		printf("\nTesting calcSameFinger():\n");
 		testResult(calcSameFinger(0, 0), 0);
-		testResult(calcSameFinger(11, 0), SAME_FINGER_P);
-		testResult(calcSameFinger(12, 23), SAME_FINGER_R);
-		testResult(calcSameFinger(7, 29), SAME_FINGER_M);
-		testResult(calcSameFinger(25, 15), SAME_FINGER_I);
+		testResult(calcSameFinger(11, 0), sameFingerP);
+		testResult(calcSameFinger(12, 23), sameFingerR);
+		testResult(calcSameFinger(7, 29), sameFingerM);
+		testResult(calcSameFinger(25, 15), sameFingerI);
 		testResult(calcSameFinger(0, 4), 0);
 
 		printf("\nTesting calcHomeJump():\n");
@@ -478,9 +478,9 @@ int testFitness()
 		testResult(calcHomeJump(12, 0), 0);
 		testResult(calcHomeJump(11, 1), 0);
 		testResult(calcHomeJump(8, 17), 0);
-		testResult(calcHomeJump(8, 28), HOME_JUMP + HOME_JUMP_INDEX);
-		testResult(calcHomeJump(30, 9), HOME_JUMP);
-		testResult(calcHomeJump(27, 5), HOME_JUMP);
+		testResult(calcHomeJump(8, 28), homeJump + homeJumpIndex);
+		testResult(calcHomeJump(30, 9), homeJump);
+		testResult(calcHomeJump(27, 5), homeJump);
 	}
 
 	

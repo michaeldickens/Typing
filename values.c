@@ -12,6 +12,8 @@ int initValues()
 {
 	int i;
 	
+	initCosts();
+	
 	if (full_keyboard == FK_NO) {
 		// Set keyboard position costs manually. These costs were determined by looking at how the positions were valued on some of the best alternative layouts.
 		long long costsCopy[KSIZE_MAX] = {
@@ -81,6 +83,11 @@ int initValues()
 
 void initCosts()
 {
+	keepZXCV = FALSE;
+	keepQWERTY = FALSE;
+	keepNumbers = TRUE;
+	keepParentheses = TRUE;
+	
 // All values are compounding. For example, say we jump over the home row on the 
 // index finger. The cost is sameHand + rowChange + homeJump + homeJumpIndex.
 	distance =		  1;
@@ -92,11 +99,11 @@ void initCosts()
 	sameFingerM =	110;
 	sameFingerI =	 90;
 	rowChange =		 15;
-	handWard =		 10;
+	handWarp =		 10;
 	handSmooth =	 -0;
 	homeJump =		100;
 	homeJumpIndex = -90;
-	doubleJump =	220; // Does not compound with HOME_JUMP.
+	doubleJump =	220; // Does not compound with homeJump.
 	toCenter =		 20;
 	toOutside =		 20;
 }

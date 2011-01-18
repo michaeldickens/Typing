@@ -92,12 +92,18 @@ int getCommands(char *filename)
 			
 		} else if (streqn(cmd, "compare ", 8)) {
 			compare(cmd + 8);
+		
+		} else if (streqn(cmd, "get ", 4)) {
+			getValue(cmd + 4);
 			
 		} else if (streqn(cmd, "improve ", 8)) {
 			improveFromFile(cmd + 8);
 		
 		} else if (streq(cmd, "make typing data")) {
 			makeTypingData();
+		
+		} else if (streqn(cmd, "set ", 4)) {
+			setValue(cmd + 4);
 			
 		} else if (streqn(cmd, "setfk ", 6)) {
 			if (streq(cmd+6, "no")) {
@@ -113,6 +119,28 @@ int getCommands(char *filename)
 				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
 			}
 		
+		} else if (streq(cmd, "variables")) {
+			printf("\tkeepZXCV\n");
+			printf("\tkeepQWERTY\n");
+			printf("\tkeepNumbers\n");
+			printf("\tkeepParentheses\n");
+			printf("\tdistance\n");
+			printf("\tinRoll\n");
+			printf("\toutRoll\n");
+			printf("\tsameHand\n");
+			printf("\tsameFingerP\n");
+			printf("\tsameFingerR\n");
+			printf("\tsameFingerM\n");
+			printf("\tsameFingerI\n");
+			printf("\trowChange\n");
+			printf("\thandWarp\n");
+			printf("\thandSmooth\n");
+			printf("\thomeJump\n");
+			printf("\thomeJumpIndex\n");
+			printf("\tdoubleJump\n");
+			printf("\ttoCenter\n");
+			printf("\ttoOutside\n");
+					
 		} else if (streq(cmd, "quit")) {
 			printf("Goodbye!\n");
 			break;

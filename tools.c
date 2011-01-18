@@ -480,6 +480,118 @@ int sortTypingData(char **keys, int *values, int left, int right)
 	return 0;
 }
 
+/* 
+ * Takes a string containing a name and a value. Sets the variable with the given name to
+ * the given value.
+ */
+int setValue(char *str)
+{
+	char *name = str;
+	char *valstr = strchr(str, ' ');
+	*valstr = '\0'; ++valstr;
+	
+	int value = atoi(valstr);
+	
+	if (streq(name, "keepZXCV")) {
+		keepZXCV = value;
+	} else if (streq(name, "keepQWERTY")) {
+		keepQWERTY = value;
+	} else if (streq(name, "keepNumbers")) {
+		keepNumbers = value;
+	} else if (streq(name, "keepParentheses")) {
+		keepParentheses = value;
+	} else if (streq(name, "distance")) {
+		distance = value;
+	} else if (streq(name, "inRoll")) {
+		inRoll = value;
+	} else if (streq(name, "outRoll")) {
+		outRoll = value;
+	} else if (streq(name, "sameHand")) {
+		sameHand = value;
+	} else if (streq(name, "sameFingerP")) {
+		sameFingerP = value;
+	} else if (streq(name, "sameFingerR")) {
+		sameFingerR = value;
+	} else if (streq(name, "sameFingerM")) {
+		sameFingerM = value;
+	} else if (streq(name, "sameFingerI")) {
+		sameFingerI = value;
+	} else if (streq(name, "rowChange")) {
+		rowChange = value;
+	} else if (streq(name, "handWarp")) {
+		handWarp = value;
+	} else if (streq(name, "handSmooth")) {
+		handSmooth = value;
+	} else if (streq(name, "homeJump")) {
+		homeJump = value;
+	} else if (streq(name, "homeJumpIndex")) {
+		homeJumpIndex = value;
+	} else if (streq(name, "doubleJump")) {
+		doubleJump = value;
+	} else if (streq(name, "toCenter")) {
+		toCenter = value;
+	} else if (streq(name, "toOutside")) {
+		toOutside = value;
+	} else {
+		printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
+		return 1;
+	}
+	
+	printf("%s set to %d.\n", name, value);
+	
+	return 0;
+}
+
+int getValue(char *name)
+{
+	if (streq(name, "keepZXCV")) {
+		printf("%s = %d\n\n", name, keepZXCV);
+	} else if (streq(name, "keepQWERTY")) {
+		printf("%s = %d\n\n", name, keepQWERTY);
+	} else if (streq(name, "keepNumbers")) {
+		printf("%s = %d\n\n", name, keepNumbers);
+	} else if (streq(name, "keepParentheses")) {
+		printf("%s = %d\n\n", name, keepParentheses);
+	} else if (streq(name, "distance")) {
+		printf("%s = %d\n\n", name, distance);
+	} else if (streq(name, "inRoll")) {
+		printf("%s = %d\n\n", name, inRoll);
+	} else if (streq(name, "outRoll")) {
+		printf("%s = %d\n\n", name, outRoll);
+	} else if (streq(name, "sameHand")) {
+		printf("%s = %d\n\n", name, sameHand);
+	} else if (streq(name, "sameFingerP")) {
+		printf("%s = %d\n\n", name, sameFingerP);
+	} else if (streq(name, "sameFingerR")) {
+		printf("%s = %d\n\n", name, sameFingerR);
+	} else if (streq(name, "sameFingerM")) {
+		printf("%s = %d\n\n", name, sameFingerM);
+	} else if (streq(name, "sameFingerI")) {
+		printf("%s = %d\n\n", name, sameFingerI);
+	} else if (streq(name, "rowChange")) {
+		printf("%s = %d\n\n", name, rowChange);
+	} else if (streq(name, "handWarp")) {
+		printf("%s = %d\n\n", name, handWarp);
+	} else if (streq(name, "handSmooth")) {
+		printf("%s = %d\n\n", name, handSmooth);
+	} else if (streq(name, "homeJump")) {
+		printf("%s = %d\n\n", name, homeJump);
+	} else if (streq(name, "homeJumpIndex")) {
+		printf("%s = %d\n\n", name, homeJumpIndex);
+	} else if (streq(name, "doubleJump")) {
+		printf("%s = %d\n\n", name, doubleJump);
+	} else if (streq(name, "toCenter")) {
+		printf("%s = %d\n\n", name, toCenter);
+	} else if (streq(name, "toOutside")) {
+		printf("%s = %d\n\n", name, toOutside);
+	} else {
+		printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
+		return 1;
+	}
+	
+	return 0;
+}
+
 void setksize(int type)
 {
 	full_keyboard = type;

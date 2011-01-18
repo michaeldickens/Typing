@@ -73,8 +73,10 @@ int initData();
 void initKeyboardData();
 void initTypingData();
 int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, char *legalKeys, int max);
-
 int sortTypingData(char **keys, int *values, int left, int right);
+
+int setValue(char *str);
+int getValue(char *name);
 
 int qwerty[30];
 

@@ -1,0 +1,7 @@
+/Users/MTGAP/XCodeProjects/Typing/main.c: In function 'main':
+/Users/MTGAP/XCodeProjects/Typing/main.c:54: warning: implicit declaration of function 'getCommands'
+/Users/MTGAP/XCodeProjects/Typing/main.c:49: warning: unused variable 'multipliers'
+/Users/MTGAP/XCodeProjects/Typing/main.c:38: warning: unused variable 'charFilenames'
+/Users/MTGAP/XCodeProjects/Typing/main.c:27: warning: unused variable 'diFilenames'
+/Users/MTGAP/XCodeProjects/Typing/main.c: In function 'getCommands':
+/Users/MTGAP/XCodeProjects/Typing/main.c:97: warning: implicit declaration of function 'getValue'

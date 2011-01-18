@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -277,7 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>24</integer>
+									<integer>17</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -311,12 +309,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>86ECBA1B102CE32600E8AB8A</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>alldigraphs.txt</string>
+								<string>tools.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,23 +324,23 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>86ECBA1C102CE32600E8AB8A</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>alldigraphs.txt</string>
+										<string>tools.h</string>
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>86FA5CDD12E515F800EF6376</string>
+										<string>86BF4E1312E63476006A20CF</string>
 										<key>history</key>
 										<array>
-											<string>8685840812E383B000D07E99</string>
-											<string>8685841412E3846D00D07E99</string>
-											<string>8685842012E3861900D07E99</string>
-											<string>8685842812E3862700D07E99</string>
-											<string>8685844F12E38B6F00D07E99</string>
-											<string>8685845012E38B6F00D07E99</string>
-											<string>8685845412E38CBF00D07E99</string>
-											<string>86D74E2C12E3C3BD003FAAA8</string>
-											<string>86D74E2D12E3C3BD003FAAA8</string>
-											<string>86D74E2E12E3C3BD003FAAA8</string>
+											<string>86FA5D0B12E52B1C00EF6376</string>
+											<string>86FA5D1212E52DB000EF6376</string>
+											<string>86FA5D1312E52DB000EF6376</string>
+											<string>86FA5D1512E52DB000EF6376</string>
+											<string>86FA5D2212E52E1B00EF6376</string>
+											<string>86FA5D2412E52E1B00EF6376</string>
+											<string>86FA5CE812E529F500EF6376</string>
+											<string>86FA5D3512E52E9E00EF6376</string>
+											<string>86FA5CF712E52AA500EF6376</string>
+											<string>86FA5D3E12E53A2B00EF6376</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -354,18 +354,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1233, 554}}</string>
+								<string>{{0, 0}, {1233, 548}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>554pt</string>
+							<string>548pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>219pt</string>
+							<string>225pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -379,7 +379,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 192}}</string>
+										<string>{{10, 27}, {1233, 198}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
@@ -397,7 +397,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 180}}</string>
+										<string>{{10, 27}, {1233, 192}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -463,11 +463,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>86FA5CDE12E515F800EF6376</string>
+				<string>86BF4E1412E63476006A20CF</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>86FA5CDF12E515F800EF6376</string>
+				<string>86BF4E1512E63476006A20CF</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
-				<string>86FA5CE012E515F800EF6376</string>
+				<string>86BF4E1612E63476006A20CF</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -615,13 +615,13 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>8685824F12E3662C00D07E99</string>
+				<string>86FA5D2712E52E1B00EF6376</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>8685825012E3662C00D07E99</string>
-				<string>8685825112E3662C00D07E99</string>
-				<string>8685825212E3662C00D07E99</string>
-				<string>8685825312E3662C00D07E99</string>
+				<string>86FA5D2812E52E1B00EF6376</string>
+				<string>86FA5D2912E52E1B00EF6376</string>
+				<string>86FA5D2A12E52E1B00EF6376</string>
+				<string>86FA5D2B12E52E1B00EF6376</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
