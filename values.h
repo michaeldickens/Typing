@@ -79,4 +79,5 @@ int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM,
 	doubleJump, toCenter, toOutside;
 
 int initValues();
+void initCosts();
 void setksize(int type);

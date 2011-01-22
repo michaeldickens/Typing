@@ -44,7 +44,7 @@ int readLayouts(Keyboard pool[], int length);
 int calcFitnessDirect(Keyboard *k);
 int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier);
 int calcFitness(Keyboard *k);
-void scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[]);
+int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[]);
 int calcShortcuts(Keyboard *k);
 int calcQWERTY(Keyboard *k);
 int calcParentheses(Keyboard *k);

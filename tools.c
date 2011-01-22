@@ -306,10 +306,15 @@ void initTypingData()
 	i = 0;
 	totalDi = 0;
 	diLen = 0;
-	while (c != EOF) {
-		diKeys[i][0] = getc(file);
+	while (TRUE) {
+		/* Skip any extra newlines. */
+		while ((c = getc(file)) == '\n')
+			;
+		if (c == EOF) break;
+
+		diKeys[i][0] = c;
 		diKeys[i][1] = getc(file);
-		c = getc(file);
+		c = getc(file); /* Read the space between the digraph and the value. */
 		
 		diValues[i] = 0;
 		while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
@@ -319,10 +324,12 @@ void initTypingData()
 		
 		diValues[i] /= DIVISOR;
 		totalDi += diValues[i++];
+		
+		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
 	}
-
+	
 	diLen = i;
 	fclose(file);
 	
@@ -334,8 +341,13 @@ void initTypingData()
 	i = 0;
 	totalMon = 0;
 	monLen = 0;
-	while (c != EOF) {
-		monKeys[i] = getc(file);
+	while (TRUE) {
+		/* Skip any extra newlines. */
+		while ((c = getc(file)) == '\n')
+			;
+		if (c == EOF) break;
+
+		monKeys[i] = c;
 		c = getc(file);
 		
 		monValues[i] = 0;
@@ -346,6 +358,7 @@ void initTypingData()
 		
 		monValues[i] /= DIVISOR;
 		totalMon += monValues[i++];
+		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
 	}
@@ -486,6 +499,13 @@ int sortTypingData(char **keys, int *values, int left, int right)
  */
 int setValue(char *str)
 {
+	int len = strlen(str);
+	
+	if (len == 0) {
+		printf("No variable specified. Type \"variables\" for a complete listing of possible variables.\n\n");
+		return 0;
+	}
+	
 	char *name = str;
 	char *valstr = strchr(str, ' ');
 	*valstr = '\0'; ++valstr;

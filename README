@@ -1,6 +1,6 @@
 INSTALLATION
 
-1. If you don't have gcc installed, install it.
+1. If you don't have gcc installed, install it. http://gcc.gnu.org/
 2. Run "make" to produce an executable file.
 3. You may now execute "optimizer" with
 
@@ -18,7 +18,7 @@ The program itself provides documentation for the various options.
 
 USING THE FULL KEYBOARD
 
-The default setting is to evaluate the main 30 keys on the keyboard (this is how the program was originally written). You can also use it to evaluate the entire keyboard by changing this line near the beginning of initValues() in values.c: 
+The default setting is to evaluate the main 30 keys on the keyboard (this is how the program was originally written). You can also use it to evaluate the entire keyboard by changig it at runtime or by changing this line near the beginning of initValues() in values.c: 
 
 full_keyboard = [FK_SETTING]
 
@@ -40,6 +40,8 @@ The full kinesis keyboard supposedly has 55 characters: 5 rows of 11. In truth i
  - 11 on the home row, from [22] to [32]
  - 10 on the bottom row, from [33] to [42]
  -  4 on the lowest row, from [44] to [45] and from [52] to [53].
+
+The costs for individual keys on the keyboard must be edited from inside the source code. Change costsCopy in initValues() in values.c to change the costs for the individual keys. Then run "make" again to re-compile the source code.
 
  - - - - - - - - - - - - - - - - - - - - - - - -
 

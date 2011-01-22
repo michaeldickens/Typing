@@ -20,7 +20,7 @@ Keyboard improver(Keyboard k);
 int makeTypingData();
 int getNumber(char *description);
 
-int runTimingTests();
+//int runTimingTests();
 
 int testFitness();
 int testResult(int result, int expected);

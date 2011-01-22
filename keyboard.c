@@ -55,12 +55,13 @@ int initKeyboard(Keyboard *k)
 	/* If keepNumbers is enabled, move all numbers back to their positions. */
 	if (keepNumbers && ksize != 30) {
 		int numstart = full_keyboard == FK_STANDARD ? 1 : 0;
-		for (i = 0; i < ksize; ++i) {
-			if (k->layout[i] >= '0' && k->layout[i] <= '9') {
-				char temp = k->layout[i];
-				k->layout[i] = k->layout[(temp - '0' + 9) % 10 + numstart];
-				k->layout[(temp - '0' + 9) % 10 + numstart] = temp;
-			}
+		char c;
+		for (c = '0'; c <= '9'; ++c) {
+			i = loc(k, c);
+			int n = (c - '0' + 9) % 10 + numstart;
+			char temp = k->layout[n];
+			k->layout[n] = k->layout[i];
+			k->layout[i] = temp;
 		}
 	}
 

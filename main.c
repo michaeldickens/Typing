@@ -16,49 +16,12 @@ int main(int argc, const char *argv[])
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
 	
-	/* Initialize the genetic algorithm. */
-	initAlgorithm();
-	
 	char *filename;
 	if (full_keyboard == FK_NO) filename = "layoutstore.txt";
 	else if (full_keyboard == FK_STANDARD) filename = "fulllayoutstore.txt";
 	else if (full_keyboard == FK_KINESIS) filename = "kinesislayoutstore.txt";	
 
-	char *diFilenames[] = {
-		"freq_types/digraphs_00allProse.txt", 
-		"freq_types/digraphs_01allCasual.txt", 
-		"freq_types/digraphs_02allC.txt", 
-		"freq_types/digraphs_02allJava.txt", 
-		"freq_types/digraphs_02allPerl.txt", 
-		"freq_types/digraphs_02allRuby.txt", 
-		"freq_types/digraphs_03allFormal.txt", 
-		"freq_types/digraphs_04allNews.txt", 
-	};
-	
-	char *charFilenames[] = {
-		"freq_types/chars_00allProse.txt", 
-		"freq_types/chars_01allCasual.txt", 
-		"freq_types/chars_02allC.txt", 
-		"freq_types/chars_02allJava.txt", 
-		"freq_types/chars_02allPerl.txt", 
-		"freq_types/chars_02allRuby.txt", 
-		"freq_types/chars_03allFormal.txt", 
-		"freq_types/chars_04allNews.txt", 
-	};
-	
-	int multipliers[] = { 18, 25, 5, 6, 2, 2, 15, 20 };
-
-//	compileTypingData("alldigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", 1500);
-//	compileTypingData("allchars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", 1500);
-		
 	getCommands(filename);
-	
-//	run(filename);
-//	runTimingTests();
-//	compare(filename);
-//	improveFromFile(filename);
-//	worstDigraphsFromFile(filename);
-//	testFitness();
 	
 	return 0;
 }
@@ -82,6 +45,7 @@ int getCommands(char *filename)
 			printf("compare <filename>: Print information about the keyboards in <filename>. The keyboards must be in the proper format.\n");
 			printf("improve <filename>: Try to improve the first keyboard in <filename>. The keyboard must be in the proper format.\n");
 			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
+			printf("set <variable> <value>: Set the specified variable to the given value.\n");
 			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk\" for more information.\n");
 			printf("quit: Quit the keyboard optimization program.\n");
 			printf("\n");
@@ -120,10 +84,11 @@ int getCommands(char *filename)
 			}
 		
 		} else if (streq(cmd, "variables")) {
-			printf("\tkeepZXCV\n");
-			printf("\tkeepQWERTY\n");
-			printf("\tkeepNumbers\n");
-			printf("\tkeepParentheses\n");
+			printf("Boolean variables should be set to 0 for false and 1 for true. Variables not specified as booleans are integers.\n");
+			printf("\t(bool) keepZXCV\n");
+			printf("\t(bool) keepQWERTY\n");
+			printf("\t(bool) keepNumbers\n");
+			printf("\t(bool) keepParentheses\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
 			printf("\toutRoll\n");

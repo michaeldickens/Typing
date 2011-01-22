@@ -129,7 +129,7 @@ int calcFitness(Keyboard *k)
 	return 0;
 }
 
-void scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
+int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 {
 	int locs[2];
 	locs[0] = allLocs[digraph[0]];
@@ -147,6 +147,8 @@ void scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 		k->toCenter		+= calcToCenter  (locs[0], locs[1]) * multiplier;
 		k->toOutside	+= calcToOutside (locs[0], locs[1]) * multiplier;
 	}
+	
+	return 0;
 }
 
 int calcShortcuts(Keyboard *k)

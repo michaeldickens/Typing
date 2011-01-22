@@ -10,7 +10,6 @@
 #include <limits.h>
 #include "keyboard.h"
 
-int initAlgorithm();
 Keyboard runAlgorithm();
 Keyboard runForOne();
 int runLoop(Keyboard pool[]);

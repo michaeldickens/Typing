@@ -9,14 +9,6 @@
 #include "algorithm.h"
 
 
-int initAlgorithm()
-{
-	gettimeofday(&tv, NULL);
-	srand(tv.tv_usec);
-
-	return 0;
-}
-
 Keyboard runAlgorithm()
 {
 	if (ksize != 30) { \

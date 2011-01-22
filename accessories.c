@@ -297,89 +297,89 @@ int getNumber(char *description)
  *  and many times faster than Peter Klausler's program (http://klausler.com/evolved.html)
  *  
  */
-int runTimingTests()
-{
-	int start, startsec;
-	int i, j;
-	Keyboard tester;
-	Keyboard array[1024];
-	
-	int initAverage = 0;
-	int mutateAverage = 0;
-	int sortAverage = 0;
-	int copyAverage = 0;
-	int fitnessAverage = 0;
-	int locAverage = 0;
-	int randAverage = 0;
-		
-	for (j = 0; j < 10; j++) {
-		// How long does it take to initialize a keyboard?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) initKeyboard(&tester);
-		gettimeofday(&tv, NULL);
-		initAverage = ((initAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-		
-		// How long does it take to mutate a keyboard?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) tester = mutate(tester);
-		gettimeofday(&tv, NULL);
-		mutateAverage = ((mutateAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-		
-		// This is causing bad access
-		// How long does it take to sort 1024 keyboards?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-//		sortPool(array, 0, 1023);
-		gettimeofday(&tv, NULL);
-		sortAverage = ((sortAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-
-		// How long does it take to copy a keyboard?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) copy(&tester, &array[0]);
-		gettimeofday(&tv, NULL);
-		copyAverage = ((copyAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-
-		// How long does it take to score a keyboard?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) calcFitness(&tester);
-		gettimeofday(&tv, NULL);
-		fitnessAverage = ((fitnessAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-
-		// How long does it take to find a key on a keyboard?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) loc(&tester, 'a');
-		gettimeofday(&tv, NULL);
-		locAverage = ((locAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-
-		// How long does it take to generate a pseudorandom number from 0 to 29?
-		gettimeofday(&tv, NULL);
-		start = tv.tv_usec;
-		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) rand30();
-		gettimeofday(&tv, NULL);
-		randAverage = ((randAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
-	}
-	printf(" *  Time to initialize 100,000 keyboards:	%d microseconds.\n", initAverage);
-	printf(" *  Time to mutate 100,000 keyboards:		%d microseconds.\n", mutateAverage);
-	printf(" *  Time to sort 1024 keyboards:			%d microseconds.\n", sortAverage);
-	printf(" *  Time to copy 100,000 keyboards:			%d microseconds.\n", copyAverage);
-	printf(" *  Time to score 100,000 keyboards:		%d microseconds.\n", fitnessAverage);
-	printf(" *  Time to do loc() 100,000 times:			%d microseconds.\n", locAverage);
-	printf(" *  Time to do rand30() 100,000 times:		%d microseconds.\n", randAverage);
-	
-	return 0;
-}
+//int runTimingTests()
+//{
+//	int start, startsec;
+//	int i, j;
+//	Keyboard tester;
+//	Keyboard array[1024];
+//	
+//	int initAverage = 0;
+//	int mutateAverage = 0;
+//	int sortAverage = 0;
+//	int copyAverage = 0;
+//	int fitnessAverage = 0;
+//	int locAverage = 0;
+//	int randAverage = 0;
+//		
+//	for (j = 0; j < 10; j++) {
+//		// How long does it take to initialize a keyboard?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) initKeyboard(&tester);
+//		gettimeofday(&tv, NULL);
+//		initAverage = ((initAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//		
+//		// How long does it take to mutate a keyboard?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) tester = mutate(tester);
+//		gettimeofday(&tv, NULL);
+//		mutateAverage = ((mutateAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//		
+//		// This is causing bad access
+//		// How long does it take to sort 1024 keyboards?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+////		sortPool(array, 0, 1023);
+//		gettimeofday(&tv, NULL);
+//		sortAverage = ((sortAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//
+//		// How long does it take to copy a keyboard?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) copy(&tester, &array[0]);
+//		gettimeofday(&tv, NULL);
+//		copyAverage = ((copyAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//
+//		// How long does it take to score a keyboard?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) calcFitness(&tester);
+//		gettimeofday(&tv, NULL);
+//		fitnessAverage = ((fitnessAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//
+//		// How long does it take to find a key on a keyboard?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) loc(&tester, 'a');
+//		gettimeofday(&tv, NULL);
+//		locAverage = ((locAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//
+//		// How long does it take to generate a pseudorandom number from 0 to 29?
+//		gettimeofday(&tv, NULL);
+//		start = tv.tv_usec;
+//		startsec = tv.tv_sec;
+//		for (i = 0; i < 100000; ++i) rand30();
+//		gettimeofday(&tv, NULL);
+//		randAverage = ((randAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
+//	}
+//	printf(" *  Time to initialize 100,000 keyboards:	%d microseconds.\n", initAverage);
+//	printf(" *  Time to mutate 100,000 keyboards:		%d microseconds.\n", mutateAverage);
+//	printf(" *  Time to sort 1024 keyboards:			%d microseconds.\n", sortAverage);
+//	printf(" *  Time to copy 100,000 keyboards:			%d microseconds.\n", copyAverage);
+//	printf(" *  Time to score 100,000 keyboards:		%d microseconds.\n", fitnessAverage);
+//	printf(" *  Time to do loc() 100,000 times:			%d microseconds.\n", locAverage);
+//	printf(" *  Time to do rand30() 100,000 times:		%d microseconds.\n", randAverage);
+//	
+//	return 0;
+//}
 
 /* 
  * Make sure that all of the fitness functions are working correctly. A bug in there 

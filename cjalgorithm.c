@@ -28,7 +28,7 @@ int legalBox3[] = {
 };
 
 int bigLegalBox1[] = {
-	1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12, 1, 1, 
+	1, 2, 3, 4, 5, 6, 7, 8, 9,10,11, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -147,9 +147,10 @@ long long doRun(Keyboard *k)
 
 int isLegalSwap(int i, int j)
 {
-	if (keepNumbers) 
+	if (keepNumbers) {
 		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
 		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
+	}
 	return TRUE;
 }
 
@@ -161,7 +162,14 @@ long long improveLayout(long long evaluationToBeat, Keyboard *k)
 	/* try swaps until we beat evaluationToBeat... */
 	for (i = 0; i < ksize; i++) {
 		for (j = i+1; j < ksize; j++) {
-			if (isLegalSwap(indices[i], indices[j]) == FALSE) continue;
+			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j])) continue;
+			if ((indices[i] >= 1 && indices[i] <= 9) || (indices[j] >= 1 && indices[j] <= 9)) {
+				printf("WARNING\n");
+				printf("WARNING\n");
+				printf("Swapping [%d]=%c with [%d]=%c.\n", indices[i], k->layout[indices[i]], indices[j], k->layout[indices[j]]);
+				printf("WARNING\n");
+				printf("WARNING\n");
+			}
 			
 			swapChars(k->layout + indices[i], k->layout + indices[j]);
 			calcFitness(k);
