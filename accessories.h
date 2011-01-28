@@ -6,7 +6,10 @@
  *
  */
  
-#include "algorithm.h"
+#include "cjalgorithm.h"
+
+int game();
+int gameComputer(Keyboard *k, char difficulty);
 
 void worstDigraphsFromFile(char *filename);
 int worstDigraphs(Keyboard *k);

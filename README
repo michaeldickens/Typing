@@ -1,3 +1,11 @@
+CONTENTS
+
+Installation
+How to Run the Program
+Using the Full Keyboard
+File System
+Adding Your Own Physical Keyboard
+
 INSTALLATION
 
 1. If you don't have gcc installed, install it. http://gcc.gnu.org/
@@ -70,4 +78,57 @@ trikeys.c: A list of trigraphs. This list was too long to include in any other f
 values.h: Contains various constants as well as the fitness costs.
 values.c: Contains some fitness costs as arrays.
 
+ - - - - - - - - - - - - - - - - - - - - - - - -
 
+ADDING YOUR OWN PHYSICAL KEYBOARD
+
+By default there are three options for physical keyboards: a keyboard with just the main 30 keys (FK_NO), a full standard keyboard (FK_STANDARD), and a Kinesis keyboard (FK_KINESIS). You can add your own physical keyboard by modifying the source code in a few places. Let's say you want to add a keyboard called Binary which only has two keys on it. You would have to follow these steps.
+
+1. At the beginning of values.h, you will see this: 
+
+	#define FK_NO 0
+	#define FK_STANDARD 1
+	#define FK_KINESIS 2
+
+Add this line to the end: 
+
+	#define FK_BINARY 3
+
+It doesn't matter what number you give as long as no other keyboard uses the same number (so you can't use 0, 1, or 2).
+
+2. In values.c there's a function called initValues() containing code that looks like this: 
+
+	if (full_keyboard == FK_NO) {
+		// Set keyboard position costs manually. These costs were determined by looking at how the positions were valued on some of the best alternative layouts.
+		long long costsCopy[KSIZE_MAX] = {
+			70,  35,  30,  40,  60,  80,  40,  30,  35,  70, 
+			10,   4,   0,   0,  35,  35,   0,   0,   4,  10, 
+			90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 
+		};
+		for (i = 0; i < ksize; ++i)
+			distanceCosts[i] = costsCopy[i];
+
+	// ...
+		
+	} else if (full_keyboard == FK_STANDARD) {
+		
+	// ...
+
+	} else if (full_keyboard == FK_KINESIS) {
+		
+	// ...
+		
+	}	
+
+Add a new section that looks like this: 
+
+	if (full_keyboard == FK_BINARY) {
+		long long costsCopy[KSIZE_MAX] = {
+			// Whatever you want the costs for each index to be. In this case, the first index costs 10 and the second costs 5.
+			10, 5
+		}
+		for (i = 0; i < ksize; ++i)
+			distanceCosts[i] = costsCopy[i];
+	}
+
+2. In tools.c there's a function called initKeyboardData(). It includes all the data for each keyboard, including fingerCopy[], rowCopy[], homeRow, handCopy[], isCenterCopy[], isOutsideCopy[], printItCopy[], indicesCopy[]. You'll have to create one of each of these. See tools.h for an explanation of what they each do. (In tools.h the names don't contain the word 'Copy'.)

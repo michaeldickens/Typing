@@ -135,6 +135,10 @@ int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 	locs[0] = allLocs[digraph[0]];
 	locs[1] = allLocs[digraph[1]];
 	
+	if (locs[0] == -1 || locs[1] == -1) {
+		return 1;
+	}
+	
 	// These all require that the hand be the same.
 	if (hand[locs[0]] == hand[locs[1]]) {
 		k->inRoll		+= calcInRoll    (locs[0], locs[1]) * multiplier;	
@@ -265,26 +269,20 @@ int calcRowChange(int loc0, int loc1)
 
 int calcHomeJump(int loc0, int loc1)
 {
-	if ((row[loc0] == 0 && row[loc1] == 2) || (row[loc0] == 2 && row[loc1] == 0))
-		if ((row[loc0] == 2 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row[loc1] == 2 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
+	if (row[loc0] < row[loc1]) {
+		if (homeRow <= row[loc0] || homeRow >= row[loc1]) return 0;
+	} else if (row[loc0] > row[loc1]) {
+		if (homeRow <= row[loc1] || homeRow >= row[loc0]) return 0;
+	} else return 0;
+	
+	if (abs(row[loc0] - row[loc1]) == 2)
+		if ((row[loc0] > row[loc1] && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
+			(row[loc1] > row[loc0] && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
 		else return homeJump;
 	else if (abs(row[loc0] - row[loc1]) > 2)
-		return doubleJump;
-	
-//	if (ksize == 30) {
-//		if ((loc0 < 10 && loc1 >= 20) || (loc0 >= 20 && loc1 < 10))
-//			if ((loc1 == 23 && (loc0 == 1 || loc0 == 2)) || (loc0 == 23 && (loc1 == 1 || loc1 == 2)) || 
-//				((loc1 == 25 || loc1 == 26) && (loc0 == 7 || loc0 == 8)) || ((loc0 == 25 || loc0 == 26) && (loc1 == 7 || loc1 == 8))) return homeJump + homeJumpIndex;
-//			else return homeJump;
-//	} else {
-//		if (abs(row[loc0] - row[loc1]) > 2)
-//			return doubleJump;
-//		else if ((loc0 < 11 && loc1 >= 22) || (loc0 >= 22 && loc1 < 11))
-//			if ((loc1 == 25 && (loc0 == 1 || loc0 == 2)) || (loc0 == 25 && (loc1 == 1 || loc1 == 2)) || 
-//				(loc1 == 28 && (loc0 == 7 || loc0 == 8)) || (loc0 == 28 && (loc1 == 7 || loc1 == 8))) return homeJump + homeJumpIndex;
-//			else return homeJump;
-//	}
+		if ((row[loc0] > row[loc1] && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
+			(row[loc1] > row[loc0] && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
+		else return doubleJump;
 
 	return 0;
 }

@@ -47,19 +47,40 @@ int run(char *filename)
 	int start = time(NULL), finish;
 
 	long long curEval;
-	Keyboard k;
+	Keyboard k, bestk;
 	long long bestEval = LLONG_MAX;
 
 	int i, numberOfRounds, isFileEmpty;
 	
 	FILE *fp = fopen(filename, "r");
 	
-	int usedLastLayout = FALSE;
+	// The simulated annealing algorithm is seeded with either a completely random 
+	// layout or a mutated version of the last layout found so far. The probabilty 
+	// of using a mutated last layout is chanceToUsePreviousLayout.
+	double chanceToUsePreviousLayout = 0.2;
+	double subChanceToUseBestLayout = 0.1;
+	int numberOfSwaps = 1;
+	int roundsBeforeChanceInc = 100, roundsBeforeSwapInc = 50;
+
+	int usedPreviousLayout = FALSE;
 	int intervalBetweenPrints = 60, intervalInc = 0;
 		
 	// Run Chris Johnson's simulated annealing algorithm.
 	isFileEmpty = FALSE;
 	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
+		/* chanceToUsePreviousLayout increases as the program continues for longer and longer. */
+		if (numberOfRounds % roundsBeforeChanceInc == roundsBeforeChanceInc - 1) {
+			chanceToUsePreviousLayout *= 1.2;
+			roundsBeforeChanceInc *= 2;
+			if (detailedOutput) printf("Chance to use previous layout is now %f.\n", chanceToUsePreviousLayout);
+		}
+		
+		if (numberOfRounds % roundsBeforeSwapInc == roundsBeforeSwapInc - 1) {
+			++numberOfSwaps;
+			roundsBeforeSwapInc *= 2;
+			if (detailedOutput) printf("Number of swaps is now %d.\n", numberOfSwaps);
+		}
+		
 		if (INIT_FROM_FILE && !keepNumbers) {
 			if (layoutFromFile(fp, &k) == -1) {
 				isFileEmpty = TRUE;
@@ -68,13 +89,15 @@ int run(char *filename)
 		} else isFileEmpty = TRUE;
 		
 		if (isFileEmpty) {
-			if (numberOfRounds != 0 && (double) rand() / RAND_MAX <= CHANCE_TO_USE_LAST_LAYOUT) {
-				usedLastLayout = TRUE;
-				int j;
-				for (j = 0; j < LAST_LAYOUT_MUTATIONS; ++j)
-					k = mutate(k);
+			if (numberOfRounds != 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {
+				usedPreviousLayout = TRUE;
+				/* There is a 1 out of subChanceToUseBestLayout chance that the best layout will be used instead of the 
+				 * last layout. 
+				 */
+				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copy(&k, &bestk);
+				smartMutate(&k, numberOfSwaps);
 			} else {
-				usedLastLayout = FALSE;
+				usedPreviousLayout = FALSE;
 				initKeyboard(&k);
 			}
 			
@@ -88,17 +111,18 @@ int run(char *filename)
 		curEval = doRun(&k);
 		
 		if (curEval < bestEval) {
-			if (usedLastLayout) {
-				printf("\nEvolved from last layout: \n");
+			if (usedPreviousLayout && detailedOutput) {
+				printf("\nFound from previous layout: \n");
 			}
 			i = 0;
 			bestEval = curEval;
 			calcFitnessDirect(&k);
 			printPercentages(&k);
+			copy(&bestk, &k);
 
 			finish = time(NULL);
-			printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-		} else if (curEval == bestEval) {
+			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", numberOfRounds, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+		} else if (curEval == bestEval && detailedOutput) {
 			printf("Same layout found\n");
 		} else if (time(NULL) - finish >= intervalBetweenPrints) {
 			finish = time(NULL);
@@ -154,6 +178,12 @@ int isLegalSwap(int i, int j)
 	return TRUE;
 }
 
+int isSwappable(char c)
+{
+	return !(keepNumbers && c >= '0' && c <= '9') && !(keepParentheses && (c == '(' || c == ')')) && 
+			!(keepZXCV && (c == 'z' || c == 'x' || c == 'c' || c == 'v'));
+}
+
 long long improveLayout(long long evaluationToBeat, Keyboard *k)
 {
 	long long evaluation;
@@ -163,7 +193,7 @@ long long improveLayout(long long evaluationToBeat, Keyboard *k)
 	for (i = 0; i < ksize; i++) {
 		for (j = i+1; j < ksize; j++) {
 			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j])) continue;
-			if ((indices[i] >= 1 && indices[i] <= 9) || (indices[j] >= 1 && indices[j] <= 9)) {
+			if (full_keyboard != FK_NO && ((indices[i] >= 1 && indices[i] <= 9) || (indices[j] >= 1 && indices[j] <= 9))) {
 				printf("WARNING\n");
 				printf("WARNING\n");
 				printf("Swapping [%d]=%c with [%d]=%c.\n", indices[i], k->layout[indices[i]], indices[j], k->layout[indices[j]]);
@@ -187,6 +217,57 @@ long long improveLayout(long long evaluationToBeat, Keyboard *k)
 
 	/* ...or not */
 	return evaluationToBeat;
+}
+
+/* 
+ * Goes through the list of characters from least to most common. Selects characters to 
+ * swap. Less frequent characters are more likely to be swapped.
+ * 
+ * For the nth character, the probability that it will be mutated is given by 
+ *   P(1) = 1 / q
+ *   P(n) = (1 / q) * (1 - P(n-1))
+ * 
+ * Alternatively, 
+ *   P(n) = (q-1)^(n-1) / q^n
+ * 
+ * This holds true for every element but the last. For the last element n, 
+ *   P(n) = 1 - (P(1) + P(2) + ... + P(n-1))
+ * 
+ * These probabilities are only correct if every swap is legal. If not, legal swaps are 
+ * somewhat more probable and illegal swaps are of course completely impossible.
+ * 
+ */
+int smartMutate(Keyboard *k, int numberOfSwaps)
+{
+	int q = 8;
+	
+	int swapslen = 2 * numberOfSwaps;	
+	char swaps[swapslen];
+	
+	int i, j;
+	
+	for (j = 0; j < swapslen; ++j) {
+		swaps[j] = monKeys[0];
+
+		for (i = monLen - 1; i >= 0; --i) {
+			if (isSwappable(monKeys[i]) && rand() % q == 0) {
+				swaps[j] = monKeys[i];
+				break;
+			}
+		}
+	}
+	
+	int lc1, lc2;
+	for (i = 0; i < swapslen - 1; i += 2) {
+		lc1 = loc(k, swaps[i]);
+		lc2 = loc(k, swaps[i+1]);
+		
+		if (isLegalSwap(lc1, lc2)) {
+			swapChars(k->layout + lc1, k->layout + lc2);
+		}
+	}
+	
+	return 0;
 }
 
 void shuffleIndices()

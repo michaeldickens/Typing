@@ -6,12 +6,12 @@
  *
  */
  
-#define TRUE 1
-#define FALSE 0
-
 #define FK_NO 0
 #define FK_STANDARD 1
 #define FK_KINESIS 2
+
+#define TRUE 1
+#define FALSE 0
 
 /* Set full_keyboard in initValues(). */
 int full_keyboard, ksize;
@@ -49,12 +49,6 @@ int full_keyboard, ksize;
 #define SIM_ANNEAL_GENERATIONS INT_MAX
 #define IMPROVER_GENERATIONS 32
 
-// The simulated annealing algorithm is seeded with either a completely random 
-// layout or a mutated version of the last layout found so far. The probabilty 
-// of using a mutated last layout is CHANCE_TO_USE_LAST_LAYOUT.
-#define CHANCE_TO_USE_LAST_LAYOUT (1.0 / 3)
-#define LAST_LAYOUT_MUTATIONS 4 // Number of mutations to the last layout.
-
 #define INIT_FROM_FILE 1
 
 #define SHORTCUT		100
@@ -71,6 +65,8 @@ long long fingerCosts[5];
 long long distanceCosts[KSIZE_MAX];
 long long  trueDistance[KSIZE_MAX];
 long long shortcutCosts[KSIZE_MAX];
+
+int detailedOutput;
 
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses;
 

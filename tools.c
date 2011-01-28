@@ -88,7 +88,7 @@ int initData()
 	srand(time(NULL));
 	
 	for (i = 0; i < ksize; ++i)
-		nilKeyboard.layout[i] = '2';
+		nilKeyboard.layout[i] = '\0';
 	nilKeyboard.layout[ksize] = '\0';
 	nilKeyboard.fitness = 0;
 	nilKeyboard.distance = 0;
@@ -134,6 +134,8 @@ void initKeyboardData()
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 		};
 		copyArray(row, rowCopy, ksize);
+		
+		homeRow = 1;
 		
 		int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -183,6 +185,8 @@ void initKeyboardData()
 		};
 		copyArray(row, rowCopy, ksize);
 		
+		homeRow = 2;
+		
 		int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -223,7 +227,7 @@ void initKeyboardData()
 		};
 		copyArray(indices, indicesCopy, ksize);
 		
-	} else {
+	} else if (full_keyboard == FK_KINESIS) {
 		int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
@@ -241,6 +245,8 @@ void initKeyboardData()
 			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
 		};
 		copyArray(row, rowCopy, ksize);
+		
+		homeRow = 2;
 		
 		int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -512,7 +518,9 @@ int setValue(char *str)
 	
 	int value = atoi(valstr);
 	
-	if (streq(name, "keepZXCV")) {
+	if (streq(name, "detailedOutput")) {
+		detailedOutput = value;
+	} else if (streq(name, "keepZXCV")) {
 		keepZXCV = value;
 	} else if (streq(name, "keepQWERTY")) {
 		keepQWERTY = value;
@@ -564,7 +572,9 @@ int setValue(char *str)
 
 int getValue(char *name)
 {
-	if (streq(name, "keepZXCV")) {
+	if (streq(name, "detailedOutput")) {
+		printf("%s = %d\n\n", name, detailedOutput);
+	} else if (streq(name, "keepZXCV")) {
 		printf("%s = %d\n\n", name, keepZXCV);
 	} else if (streq(name, "keepQWERTY")) {
 		printf("%s = %d\n\n", name, keepQWERTY);

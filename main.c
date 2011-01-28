@@ -7,7 +7,7 @@
  */
  
 #include <stdio.h>
-#include "cjalgorithm.h"
+#include "accessories.h"
 
 int main(int argc, const char *argv[])
 {		
@@ -43,10 +43,13 @@ int getCommands(char *filename)
 		if (streq(cmd, "help")) {
 			printf("algorithm: Run the keyboard optimization algorithm.\n");
 			printf("compare <filename>: Print information about the keyboards in <filename>. The keyboards must be in the proper format.\n");
+			printf("game: Play a keyboard layout game.\n");
+			printf("get <variable>: Get the value of the specified variable.\n");
 			printf("improve <filename>: Try to improve the first keyboard in <filename>. The keyboard must be in the proper format.\n");
 			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
 			printf("set <variable> <value>: Set the specified variable to the given value.\n");
 			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk\" for more information.\n");
+			printf("test fitness: Test that the fitness functions are working properly.\n");
 			printf("quit: Quit the keyboard optimization program.\n");
 			printf("\n");
 			
@@ -56,6 +59,9 @@ int getCommands(char *filename)
 			
 		} else if (streqn(cmd, "compare ", 8)) {
 			compare(cmd + 8);
+		
+		} else if (streq(cmd, "game")) {
+			game();
 		
 		} else if (streqn(cmd, "get ", 4)) {
 			getValue(cmd + 4);
@@ -83,8 +89,12 @@ int getCommands(char *filename)
 				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
 			}
 		
+		} else if (streq(cmd, "test fitness")) {
+			testFitness();
+		
 		} else if (streq(cmd, "variables")) {
 			printf("Boolean variables should be set to 0 for false and 1 for true. Variables not specified as booleans are integers.\n");
+			printf("\t(bool) detailedOutput\n");
 			printf("\t(bool) keepZXCV\n");
 			printf("\t(bool) keepQWERTY\n");
 			printf("\t(bool) keepNumbers\n");

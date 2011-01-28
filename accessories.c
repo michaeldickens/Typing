@@ -8,6 +8,183 @@
 
 #include "accessories.h"
 
+int game()
+{
+	printf("\tWelcome to the keyboard layout game. The object of the game is ");
+	printf("to get the lowest score possible. The way the game works is ");
+	printf("that we start with a blank keyboard and players take turns placing ");
+	printf("keys. Every time you increase the cost of the keyboard, your ");
+	printf("score increases by the difference between the new keyboard cost ");
+	printf("and the previous keyboard cost.\n");
+	printf("\tAt each round you type in a character, a space, and the position ");
+	printf("at which you want to place the character. For example if you wanted ");
+	printf("to put the letter 'c' at position 5, you would type in \"c 5\".");
+	printf("\n\n");
+	
+	int divisor = 10000;
+	char input[1000];
+	
+	int p2_computer = TRUE;
+	char difficulty = '\0';
+	
+	do {
+		printf("Play against a human or the computer? (h/c) ");
+		fgets(input, 999, stdin);
+		if (input[0] == 'h') {
+			p2_computer = FALSE;
+			printf("Human it is.\n\n");
+		} else {
+			printf("Computer it is. Select a difficulty level (a number from 0 to 9): ");
+			fgets(input, 999, stdin);
+			difficulty = input[0];
+			if (difficulty >= '0' && difficulty <= '4')
+				printf("Difficulty set to %c. Good luck!\n\n", difficulty);
+			else if (difficulty >= '5' && difficulty <= '7')
+				printf("You're in for a challenge. Good luck!\n\n");
+			else if (difficulty == '8')
+				printf("I hope you know what you're getting yourself into. Good luck...\n\n");
+			else if (difficulty == '9')
+				printf("You must be crazy to take on that kind of difficulty level. Good luck!\n\n");
+			else if (difficulty == 'x')
+				printf("Secret impossible mode enabled. If you manage to beat this level, please tell me how you did it.\n\n");
+			else {
+				printf("That is not a valid input. Please try again.\n\n");
+				continue;
+			}
+		}
+	} while (FALSE);
+	
+	int p1 = 0, p2 = 1;
+	long long score[2];
+	score[0] = 0; score[1] = 0;
+	
+	Keyboard k;
+	copy(&k, &nilKeyboard);
+	
+	calcFitness(&k);
+	
+	int prev_fitness = k.fitness;
+	
+	int keynum;
+	for (keynum = 0; keynum < ksize; ++keynum) {
+		printLayoutOnly(&k);
+		
+		if (p2_computer && keynum % 2 == p2) {
+			gameComputer(&k, difficulty);
+		} else {
+		
+			printf("Player %d, type in a character and a position: ", keynum % 2 + 1);
+			fgets(input, 999, stdin);
+			if (strlen(input) < 3) {
+				printf("Invalid input. Please try again.\n");
+				--keynum;
+				continue;
+			}
+			char c = input[0];
+			int pos = atoi(input + 2);
+			
+			if (k.layout[pos]) {
+				printf("That position is occupied. Please try again.\n");
+				--keynum;
+				continue;
+			} else if (loc(&k, c) != -1) {
+				printf("That character has already been placed. Please try again.\n");
+				--keynum;
+				continue;
+			} else k.layout[pos] = c;
+		
+		}
+		
+		calcFitness(&k);
+		
+		/* The value added to the player's score is the difference of the keyboard's current 
+		 * fitness and its previous fitness.
+		 */
+		score[keynum % 2] += (k.fitness - prev_fitness) / divisor;
+		prev_fitness = k.fitness;
+		
+		printf("Player 1 score: %lld\n", score[p1]);
+		printf("Player 2 score: %lld\n\n", score[p2]);
+	}
+	
+	printf("Layout final fitness: %lld\n", k.fitness);
+	printLayoutOnly(&k);
+	printf("\n");
+	
+	if (score[p1] < score[p2]) {
+		printf("Player 1 wins!\n");
+	} else if (score[p1] > score[p2]) {
+		printf("Player 2 wins!\n");
+	} else {
+		printf("It's a tie!\n");
+	}
+	
+	printf("\n");
+	
+	return 0;
+}
+
+int gameComputer(Keyboard *k, char difficulty)
+{
+	int bestp; char bestc;
+	long long score, bestScore = LLONG_MAX;
+	
+	Keyboard k2;
+	
+	shuffleIndices();
+	
+	int i, j, inx, total = 0, done = FALSE;
+	for (i = 0; i < monLen && !done; ++i) {
+		if (loc(k, monKeys[i]) != -1) continue;
+		
+		for (j = 0; j < ksize && !done; ++j) {
+			inx = indices[j];
+			if (k->layout[inx]) continue;
+			
+			copy(&k2, k);
+			k2.layout[inx] = monKeys[i];
+			
+			calcFitness(&k2);
+			score = k2.fitness - k->fitness;
+			if (score < bestScore) {
+				bestp = inx;
+				bestc = monKeys[i];
+				bestScore = score;
+			}
+			
+			++total;
+			switch (difficulty) {
+			case '0': 
+				if (total >=  2) done = TRUE; break;
+			case '1': 
+				if (total >=  5) done = TRUE; break;
+			case '2': 
+				if (total >= 12) done = TRUE; break;
+			case '3': 
+				if (total >= 20) done = TRUE; break;
+			case '4': 
+				if (total >= 30) done = TRUE; break;
+			case '5': 
+				if (total >= 45) done = TRUE; break;
+			case '6': 
+				if (total >= 65) done = TRUE; break;
+			case '7': 
+				if (total >= 90) done = TRUE; break;
+			case '8': 
+				if (total >=130) done = TRUE; break;
+			case '9':
+				if (total >=200) done = TRUE; break;
+			default: 
+				break;
+			}
+		}
+	}
+	
+	printf("The computer puts %c at %d.\n", bestc, bestp);
+	k->layout[bestp] = bestc;
+	return 0;
+}
+
 void worstDigraphsFromFile(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
@@ -449,10 +626,11 @@ int testFitness()
 		testResult(calcHomeJump(14, 0), 0);
 		testResult(calcHomeJump(15, 0), 0);
 		testResult(calcHomeJump(14, 1), 0);
-		testResult(calcHomeJump(8, 20), 0);
-		testResult(calcHomeJump(8, 34), homeJump + homeJumpIndex);
-		testResult(calcHomeJump(36, 9), homeJump);
-		testResult(calcHomeJump(33, 5), homeJump);
+		testResult(calcHomeJump(36, 9), 0);
+		testResult(calcHomeJump(48, 9), doubleJump + homeJumpIndex);
+		testResult(calcHomeJump(49, 23), homeJump + homeJumpIndex);
+		testResult(calcHomeJump(44, 18), homeJump);
+		testResult(calcHomeJump(44, 3), doubleJump);
 		
 	
 	} else {
@@ -478,9 +656,9 @@ int testFitness()
 		testResult(calcHomeJump(12, 0), 0);
 		testResult(calcHomeJump(11, 1), 0);
 		testResult(calcHomeJump(8, 17), 0);
-		testResult(calcHomeJump(8, 28), homeJump + homeJumpIndex);
-		testResult(calcHomeJump(30, 9), homeJump);
-		testResult(calcHomeJump(27, 5), homeJump);
+		testResult(calcHomeJump(19, 39), homeJump + homeJumpIndex);
+		testResult(calcHomeJump(41, 20), homeJump);
+		testResult(calcHomeJump(38, 16), homeJump);
 	}
 
 	

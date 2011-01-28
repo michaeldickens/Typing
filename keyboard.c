@@ -146,31 +146,38 @@ int isEqual(Keyboard *k, Keyboard *m)
 int printLayoutOnly(Keyboard *k)
 {
 	int i;
-	for (i = 0; i < ksize; ++i)
+	
+	char str[10];
+		
+	for (i = 0; i < ksize; ++i) {
+		if (k->layout[i] == '\0') sprintf(str, "%2d", i);
+		else sprintf(str, "%2c", k->layout[i]);
+		
+		
 		if (full_keyboard == FK_NO) {
-			if (printIt[i] == FALSE) printf("  ");
-			else if (i % 10 == 9) printf("%c\n", k->layout[i]);
-			else if (i % 10 == 4) printf("%c  ", k->layout[i]);
-			else printf("%c ", k->layout[i]);
+			if (printIt[i] == FALSE) printf("   ");
+			else if (i % 10 == 9) printf("%s\n", str);
+			else if (i % 10 == 4) printf("%s  ", str);
+			else printf("%s ", str);
 		} else if (full_keyboard == FK_STANDARD) {
 			if (printIt[i] == FALSE) {
 				if (i % 14 == 13) printf("  \n");
 				else printf("  ");
-			} else if (i % 14 == 13) printf("%c\n", k->layout[i]);
-			else if (i % 14 == 5) printf("%c  ", k->layout[i]);
-			else printf("%c ", k->layout[i]);
+			} else if (i % 14 == 13) printf("%s\n", str);
+			else if (i % 14 == 5) printf("%s  ", str);
+			else printf("%s ", str);
 		} else {
 			if (printIt[i]) {
-				if (i % 11 == 10) printf("%c\n", k->layout[i]);
-				else if (i % 11 == 4) printf("%c  ", k->layout[i]);
-				else printf("%c ", k->layout[i]);
+				if (i % 11 == 10) printf("%s\n", str);
+				else if (i % 11 == 4) printf("%s  ", str);
+				else printf("%s ", str);
 			} else {
 				if (i % 11 == 10) printf(" \n");
 				else if (i % 11 == 4) printf("   ");
 				else printf("  ");
 			}
-
 		}
+	}
 	printf("\n");
 	return 0;
 }

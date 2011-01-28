@@ -17,9 +17,9 @@ int initValues()
 	if (full_keyboard == FK_NO) {
 		// Set keyboard position costs manually. These costs were determined by looking at how the positions were valued on some of the best alternative layouts.
 		long long costsCopy[KSIZE_MAX] = {
-			 70,  40,  30,  30,  60,  80,  30,  30,  40,  70, 
-			 10,   4,   0,   0,  30,  30,   0,   0,   4,  10, 
-			 90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 			
+			70,  35,  30,  40,  60,  80,  40,  30,  35,  70, 
+			10,   4,   0,   0,  35,  35,   0,   0,   4,  10, 
+			90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 
 		};
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
@@ -38,22 +38,22 @@ int initValues()
 		// is 999 is not supposed to contain any character.
 		long long costsCopy[KSIZE_MAX] = {
 			140, 120,  90,  75,  95, 130, 160,  95,  75,  90, 120, 120, 140, 999, 
-			999,  70,  40,  30,  30,  60,  80,  30,  30,  40,  70,  90, 110, 150, 
-			999,  10,   4,   0,   0,  30,  30,   0,   0,   4,  10,  85, 999, 999, 
-			999,  90,  85,  60,  50,  95,  70,  40,  60,  80,  90, 999, 999, 999, 
+			999,  70,  35,  30,  40,  60,  80,  40,  30,  35,  70,  90, 110, 150, 
+			999,  10,   4,   0,   0,  35,  35,   0,   0,   4,  10,  85, 999, 999, 
+			999,  90,  85,  60,  50,  95,  70,  35,  60,  80,  90, 999, 999, 999, 
 		};
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 
-	} else {
+	} else if (full_keyboard == FK_KINESIS) {
 		
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
 		long long costsCopy[KSIZE_MAX] = {
 			120,  90,  75,  95, 130, 130,  95,  75,  90, 120, 140, 
-			 65,  40,  30,  30,  75,  75,  30,  30,  40,  65, 100, 
-			 10,   4,   0,   0,  30,  30,   0,   0,   4,  10,  80, 
-			 90,  80,  60,  45,  90,  90,  45,  60,  80,  90, 999, 
+			 65,  35,  30,  40,  75,  75,  40,  30,  35,  65, 100, 
+			 10,   4,   0,   0,  35,  35,   0,   0,   4,  10,  80, 
+			 90,  80,  60,  40,  90,  90,  40,  60,  80,  90, 999, 
 			170, 150, 999, 999, 999, 999, 999, 999, 150, 170, 999, 
 		
 		};
@@ -83,6 +83,8 @@ int initValues()
 
 void initCosts()
 {
+	detailedOutput = TRUE;
+	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
 	keepNumbers = TRUE;

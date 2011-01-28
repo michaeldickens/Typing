@@ -1,4 +1,12 @@
-ffffffffffffffffffffffffffffffff ae799eec5e721ff67e336abc110c215e ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCode Projects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/charsets.o
-ffffffffffffffffffffffffffffffff d14c134b5639b5fc1d44585c65ab70fa ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCode Projects/Typing/build/Debug/Typing
-ffffffffffffffffffffffffffffffff e11d81ca3c314d66e8c7c0154f661d9d ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCode Projects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o
-ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCode Projects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o
+0000000000b999670000000000034a33 29ec1e6a35600cdd8663684f5638e1b9 ffffffffffffffffffffffffffffffff 315700 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o
+00000000002aa3b80000000000002441 26c08ef4e1e1696e765406e4e7d1945a ffffffffffffffffffffffffffffffff 6748 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o
+000000000a8e123d00000000000017b4 26d4e509ed0520eef30c9da840531d51 ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o
+00000000063ea4430000000000004283 c3c302a4c44848da9c0038989d8c4439 ffffffffffffffffffffffffffffffff 38636 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o
+00000000000f97b800000000000018e9 3e7928bac343028b969b6d3d75428193 ffffffffffffffffffffffffffffffff 10648 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o
+000000000da4d24a0000000000003e1a 3275454025cc51d973adc0e12c2cb7e0 ffffffffffffffffffffffffffffffff 24744 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o
+00000000000f9cfb0000000000000738 084a2a682a35aa7a6622c259578f4a5a ffffffffffffffffffffffffffffffff 21396 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o
+00000000409fe75c0000000000001141 5f1367ffc32190d883b81cffb41115c7 ffffffffffffffffffffffffffffffff 15292 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o
+000000000725723b00000000000047cc c7e64baf3885c558845904bba8bdacdf ffffffffffffffffffffffffffffffff 33148 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o
+00000000000fbc4e00000000000004b9 7c9af5c35e81bbbd017d85b01892ba64 ffffffffffffffffffffffffffffffff 23176 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o
+000000004d34da8c0000000000003c54 71e9e4ce650f22ae808e4bd070e3cf64 ffffffffffffffffffffffffffffffff 13236 /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o
+ffffffffffffffffffffffffffffffff c236f05ee06da3667e82caa27b2645bf ffffffffffffffffffffffffffffffff 0 /Users/MTGAP/XCodeProjects/Typing/build/Debug/Typing
