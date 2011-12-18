@@ -14,18 +14,21 @@ int initKeyboard(Keyboard *k)
 	
 	memset(k->layout, 0xff, ksize * sizeof(char));
 
-	if (full_keyboard == FK_NO) {
-		// This default keyboard is QWERTY.
-		setLayout(k, "qwertyuiopasdfghjkl;zxcvbnm,.'");
-	} else if (full_keyboard == FK_STANDARD) {
+	if (full_keyboard == FK_STANDARD) {
 		// This default keyboard is QWERTY with the punctuation rearranged so as to use the 
 		// most common punctuation marks: , . ) ( _ " ; - ' = /
 		setLayout(k, "_1234567890-=qwertyuiop()\"asdfghjkl;'zxcvbnm,./");
-	} else {
+	} else if (full_keyboard == FK_KINESIS) {
 		// This default keyboard is QWERTY with the punctuation rearranged so as to use the 
 		// most common punctuation marks: , . ) ( _ " ; - ' = /
-		setLayout(k, "1234567890-qwertyuiop_asdfghjkl;\"zxcvbnm,./'=()");		
+		setLayout(k, "1234567890-qwertyuiop_asdfghjkl;\"zxcvbnm,./'=()");
+	} else if (full_keyboard == FK_IPHONE) {
+		setLayout(k, "qwertyuiopasdfghjklzxcvbnm");
+	} else {
+		// The main 30 characters, sorted by puncuation then by letter frequency.
+		setLayout(k, "etaoinsrhldcumfpgywbvkxjqz,.';");
 	}
+
 	
 	k->layout[ksize] = '\0';
 		
@@ -143,6 +146,20 @@ int isEqual(Keyboard *k, Keyboard *m)
 	return TRUE;
 }
 
+int qwertyPositions(Keyboard *k)
+{
+	NOT_WORK_WITH_full_keyboard("qwertyPositions()");
+	
+	int count = 0;
+	
+	int i;
+	for (i = 0; i < ksize; ++i)
+		if (k->layout[i] == qwerty[i])
+			count++;
+	
+	return count;
+}
+
 int printLayoutOnly(Keyboard *k)
 {
 	int i;
@@ -154,19 +171,7 @@ int printLayoutOnly(Keyboard *k)
 		else sprintf(str, "%2c", k->layout[i]);
 		
 		
-		if (full_keyboard == FK_NO) {
-			if (printIt[i] == FALSE) printf("   ");
-			else if (i % 10 == 9) printf("%s\n", str);
-			else if (i % 10 == 4) printf("%s  ", str);
-			else printf("%s ", str);
-		} else if (full_keyboard == FK_STANDARD) {
-			if (printIt[i] == FALSE) {
-				if (i % 14 == 13) printf("  \n");
-				else printf("  ");
-			} else if (i % 14 == 13) printf("%s\n", str);
-			else if (i % 14 == 5) printf("%s  ", str);
-			else printf("%s ", str);
-		} else {
+		if (full_keyboard == FK_KINESIS) {
 			if (printIt[i]) {
 				if (i % 11 == 10) printf("%s\n", str);
 				else if (i % 11 == 4) printf("%s  ", str);
@@ -176,6 +181,20 @@ int printLayoutOnly(Keyboard *k)
 				else if (i % 11 == 4) printf("   ");
 				else printf("  ");
 			}
+		} else if (full_keyboard == FK_STANDARD) {
+			if (printIt[i] == FALSE) {
+				if (i % 14 == 13) printf("  \n");
+				else printf("  ");
+			} else if (i % 14 == 13) printf("%s\n", str);
+			else if (i % 14 == 5) printf("%s  ", str);
+			else printf("%s ", str);
+		} else {
+			if (printIt[i] == FALSE) {
+				if (i % 10 == 9) printf("  \n");
+				else printf("   ");
+			} else if (i % 10 == 9) printf("%s\n", str);
+			else if (i % 10 == 4) printf("%s  ", str);
+			else printf("%s ", str);
 		}
 	}
 	printf("\n");
@@ -187,7 +206,9 @@ int printKeyboard(Keyboard *k)
 	printLayoutOnly(k);
 
 	printf("Fitness: %lld\n", k->fitness);
+	if (keepQWERTY) printf("QWERTY positions: %d\n", qwertyPositions(k));
 	printf("Distance: %lld\n", k->distance);
+	printf("Finger work: %lld\n", k->fingerWork);
 	printf("Inward rolls: %lld\n", k->inRoll);
 	printf("Outward rolls: %lld\n", k->outRoll);
 	printf("Same hand: %lld\n", k->sameHand);
@@ -204,32 +225,22 @@ int printKeyboard(Keyboard *k)
 int printPercentages(Keyboard *k)
 {
 	int i;
-
-	// Figure out how much each finger is being used.
-	long long total = 0;
-	long long fingerUsage[8];
-	for (i = 0; i < 8; ++i) fingerUsage[i] = 0;
-	for (i = 0; i < monLen; ++i) {
-		int lc = loc(k, monKeys[i]);
-		if (hand[lc] == LEFT) {
-			if (lc == -1) {
-				printf("character %c not found\n", monKeys[i]);
-			}
-			fingerUsage[finger[lc]] += monValues[i];
-		} else fingerUsage[7 - finger[lc]] += monValues[i];
-	}
-	for (i = 0; i < 8; ++i) total += fingerUsage[i];
+	
+	int64_t total = 0;
+	for (i = 0; i < 8; ++i) total += k->fingerUsage[i];
 
 	// Hand
 	printf("\nHands: ");
-	printf("%lld%% ", 100 * (fingerUsage[0] + fingerUsage[1] + fingerUsage[2] + fingerUsage[3]) / total);
-	printf("%lld%%\n", 100 * (fingerUsage[4] + fingerUsage[5] + fingerUsage[6] + fingerUsage[7]) / total);
+	printf("%lld%% ", 100 * (k->fingerUsage[0] + k->fingerUsage[1] + 
+			k->fingerUsage[2] + k->fingerUsage[3]) / total);
+	printf("%lld%%\n", 100 * (k->fingerUsage[4] + k->fingerUsage[5] + 
+			k->fingerUsage[6] + k->fingerUsage[7]) / total);
 
 	if (total == 0) printf("warning: total = 0\n");
 	// Finger
 	printf("Fingers: ");
 	for (i = 0; i < 8; ++i) {
-		printf("%lld%% ", 100 * fingerUsage[i] / total);
+		printf("%lld%% ", 100 * k->fingerUsage[i] / total);
 	}
 	printf("\n\n");
 	
@@ -239,9 +250,9 @@ int printPercentages(Keyboard *k)
 		
 	// Print all the fitness criteria.
 	printf("Fitness:       %lld\n",   k->fitness);
-//	printf("Fitness:       %.2f\n",   ((double)(    k->fitness   ) / totalMon));
-	printf("Distance:      %lld\n",   (        (    k->distance  )            ));
-//	printf("Distance:      %.2f\n",   ((double)(100*k->distance  ) / totalMon));
+	if (keepQWERTY) printf("QWERTY positions: %d\n", qwertyPositions(k));
+	printf("Distance:      %lld\n",   (        (    k->distance  )           ));
+	printf("Finger work:   %lld\n",   (        (    k->fingerWork)           ));
 	printf("Inward rolls:  %.2f%%\n", ((double)(100*k->inRoll    ) / totalDi ));
 	printf("Outward rolls: %.2f%%\n", ((double)(100*k->outRoll   ) / totalDi ));
 	printf("Same hand:     %.2f%%\n", ((double)(100*k->sameHand  ) / totalDi ));
@@ -260,16 +271,16 @@ int simplePrintKeyboard(Keyboard *k)
 	printLayoutOnly(k);
 		
 	printf("\n");
-	printf("Fitness: %lld\n", (long long) (k->fitness / pow(10, SIMPLE_SHIFT)));
-	printf("Distance: %lld\n", (long long) (k->distance / pow(10, SIMPLE_SHIFT)));
-	printf("Inward rolls: %lld\n", (long long) (k->inRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Outward rolls: %lld\n", (long long) (k->outRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Same hand: %lld\n", (long long) (k->sameHand / pow(10, SIMPLE_SHIFT)));
-	printf("Same finger: %lld\n", (long long) (k->sameFinger / pow(10, SIMPLE_SHIFT)));
-	printf("Row change: %lld\n", (long long) (k->rowChange / pow(10, SIMPLE_SHIFT)));
-	printf("Home jump: %lld\n", (long long) (k->homeJump / pow(10, SIMPLE_SHIFT)));
-	printf("To center: %lld\n", (long long) (k->toCenter / pow(10, SIMPLE_SHIFT)));
-	if (ksize != 30) printf("To outside: %lld\n", (long long) (k->toOutside / pow(10, SIMPLE_SHIFT)));
+	printf("Fitness: %lld\n", (int64_t) (k->fitness / pow(10, SIMPLE_SHIFT)));
+	printf("Distance: %lld\n", (int64_t) (k->distance / pow(10, SIMPLE_SHIFT)));
+	printf("Inward rolls: %lld\n", (int64_t) (k->inRoll / pow(10, SIMPLE_SHIFT)));
+	printf("Outward rolls: %lld\n", (int64_t) (k->outRoll / pow(10, SIMPLE_SHIFT)));
+	printf("Same hand: %lld\n", (int64_t) (k->sameHand / pow(10, SIMPLE_SHIFT)));
+	printf("Same finger: %lld\n", (int64_t) (k->sameFinger / pow(10, SIMPLE_SHIFT)));
+	printf("Row change: %lld\n", (int64_t) (k->rowChange / pow(10, SIMPLE_SHIFT)));
+	printf("Home jump: %lld\n", (int64_t) (k->homeJump / pow(10, SIMPLE_SHIFT)));
+	printf("To center: %lld\n", (int64_t) (k->toCenter / pow(10, SIMPLE_SHIFT)));
+	if (ksize != 30) printf("To outside: %lld\n", (int64_t) (k->toOutside / pow(10, SIMPLE_SHIFT)));
 	printf("\n");
 	
 	return 0;

@@ -1,0 +1,28 @@
+This document describes in depth how fitness is calculated.
+
+GENERAL
+
+The program contains a list of digraphs and gives the frequency of each digraph. Here is the pseudocode for how a layout is scored.
+
+For each digraph: 
+	calculate the fitness for this individual digraph
+	multiply that by the digraph's frequency
+	add to total fitness
+
+The program also has a list of characters, which are used to calculate finger travel distance.
+
+The process of calculating the fitness for a single character or digraph requires calculating a number of independent factors.
+
+DISTANCE
+
+This measure indicates how far one's fingers must travel, taking into account that some areas of the keyboard are more difficult to reach than others. For example, the bottom row counts as more effort than the top row.
+
+FINGER WORK
+
+This adds a penalty when a finger is overloaded. The overload point depends on finger strength: for the index finger it is much higher than for the pinky. This does not add any points to the total fitness unless a finger's work exceeds a particular point, so it is possible for finger work to have a score of 0. The primary use of this measure is to prevent the pinky and ring finger from tiring.
+
+ROLLS
+
+A roll is when adjacent keys in the same row are typed in succession. An inward roll is favorable and an outward roll should be avoided.
+
+

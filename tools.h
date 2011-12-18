@@ -6,11 +6,6 @@
  *
  */
  
-#include <time.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 #include "values.h"
 
 #define streq(str1, str2) (strcmp(str1, str2) == 0)
@@ -20,8 +15,8 @@
 #define MAX_DI_LEN 5000
 #define MAX_MON_LEN 100
 
-long long totalMon;
-long long totalDi;
+int64_t totalMon;
+int64_t totalDi;
 int monLen, diLen, triLen;
 
 /* Constant definitions */
@@ -33,6 +28,7 @@ int monLen, diLen, triLen;
 #define RING 1
 #define MIDDLE 2
 #define INDEX 3
+#define THUMB 4
 
 /* Reduces monValues and diValues so as to prevent integer overflow. */
 #define DIVISOR 100
@@ -40,18 +36,19 @@ int monLen, diLen, triLen;
 typedef struct {
 	char layout[KSIZE_MAX + 1]; /* The one extra character is set to '\0' so 
 								(layout) can be treated as a string. */
-	long long fingerUsage[8];
-	long long shortcut;
-	long long fitness;
-	long long distance;
-	long long inRoll;
-	long long outRoll;
-	long long sameHand;
-	long long sameFinger;
-	long long rowChange;
-	long long homeJump;
-	long long toCenter;
-	long long toOutside;
+	int64_t fingerUsage[8];
+	int64_t shortcut;
+	int64_t fitness;
+	int64_t distance;
+	int64_t fingerWork;
+	int64_t inRoll;
+	int64_t outRoll;
+	int64_t sameHand;
+	int64_t sameFinger;
+	int64_t rowChange;
+	int64_t homeJump;
+	int64_t toCenter;
+	int64_t toOutside;
 } Keyboard;
 
 
@@ -81,7 +78,6 @@ int getValue(char *name);
 int qwerty[30];
 
 int randomizer;
-struct timeval tv;
 
 /* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing that key.
  */
@@ -119,16 +115,22 @@ int isCenterOrOutside[KSIZE_MAX];
  */
 int printIt[KSIZE_MAX];
 
+/* Lookup tables for calcRowChange(). Each row and column represents a finger.
+ */
+int rowChangeTableUp[5][5];
+int rowChangeTableDown[5][5];
+
+
 int costs[900];
 
 char triKeys[MAX_TRI_LEN][3];
-long long triValues[MAX_TRI_LEN];
+int64_t triValues[MAX_TRI_LEN];
 
 char diKeys[MAX_DI_LEN][2];
-long long diValues[MAX_DI_LEN];
+int64_t diValues[MAX_DI_LEN];
 
 char monKeys[MAX_MON_LEN];
-long long monValues[MAX_MON_LEN];
+int64_t monValues[MAX_MON_LEN];
 
 /* Used in cjalgorithm.c. */
 int indices[KSIZE_MAX];

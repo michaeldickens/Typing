@@ -11,10 +11,10 @@
 
 int run(char *filename);
 
-long long doRun(Keyboard *keybr);
+int64_t doRun(Keyboard *keybr);
 int isLegalSwap(int i, int j);
 int isSwappable(char c);
-long long improveLayout(long long evaluationToBeat, Keyboard *keybr);
+int64_t improveLayout(int64_t evaluationToBeat, Keyboard *keybr);
 int smartMutate(Keyboard *k, int numberOfSwaps);
 void shuffleIndices();
 void shuffleLayout(char array[]);

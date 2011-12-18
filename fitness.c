@@ -15,10 +15,10 @@
 // Calculates the stats for k. Useful for human-readable output.
 int calcFitnessDirect(Keyboard *k)
 {
-	calcFitness(k); // Otherwise, k->fitness would not get assigned properly.
+	calcFitness(k); // Otherwise, k->fitness, k->fingerUsage, and k->fingerWork 
+	                // would not get assigned properly.
 
 	int i;
-	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
 	k->distance		= 0;
 	k->inRoll		= 0;
 	k->outRoll		= 0;
@@ -88,11 +88,11 @@ int preCalculateFitness()
 	return 0;
 }
 
-// Calculates the fitness of k.
 int calcFitness(Keyboard *k)
 {
 	int i;
 	
+	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
 	k->fitness		= 0;
 	k->distance		= 0;
 	k->inRoll		= 0;
@@ -107,21 +107,27 @@ int calcFitness(Keyboard *k)
 	int locs[128];
 	for (i = 0; i < 128; ++i) locs[i] = -1;
 	
-	/* Calculate all the locations before hand. This saves a lot of time. */
+	/* Calculate all the locations beforehand. This saves a lot of time. */
 	for (i = 0; i < ksize; ++i)
 		if (printIt[i]) locs[k->layout[i]] = i;
 
-	for (i = 0; i < diLen; ++i) {
+	for (i = diLen - 1; i >= 0; --i) {
 		scoreDigraph(k, diKeys[i], diValues[i], locs);
 	}
 	
 	for (i = 0; i < monLen; ++i) {
 		int lc = locs[monKeys[i]];
 		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
+		
+		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
+		else k->fingerUsage[7 - finger[lc]] += monValues[i];
 	}
+	calcFingerWork(k);	
 	
-	k->fitness = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
-	if (keepZXCV) k->fitness += calcShortcuts(k) * SHORTCUT;
+	k->fitness = k->distance + k->fingerWork + k->inRoll + k->outRoll + 
+		k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + 
+		k->toOutside;
+	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
 	if (keepParentheses) k->fitness += calcParentheses(k);
 
@@ -131,80 +137,107 @@ int calcFitness(Keyboard *k)
 
 int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 {
-	int locs[2];
-	locs[0] = allLocs[digraph[0]];
-	locs[1] = allLocs[digraph[1]];
+	int loc0 = allLocs[digraph[0]];
+	int loc1 = allLocs[digraph[1]];
 	
-	if (locs[0] == -1 || locs[1] == -1) {
+	if (loc0 == -1 || loc1 == -1) {
 		return 1;
 	}
 	
-	// These all require that the hand be the same.
-	if (hand[locs[0]] == hand[locs[1]]) {
-		k->inRoll		+= calcInRoll    (locs[0], locs[1]) * multiplier;	
-		k->outRoll		+= calcOutRoll   (locs[0], locs[1]) * multiplier;	
-//		k->sameHand		+= calcSameHand  (locs[0], locs[1]) * multiplier;
-		k->sameHand		+= sameHand						* multiplier;
-		k->sameFinger	+= calcSameFinger(locs[0], locs[1]) * multiplier;
-		k->rowChange	+= calcRowChange (locs[0], locs[1]) * multiplier;
-		k->homeJump		+= calcHomeJump  (locs[0], locs[1]) * multiplier;
-		k->toCenter		+= calcToCenter  (locs[0], locs[1]) * multiplier;
-		k->toOutside	+= calcToOutside (locs[0], locs[1]) * multiplier;
+	/* These all require that the hand be the same. */
+	if (hand[loc0] == hand[loc1]) {
+		k->sameHand		+= sameHand					  * multiplier;
+		k->sameFinger	+= calcSameFinger(loc0, loc1) * multiplier;
+		
+		/* These factors are meaningless for the thumbs, because thumbs are 
+		 * relatively separate from the rest of the fingers.
+		 */
+		if (finger[loc0] != THUMB && finger[loc1] != THUMB) {
+			k->inRoll		+= calcInRoll    (loc0, loc1) * multiplier;	
+			k->outRoll		+= calcOutRoll   (loc0, loc1) * multiplier;	
+			k->rowChange	+= calcRowChange (loc0, loc1) * multiplier;
+			k->homeJump		+= calcHomeJump  (loc0, loc1) * multiplier;
+			k->toCenter		+= calcToCenter  (loc0, loc1) * multiplier;
+			k->toOutside	+= calcToOutside (loc0, loc1) * multiplier;		
+		}
 	}
 	
 	return 0;
 }
 
-int calcShortcuts(Keyboard *k)
+int64_t calcShortcuts(Keyboard *k)
 {
-	int result;
-	result = shortcutCosts[loc(k, 'z')] * Z_COST
-		+ shortcutCosts[loc(k, 'x')] * X_COST
-		+ shortcutCosts[loc(k, 'c')] * C_COST
-		+ shortcutCosts[loc(k, 'v')] * V_COST;
-	
-	return result;
+	int64_t result;
+	result = 
+	      shortcutCosts[loc(k, 'z')] * (int64_t) Z_COST
+		+ shortcutCosts[loc(k, 'x')] * (int64_t) X_COST
+		+ shortcutCosts[loc(k, 'c')] * (int64_t) C_COST
+		+ shortcutCosts[loc(k, 'v')] * (int64_t) V_COST;
+		
+	return result * (totalMon / monLen);
 }
 
-int calcQWERTY(Keyboard *k)
+int64_t calcQWERTY(Keyboard *k)
 {
 	NOT_WORK_WITH_full_keyboard("calcQWERTY")
-	int result;
+	int64_t result = 0;
+	int64_t averageMon = totalMon / 30;
 
-	int i, j, pos, value;
+	int i, pos;
 	for (i = 0; i < 30; ++i) {
-		for (j = 0; j < monLen; ++j) if (monKeys[j] == qwerty[i]) value = (2*monValues[29] - monValues[j]) / 4; // Less common keys are harder to learn.
-		
-		if ((pos = loc(k, qwerty[i])) != i) result += QWERTY_POS_COST * value;
-		if (finger[pos] != finger[i]) result += QWERTY_FINGER_COST * value;
-		if (hand[pos] != hand[i]) result += QWERTY_HAND_COST * value;
+		if ((pos = loc(k, qwerty[i])) != i) result += QWERTY_POS_COST * averageMon;
+		if (finger[pos] != finger[i]) result += QWERTY_FINGER_COST * averageMon;
+		if (hand[pos] != hand[i]) result += QWERTY_HAND_COST * averageMon;
 	}
-			
+						
 	return result;
 }
 
-int calcParentheses(Keyboard *k)
+int64_t calcParentheses(Keyboard *k)
 {
-	if (full_keyboard != FK_NO) {
-		int open_par = loc(k, '(');
-		int close_par = loc(k, ')');
-		
-		if ((open_par+1)%11 == close_par%11 && row[open_par] == row[close_par]) return 0;
-		else return PARENTHESES_COST / DIVISOR;
-	}
+	int open_par = loc(k, '(');
+	if (open_par == -1) return -1;
+	int close_par = loc(k, ')');
+	if (close_par == -1) return -1;
 	
+	if ((open_par+1)%11 == close_par%11 && row[open_par] == row[close_par]) return 0;
+	else return PARENTHESES_COST / DIVISOR;
+	
+	return 0;
+}
+
+/* Requires that k->fingerUsage has been calculated. */
+int calcFingerWork(Keyboard *k)
+{
+	int64_t total = 0;
+	int i;
+	for (i = 0; i < FINGER_COUNT; ++i) total += k->fingerUsage[i];
+
+	k->fingerWork = 0;
+	
+	for (i = 0; i < FINGER_COUNT; ++i) {
+		if (1000*k->fingerUsage[i]/total > fingerPercentMaxes[i]*10) {
+			k->fingerWork += (k->fingerUsage[i] - 
+					(fingerPercentMaxes[i]*total/100))
+					* fingerWorkCosts[i];
+		}
+	}
+		
 	return 0;
 }
 
 /* 
  * In and out rolls could be defined in two ways: either two keys 
  * pressed next to each other, or two keys moving in one direction.
- * The former definition was used at first, but the latter may be 
- * more useful.
+ * The former definition is currently used.
+ * 
+ * Rolls must occur on the same row.
  */
 int calcInRoll(int loc0, int loc1)
 {
-	if (finger[loc1] == finger[loc0] + 1 && row[loc0] == row[loc1] && !isCenterOrOutside[loc0] && !isCenterOrOutside[loc1]) return inRoll;
+	if (finger[loc1] == finger[loc0] + 1 && row[loc0] == row[loc1] && 
+			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
+		return inRoll;
 	else return 0;
 //	if (finger[loc1] > finger[loc0] && row[loc0] == row[loc1] && !isCenterOrOutside[loc0] && !isCenterOrOutside[loc1]) return inRoll;
 //	else return 0;
@@ -212,7 +245,9 @@ int calcInRoll(int loc0, int loc1)
 
 int calcOutRoll(int loc0, int loc1)
 {
-	if (finger[loc1] == finger[loc0] - 1 && row[loc0] == row[loc1] && !isCenterOrOutside[loc0] && !isCenterOrOutside[loc1]) return outRoll;
+	if (finger[loc1] == finger[loc0] - 1 && row[loc0] == row[loc1] && 
+			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
+		return outRoll;
 	else return 0;
 //	if (finger[loc1] < finger[loc0] && row[loc0] == row[loc1] && !isCenterOrOutside[loc0] && !isCenterOrOutside[loc1]) return outRoll;
 //	else return 0;
@@ -222,7 +257,7 @@ int calcOutRoll(int loc0, int loc1)
  */
 int calcSameHand(int loc0, int loc1)
 {	
-	return sameHand;
+	return hand[loc0] == hand[loc1] ? sameHand : 0;
 }
 
 int calcSameFinger(int loc0, int loc1)
@@ -238,6 +273,8 @@ int calcSameFinger(int loc0, int loc1)
 				return sameFingerM;
 			case INDEX:
 				return sameFingerI;
+			case THUMB:
+				return sameFingerT;
 		}
 	}
 	
@@ -250,38 +287,33 @@ int calcSameFinger(int loc0, int loc1)
 int calcRowChange(int loc0, int loc1)
 {
 	if (row[loc0] != row[loc1]) {
-		int finger0 = finger[loc0];
-		int finger1 = finger[loc1];
-		if (row[loc0] < row[loc1]) { // loc0 is a higher row
-			if (finger0 == PINKY && finger1 == RING  ) return (rowChange + handWarp);
-			if (finger0 == INDEX && finger1 == MIDDLE) return (rowChange + handWarp);
-			if (finger1 == INDEX && finger0 == MIDDLE) return (rowChange + handSmooth);
-		} else { // loc0 is a lower row
-			if (finger1 == PINKY && finger0 == RING  ) return (rowChange + handWarp);
-			if (finger1 == INDEX && finger0 == MIDDLE) return (rowChange + handWarp);
-			if (finger0 == INDEX && finger1 == MIDDLE) return (rowChange + handSmooth);
+		if (row[loc0] < row[loc1]) { // loc1 is a lower row
+			return rowChangeTableDown[finger[loc0]][finger[loc1]];
+		} else { // loc1 is a higher row
+			return rowChangeTableUp[finger[loc0]][finger[loc1]];
 		}
-
-		return rowChange;
 	}
 	return 0;
 }
 
 int calcHomeJump(int loc0, int loc1)
 {
-	if (row[loc0] < row[loc1]) {
-		if (homeRow <= row[loc0] || homeRow >= row[loc1]) return 0;
-	} else if (row[loc0] > row[loc1]) {
-		if (homeRow <= row[loc1] || homeRow >= row[loc0]) return 0;
+	int row0 = row[loc0];
+	int row1 = row[loc1];
+	
+	if (row0 < row1) {
+		if (homeRow <= row0 || homeRow >= row1) return 0;
+	} else if (row0 > row1) {
+		if (homeRow <= row1 || homeRow >= row0) return 0;
 	} else return 0;
 	
-	if (abs(row[loc0] - row[loc1]) == 2)
-		if ((row[loc0] > row[loc1] && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row[loc1] > row[loc0] && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
+	if (abs(row0 - row1) == 2)
+		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
 		else return homeJump;
-	else if (abs(row[loc0] - row[loc1]) > 2)
-		if ((row[loc0] > row[loc1] && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row[loc1] > row[loc0] && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
+	else if (abs(row0 - row1) > 2)
+		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
 		else return doubleJump;
 
 	return 0;

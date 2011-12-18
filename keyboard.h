@@ -39,15 +39,14 @@ int printLayoutOnly(Keyboard *k);
 int printKeyboard(Keyboard *k);
 int printPercentages(Keyboard *k);
 int simplePrintKeyboard(Keyboard *k);
+int qwertyPositions(Keyboard *k);
 int readLayouts(Keyboard pool[], int length);
+
 
 int calcFitnessDirect(Keyboard *k);
 int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier);
 int calcFitness(Keyboard *k);
 int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[]);
-int calcShortcuts(Keyboard *k);
-int calcQWERTY(Keyboard *k);
-int calcParentheses(Keyboard *k);
 
 
 void scoreTrigraph(Keyboard *k, char trigraph[], int multiplier, int allLocs[]);
@@ -59,6 +58,11 @@ unsigned int seedVal;
 
 int totalCalcFitness;
 
+int64_t calcShortcuts(Keyboard *k);
+int64_t calcQWERTY(Keyboard *k);
+int64_t calcParentheses(Keyboard *k);
+
+int calcFingerWork(Keyboard *k);
 int calcDistance(int loc0, int loc1);
 int calcInRoll(int loc0, int loc1);
 int calcOutRoll(int loc0, int loc1);

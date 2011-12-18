@@ -55,7 +55,7 @@ int game()
 	} while (FALSE);
 	
 	int p1 = 0, p2 = 1;
-	long long score[2];
+	int64_t score[2];
 	score[0] = 0; score[1] = 0;
 	
 	Keyboard k;
@@ -127,7 +127,7 @@ int game()
 int gameComputer(Keyboard *k, char difficulty)
 {
 	int bestp; char bestc;
-	long long score, bestScore = LLONG_MAX;
+	int64_t score, bestScore = LLONG_MAX;
 	
 	Keyboard k2;
 	
@@ -185,19 +185,19 @@ int gameComputer(Keyboard *k, char difficulty)
 	return 0;
 }
 
-void worstDigraphsFromFile(char *filename)
+void worstDigraphsFromFile(char *filename, int damagingp)
 {
 	FILE *fp = fopen(filename, "r");
-	Keyboard k, imp;
-	while (layoutFromFile(fp, &k) != -1) {
+	Keyboard k;
+	while (layoutFromFile(fp, &k) > 0) {
 		printf("Keyboard Layout:\n");
 		printLayoutOnly(&k);
-		worstDigraphs(&k);
+		worstDigraphs(&k, damagingp);
 	}
 	
 }
 
-int worstDigraphs(Keyboard *k)
+int worstDigraphs(Keyboard *k, int damagingp)
 {
 	int i;
 	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
@@ -205,7 +205,7 @@ int worstDigraphs(Keyboard *k)
 	char keys[diLen][2];
 	memcpy(keys, diKeys, sizeof(char) * diLen * 2);
 	
-	long long values[diLen];
+	int64_t values[diLen];
 
 	for (i = 0; i < diLen; ++i) {
 		k->distance		= 0;
@@ -234,7 +234,7 @@ int worstDigraphs(Keyboard *k)
 			k->toOutside	= calcToOutside (locs[0], locs[1]);
 		}
 		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
-//		printf("distance = %d, locs = [%d, %d]\n", k->distance, locs[0], locs[1]);
+
 		// Re-assign diValues[i] to the cost of that digraph.
 		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
 		
@@ -242,7 +242,8 @@ int worstDigraphs(Keyboard *k)
 		 * Without this line: Which digraphs have the worst score.
 		 * With this line: Which digraphs are the most damaging, based on both score and frequency.
 		 */
-		values[i] *= diValues[i];
+		if (damagingp)
+			values[i] *= diValues[i];
 	}
 	
 	sortDigraphs(keys, values, 0, diLen - 1);
@@ -253,12 +254,12 @@ int worstDigraphs(Keyboard *k)
 	return 0;	
 }
 
-int sortDigraphs(char keys[][2], long long values[], int left, int right)
+int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
 {	
-	long long lltemp;
+	int64_t lltemp;
 	char ctemp;
 	
-	long long pivot = values[(left + right) / 2];
+	int64_t pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	do {
 		while (values[i] < pivot) ++i;
@@ -286,6 +287,50 @@ int sortDigraphs(char keys[][2], long long values[], int left, int right)
 	if (i < right) sortDigraphs(keys, values, i, right);
 	if (left < j) sortDigraphs(keys, values, left, j);
 	
+	return 0;
+}
+
+int bestSwap(Keyboard *k)
+{
+	calcFitnessDirect(k);
+	printPercentages(k);
+
+	calcFitness(k);
+	int64_t fitness = k->fitness;
+	int64_t origFitness = fitness;
+	int64_t bestFitness = fitness;
+	int bestIndices[2];
+	Keyboard bestKeyboard = *k;
+	
+	int i, j;
+	for (i = 0; i < trueksize; i++) {
+		for (j = i+1; j < trueksize; j++) {
+			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j]))
+				continue;
+			
+			swapChars(k->layout + indices[i], k->layout + indices[j]);
+			calcFitness(k);
+			
+			if (k->fitness < bestFitness) {
+				bestFitness = k->fitness;
+				bestKeyboard = *k;
+				bestIndices[0] = indices[i];
+				bestIndices[1] = indices[j];
+			}
+			
+			/* Print out all swaps that are a certain percentage better. */
+			if ((origFitness - k->fitness) / ((double) origFitness) > 0.05) {
+				calcFitnessDirect(k);
+				printPercentages(k);
+			}
+
+			swapChars(k->layout + indices[i], k->layout + indices[j]);
+		}
+	}
+	
+	printf("swap: %c and %c\n", k->layout[bestIndices[0]], k->layout[bestIndices[1]]);
+	calcFitnessDirect(&bestKeyboard);
+	printPercentages(&bestKeyboard);
 	return 0;
 }
 
@@ -319,10 +364,13 @@ void improveFromFile(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
 	Keyboard k, imp;
-	while (layoutFromFile(fp, &k) != -1) {
+	if (layoutFromFile(fp, &k) != -1) {
 		printf("Layout to Improve:\n");
 		imp = improver(k);
+	} else {
+		fprintf(stderr, "Error: File %s does not contain a valid keyboard.\n\n", filename);
 	}
+
 }
 
 /*
@@ -336,8 +384,8 @@ Keyboard improver(Keyboard k)
 	Keyboard tk, bestk;
 	copy(&tk, &k);
 	copy(&bestk, &k);
-	long long bestEval = k.fitness;
-	long long curEval = doRun(&tk);
+	int64_t bestEval = k.fitness;
+	int64_t curEval = doRun(&tk);
 	
 	if (curEval < bestEval) {
 		copy(&bestk, &tk);
@@ -412,7 +460,7 @@ int makeTypingData()
 	}
 	
 	printf("\nPlease specify the maximum number of strings to put in the file. The optimizer will run faster ");
-	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-1500.)\n");
+	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-2000.)\n");
 	int max = getNumber("max: ");
 	
 	compileTypingData("alldigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
@@ -594,13 +642,13 @@ int testFitness()
 		
 		printf("\nTesting calcRowChange():\n");
 		testResult(calcRowChange(8, 8), 0);
-		testResult(calcRowChange(10, 0), rowChange);
-		testResult(calcRowChange(11, 0), rowChange + handWarp);
-		testResult(calcRowChange(13, 2), rowChange + handSmooth);
-		testResult(calcRowChange(8, 16), rowChange);
-		testResult(calcRowChange(8, 26), rowChange);
-		testResult(calcRowChange(28, 9), rowChange + handWarp);
-		testResult(calcRowChange(25, 5), rowChange);
+		testResult(calcRowChange(10, 0), rowChangeUp);
+		testResult(calcRowChange(11, 0), rowChangeUp + handWarp);
+		testResult(calcRowChange(13, 2), rowChangeUp + handSmooth);
+		testResult(calcRowChange(8, 16), rowChangeDown);
+		testResult(calcRowChange(8, 26), rowChangeDown);
+		testResult(calcRowChange(28, 9), rowChangeUp + handWarp);
+		testResult(calcRowChange(25, 5), rowChangeUp);
 		
 		printf("\nTesting calcHomeJump():\n");
 		testResult(calcHomeJump(8, 8), 0);

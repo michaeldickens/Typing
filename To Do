@@ -1,0 +1,10 @@
+***BETTER LAYOUTS***
+
+ - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
+ - Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
+ - Every movement from one finger to another has its own specific price.
+
+
+***MISCELLANEOUS***
+
+ - Convert layouts in all_layouts.txt to Kinesis form.

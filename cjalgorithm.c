@@ -45,10 +45,10 @@ int kinesisLegalBox1[] = {
 int run(char *filename)
 {
 	int start = time(NULL), finish;
-
-	long long curEval;
+	
+	int64_t curEval;
 	Keyboard k, bestk;
-	long long bestEval = LLONG_MAX;
+	int64_t bestEval = LLONG_MAX;
 
 	int i, numberOfRounds, isFileEmpty;
 	
@@ -65,7 +65,7 @@ int run(char *filename)
 	int usedPreviousLayout = FALSE;
 	int intervalBetweenPrints = 60, intervalInc = 0;
 		
-	// Run Chris Johnson's simulated annealing algorithm.
+	/* Run Chris Johnson's simulated annealing algorithm. */
 	isFileEmpty = FALSE;
 	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
 		/* chanceToUsePreviousLayout increases as the program continues for longer and longer. */
@@ -142,11 +142,11 @@ int run(char *filename)
     return 0;
 }
 
-long long doRun(Keyboard *k)
+int64_t doRun(Keyboard *k)
 {
-	long long lastEvaluation, evaluation;
-	long long lastImprovement = 0;
-	long long evaluationToBeat;
+	int64_t lastEvaluation, evaluation;
+	int64_t lastImprovement = 0;
+	int64_t evaluationToBeat;
 		
 	/* Do the "zeroth" iteration */
 	calcFitness(k);
@@ -175,7 +175,7 @@ int isLegalSwap(int i, int j)
 		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
 		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
 	}
-	return TRUE;
+	return i >= 0 && j >= 0 && i < ksize && j < ksize;
 }
 
 int isSwappable(char c)
@@ -184,22 +184,16 @@ int isSwappable(char c)
 			!(keepZXCV && (c == 'z' || c == 'x' || c == 'c' || c == 'v'));
 }
 
-long long improveLayout(long long evaluationToBeat, Keyboard *k)
+int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k)
 {
-	long long evaluation;
+	int64_t evaluation;
 	int i, j;
 	
 	/* try swaps until we beat evaluationToBeat... */
-	for (i = 0; i < ksize; i++) {
-		for (j = i+1; j < ksize; j++) {
-			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j])) continue;
-			if (full_keyboard != FK_NO && ((indices[i] >= 1 && indices[i] <= 9) || (indices[j] >= 1 && indices[j] <= 9))) {
-				printf("WARNING\n");
-				printf("WARNING\n");
-				printf("Swapping [%d]=%c with [%d]=%c.\n", indices[i], k->layout[indices[i]], indices[j], k->layout[indices[j]]);
-				printf("WARNING\n");
-				printf("WARNING\n");
-			}
+	for (i = 0; i < trueksize; i++) {
+		for (j = i+1; j < trueksize; j++) {
+			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j]))
+				continue;
 			
 			swapChars(k->layout + indices[i], k->layout + indices[j]);
 			calcFitness(k);
@@ -272,7 +266,7 @@ int smartMutate(Keyboard *k, int numberOfSwaps)
 
 void shuffleIndices()
 {
-	int temp, k, n = ksize;
+	int temp, k, n = trueksize;
 
 	while (n > 1) {
 		k = rand() % n;
@@ -293,6 +287,7 @@ void shuffleLayout(char array[])
 		--n;
 		while (printIt[n] == FALSE) --n;
 		
+		if (n == 1 && printIt[0] == FALSE) return;
 		do {
 			k = rand() % (n + 1);
 		} while (printIt[k] == FALSE);

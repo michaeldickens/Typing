@@ -25,7 +25,6 @@ Keyboard runAlgorithm()
 	Keyboard tempPool[POOL_SIZE];
 	int bestScore = 0;
 	int offset = 0;
-	gettimeofday(&tv, NULL);
 	for (i = 0; i < ALL_STAR_POOL_SIZE / TAKE_BEST_N; ++i) {
 		if (TAKE_BEST_N == 1) {
 //			initKeyboard(&allStarPool[i]); doRun(&allStarPool[i]);

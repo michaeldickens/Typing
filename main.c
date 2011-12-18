@@ -10,25 +10,18 @@
 #include "accessories.h"
 
 int main(int argc, const char *argv[])
-{		
-	full_keyboard = FK_NO;
-	
+{			
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
-	
-	char *filename;
-	if (full_keyboard == FK_NO) filename = "layoutstore.txt";
-	else if (full_keyboard == FK_STANDARD) filename = "fulllayoutstore.txt";
-	else if (full_keyboard == FK_KINESIS) filename = "kinesislayoutstore.txt";	
 
-	getCommands(filename);
-	
+	getCommands();
+		
 	return 0;
 }
 
-int getCommands(char *filename)
+int getCommands()
 {
-	printf("Welcome to the Keyboard Layout Optimizer. If you have questions or comments, contact Michael Dickens by email (mtgandp@gmail.com) or leave a comment at http://mathematicalmulticore.wordpress.com/category/keyboards/.\n");
+	printf("Welcome to the Keyboard Layout Optimizer. If you have questions or comments, contact Michael Dickens by email (mdickens93@gmail.com) or leave a comment at http://mathematicalmulticore.wordpress.com/category/keyboards/.\n");
 	printf("Type \"help\" for a listing of commands.\n\n");
 	
 	int length = 5000;
@@ -42,24 +35,43 @@ int getCommands(char *filename)
 		
 		if (streq(cmd, "help")) {
 			printf("algorithm: Run the keyboard optimization algorithm.\n");
+			printf("best swap <filename>: For the first layout in <filename>, print the single swap that would improve the layout the most.\n");
 			printf("compare <filename>: Print information about the keyboards in <filename>. The keyboards must be in the proper format.\n");
+			printf("damaging <filename>: Find the most damaging digraphs for the keyboard layouts in <filename>.\n");
 			printf("game: Play a keyboard layout game.\n");
 			printf("get <variable>: Get the value of the specified variable.\n");
 			printf("improve <filename>: Try to improve the first keyboard in <filename>. The keyboard must be in the proper format.\n");
 			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
 			printf("set <variable> <value>: Set the specified variable to the given value.\n");
-			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk\" for more information.\n");
+			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk help\" for more information.\n");
 			printf("test fitness: Test that the fitness functions are working properly.\n");
+			printf("worst <filename>: Find the worst digraphs for the keyboard layouts in <filename>.\n");
+			printf("variables: Print all variables that can be modified.\n");
 			printf("quit: Quit the keyboard optimization program.\n");
 			printf("\n");
 			
 		} else if (streq(cmd, "algorithm")) {
 			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
-			run(filename);
+			run(kbd_filename);
+		
+		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
+			char *filename = cmd + strlen("best swap ");
+			FILE *fp = fopen(filename, "r");
+			Keyboard k;
+			if (layoutFromFile(fp, &k) != -1) {
+				layoutFromFile(fp, &k);
+				bestSwap(&k);
+			}
+			
+			fclose(fp);
 			
 		} else if (streqn(cmd, "compare ", 8)) {
 			compare(cmd + 8);
 		
+		} else if (streqn(cmd, "damaging ", 9)) {
+			char *filename = cmd + 9;
+			worstDigraphsFromFile(filename, TRUE);
+					
 		} else if (streq(cmd, "game")) {
 			game();
 		
@@ -85,6 +97,9 @@ int getCommands(char *filename)
 			} else if (streq(cmd+6, "kinesis")) {
 				setksize(FK_KINESIS);
 				printf("Keyboard set to full Kinesis.\n\n");
+			} else if (streq(cmd+6, "iphone")) {
+				setksize(FK_IPHONE);
+				printf("Keyboard set to iPhone.\n\n");
 			} else {
 				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
 			}
@@ -107,7 +122,8 @@ int getCommands(char *filename)
 			printf("\tsameFingerR\n");
 			printf("\tsameFingerM\n");
 			printf("\tsameFingerI\n");
-			printf("\trowChange\n");
+			printf("\trowChangeUp\n");
+			printf("\trowChangeDown\n");
 			printf("\thandWarp\n");
 			printf("\thandSmooth\n");
 			printf("\thomeJump\n");
@@ -115,6 +131,10 @@ int getCommands(char *filename)
 			printf("\tdoubleJump\n");
 			printf("\ttoCenter\n");
 			printf("\ttoOutside\n");
+		
+		} else if (streqn(cmd, "worst ", 6)) {
+			char *filename = cmd + 6;
+			worstDigraphsFromFile(filename, FALSE);
 					
 		} else if (streq(cmd, "quit")) {
 			printf("Goodbye!\n");

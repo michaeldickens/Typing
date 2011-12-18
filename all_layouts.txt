@@ -2,9 +2,11 @@
 #
 # The following layouts are not on this list: Plum, OSTNREAI, DreymaR's layout, 
 # Chad Brewbaker's layout, Christopher P. Walker's layout, Amuseum's layout, 
-# Maltron Layout, nlite5
+# Maltron Layout, nlite4
 # This is either because I could not find them or because they are not in the 
 # proper format.
+# 
+# TO DO: Convert these to Kinesis form so that every character is included.
 
 # Not very good layouts
 abcdefghijklmnopqrstuvwxyz,.'; Alphabetical
@@ -27,6 +29,7 @@ k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
 
 
 # The rest
+1234567890q.,up()dlckxoainwmhtsr"'_yb;/fgv-`=jz Patience
 ql,p';fudkarenbgsitozw.hjvcymx Arensito
 ',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
 qwjfgypul;asetdhniorzxcvbkm,.' Asset

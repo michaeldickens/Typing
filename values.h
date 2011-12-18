@@ -5,18 +5,29 @@
  *  Created by Michael Dickens on 8/23/09.
  *
  */
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
  
 #define FK_NO 0
 #define FK_STANDARD 1
 #define FK_KINESIS 2
+#define FK_IPHONE 3
 
 #define TRUE 1
 #define FALSE 0
 
 /* Set full_keyboard in initValues(). */
-int full_keyboard, ksize;
+int full_keyboard;
+
+int ksize, trueksize;
+char *kbd_filename;
 
 #define KSIZE_MAX 100
+#define FINGER_COUNT 8
 
 #define NOT_WORK_WITH_full_keyboard(str) \
 	if (ksize != 30) { \
@@ -47,32 +58,33 @@ int full_keyboard, ksize;
 #define ALL_STAR_GENERATIONS 256
 
 #define SIM_ANNEAL_GENERATIONS INT_MAX
-#define IMPROVER_GENERATIONS 32
+#define IMPROVER_GENERATIONS 256
 
-#define INIT_FROM_FILE 1
+#define INIT_FROM_FILE TRUE
 
-#define SHORTCUT		100
 #define Z_COST 10
 #define X_COST  6
 #define C_COST 12
 #define V_COST 14
-#define QWERTY_POS_COST		5
-#define QWERTY_FINGER_COST	2
-#define QWERTY_HAND_COST	2
-#define PARENTHESES_COST	5000000000
+#define QWERTY_POS_COST		14
+#define QWERTY_FINGER_COST	4
+#define QWERTY_HAND_COST	20
+#define PARENTHESES_COST	5000000000 // warning: this will cause overflow
 
-long long fingerCosts[5];
-long long distanceCosts[KSIZE_MAX];
-long long  trueDistance[KSIZE_MAX];
-long long shortcutCosts[KSIZE_MAX];
+int64_t distanceCosts[KSIZE_MAX];
+int64_t  trueDistance[KSIZE_MAX];
+int64_t shortcutCosts[KSIZE_MAX];
+
+double fingerPercentMaxes[FINGER_COUNT];
+int64_t fingerWorkCosts[FINGER_COUNT];
 
 int detailedOutput;
 
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
-	sameFingerI, rowChange, handWarp, handSmooth, homeJump, homeJumpIndex, 
-	doubleJump, toCenter, toOutside;
+	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 
+	homeJump, homeJumpIndex, doubleJump, toCenter, toOutside;
 
 int initValues();
 void initCosts();

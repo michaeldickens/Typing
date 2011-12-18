@@ -11,9 +11,20 @@
 int game();
 int gameComputer(Keyboard *k, char difficulty);
 
-void worstDigraphsFromFile(char *filename);
-int worstDigraphs(Keyboard *k);
-int sortDigraphs(char keys[][2], long long values[], int left, int right);
+/* 
+ * damagingp: If true, finds the most damaging digraphs, i.e. takes into 
+ *   account digraph frequency. If false, finds the worst digraphs without 
+ *   respect to frequency.
+ */
+void worstDigraphsFromFile(char *filename, int damagingp);
+int worstDigraphs(Keyboard *k, int damagingp);
+
+int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
+
+/* 
+ * Finds the single swap that will improve the layout the most.
+ */
+int bestSwap(Keyboard *k);
 
 int compare(char *filename);
 

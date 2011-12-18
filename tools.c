@@ -83,7 +83,7 @@ int initData()
 {
 	initValues();
 
-	int i;
+	int i, j;
 	
 	srand(time(NULL));
 	
@@ -106,7 +106,19 @@ int initData()
 	qwerty[10] = 'a'; qwerty[11] = 's'; qwerty[12] = 'd'; qwerty[13] = 'f'; qwerty[14] = 'g'; 
 	qwerty[15] = 'h'; qwerty[16] = 'j'; qwerty[17] = 'k'; qwerty[18] = 'l'; qwerty[19] = ';'; 
 	qwerty[20] = 'z'; qwerty[21] = 'x'; qwerty[22] = 'c'; qwerty[23] = 'v'; qwerty[24] = 'b'; 
-	qwerty[25] = 'n'; qwerty[26] = 'm'; qwerty[27] = ','; qwerty[28] = '.'; qwerty[29] = '\''; 
+	qwerty[25] = 'n'; qwerty[26] = 'm'; qwerty[27] = ','; qwerty[28] = '.'; qwerty[29] = '\'';
+	
+	for (i = 0; i < 5; ++i)
+		for (j = 0; j < 5; ++j) {
+			rowChangeTableDown[i][j] = rowChangeDown;
+			rowChangeTableUp[i][j] = rowChangeUp;
+			if (i == PINKY  && j == RING   ) rowChangeTableDown[i][j] += handWarp;
+			else if (i == INDEX  && j == MIDDLE ) rowChangeTableDown[i][j] += handWarp;
+			else if (i == MIDDLE && j == INDEX  ) rowChangeTableDown[i][j] += handSmooth;
+			else if (i == RING   && j == PINKY  ) rowChangeTableUp[i][j] += handWarp;
+			else if (i == MIDDLE && j == INDEX  ) rowChangeTableUp[i][j] += handWarp;
+			else if (i == INDEX  && j == MIDDLE ) rowChangeTableUp[i][j] += handSmooth;			
+		}
 
 	initKeyboardData();
 	
@@ -293,6 +305,53 @@ void initKeyboardData()
 		};
 		copyArray(indices, indicesCopy, ksize);
 		
+	} else if (full_keyboard == FK_IPHONE) {
+		int fingerCopy[KSIZE_MAX] = {
+			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
+			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
+			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
+		};
+		copyArray(finger, fingerCopy, ksize);
+		
+		int rowCopy[] = {
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		};
+		copyArray(row, rowCopy, ksize);
+		
+		homeRow = 1;
+		
+		int handCopy[KSIZE_MAX] = {
+			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+		};
+		copyArray(hand, handCopy, ksize);
+		
+		int isCenterCopy[KSIZE_MAX] = {
+			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
+		};
+		copyArray(isCenter, isCenterCopy, ksize);
+		
+		for (i = 0; i < KSIZE_MAX; ++i)
+			isOutside[i] = FALSE;
+		
+		int printItCopy[KSIZE_MAX] = {
+			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE , 
+			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , FALSE, 
+			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
+		};
+		copyArray(printIt, printItCopy, ksize);
+	
+		int indicesCopy[KSIZE_MAX] = {
+			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
+			10, 11, 12, 13, 14, 15, 16, 17, 18, 
+			    21, 22, 23, 24, 25, 26, 27, 
+		};
+		copyArray(indices, indicesCopy, ksize);		
 	}
 	
 	for (i = 0; i < ksize; ++i)
@@ -305,7 +364,7 @@ void initTypingData()
 	int i;
 	FILE *file;
 	
-	if (full_keyboard == FK_NO) file = fopen("30digraphs.txt", "r");
+	if (ksize <= 30) file = fopen("30digraphs.txt", "r");
 	else file = fopen("alldigraphs.txt", "r");
 	
 	char c = '\0';
@@ -340,7 +399,7 @@ void initTypingData()
 	fclose(file);
 	
 
-	if (full_keyboard == FK_NO) file = fopen("30chars.txt", "r");
+	if (ksize <= 30) file = fopen("30chars.txt", "r");
 	else file = fopen("allchars.txt", "r");
 	
 	c = '\0';
@@ -544,8 +603,12 @@ int setValue(char *str)
 		sameFingerM = value;
 	} else if (streq(name, "sameFingerI")) {
 		sameFingerI = value;
-	} else if (streq(name, "rowChange")) {
-		rowChange = value;
+	} else if (streq(name, "sameFingerT")) {
+		sameFingerT = value;
+	} else if (streq(name, "rowChangeUp")) {
+		rowChangeUp = value;
+	} else if (streq(name, "rowChangeDown")) {
+		rowChangeDown = value;
 	} else if (streq(name, "handWarp")) {
 		handWarp = value;
 	} else if (streq(name, "handSmooth")) {
@@ -598,8 +661,12 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, sameFingerM);
 	} else if (streq(name, "sameFingerI")) {
 		printf("%s = %d\n\n", name, sameFingerI);
-	} else if (streq(name, "rowChange")) {
-		printf("%s = %d\n\n", name, rowChange);
+	} else if (streq(name, "sameFingerT")) {
+		printf("%s = %d\n\n", name, sameFingerT);
+	} else if (streq(name, "rowChangeUp")) {
+		printf("%s = %d\n\n", name, rowChangeUp);
+	} else if (streq(name, "rowChangeDown")) {
+		printf("%s = %d\n\n", name, rowChangeDown);
 	} else if (streq(name, "handWarp")) {
 		printf("%s = %d\n\n", name, handWarp);
 	} else if (streq(name, "handSmooth")) {
@@ -629,15 +696,26 @@ void setksize(int type)
 	switch (full_keyboard) {
 	case FK_NO:
 		ksize = 30;
+		kbd_filename = "layoutstore.txt";
 		break;
 	case FK_STANDARD:
 		ksize = 56;
+		trueksize = 47;
+		kbd_filename = "fulllayoutstore.txt";
 		break;
 	case FK_KINESIS:
+		trueksize = 47;
 		ksize = 55;
+		kbd_filename = "kinesislayoutstore.txt";
+		break;
+	case FK_IPHONE:
+		trueksize = 26;
+		ksize = 30;
+		kbd_filename = NULL;
 		break;
 	}
-	
+
+	trueksize = ksize;
 	initData();
 }
 

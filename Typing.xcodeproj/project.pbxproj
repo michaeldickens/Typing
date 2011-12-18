@@ -37,6 +37,7 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		861464E0104CC2C700052F69 /* costs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = costs.c; sourceTree = "<group>"; };
+		86240ABD148A90590010665B /* Fitness */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fitness; sourceTree = "<group>"; wrapsLines = 1; };
 		862456341051D223002DD016 /* cjalgorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cjalgorithm.c; sourceTree = "<group>"; };
 		862C5BB6102F905100D95A5C /* trikeys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trikeys.c; sourceTree = "<group>"; };
 		862C5BE2102F973A00D95A5C /* algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithm.h; sourceTree = "<group>"; };
@@ -48,12 +49,10 @@
 		8652F72F12CD49F800CAF998 /* 30chars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30chars.txt; sourceTree = "<group>"; };
 		8652F77B12CD4CEA00CAF998 /* allchars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allchars.txt; sourceTree = "<group>"; };
 		865382BE1035344A00E1CFE8 /* layoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutstore.txt; sourceTree = "<group>"; };
-		86555A3510391690009250CC /* Timings for Lock-Ins */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timings for Lock-Ins"; sourceTree = "<group>"; };
 		86555A411039182C009250CC /* Conceptual */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Conceptual; sourceTree = "<group>"; };
 		867D402010309F1E00DCE1EE /* fitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fitness.c; sourceTree = "<group>"; };
 		867D4B7212D29AD90045BD97 /* Saved Full Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Full Keyboards"; sourceTree = "<group>"; };
-		867D4B7812D29B0F0045BD97 /* Timings for Full Keyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timings for Full Keyboard"; sourceTree = "<group>"; };
-		867DD36911D07B8900379D1F /* Ideas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ideas; sourceTree = "<group>"; };
+		867DD36911D07B8900379D1F /* To Do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "To Do"; sourceTree = "<group>"; };
 		86841A4711D3F137006F70A1 /* all_layouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_layouts.txt; sourceTree = "<group>"; };
 		8685824612E363CB00D07E99 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8687000B1031FFA8000845D5 /* accessories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accessories.h; sourceTree = "<group>"; };
@@ -138,15 +137,14 @@
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				86C6DAF810326295000FF26E /* Alternative Layouts */,
+				86555A411039182C009250CC /* Conceptual */,
+				86240ABD148A90590010665B /* Fitness */,
 				8687014F10321AE6000845D5 /* README */,
 				86C6DA6F10325B90000FF26E /* Saved Keyboards */,
 				867D4B7212D29AD90045BD97 /* Saved Full Keyboards */,
-				86C6DAF810326295000FF26E /* Alternative Layouts */,
 				C6A0FF2C0290799A04C91782 /* Typing.1 */,
-				86555A3510391690009250CC /* Timings for Lock-Ins */,
-				86555A411039182C009250CC /* Conceptual */,
-				867DD36911D07B8900379D1F /* Ideas */,
-				867D4B7812D29B0F0045BD97 /* Timings for Full Keyboard */,
+				867DD36911D07B8900379D1F /* To Do */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
