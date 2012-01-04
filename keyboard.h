@@ -70,6 +70,7 @@ int calcSameHand(int loc0, int loc1);
 int calcSameFinger(int loc0, int loc1);
 int calcRowChange(int loc0, int loc1);
 int calcHomeJump(int loc0, int loc1);
+int calcRingJump(int loc0, int loc1);
 int calcToCenter(int loc0, int loc1);
 int calcToOutside(int loc0, int loc1);
 

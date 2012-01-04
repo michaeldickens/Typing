@@ -42,14 +42,15 @@
 		862C5BB6102F905100D95A5C /* trikeys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trikeys.c; sourceTree = "<group>"; };
 		862C5BE2102F973A00D95A5C /* algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithm.h; sourceTree = "<group>"; };
 		862C5BE3102F973A00D95A5C /* algorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = algorithm.c; sourceTree = "<group>"; };
+		8639B9B814B12C7800362E2D /* Makefile_saved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile_saved; sourceTree = "<group>"; };
 		864C8C1812E211ED00899EA5 /* fulllayoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fulllayoutstore.txt; sourceTree = "<group>"; };
 		8652F53A12CD270600CAF998 /* cjalgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cjalgorithm.h; sourceTree = "<group>"; };
 		8652F62612CD307400CAF998 /* 30digraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30digraphs.txt; sourceTree = "<group>"; };
-		8652F64712CD329E00CAF998 /* alldigraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alldigraphs.txt; sourceTree = "<group>"; };
 		8652F72F12CD49F800CAF998 /* 30chars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30chars.txt; sourceTree = "<group>"; };
-		8652F77B12CD4CEA00CAF998 /* allchars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allchars.txt; sourceTree = "<group>"; };
 		865382BE1035344A00E1CFE8 /* layoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutstore.txt; sourceTree = "<group>"; };
 		86555A411039182C009250CC /* Conceptual */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Conceptual; sourceTree = "<group>"; };
+		867288A014B3A5A900C57A9C /* allchars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allchars.txt; sourceTree = "<group>"; };
+		867288A114B3A5B000C57A9C /* alldigraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alldigraphs.txt; sourceTree = "<group>"; };
 		867D402010309F1E00DCE1EE /* fitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fitness.c; sourceTree = "<group>"; };
 		867D4B7212D29AD90045BD97 /* Saved Full Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Full Keyboards"; sourceTree = "<group>"; };
 		867DD36911D07B8900379D1F /* To Do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "To Do"; sourceTree = "<group>"; };
@@ -118,10 +119,11 @@
 				86FE236C1041B22F005CD54C /* values.h */,
 				86FE236D1041B22F005CD54C /* values.c */,
 				8652F62612CD307400CAF998 /* 30digraphs.txt */,
-				8652F64712CD329E00CAF998 /* alldigraphs.txt */,
 				8652F72F12CD49F800CAF998 /* 30chars.txt */,
-				8652F77B12CD4CEA00CAF998 /* allchars.txt */,
 				8685824612E363CB00D07E99 /* Makefile */,
+				8639B9B814B12C7800362E2D /* Makefile_saved */,
+				867288A014B3A5A900C57A9C /* allchars.txt */,
+				867288A114B3A5B000C57A9C /* alldigraphs.txt */,
 			);
 			name = Source;
 			sourceTree = "<group>";

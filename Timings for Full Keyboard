@@ -1,8 +1,0 @@
-[CHANCE_TO_USE_LAST_LAYOUT, LAST_LAYOUT_MUTATIONS]: time until best layout is found
-
-[1/3, 3]: 13 minutes
-[1/3, 3]: 27 minutes
-[0/1, 3]: >110 minutes
-[1/3, 6]: 63 minutes
-[2/3, 3]: 27 minutes
-[2/3, 6]: >100 minutes

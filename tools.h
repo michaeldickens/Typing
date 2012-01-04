@@ -47,6 +47,7 @@ typedef struct {
 	int64_t sameFinger;
 	int64_t rowChange;
 	int64_t homeJump;
+	int64_t ringJump;
 	int64_t toCenter;
 	int64_t toOutside;
 } Keyboard;

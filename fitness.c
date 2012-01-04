@@ -26,6 +26,7 @@ int calcFitnessDirect(Keyboard *k)
 	k->sameFinger	= 0;
 	k->rowChange	= 0;
 	k->homeJump		= 0;
+	k->ringJump     = 0;
 	k->toCenter		= 0;
 	k->toOutside	= 0;
 
@@ -52,6 +53,7 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 		if (calcSameFinger(locs[0], locs[1]) != 0) k->sameFinger += multiplier;
 		if (calcRowChange (locs[0], locs[1]) != 0) k->rowChange  += multiplier;
 		if (calcHomeJump  (locs[0], locs[1]) != 0) k->homeJump   += multiplier;
+		if (calcRingJump  (locs[0], locs[1]) != 0) k->ringJump   += multiplier;
 		if (calcToCenter  (locs[0], locs[1]) != 0) k->toCenter   += multiplier;
 		if (calcToOutside (locs[0], locs[1]) != 0) k->toOutside	 += multiplier;
 	}
@@ -77,6 +79,7 @@ int preCalculateFitness()
 				costs[30*i + j] += calcSameFinger(i, j);
 				costs[30*i + j] += calcRowChange (i, j);
 				costs[30*i + j] += calcHomeJump  (i, j);
+				costs[30*i + j] += calcRingJump  (i, j);
 				costs[30*i + j] += calcToCenter  (i, j);
 				costs[30*i + j] += calcToOutside (i, j);
 			}
@@ -101,6 +104,7 @@ int calcFitness(Keyboard *k)
 	k->sameFinger	= 0;
 	k->rowChange	= 0;
 	k->homeJump		= 0;
+	k->ringJump     = 0;
 	k->toCenter		= 0;
 	k->toOutside	= 0;
 	
@@ -125,8 +129,8 @@ int calcFitness(Keyboard *k)
 	calcFingerWork(k);	
 	
 	k->fitness = k->distance + k->fingerWork + k->inRoll + k->outRoll + 
-		k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + 
-		k->toOutside;
+		k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->ringJump + 
+		k->toCenter + k->toOutside;
 	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
 	if (keepParentheses) k->fitness += calcParentheses(k);
@@ -157,6 +161,7 @@ int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 			k->outRoll		+= calcOutRoll   (loc0, loc1) * multiplier;	
 			k->rowChange	+= calcRowChange (loc0, loc1) * multiplier;
 			k->homeJump		+= calcHomeJump  (loc0, loc1) * multiplier;
+			k->ringJump     += calcRingJump  (loc0, loc1) * multiplier;
 			k->toCenter		+= calcToCenter  (loc0, loc1) * multiplier;
 			k->toOutside	+= calcToOutside (loc0, loc1) * multiplier;		
 		}
@@ -317,6 +322,14 @@ int calcHomeJump(int loc0, int loc1)
 		else return doubleJump;
 
 	return 0;
+}
+
+int calcRingJump(int loc0, int loc1)
+{
+	if ((finger[loc0] == PINKY && finger[loc1] == MIDDLE) || 
+			(finger[loc0] == MIDDLE && finger[loc1] == PINKY)) return ringJump;
+	else return 0;
+	
 }
 
 int calcToCenter(int loc0, int loc1)

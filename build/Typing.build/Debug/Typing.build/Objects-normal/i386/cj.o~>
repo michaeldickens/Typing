@@ -1,5 +1,0 @@
-/Users/MTGAP/XCodeProjects/Typing/cj.c: In function 'main':
-/Users/MTGAP/XCodeProjects/Typing/cj.c:33: warning: implicit declaration of function 'shuffleLayout'
-/Users/MTGAP/XCodeProjects/Typing/cj.c: At top level:
-/Users/MTGAP/XCodeProjects/Typing/cj.c:60: warning: conflicting types for 'shuffleLayout'
-/Users/MTGAP/XCodeProjects/Typing/cj.c:33: warning: previous implicit declaration of 'shuffleLayout' was here

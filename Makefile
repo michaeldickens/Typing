@@ -1,4 +1,4 @@
-all: optimizer
-
-optimizer: main.c cjalgorithm.c accessories.c algorithm.c fitness.c trifitness.c keyboard.c tools.c trikeys.c costs.c values.c
-	gcc main.c cjalgorithm.c accessories.c algorithm.c fitness.c trifitness.c keyboard.c tools.c trikeys.c costs.c values.c -o optimizer
+optimizer: accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c 
+	gcc -o optimizer accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c
+clean: 
+	rm optimizer accessories.o algorithm.o cjalgorithm.o costs.o fitness.o keyboard.o main.o tools.o trifitness.o trikeys.o values.o 

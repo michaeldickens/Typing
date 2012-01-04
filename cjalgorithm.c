@@ -34,8 +34,23 @@ int bigLegalBox1[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
+int bigLegalBox2[] = {
+	1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+};
+
 int kinesisLegalBox1[] = {
 	2, 3, 4, 5, 6, 7, 8, 9,10,11, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+};
+
+int kinesisLegalBox2[] = {
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -64,7 +79,7 @@ int run(char *filename)
 
 	int usedPreviousLayout = FALSE;
 	int intervalBetweenPrints = 60, intervalInc = 0;
-		
+	
 	/* Run Chris Johnson's simulated annealing algorithm. */
 	isFileEmpty = FALSE;
 	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
@@ -171,9 +186,12 @@ int64_t doRun(Keyboard *k)
 
 int isLegalSwap(int i, int j)
 {
-	if (keepNumbers) {
+	if (keepNumbers == 1) {
 		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
 		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
+	} else if (keepNumbers == 2) {
+		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox2[j];
+		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox2[j];
 	}
 	return i >= 0 && j >= 0 && i < ksize && j < ksize;
 }
@@ -291,6 +309,7 @@ void shuffleLayout(char array[])
 		do {
 			k = rand() % (n + 1);
 		} while (printIt[k] == FALSE);
+		
 		temp = array[k];
 		array[k] = array[n];
 		array[n] = temp;

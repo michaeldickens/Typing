@@ -112,12 +112,11 @@ int initData()
 		for (j = 0; j < 5; ++j) {
 			rowChangeTableDown[i][j] = rowChangeDown;
 			rowChangeTableUp[i][j] = rowChangeUp;
-			if (i == PINKY  && j == RING   ) rowChangeTableDown[i][j] += handWarp;
-			else if (i == INDEX  && j == MIDDLE ) rowChangeTableDown[i][j] += handWarp;
-			else if (i == MIDDLE && j == INDEX  ) rowChangeTableDown[i][j] += handSmooth;
-			else if (i == RING   && j == PINKY  ) rowChangeTableUp[i][j] += handWarp;
-			else if (i == MIDDLE && j == INDEX  ) rowChangeTableUp[i][j] += handWarp;
-			else if (i == INDEX  && j == MIDDLE ) rowChangeTableUp[i][j] += handSmooth;			
+			if (i == MIDDLE && j == INDEX) rowChangeTableDown[i][j] += handSmooth;
+			else if (abs(i - j) == 1)      rowChangeTableDown[i][j] += handWarp;
+			
+			if (i == INDEX && j == MIDDLE) rowChangeTableUp[i][j] += handSmooth;
+			else if (abs(i - j) == 1)      rowChangeTableUp[i][j] += handWarp;
 		}
 
 	initKeyboardData();

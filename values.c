@@ -21,7 +21,7 @@ int initValues()
 		int64_t costsCopy[KSIZE_MAX] = {
 			 40,  40,  30,  40,  70,  80,  40,  30,  40,  40, 
 			  0,   0,   0,   0,  30,  30,   0,   0,   0,   0, 
-			 60,  60,  60,  50,  95,  60,  40,  60,  60,  60, 
+			 70,  70,  70,  50,  95,  60,  40,  60,  70,  70, 
 		};
 	
 		for (i = 0; i < ksize; ++i)
@@ -33,9 +33,9 @@ int initValues()
 		// is 999 is not supposed to contain any character.
 		int64_t costsCopy[KSIZE_MAX] = {
 			110, 100,  90,  75, 100, 120, 160, 100,  75,  90, 100, 110, 120, 999,
-			999,  40,  40,  30,  40,  70,  80,  40,  30,  40,  40,  60,  80, 120, 
-			999,   0,   0,   0,   0,  30,  30,   0,   0,   0,   0,  40, 999, 999,
-			999,  60,  60,  60,  50,  95,  60,  40,  60,  60,  60, 999, 999, 999,
+			999,  40,  40,  30,  40,  70,  80,  40,  30,  40,  40,  60,  90, 140, 
+			999,   0,   0,   0,   0,  30,  30,   0,   0,   0,   0,  50, 999, 999,
+			999,  70,  70,  70,  50,  95,  60,  40,  60,  70,  70, 999, 999, 999,
 		};
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
@@ -45,11 +45,11 @@ int initValues()
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
 		int64_t costsCopy[KSIZE_MAX] = {
-			100,  90,  75, 100, 130, 130, 100,  75,  90, 100, 110, 
-			 40,  40,  30,  40,  70,  70,  40,  30,  40,  40,  70, 
-			  0,   0,   0,   0,  35,  35,   0,   0,   0,   0,  40, 
-			 60,  60,  60,  45,  80,  80,  45,  60,  60,  60, 999, 
-			150, 150, 999, 999, 999, 999, 999, 999, 150, 150, 999,		
+			110, 100,  75, 100, 130, 130, 100,  75, 100, 110, 120, 
+			 40,  40,  30,  40,  70,  70,  40,  30,  40,  40,  90, 
+			  0,   0,   0,   0,  40,  40,   0,   0,   0,   0,  60, 
+			 70,  70,  70,  50,  80,  80,  50,  70,  70,  70, 999, 
+			140, 140, 999, 999, 999, 999, 999, 999, 140, 140, 999, 	
 		};
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
@@ -67,13 +67,13 @@ int initValues()
 		
 	}
 
-	// Distance in cm x10. Multiplied for more close measurements.
-	trueDistance[ 0] = 20; trueDistance[ 1] = 20; trueDistance[ 2] = 20; trueDistance[ 3] = 20; trueDistance[ 4] = 28; 
-	trueDistance[ 5] = 28; trueDistance[ 6] = 20; trueDistance[ 7] = 20; trueDistance[ 8] = 20; trueDistance[ 9] = 20; 
-	trueDistance[10] =  0; trueDistance[11] =  0; trueDistance[12] =  0; trueDistance[13] =  0; trueDistance[14] = 20; 
-	trueDistance[15] = 20; trueDistance[16] =  0; trueDistance[17] =  0; trueDistance[18] =  0; trueDistance[19] =  0; 
-	trueDistance[20] = 20; trueDistance[21] = 20; trueDistance[22] = 20; trueDistance[23] = 20; trueDistance[24] = 28; 
-	trueDistance[25] = 28; trueDistance[26] = 20; trueDistance[27] = 20; trueDistance[28] = 20; trueDistance[29] = 20; 
+	// Distance in mm.
+	trueDistance[ 0] = 19; trueDistance[ 1] = 19; trueDistance[ 2] = 19; trueDistance[ 3] = 19; trueDistance[ 4] = 28; 
+	trueDistance[ 5] = 28; trueDistance[ 6] = 19; trueDistance[ 7] = 19; trueDistance[ 8] = 19; trueDistance[ 9] = 19; 
+	trueDistance[10] =  0; trueDistance[11] =  0; trueDistance[12] =  0; trueDistance[13] =  0; trueDistance[14] = 19; 
+	trueDistance[15] = 19; trueDistance[16] =  0; trueDistance[17] =  0; trueDistance[18] =  0; trueDistance[19] =  0; 
+	trueDistance[20] = 19; trueDistance[21] = 19; trueDistance[22] = 19; trueDistance[23] = 19; trueDistance[24] = 28; 
+	trueDistance[25] = 28; trueDistance[26] = 19; trueDistance[27] = 19; trueDistance[28] = 19; trueDistance[29] = 19; 
 
 	// Based on distance from the ctrl key and how much of a stretch it is.
 	shortcutCosts[ 0] =  0; shortcutCosts[ 1] =  0; shortcutCosts[ 2] =  1; shortcutCosts[ 3] =  3; shortcutCosts[ 4] =  4; 
@@ -92,7 +92,7 @@ void initCosts()
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
-	keepNumbers = TRUE;
+	keepNumbers = 2;
 	keepParentheses = TRUE;
 	
 	fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] = 8.0;
@@ -116,13 +116,14 @@ void initCosts()
 	sameFingerM =	110;
 	sameFingerI =	 90;
 	sameFingerT =	100;
-	rowChangeDown =  15;
-	rowChangeUp =    20;
-	handWarp =		 10;
-	handSmooth =	 -0;
+	rowChangeDown =  10;
+	rowChangeUp =    15;
+	handWarp =		 15;
+	handSmooth =	- 5;
 	homeJump =		100;
 	homeJumpIndex = -90;
 	doubleJump =	220; // Does not compound with homeJump.
+	ringJump =       40;
 	toCenter =		 30;
 	toOutside =		 30;
 }

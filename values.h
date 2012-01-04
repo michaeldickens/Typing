@@ -80,11 +80,14 @@ int64_t fingerWorkCosts[FINGER_COUNT];
 
 int detailedOutput;
 
+/* 0 for false, 1 for true. 
+ * keepNumbers: 2 if numbers can move about but must stay in number row.
+ */
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 
-	homeJump, homeJumpIndex, doubleJump, toCenter, toOutside;
+	homeJump, homeJumpIndex, doubleJump, ringJump, toCenter, toOutside;
 
 int initValues();
 void initCosts();

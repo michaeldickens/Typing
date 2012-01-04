@@ -1,8 +1,18 @@
-***BETTER LAYOUTS***
+***BIG CHANGES***
 
- - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
+ * Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
+ * Add shift, space, enter, backspace, tab. On Kinesis, add thumb pads and leftmost column.
+ * Add shifted keys.
+
+***SMALL CHANGES***
+
  - Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
  - Every movement from one finger to another has its own specific price.
+ 
+
+***BUGS***
+
+ * After the algrithm runs for a while, either a character is duplicated or a character that's not supposed to be on the keyboard somehow creeps in.
 
 
 ***MISCELLANEOUS***

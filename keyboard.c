@@ -167,9 +167,7 @@ int printLayoutOnly(Keyboard *k)
 	char str[10];
 		
 	for (i = 0; i < ksize; ++i) {
-		if (k->layout[i] == '\0') sprintf(str, "%2d", i);
-		else sprintf(str, "%2c", k->layout[i]);
-		
+		sprintf(str, "%2c", k->layout[i]);
 		
 		if (full_keyboard == FK_KINESIS) {
 			if (printIt[i]) {
@@ -215,6 +213,7 @@ int printKeyboard(Keyboard *k)
 	printf("Same finger: %lld\n", k->sameFinger);
 	printf("Row change: %lld\n", k->rowChange);
 	printf("Home jump: %lld\n", k->homeJump);
+	printf("Ring jump: %lld\n", k->ringJump);
 	printf("To center: %lld\n", k->toCenter);
 	if (ksize != 30) printf("To outside: %lld\n", k->toOutside);
 	printf("\n");
@@ -259,6 +258,7 @@ int printPercentages(Keyboard *k)
 	printf("Same finger:   %.2f%%\n", ((double)(100*k->sameFinger) / totalDi ));
 	printf("Row change:    %.2f%%\n", ((double)(100*k->rowChange ) / totalDi ));
 	printf("Home jump:     %.2f%%\n", ((double)(100*k->homeJump  ) / totalDi ));
+	printf("Ring jump:     %.2f%%\n", ((double)(100*k->ringJump  ) / totalDi ));
 	printf("To center:     %.2f%%\n", ((double)(100*k->toCenter  ) / totalDi ));
 	if (ksize != 30) printf("To outside:    %.2f%%\n", ((double)(100*k->toOutside) / totalDi ));
 	printf("\n");

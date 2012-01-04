@@ -8,6 +8,8 @@
  
 #include "cjalgorithm.h"
 
+int getCommands();
+
 int game();
 int gameComputer(Keyboard *k, char difficulty);
 
