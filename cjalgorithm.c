@@ -11,20 +11,32 @@
 
 int legalBox1[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
 int legalBox2[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 
+	3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 
 };
 
 int legalBox3[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
+	4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 
+};
+
+int legalBox4[] = {
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
 	3, 3, 4, 4, 3, 3, 4, 4, 3, 3, 
+};
+
+int legalBox5[] = {
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
 int bigLegalBox1[] = {
@@ -39,6 +51,20 @@ int bigLegalBox2[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+};
+
+int bigLegalBoxAtle[] = {
+	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
+};
+
+int bigLegalBoxConsonants[] = {
+	1,12, 3, 4, 5, 6, 7, 8, 9,10,11, 2, 2, 2, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 
+	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 
 };
 
 int kinesisLegalBox1[] = {
@@ -123,7 +149,7 @@ int run(char *filename)
 			}
 		}
 		
-		curEval = doRun(&k);
+		curEval = anneal(&k);
 		
 		if (curEval < bestEval) {
 			if (usedPreviousLayout && detailedOutput) {
@@ -157,7 +183,7 @@ int run(char *filename)
     return 0;
 }
 
-int64_t doRun(Keyboard *k)
+int64_t anneal(Keyboard *k)
 {
 	int64_t lastEvaluation, evaluation;
 	int64_t lastImprovement = 0;
@@ -186,13 +212,16 @@ int64_t doRun(Keyboard *k)
 
 int isLegalSwap(int i, int j)
 {
-	if (keepNumbers == 1) {
-		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox1[j];
-		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
-	} else if (keepNumbers == 2) {
-		if (full_keyboard == FK_STANDARD) return bigLegalBox1[i] == bigLegalBox2[j];
-		else if (full_keyboard == FK_KINESIS) return kinesisLegalBox1[i] == kinesisLegalBox2[j];
+	if (full_keyboard == FK_STANDARD) {
+		if (keepConsonantsRight) return bigLegalBoxConsonants[i] == bigLegalBoxConsonants[j];
+		else return bigLegalBox1[i] == bigLegalBox1[j];
+	} else if (full_keyboard == FK_KINESIS) {
+		if (keepNumbers == 1) return kinesisLegalBox1[i] == kinesisLegalBox1[j];
+		else if (keepNumbers == 2) return kinesisLegalBox2[i] == kinesisLegalBox2[j];
+	} else if (full_keyboard == FK_NO) {
+		return legalBox1[i] == legalBox1[j];
 	}
+
 	return i >= 0 && j >= 0 && i < ksize && j < ksize;
 }
 
@@ -303,12 +332,12 @@ void shuffleLayout(char array[])
 	while (n > 1) 
 	{
 		--n;
-		while (printIt[n] == FALSE) --n;
+		while (!printIt[n]) --n;
 		
-		if (n == 1 && printIt[0] == FALSE) return;
+		if (n == 1 && !printIt[0]) return;
 		do {
 			k = rand() % (n + 1);
-		} while (printIt[k] == FALSE);
+		} while (!printIt[k] || !isLegalSwap(k, n));
 		
 		temp = array[k];
 		array[k] = array[n];

@@ -516,7 +516,7 @@ Keyboard improver(Keyboard k)
 	copy(&tk, &k);
 	copy(&bestk, &k);
 	int64_t bestEval = k.fitness;
-	int64_t curEval = doRun(&tk);
+	int64_t curEval = anneal(&tk);
 	
 	if (curEval < bestEval) {
 		copy(&bestk, &tk);

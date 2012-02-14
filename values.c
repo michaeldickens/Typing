@@ -92,8 +92,9 @@ void initCosts()
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
-	keepNumbers = 2;
+	keepNumbers = 1;
 	keepParentheses = TRUE;
+	keepConsonantsRight = FALSE;
 	
 	fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] = 8.0;
 	fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 13.0;

@@ -27,7 +27,7 @@ Keyboard runAlgorithm()
 	int offset = 0;
 	for (i = 0; i < ALL_STAR_POOL_SIZE / TAKE_BEST_N; ++i) {
 		if (TAKE_BEST_N == 1) {
-//			initKeyboard(&allStarPool[i]); doRun(&allStarPool[i]);
+//			initKeyboard(&allStarPool[i]); anneal(&allStarPool[i]);
 			allStarPool[i] = runForOne();
 		} else {
 			runLoop(tempPool);			

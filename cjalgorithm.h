@@ -11,7 +11,7 @@
 
 int run(char *filename);
 
-int64_t doRun(Keyboard *keybr);
+int64_t anneal(Keyboard *keybr);
 int isLegalSwap(int i, int j);
 int isSwappable(char c);
 int64_t improveLayout(int64_t evaluationToBeat, Keyboard *keybr);

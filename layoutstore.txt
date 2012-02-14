@@ -3,14 +3,15 @@
 #
 #qwdmfjpoukarstghneilzxcvb;y,.' MTGAP-QWERTY 0.2
 #,fhdkjcul.oantgmseriqxbpzyw'v; MTGAP 2.0
-qwfpgjluy;arstdhneiozxcvbkm,.' Colemak
+#qwfpgjluy;arstdhneiozxcvbkm,.' Colemak
 #ql,p';fudkarenbgsitozw.hjvcymx Arensito
 #.ymdfjpluqaersgbtnioxzcv;kwh,' Capewell
 #gylmwpfub;rsntdhaeoizxcvqjk,.' Carpalx GYLMWP
 #qdrwbjfup;ashtgyneoizxmcvkl,.' Workman
 #k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
-',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
+#',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
 #qwertyuiopasdfghjkl;zxcvbnm,.' QWERTY
+#
 #kpul.qhcgvinerfdotasz'w,m;ybxj no same finger cost
 #;h'xzpym,bareskgdnitulofjqcv.w no distance cost
 #.uldkxhcy,oertgpnsiaz'vmw;fbjq no inward roll cost

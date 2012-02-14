@@ -25,8 +25,7 @@ int initKeyboard(Keyboard *k)
 	} else if (full_keyboard == FK_IPHONE) {
 		setLayout(k, "qwertyuiopasdfghjklzxcvbnm");
 	} else {
-		// The main 30 characters, sorted by puncuation then by letter frequency.
-		setLayout(k, "etaoinsrhldcumfpgywbvkxjqz,.';");
+		setLayout(k, "qwertyuiopasdfghjkl;zcxvbnm,.'");
 	}
 
 	
@@ -67,7 +66,20 @@ int initKeyboard(Keyboard *k)
 			k->layout[i] = temp;
 		}
 	}
-
+	
+	if (keepConsonantsRight && full_keyboard == FK_STANDARD) {
+		const char *consonants = "bcdfghjklmnpqrstvwxyz";
+		int indices[] = {
+			11, 12, 
+			20, 21, 22, 23, 24, 25, 26, 27, 
+			34, 35, 36, 37, 38, 39, 
+			48, 49, 50, 51, 52
+		};
+				
+		for (i = 0; i < sizeof(indices)/sizeof(int); ++i)
+			swap(k, loc(k, consonants[i]), indices[i]);
+	}
+	
 	k->fitness = 0;
 	k->distance = 0;
 	k->inRoll = 0;
@@ -109,11 +121,11 @@ int copy(Keyboard *k, Keyboard *original)
 	return 0;
 }
 
+/* WARNING: Can perform illegal swaps. */
 int swap(Keyboard *k, int loc1, int loc2)
 {
 	if (loc1 >= ksize || loc2 >= ksize) return -1;
 	if (printIt[loc1] ^ printIt[loc2]) return -2;
-	if (isLegalSwap(loc1, loc2) == FALSE) return -3;
 	
 	int temp = k->layout[loc1];
 	k->layout[loc1] = k->layout[loc2];
