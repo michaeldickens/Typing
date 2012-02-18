@@ -94,6 +94,7 @@ void initCosts()
 	keepQWERTY = FALSE;
 	keepNumbers = 1;
 	keepParentheses = TRUE;
+	keepShiftPairs = FALSE;
 	keepConsonantsRight = FALSE;
 	
 	fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] = 8.0;
@@ -127,4 +128,7 @@ void initCosts()
 	ringJump =       40;
 	toCenter =		 30;
 	toOutside =		 30;
+	
+	shiftCost =		100;
+	doubleShiftCost=150;
 }

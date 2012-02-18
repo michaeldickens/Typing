@@ -43,24 +43,22 @@
 		862C5BE2102F973A00D95A5C /* algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithm.h; sourceTree = "<group>"; };
 		862C5BE3102F973A00D95A5C /* algorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = algorithm.c; sourceTree = "<group>"; };
 		8639B9B814B12C7800362E2D /* Makefile_saved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile_saved; sourceTree = "<group>"; };
-		864C8C1812E211ED00899EA5 /* fulllayoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fulllayoutstore.txt; sourceTree = "<group>"; };
+		864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fullLayoutStore.txt; sourceTree = "<group>"; };
 		8652F53A12CD270600CAF998 /* cjalgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cjalgorithm.h; sourceTree = "<group>"; };
-		8652F62612CD307400CAF998 /* 30digraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30digraphs.txt; sourceTree = "<group>"; };
-		8652F72F12CD49F800CAF998 /* 30chars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 30chars.txt; sourceTree = "<group>"; };
-		865382BE1035344A00E1CFE8 /* layoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutstore.txt; sourceTree = "<group>"; };
+		865382BE1035344A00E1CFE8 /* layoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutStore.txt; sourceTree = "<group>"; };
 		86555A411039182C009250CC /* Conceptual */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Conceptual; sourceTree = "<group>"; };
-		867288A014B3A5A900C57A9C /* allchars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allchars.txt; sourceTree = "<group>"; };
-		867288A114B3A5B000C57A9C /* alldigraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alldigraphs.txt; sourceTree = "<group>"; };
+		867288A014B3A5A900C57A9C /* allChars.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allChars.txt; sourceTree = "<group>"; };
+		867288A114B3A5B000C57A9C /* allDigraphs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allDigraphs.txt; sourceTree = "<group>"; };
 		867D402010309F1E00DCE1EE /* fitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fitness.c; sourceTree = "<group>"; };
 		867D4B7212D29AD90045BD97 /* Saved Full Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Full Keyboards"; sourceTree = "<group>"; };
 		867DD36911D07B8900379D1F /* To Do */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "To Do"; sourceTree = "<group>"; };
-		86841A4711D3F137006F70A1 /* all_layouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all_layouts.txt; sourceTree = "<group>"; };
+		86841A4711D3F137006F70A1 /* allLayouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allLayouts.txt; sourceTree = "<group>"; };
 		8685824612E363CB00D07E99 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8687000B1031FFA8000845D5 /* accessories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accessories.h; sourceTree = "<group>"; };
 		8687000C1031FFA8000845D5 /* accessories.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accessories.c; sourceTree = "<group>"; };
 		8687014F10321AE6000845D5 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = README; sourceTree = "<group>"; wrapsLines = 1; };
 		86B41D3711D3CCC3005B910F /* trifitness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trifitness.c; sourceTree = "<group>"; };
-		86B5E16412CE6FBA0086D45C /* kinesislayoutstore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kinesislayoutstore.txt; sourceTree = "<group>"; };
+		86B5E16412CE6FBA0086D45C /* kinesisLayoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kinesisLayoutStore.txt; sourceTree = "<group>"; };
 		86C6DA6F10325B90000FF26E /* Saved Keyboards */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Saved Keyboards"; sourceTree = "<group>"; };
 		86C6DAF810326295000FF26E /* Alternative Layouts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Alternative Layouts"; sourceTree = "<group>"; };
 		86ECBA24102CE34E00E8AB8A /* keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyboard.h; sourceTree = "<group>"; };
@@ -98,32 +96,30 @@
 			isa = PBXGroup;
 			children = (
 				08FB7796FE84155DC02AAC07 /* main.c */,
-				8652F53A12CD270600CAF998 /* cjalgorithm.h */,
-				862456341051D223002DD016 /* cjalgorithm.c */,
 				8687000B1031FFA8000845D5 /* accessories.h */,
 				8687000C1031FFA8000845D5 /* accessories.c */,
+				8652F53A12CD270600CAF998 /* cjalgorithm.h */,
+				862456341051D223002DD016 /* cjalgorithm.c */,
 				862C5BE2102F973A00D95A5C /* algorithm.h */,
 				862C5BE3102F973A00D95A5C /* algorithm.c */,
 				867D402010309F1E00DCE1EE /* fitness.c */,
 				86B41D3711D3CCC3005B910F /* trifitness.c */,
 				86ECBA24102CE34E00E8AB8A /* keyboard.h */,
 				86ECBA25102CE34E00E8AB8A /* keyboard.c */,
-				865382BE1035344A00E1CFE8 /* layoutstore.txt */,
-				864C8C1812E211ED00899EA5 /* fulllayoutstore.txt */,
-				86B5E16412CE6FBA0086D45C /* kinesislayoutstore.txt */,
-				86841A4711D3F137006F70A1 /* all_layouts.txt */,
+				865382BE1035344A00E1CFE8 /* layoutStore.txt */,
+				864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */,
+				86B5E16412CE6FBA0086D45C /* kinesisLayoutStore.txt */,
+				86841A4711D3F137006F70A1 /* allLayouts.txt */,
 				86ECBA27102CE76500E8AB8A /* tools.h */,
 				86ECBA28102CE76500E8AB8A /* tools.c */,
 				862C5BB6102F905100D95A5C /* trikeys.c */,
 				861464E0104CC2C700052F69 /* costs.c */,
 				86FE236C1041B22F005CD54C /* values.h */,
 				86FE236D1041B22F005CD54C /* values.c */,
-				8652F62612CD307400CAF998 /* 30digraphs.txt */,
-				8652F72F12CD49F800CAF998 /* 30chars.txt */,
 				8685824612E363CB00D07E99 /* Makefile */,
 				8639B9B814B12C7800362E2D /* Makefile_saved */,
-				867288A014B3A5A900C57A9C /* allchars.txt */,
-				867288A114B3A5B000C57A9C /* alldigraphs.txt */,
+				867288A014B3A5A900C57A9C /* allChars.txt */,
+				867288A114B3A5B000C57A9C /* allDigraphs.txt */,
 			);
 			name = Source;
 			sourceTree = "<group>";

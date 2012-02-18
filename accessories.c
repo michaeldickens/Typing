@@ -34,6 +34,7 @@ int getCommands()
 			printf("set <variable> <value>: Set the specified variable to the given value.\n");
 			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk help\" for more information.\n");
 			printf("test fitness: Test that the fitness functions are working properly.\n");
+			printf("use <keys>: Use <keys> in the keyboard layout instead of the default.\n");
 			printf("worst <filename>: Find the worst digraphs for the keyboard layouts in <filename>.\n");
 			printf("variables: Print all variables that can be modified.\n");
 			printf("quit: Quit the keyboard optimization program.\n");
@@ -41,7 +42,7 @@ int getCommands()
 
 		} else if (streq(cmd, "algorithm")) {
 			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
-			run(kbd_filename);
+			runCJAlgorithm(kbd_filename);
 
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
 			char *filename = cmd + strlen("best swap ");
@@ -95,6 +96,12 @@ int getCommands()
 
 		} else if (streq(cmd, "test fitness")) {
 			testFitness();
+		
+		} else if (streqn(cmd, "use ", 4)) {
+			strcpy(keysToInclude, cmd + 4);
+			initTypingData();
+			
+			printf("Now using keys: %s\n\n", cmd + 4);
 
 		} else if (streq(cmd, "variables")) {
 			printf("Boolean variables should be set to 0 for false and 1 for true. Variables not specified as booleans are integers.\n");
@@ -103,6 +110,7 @@ int getCommands()
 			printf("\t(bool) keepQWERTY\n");
 			printf("\t(bool) keepNumbers\n");
 			printf("\t(bool) keepParentheses\n");
+			printf("\t(bool) keepShiftPairs\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
 			printf("\toutRoll\n");
@@ -367,7 +375,8 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
 
 		// Re-assign diValues[i] to the cost of that digraph.
-		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
+//		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
+		values[i] = k->sameFinger;
 		
 		/* This function will tell you...
 		 * Without this line: Which digraphs have the worst score.
@@ -421,6 +430,8 @@ int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
 	return 0;
 }
 
+/* WARNING: Deprecated. Does not work with shifted characters.
+ */
 int bestSwap(Keyboard *k)
 {
 	calcFitnessDirect(k);
@@ -436,10 +447,10 @@ int bestSwap(Keyboard *k)
 	int i, j;
 	for (i = 0; i < trueksize; i++) {
 		for (j = i+1; j < trueksize; j++) {
-			if (!printIt[i] || !printIt[j] || !isLegalSwap(indices[i], indices[j]))
+			if (!isLegalSwap(k, indices[i], indices[j]))
 				continue;
 			
-			swapChars(k->layout + indices[i], k->layout + indices[j]);
+			swap(k, indices[i], indices[j]);
 			calcFitness(k);
 			
 			if (k->fitness < bestFitness) {
@@ -455,7 +466,7 @@ int bestSwap(Keyboard *k)
 				printPercentages(k);
 			}
 
-			swapChars(k->layout + indices[i], k->layout + indices[j]);
+			swap(k, indices[i], indices[j]);
 		}
 	}
 	
@@ -471,11 +482,11 @@ int bestSwap(Keyboard *k)
 int compare(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
-	char c = '2';
-	while (c != EOF && c != 0) {
+	int ret = 1;
+	while (ret != EOF && ret > 0) {
 		Keyboard k;
-		c = layoutFromFile(fp, &k);
-		if (c != 0) {
+		ret = layoutFromFile(fp, &k);
+		if (ret > 0) {
 			calcFitnessDirect(&k);
 			printPercentages(&k);
 		}
@@ -594,10 +605,10 @@ int makeTypingData()
 	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-2000.)\n");
 	int max = getNumber("max: ");
 	
-	compileTypingData("alldigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
-	compileTypingData("allchars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
+	compileTypingData("allDigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
+	compileTypingData("allChars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
 	
-	printf("\nDone writing typing data. See allchars.txt and alldigraphs.txt for the result.\n\n");
+	printf("\nDone writing typing data. See allChars.txt and allDigraphs.txt for the result.\n\n");
 	
 	return 0;
 }

@@ -1,0 +1,36 @@
+# In all layouts with a slash, the slash has been replaced with the apostrophe.
+#
+# The following layouts are not on this list: Plum, OSTNREAI, DreymaR's layout, 
+# Chad Brewbaker's layout, Christopher P. Walker's layout, Amuseum's layout, 
+# Maltron Layout, nlite4
+# This is either because I could not find them or because they are not in the 
+# proper format.
+# 
+# TO DO: Convert these to Kinesis form so that every character is included.
+
+# Not very good layouts
+abcdefghijklmnopqrstuvwxyz,.'; Alphabetical
+qylp.fgcrkaseiudhtnozxjv;bmw,' Qwerak
+xpertyuiojqsdfnhaelkzwcvbgm,.' XPeRT
+qwjrlyuiopasdnkgeht;zxcvbfm,.' Rick Harrison's layout
+qwertyuiopasdfghjkl;zxcvbnm,.' QWERTY
+
+
+# From colemak.com
+qwfpgjluy;arstdhneiozxcvbkm,.' Colemak
+qgrpwvluy'atsdchneiozkxfbjm,.; Seruxie's layout
+
+
+# Evolved layouts
+,fhdkjcul.oantgmseriqxbpzyw'v; MTGAP 2.0
+.ymdfjpluqaersgbtnioxzcv;kwh,' Capewell
+gylmwpfub;rsntdhaeoizxcvqjk,.' Carpalx GYLMWP
+k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
+
+
+# The rest
+1234567890q.,up()dlckxoainwmhtsr"'_yb;/fgv-`=jz Patience
+ql,p';fudkarenbgsitozw.hjvcymx Arensito
+',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
+qwjfgypul;asetdhniorzxcvbkm,.' Asset
+',.gjyrpwquoeaidsthn;zvcxbmlfk Tim Tyler's layout

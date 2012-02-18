@@ -33,9 +33,17 @@ int monLen, diLen, triLen;
 /* Reduces monValues and diValues so as to prevent integer overflow. */
 #define DIVISOR 100
 
+#define DEFAULT_KEYBOARD_26 "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+#define DEFAULT_KEYBOARD_30 "qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
+#define DEFAULT_KEYBOARD_STANDARD "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?"
+#define DEFAULT_KEYBOARD_KINESIS "1234567890-qwertyuiop\\asdfghjkl;'zxcvbnm,./`=[]!@#$%^&*()_QWERTYUIOP|ASDFGHJKL:\"ZXCVBNM<>?~+{}"
+
+char keysToInclude[100];
+
 typedef struct {
 	char layout[KSIZE_MAX + 1]; /* The one extra character is set to '\0' so 
 								(layout) can be treated as a string. */
+	char shiftedLayout[KSIZE_MAX + 1];
 	int64_t fingerUsage[8];
 	int64_t shortcut;
 	int64_t fitness;
@@ -66,7 +74,6 @@ int rand30();
 int mod30(int x);
 void copyArray(int out[], int in[], int length);
 int strNumsToArr(int arr[], char *str, int length);
-char layoutFromFile(FILE *fp, Keyboard *k);
 int initData();
 void initKeyboardData();
 void initTypingData();
@@ -75,6 +82,7 @@ int sortTypingData(char **keys, int *values, int left, int right);
 
 int setValue(char *str);
 int getValue(char *name);
+
 
 int qwerty[30];
 
@@ -89,6 +97,11 @@ int hand[KSIZE_MAX];
  */
 int finger[KSIZE_MAX];
 
+/* Where 0 is pinky, -1 is left of pinky, ..., 3 is index, 4 is right of index.
+ * Anything greater than 4 is thumb.
+ */
+int column[KSIZE_MAX];
+
 /* For each key, indicates which row that key lies on. The top row is 0, the row below it 
  * is 1, the row below that is 2, etc.
  */
@@ -97,6 +110,10 @@ int row[KSIZE_MAX];
 /* Indicates which row is the home row.
  */
 int homeRow;
+
+/* Indicates the index of the first number in the layout, assuming keepNumbers == TRUE.
+ */
+int numStart;
 
 /* For each key, indicates whether that key requires a reach to the center.
  */
@@ -114,7 +131,7 @@ int isCenterOrOutside[KSIZE_MAX];
 /* For each key, indicates whether that key should be printed. Any place-holder key that 
  * does not actually exist on the keyboard should not be printed.
  */
-int printIt[KSIZE_MAX];
+int printable[KSIZE_MAX];
 
 /* Lookup tables for calcRowChange(). Each row and column represents a finger.
  */
@@ -134,4 +151,4 @@ char monKeys[MAX_MON_LEN];
 int64_t monValues[MAX_MON_LEN];
 
 /* Used in cjalgorithm.c. */
-int indices[KSIZE_MAX];
+int indices[2 * KSIZE_MAX];

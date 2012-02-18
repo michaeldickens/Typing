@@ -6,6 +6,7 @@
  *
  */
 
+#include <ctype.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +44,7 @@ char *kbd_filename;
 
 // If TRUE, run through the layouts in layoutstore.txt repeatedly when 
 // running the algorithm. If FALSE, only run through once.
-#define REPEAT_LAYOUTSTORE 1 // 1 = TRUE, 0 = FALSE
+#define REPEAT_LAYOUTSTORE TRUE
 
 // For the following values...
 // Peter Klausler used 4096, 50, ?, 50, ?
@@ -69,7 +70,7 @@ char *kbd_filename;
 #define QWERTY_POS_COST		14
 #define QWERTY_FINGER_COST	4
 #define QWERTY_HAND_COST	20
-#define PARENTHESES_COST	5000000000 // warning: this will cause overflow
+#define PARENTHESES_COST	5000000000 // WARNING: this will cause overflow
 
 int64_t distanceCosts[KSIZE_MAX];
 int64_t  trueDistance[KSIZE_MAX];
@@ -83,11 +84,13 @@ int detailedOutput;
 /* 0 for false, 1 for true. 
  * keepNumbers: 2 if numbers can move about but must stay in number row.
  */
-int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepConsonantsRight;
+int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepShiftPairs, 
+	keepConsonantsRight;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 
-	homeJump, homeJumpIndex, doubleJump, ringJump, toCenter, toOutside;
+	homeJump, homeJumpIndex, doubleJump, ringJump, toCenter, toOutside, 
+	shiftCost, doubleShiftCost;
 
 int initValues();
 void initCosts();

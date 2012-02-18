@@ -4,4 +4,4 @@
 #1234567890qycou()ldpwxisea,mhtnrk_v".;'fgb-/=zj # MTGAP Full 0.1
 #1234567890-qwfpgjluy;=arstdhneio'zxcvbkm,./_"() # Colemak
 #7531902468=',.pyfgcrl/aoeuidhtns-;qjkxbmwvz_"() # Dvorak
-1234567890-qwertyuiop=asdfghjkl;'zxcvbnm,./_"() # QWERTY
+#1234567890-qwertyuiop=asdfghjkl;'zxcvbnm,./_"() # QWERTY

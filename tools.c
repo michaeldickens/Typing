@@ -19,10 +19,10 @@ void copyArray(int out[], int in[], int length)
 	memcpy(out, in, length * sizeof(int));
 }
 
-// Reads in a layout from layoutstore.txt and prints it as a computer-readable layout.
+// Reads in a layout from layoutStore.txt and prints it as a computer-readable layout.
 int humanReadableToComputerReadable()
 {
-	FILE *f = fopen("layoutstore.txt", "r");
+	FILE *f = fopen("layoutStore.txt", "r");
 	int layoutsInStore = 15;
 	
 	char c;
@@ -39,46 +39,6 @@ int humanReadableToComputerReadable()
 	return 0;
 }
 
-/* 
- * Copies a layout from fp onto k.
- * 
- * Return Codes
- * -1: Error.
- *  0: No new layout was found in the file.
- * anything else: The last character read.
- */
-char layoutFromFile(FILE *fp, Keyboard *k)
-{
-	int i;
-	char c;
-	
-	int readUntilN = FALSE, noNewKeyboard = TRUE;
-	for (i = 0; (c = getc(fp)) != EOF && i < ksize; ++i)
-		if (readUntilN == TRUE) { i = -1; if (c == '\n') readUntilN = FALSE; }
-		else if (c == '#') { readUntilN = TRUE; i = -1; } // '#' comments out the rest of the line.
-		else if (c == '\n') { 
-			if (i > 0) {
-				printf("Error: Keyboard layout is not %d characters.\n", ksize);
-				copy(&k, &nilKeyboard);
-				return -1; 
-			} else i = -1;
-		} else {
-			noNewKeyboard = FALSE;
-			while (i < ksize && printIt[i] == FALSE)
-				++i;
-			if (i < ksize) k->layout[i] = c;
-		}
-	
-	k->layout[ksize] = '\0';
-	while (c != EOF && c != '\n') c = getc(fp);
-	
-	if (noNewKeyboard)
-		return 0;
-	calcFitness(k);
-	
-	return c;
-}
-
 int initData()
 {
 	initValues();
@@ -87,9 +47,8 @@ int initData()
 	
 	srand(time(NULL));
 	
-	for (i = 0; i < ksize; ++i)
-		nilKeyboard.layout[i] = '\0';
-	nilKeyboard.layout[ksize] = '\0';
+	for (i = 0; i <= ksize; ++i)
+		nilKeyboard.layout[i] = nilKeyboard.shiftedLayout[i] = '\0';
 	nilKeyboard.fitness = 0;
 	nilKeyboard.distance = 0;
 	nilKeyboard.inRoll = 0;
@@ -121,8 +80,11 @@ int initData()
 
 	initKeyboardData();
 	
+	if (full_keyboard == FK_NO) strcpy(keysToInclude, DEFAULT_KEYBOARD_30);
+	else if (full_keyboard == FK_STANDARD) strcpy(keysToInclude, DEFAULT_KEYBOARD_STANDARD);
+	else if (full_keyboard == FK_KINESIS) strcpy(keysToInclude, DEFAULT_KEYBOARD_KINESIS);
+	
 	initTypingData();
-		
 	
 	return 0;
 } // int initData();
@@ -131,6 +93,8 @@ void initKeyboardData()
 {
 	int i;
 	
+	numStart = 0;
+	
 	if (full_keyboard == FK_NO) {
 		int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
@@ -138,6 +102,13 @@ void initKeyboardData()
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 		};
 		copyArray(finger, fingerCopy, ksize);
+		
+		int columnCopy[KSIZE_MAX] = {
+			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
+			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
+			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
+		};
+		copyArray(column, columnCopy, ksize);
 		
 		int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -165,19 +136,24 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		int printItCopy[KSIZE_MAX] = {
+		int printableCopy[KSIZE_MAX] = {
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 		};
-		copyArray(printIt, printItCopy, ksize);
+		copyArray(printable, printableCopy, ksize);
 	
 		int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 			20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 
 		};
-		copyArray(indices, indicesCopy, ksize);
+		int indicesShiftedCopy[KSIZE_MAX];
+		for (i = 0; i < KSIZE_MAX; ++i)
+			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
+		
+		copyArray(indices, indicesCopy, trueksize);
+		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 
 	} else if (full_keyboard == FK_STANDARD) {
 		int fingerCopy[KSIZE_MAX] = {
@@ -188,6 +164,14 @@ void initKeyboardData()
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
+		int columnCopy[KSIZE_MAX] = {
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
+		};
+		copyArray(column, columnCopy, ksize);
+		
 		int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -197,6 +181,7 @@ void initKeyboardData()
 		copyArray(row, rowCopy, ksize);
 		
 		homeRow = 2;
+		numStart = 1;
 		
 		int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -222,13 +207,13 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 		
-		int printItCopy[KSIZE_MAX] = {
+		int printableCopy[KSIZE_MAX] = {
 			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE, FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE, TRUE , 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , FALSE, FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, 
 		};
-		copyArray(printIt, printItCopy, ksize);
+		copyArray(printable, printableCopy, ksize);
 		
 		int indicesCopy[KSIZE_MAX] = {
 			0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 
@@ -236,7 +221,12 @@ void initKeyboardData()
 			   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 
 			   43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 
 		};
-		copyArray(indices, indicesCopy, ksize);
+		int indicesShiftedCopy[KSIZE_MAX];
+		for (i = 0; i < KSIZE_MAX; ++i)
+			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
+		
+		copyArray(indices, indicesCopy, trueksize);
+		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (full_keyboard == FK_KINESIS) {
 		int fingerCopy[KSIZE_MAX] = {
@@ -247,6 +237,15 @@ void initKeyboardData()
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 		};
 		copyArray(finger, fingerCopy, ksize);
+		
+		int columnCopy[KSIZE_MAX] = {
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+		};
+		copyArray(column, columnCopy, ksize);
 		
 		int rowCopy[KSIZE_MAX] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -286,14 +285,14 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 
-		int printItCopy[KSIZE_MAX] = {
+		int printableCopy[KSIZE_MAX] = {
 			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
 			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
 			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
 			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , FALSE, 
 			TRUE , TRUE , FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE , TRUE , FALSE, 
 		};
-		copyArray(printIt, printItCopy, ksize);		
+		copyArray(printable, printableCopy, ksize);		
 
 		int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 
@@ -302,7 +301,12 @@ void initKeyboardData()
 			33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 
 			44, 45,                         52, 53, 
 		};
-		copyArray(indices, indicesCopy, ksize);
+		int indicesShiftedCopy[KSIZE_MAX];
+		for (i = 0; i < KSIZE_MAX; ++i)
+			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
+		
+		copyArray(indices, indicesCopy, trueksize);
+		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (full_keyboard == FK_IPHONE) {
 		int fingerCopy[KSIZE_MAX] = {
@@ -338,12 +342,12 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		int printItCopy[KSIZE_MAX] = {
+		int printableCopy[KSIZE_MAX] = {
 			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE , 
 			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
 		};
-		copyArray(printIt, printItCopy, ksize);
+		copyArray(printable, printableCopy, ksize);
 	
 		int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
@@ -363,8 +367,7 @@ void initTypingData()
 	int i;
 	FILE *file;
 	
-	if (ksize <= 30) file = fopen("30digraphs.txt", "r");
-	else file = fopen("alldigraphs.txt", "r");
+	file = fopen("allDigraphs.txt", "r");
 	
 	char c = '\0';
 	i = 0;
@@ -380,15 +383,21 @@ void initTypingData()
 		diKeys[i][1] = getc(file);
 		c = getc(file); /* Read the space between the digraph and the value. */
 		
-		diValues[i] = 0;
-		while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-			diValues[i] *= 10;
-			diValues[i] += c - '0';
+		if (strchr(keysToInclude, diKeys[i][0]) && 
+				strchr(keysToInclude, diKeys[i][1])) {
+			diValues[i] = 0;
+			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
+				diValues[i] *= 10;
+				diValues[i] += c - '0';
+			}
+			
+			diValues[i] /= DIVISOR;
+			totalDi += diValues[i++];
+			
+			if (i >= MAX_DI_LEN)
+				break;
 		}
-		
-		diValues[i] /= DIVISOR;
-		totalDi += diValues[i++];
-		
+
 		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
@@ -398,8 +407,7 @@ void initTypingData()
 	fclose(file);
 	
 
-	if (ksize <= 30) file = fopen("30chars.txt", "r");
-	else file = fopen("allchars.txt", "r");
+	file = fopen("allChars.txt", "r");
 	
 	c = '\0';
 	i = 0;
@@ -414,14 +422,20 @@ void initTypingData()
 		monKeys[i] = c;
 		c = getc(file);
 		
-		monValues[i] = 0;
-		while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-			monValues[i] *= 10;
-			monValues[i] += c - '0';
+		if (strchr(keysToInclude, monKeys[i])) {
+			monValues[i] = 0;
+			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
+				monValues[i] *= 10;
+				monValues[i] += c - '0';
+			}
+			
+			monValues[i] /= DIVISOR;
+			totalMon += monValues[i++];
+
+			if (i >= MAX_MON_LEN)
+				break;
 		}
-		
-		monValues[i] /= DIVISOR;
-		totalMon += monValues[i++];
+
 		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
@@ -586,6 +600,8 @@ int setValue(char *str)
 		keepNumbers = value;
 	} else if (streq(name, "keepParentheses")) {
 		keepParentheses = value;
+	} else if (streq(name, "keepShiftPairs")) {
+		keepShiftPairs = value;
 	} else if (streq(name, "distance")) {
 		distance = value;
 	} else if (streq(name, "inRoll")) {
@@ -644,6 +660,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepNumbers);
 	} else if (streq(name, "keepParentheses")) {
 		printf("%s = %d\n\n", name, keepParentheses);
+	} else if (streq(name, "keepShiftPairs")) {
+		printf("%s = %d\n\n", name, keepShiftPairs);
 	} else if (streq(name, "distance")) {
 		printf("%s = %d\n\n", name, distance);
 	} else if (streq(name, "inRoll")) {
@@ -695,26 +713,25 @@ void setksize(int type)
 	switch (full_keyboard) {
 	case FK_NO:
 		ksize = 30;
-		kbd_filename = "layoutstore.txt";
+		trueksize = 30;
+		kbd_filename = "layoutStore.txt";
 		break;
 	case FK_STANDARD:
 		ksize = 56;
 		trueksize = 47;
-		kbd_filename = "fulllayoutstore.txt";
+		kbd_filename = "fullLayoutStore.txt";
 		break;
 	case FK_KINESIS:
-		trueksize = 47;
 		ksize = 55;
-		kbd_filename = "kinesislayoutstore.txt";
+		trueksize = 47;
+		kbd_filename = "kinesisLayoutStore.txt";
 		break;
 	case FK_IPHONE:
-		trueksize = 26;
 		ksize = 30;
+		trueksize = 26;
 		kbd_filename = NULL;
 		break;
 	}
 
-	trueksize = ksize;
 	initData();
 }
-

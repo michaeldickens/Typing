@@ -13,7 +13,7 @@ int main(int argc, const char *argv[])
 {			
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
-	
+		
 	getCommands();
 		
 	return 0;

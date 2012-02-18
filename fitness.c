@@ -113,14 +113,20 @@ int calcFitness(Keyboard *k)
 	
 	/* Calculate all the locations beforehand. This saves a lot of time. */
 	for (i = 0; i < ksize; ++i)
-		if (printIt[i]) locs[k->layout[i]] = i;
-
+		if (printable[i]) {
+			locs[k->layout[i]] = i;
+			locs[k->shiftedLayout[i]] = ksize + i;
+		}
+	
 	for (i = diLen - 1; i >= 0; --i) {
 		scoreDigraph(k, diKeys[i], diValues[i], locs);
 	}
 	
+	/* Calculate distance. Done here and not in scoreDigraph because it uses 
+	 * monographs instead of digraphs.
+	 */
 	for (i = 0; i < monLen; ++i) {
-		int lc = locs[monKeys[i]];
+		int lc = locs[monKeys[i]] % ksize;
 		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
 		
 		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
@@ -141,11 +147,20 @@ int calcFitness(Keyboard *k)
 
 int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 {
-	int loc0 = allLocs[digraph[0]];
-	int loc1 = allLocs[digraph[1]];
+	int loc0 = allLocs[digraph[0]] % ksize;
+	int loc1 = allLocs[digraph[1]] % ksize;
 	
 	if (loc0 == -1 || loc1 == -1) {
 		return 1;
+	}
+	
+	/* TODO: Once modifier keys are added, change this to include the cost of 
+	 * hitting Shift, plus an extra penalty.
+	 */
+	if (allLocs[digraph[0]] >= ksize && allLocs[digraph[1]] >= ksize) {
+		k->distance += doubleShiftCost * multiplier;
+	} else if (allLocs[digraph[0]] >= ksize ^ allLocs[digraph[1]] >= ksize) {
+		k->distance += shiftCost * multiplier;
 	}
 	
 	/* These all require that the hand be the same. */
@@ -200,15 +215,33 @@ int64_t calcQWERTY(Keyboard *k)
 
 int64_t calcParentheses(Keyboard *k)
 {
-	int open_par = loc(k, '(');
-	if (open_par == -1) return -1;
-	int close_par = loc(k, ')');
-	if (close_par == -1) return -1;
+	return calcParensGeneric(k, '(', ')') + calcParensGeneric(k, '<', '>') + 
+			calcParensGeneric(k, '[', ']') + calcParensGeneric(k, '{', '}');
+}
+
+int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
+{
+	int openPar = locWithShifted(k, openChar);
+	if (openPar == -1) return -1;
+	int closePar = locWithShifted(k, closeChar);
+	if (closePar == -1) return -1;
 	
-	if ((open_par+1)%11 == close_par%11 && row[open_par] == row[close_par]) return 0;
+	int openShifted = openPar >= ksize;
+	int closeShifted = closePar >= ksize;
+	
+	openPar %= ksize;
+	closePar %= ksize;
+	
+	/* Parenthses have to be either next to each other or on opposite side of 
+	 * the keyboard, and must both be either shifted or unshifted.
+	 */
+	if (openShifted == closeShifted && 
+			((openPar+1 == closePar && row[openPar] == row[closePar]) ||
+			(hand[openPar] != hand[closePar] && 
+			column[openPar] == column[closePar] && 
+			row[openPar] == row[closePar])))
+		return 0;
 	else return PARENTHESES_COST / DIVISOR;
-	
-	return 0;
 }
 
 /* Requires that k->fingerUsage has been calculated. */
