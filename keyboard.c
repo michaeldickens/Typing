@@ -450,38 +450,38 @@ int simplePrintKeyboard(Keyboard *k)
 int layoutFromFile(FILE *fp, Keyboard *k)
 {
 	int i;
-	char c;
+	char prevC, c;
 	
 	copy(k, &nilKeyboard);
-				
+	
 	int readUntilN = FALSE, noNewKeyboard = TRUE;
-	for (i = 0; (c = getc(fp)) != EOF && i < 2 * ksize; ++i) {
+	for (i = 0; (c = getc(fp)) != EOF && i < 2 * ksize; ++i, prevC = c) {
 		if (readUntilN) {
 			i = -1;
 			if (c == '\n') readUntilN = FALSE;
-		} else if (c == '#') { // '#' comments out the rest of the line.
+		} else if (c == '/' && prevC == '/') { // "//" comments out the rest of the line.
 			readUntilN = TRUE;
 			i = -1;
 		} else if (c == '\n') { 
 			if (i > 0) {
-				printf("Error: In layoutFromFile(), keyboard layout is not %d characters.\n", trueksize);
+				fprintf(stderr, "Error: In layoutFromFile(), keyboard layout is not %d characters.\n", trueksize);
 				copy(k, &nilKeyboard);
 				return -1;
 			} else i = -1;
 		} else if (strchr(keysToInclude, c) == NULL) {
-			printf("Error: In layoutFromFile(), illegal character '%c' (#%d).\n", c, c);
-			printf("i = %d\n", i);
+			fprintf(stderr, "Error: In layoutFromFile(), illegal character '%c' (#%d).\n", c, c);
+			fprintf(stderr, "i = %d\n", i);
 			printLayoutOnly(k);
 			copy(k, &nilKeyboard);
 			return -1;
 		} else {
 			noNewKeyboard = FALSE;
-			while (i < ksize && printable[i] == FALSE)
+			while (i < 2 * ksize && !printable[i % ksize])
 				++i;
 			if (i < ksize) k->layout[i] = c;
 			else if (i < 2 * ksize) k->shiftedLayout[i - ksize] = c;
 
-			while (i+1 < ksize && printable[i+1] == FALSE)
+			while (i+1 < 2 * ksize && !printable[(i+1) % ksize])
 				++i;
 		}
 	}

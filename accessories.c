@@ -483,13 +483,14 @@ int compare(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
 	int ret = 1;
-	while (ret != EOF && ret > 0) {
+	while (ret != EOF && ret >= 0) {
 		Keyboard k;
 		ret = layoutFromFile(fp, &k);
-		if (ret > 0) {
+		if (ret >= 0) {
 			calcFitnessDirect(&k);
 			printPercentages(&k);
 		}
+
 	}
 	
 	fclose(fp);

@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -275,7 +277,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
+									<integer>12</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -309,14 +311,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>86ECBA1B102CE32600E8AB8A</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>kinesisLayoutStore.txt</string>
+								<string>keyboard.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,23 +324,23 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>86ECBA1C102CE32600E8AB8A</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>kinesisLayoutStore.txt</string>
+										<string>keyboard.c</string>
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>86FF358D14F07054004EB3A5</string>
+										<string>86FF363514F07A94004EB3A5</string>
 										<key>history</key>
 										<array>
-											<string>86FF357714F06944004EB3A5</string>
-											<string>86FF352214F063A0004EB3A5</string>
-											<string>86FF357E14F06D7B004EB3A5</string>
-											<string>86FF356B14F0686F004EB3A5</string>
-											<string>86FF358514F07049004EB3A5</string>
-											<string>86FF358614F07049004EB3A5</string>
-											<string>86FF358714F07049004EB3A5</string>
-											<string>86FF356D14F0686F004EB3A5</string>
-											<string>86FF357214F06890004EB3A5</string>
-											<string>86FF358C14F07053004EB3A5</string>
+											<string>86FF35F614F07833004EB3A5</string>
+											<string>86FF35F714F07833004EB3A5</string>
+											<string>86FF35C814F076C1004EB3A5</string>
+											<string>86FF361814F0796E004EB3A5</string>
+											<string>86FF35C914F076C1004EB3A5</string>
+											<string>86FF358314F06E23004EB3A5</string>
+											<string>86FF35CA14F076C1004EB3A5</string>
+											<string>86FF360C14F07947004EB3A5</string>
+											<string>86FF363314F07A94004EB3A5</string>
+											<string>86FF363414F07A94004EB3A5</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
