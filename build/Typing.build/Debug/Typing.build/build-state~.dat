@@ -1,392 +1,0 @@
-TTyping
-v7
-r0
-t317430706.317451
-cCheck dependencies
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o /Users/MTGAP/XCodeProjects/Typing/main.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o /Users/MTGAP/XCodeProjects/Typing/keyboard.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o /Users/MTGAP/XCodeProjects/Typing/tools.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o /Users/MTGAP/XCodeProjects/Typing/trikeys.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o /Users/MTGAP/XCodeProjects/Typing/algorithm.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o /Users/MTGAP/XCodeProjects/Typing/fitness.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o /Users/MTGAP/XCodeProjects/Typing/accessories.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o /Users/MTGAP/XCodeProjects/Typing/values.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o /Users/MTGAP/XCodeProjects/Typing/costs.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o /Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o /Users/MTGAP/XCodeProjects/Typing/trifitness.c normal i386 c com.apple.compilers.gcc.4_2
-
-N/Developer/SDKs/MacOSX10.5.sdk
-c000000004A49A9E400000000000000EE
-t1246341604
-s238
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/include/math.h
-c0000000047BA987000000000000004B7
-t1203411056
-s1207
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/include/stdio.h
-c0000000047BA99310000000000003D1D
-t1203411249
-s15645
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/include/stdlib.h
-c0000000047BA99310000000000002A79
-t1203411249
-s10873
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/include/string.h
-c0000000047BA99320000000000001731
-t1203411250
-s5937
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/include/time.h
-c0000000047BA9932000000000000178E
-t1203411250
-s6030
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h
-c000000004A11EAF10000000000000C7E
-t1242688241
-s3198
-
-N/Developer/SDKs/MacOSX10.5.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stdint.h
-c000000004A11EAF1000000000000190C
-t1242688241
-s6412
-
-N/Users/MTGAP/XCodeProjects/Typing/accessories.c
-c000000004D3B2CED0000000000003C58
-t1295723757
-s15448
-i"accessories.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/accessories.h
-c000000004D3B2CF600000000000001F9
-t1295723766
-s505
-i"algorithm.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/algorithm.c
-c000000004D3B350D00000000000012FA
-t1295725837
-s4858
-i"algorithm.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/algorithm.h
-c000000004D3B3510000000000000013F
-t1295725840
-s319
-i<stdlib.h>
-i<limits.h>
-i"keyboard.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Debug/Typing
-t2
-s0
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/Typing.LinkFileList
-c000000004D3B64310000000000000468
-t1295737905
-s1128
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o
-t1295737905
-s24744
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o
-t1295737905
-s15292
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o
-t2
-s0
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o
-t1295737905
-s38636
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o
-t1295737905
-s21396
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o
-t1295737905
-s23176
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o
-t1295737905
-s13236
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o
-t1295737905
-s33148
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o
-t1295737906
-s6748
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o
-t1295737906
-s315700
-
-N/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o
-t1295737905
-s10648
-
-N/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c
-c000000004D3B64120000000000001813
-t1295737874
-s6163
-i"cjalgorithm.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.h
-c000000004D3B6279000000000000019B
-t1295737465
-s411
-i<limits.h>
-i"accessories.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/costs.c
-c000000004C20DD8D0000000000004C21
-t1277222285
-s19489
-i"tools.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/fitness.c
-c000000004D3B087A00000000000023BB
-t1295714426
-s9147
-i"keyboard.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/keyboard.c
-c000000004D3B28CF000000000000203A
-t1295722703
-s8250
-i"keyboard.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/keyboard.h
-c000000004D3B06FF0000000000000891
-t1295714047
-s2193
-i<stdlib.h>
-i<limits.h>
-i<math.h>
-i"tools.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/main.c
-c000000004D3B35920000000000000EEE
-t1295725970
-s3822
-i<stdio.h>
-i"cjalgorithm.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/tools.c
-c000000004D3B0BF5000000000000496E
-t1295715317
-s18798
-i"tools.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/tools.h
-c000000004D34F71C00000000000008CC
-t1295316764
-s2252
-i<time.h>
-i<stdio.h>
-i<stdint.h>
-i<stdlib.h>
-i<string.h>
-i"values.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/trifitness.c
-c000000004D1E373900000000000000C2
-t1293825849
-s194
-i"keyboard.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/trikeys.c
-c000000004AA7E0A90000000000034491
-t1252516009
-s214161
-i"tools.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/values.c
-c000000004D34F39B0000000000001050
-t1295315867
-s4176
-i"values.h"
-
-N/Users/MTGAP/XCodeProjects/Typing/values.h
-c000000004D3B642300000000000008B9
-t1295737891
-s2233
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies317430705#317430705#0(0"0(0#1#0"3343187568374212096#0"0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o /Users/MTGAP/XCodeProjects/Typing/accessories.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.689435
-e317430705.792535
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o
-x/Users/MTGAP/XCodeProjects/Typing/accessories.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/accessories.c: In function 'worstDigraphsFromFile':
-o/Users/MTGAP/XCodeProjects/Typing/accessories.c:14: warning: unused variable 'imp'
-o/Users/MTGAP/XCodeProjects/Typing/accessories.c: In function 'improver':
-o/Users/MTGAP/XCodeProjects/Typing/accessories.c:163: warning: implicit declaration of function 'doRun'
-lSLF07#2@55"Compile /Users/MTGAP/XCodeProjects/Typing/accessories.c317430705#317430705#0(345"/Users/MTGAP/XCodeProjects/Typing/accessories.c: In function 'worstDigraphsFromFile':/Users/MTGAP/XCodeProjects/Typing/accessories.c:14: warning: unused variable 'imp'/Users/MTGAP/XCodeProjects/Typing/accessories.c: In function 'improver':/Users/MTGAP/XCodeProjects/Typing/accessories.c:163: warning: implicit declaration of function 'doRun'2(22@21"Unused variable 'imp'317430705#86#83#0(6@47"/Users/MTGAP/XCodeProjects/Typing/accessories.c317416557#14#0#14#0#19"unused variable '*'0(22@40"Implicit declaration of function 'doRun'317430705#242#103#0(6@47"/Users/MTGAP/XCodeProjects/Typing/accessories.c317416557#163#0#163#0#36"implicit declaration of function '*'0(0#0#47"/Users/MTGAP/XCodeProjects/Typing/accessories.c8612958336#1203"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/accessories.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/accessories.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o /Users/MTGAP/XCodeProjects/Typing/algorithm.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.522055
-e317430705.602906
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o
-x/Users/MTGAP/XCodeProjects/Typing/algorithm.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/algorithm.c: In function 'runAlgorithm':
-o/Users/MTGAP/XCodeProjects/Typing/algorithm.c:28: warning: implicit declaration of function 'gettimeofday'
-o/Users/MTGAP/XCodeProjects/Typing/algorithm.c: In function 'simpleMutate':
-o/Users/MTGAP/XCodeProjects/Typing/algorithm.c:164: warning: unused variable 'temp'
-lSLF07#2@53"Compile /Users/MTGAP/XCodeProjects/Typing/algorithm.c317430705#317430705#0(340"/Users/MTGAP/XCodeProjects/Typing/algorithm.c: In function 'runAlgorithm':/Users/MTGAP/XCodeProjects/Typing/algorithm.c:28: warning: implicit declaration of function 'gettimeofday'/Users/MTGAP/XCodeProjects/Typing/algorithm.c: In function 'simpleMutate':/Users/MTGAP/XCodeProjects/Typing/algorithm.c:164: warning: unused variable 'temp'2(22@47"Implicit declaration of function 'gettimeofday'317430705#75#107#0(6@45"/Users/MTGAP/XCodeProjects/Typing/algorithm.c317418637#28#0#28#0#36"implicit declaration of function '*'0(22@22"Unused variable 'temp'317430705#257#83#0(6@45"/Users/MTGAP/XCodeProjects/Typing/algorithm.c317418637#164#0#164#0#19"unused variable '*'0(0#0#45"/Users/MTGAP/XCodeProjects/Typing/algorithm.c8610422272#1199"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/algorithm.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/algorithm.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o /Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.925499
-e317430706.005938
-r0
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o
-x/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c: In function 'run':
-o/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c:73: error: incompatible type for argument 1 of 'smartMutate'
-lSLF07#2@55"Compile /Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c317430705#317430706#0(177"/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c: In function 'run':/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c:73: error: incompatible type for argument 1 of 'smartMutate'1(4@49"Incompatible type for argument 1 of 'smartMutate'317430705#68#109#0(6@47"/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c317430674#73#0#73#0#0"0(0#0#47"/Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c8610845344#1203"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/cjalgorithm.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/cjalgorithm.o1#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o /Users/MTGAP/XCodeProjects/Typing/costs.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.829493
-e317430705.925416
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o
-x/Users/MTGAP/XCodeProjects/Typing/costs.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@49"Compile /Users/MTGAP/XCodeProjects/Typing/costs.c317430705#317430705#0(0"0(0#0#41"/Users/MTGAP/XCodeProjects/Typing/costs.c8613043648#1191"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/costs.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/costs.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o /Users/MTGAP/XCodeProjects/Typing/fitness.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.602999
-e317430705.689337
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o
-x/Users/MTGAP/XCodeProjects/Typing/fitness.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@51"Compile /Users/MTGAP/XCodeProjects/Typing/fitness.c317430705#317430705#0(0"0(0#0#43"/Users/MTGAP/XCodeProjects/Typing/fitness.c8610072160#1195"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/fitness.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/fitness.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o /Users/MTGAP/XCodeProjects/Typing/keyboard.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.234415
-e317430705.360548
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o
-x/Users/MTGAP/XCodeProjects/Typing/keyboard.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'initKeyboard':
-o/Users/MTGAP/XCodeProjects/Typing/keyboard.c:34: warning: implicit declaration of function 'shuffleLayout'
-o/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'swap':
-o/Users/MTGAP/XCodeProjects/Typing/keyboard.c:113: warning: implicit declaration of function 'isLegalSwap'
-lSLF07#2@52"Compile /Users/MTGAP/XCodeProjects/Typing/keyboard.c317430705#317430705#0(353"/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'initKeyboard':/Users/MTGAP/XCodeProjects/Typing/keyboard.c:34: warning: implicit declaration of function 'shuffleLayout'/Users/MTGAP/XCodeProjects/Typing/keyboard.c: In function 'swap':/Users/MTGAP/XCodeProjects/Typing/keyboard.c:113: warning: implicit declaration of function 'isLegalSwap'2(22@48"Implicit declaration of function 'shuffleLayout'317430705#74#107#0(6@44"/Users/MTGAP/XCodeProjects/Typing/keyboard.c317415503#34#0#34#0#36"implicit declaration of function '*'0(22@46"Implicit declaration of function 'isLegalSwap'317430705#247#106#0(6@44"/Users/MTGAP/XCodeProjects/Typing/keyboard.c317415503#113#0#113#0#36"implicit declaration of function '*'0(0#0#44"/Users/MTGAP/XCodeProjects/Typing/keyboard.c8612955040#1197"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/keyboard.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/keyboard.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o /Users/MTGAP/XCodeProjects/Typing/main.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.219409
-e317430705.342989
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o
-x/Users/MTGAP/XCodeProjects/Typing/main.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/main.c: In function 'main':
-o/Users/MTGAP/XCodeProjects/Typing/main.c:24: warning: implicit declaration of function 'getCommands'
-lSLF07#2@48"Compile /Users/MTGAP/XCodeProjects/Typing/main.c317430705#317430705#0(163"/Users/MTGAP/XCodeProjects/Typing/main.c: In function 'main':/Users/MTGAP/XCodeProjects/Typing/main.c:24: warning: implicit declaration of function 'getCommands'1(22@46"Implicit declaration of function 'getCommands'317430705#62#101#0(6@40"/Users/MTGAP/XCodeProjects/Typing/main.c317418770#24#0#24#0#36"implicit declaration of function '*'0(0#0#40"/Users/MTGAP/XCodeProjects/Typing/main.c7955997338298103808#1189"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/main.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/main.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o /Users/MTGAP/XCodeProjects/Typing/tools.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.343074
-e317430705.521965
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o
-x/Users/MTGAP/XCodeProjects/Typing/tools.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o/Users/MTGAP/XCodeProjects/Typing/tools.c: In function 'layoutFromFile':
-o/Users/MTGAP/XCodeProjects/Typing/tools.c:62: warning: implicit declaration of function 'copy'
-o/Users/MTGAP/XCodeProjects/Typing/tools.c:77: warning: implicit declaration of function 'calcFitness'
-lSLF07#2@49"Compile /Users/MTGAP/XCodeProjects/Typing/tools.c317430705#317430705#0(270"/Users/MTGAP/XCodeProjects/Typing/tools.c: In function 'layoutFromFile':/Users/MTGAP/XCodeProjects/Typing/tools.c:62: warning: implicit declaration of function 'copy'/Users/MTGAP/XCodeProjects/Typing/tools.c:77: warning: implicit declaration of function 'calcFitness'2(22@39"Implicit declaration of function 'copy'317430705#73#95#0(6@41"/Users/MTGAP/XCodeProjects/Typing/tools.c317408117#62#0#62#0#36"implicit declaration of function '*'0(22@46"Implicit declaration of function 'calcFitness'317430705#168#102#0(6@41"/Users/MTGAP/XCodeProjects/Typing/tools.c317408117#77#0#77#0#36"implicit declaration of function '*'0(0#0#41"/Users/MTGAP/XCodeProjects/Typing/tools.c8612011552#1191"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/tools.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/tools.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o /Users/MTGAP/XCodeProjects/Typing/trifitness.c normal i386 c com.apple.compilers.gcc.4_2
-s317430706.006024
-e317430706.083014
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o
-x/Users/MTGAP/XCodeProjects/Typing/trifitness.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@54"Compile /Users/MTGAP/XCodeProjects/Typing/trifitness.c317430706#317430706#0(0"0(0#0#46"/Users/MTGAP/XCodeProjects/Typing/trifitness.c8612808704#1201"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/trifitness.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trifitness.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o /Users/MTGAP/XCodeProjects/Typing/trikeys.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.360639
-e317430706.317236
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o
-x/Users/MTGAP/XCodeProjects/Typing/trikeys.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@51"Compile /Users/MTGAP/XCodeProjects/Typing/trikeys.c317430705#317430706#0(0"0(0#0#43"/Users/MTGAP/XCodeProjects/Typing/trikeys.c8611484064#1195"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/trikeys.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/trikeys.o0#
-
-CCompileC build/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o /Users/MTGAP/XCodeProjects/Typing/values.c normal i386 c com.apple.compilers.gcc.4_2
-s317430705.792618
-e317430705.829405
-r1
-xCompileC
-xbuild/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o
-x/Users/MTGAP/XCodeProjects/Typing/values.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@50"Compile /Users/MTGAP/XCodeProjects/Typing/values.c317430705#317430705#0(0"0(0#0#42"/Users/MTGAP/XCodeProjects/Typing/values.c8613075264#1193"    cd /Users/MTGAP/XCodeProjects/Typing    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-generated-files.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-own-target-headers.hmap -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-all-target-headers.hmap -iquote /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Typing-project-headers.hmap -F/Users/MTGAP/XCodeProjects/Typing/build/Debug -I/Users/MTGAP/XCodeProjects/Typing/build/Debug/include -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources/i386 -I/Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/DerivedSources -c /Users/MTGAP/XCodeProjects/Typing/values.c -o /Users/MTGAP/XCodeProjects/Typing/build/Typing.build/Debug/Typing.build/Objects-normal/i386/values.o0#
-
-CLd /Users/MTGAP/XCodeProjects/Typing/build/Debug/Typing normal i386
-r0
-
