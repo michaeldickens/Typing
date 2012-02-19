@@ -2,7 +2,7 @@ This document describes in depth how fitness is calculated.
 
 GENERAL
 
-The program contains a list of digraphs and gives the frequency of each digraph. Here is the pseudocode for how a layout is scored.
+The program contains a list of digraphs and gives the frequency of each digraph. Here is the pseudocode for how a layout is scored. 
 
 For each digraph: 
 	calculate the fitness for this individual digraph
@@ -23,7 +23,7 @@ This adds a penalty when a finger is overloaded. The overload point depends on f
 
 ROLLS
 
-A roll is when adjacent keys in the same row are typed in succession. An inward roll is favorable and an outward roll should be avoided.
+A roll is when adjacent keys in the same row are typed in succession. Inward rolls are favorable and outward rolls should be avoided.
 
 ROW CHANGE
 
@@ -32,3 +32,20 @@ When two keys are typed consecutively on the same hand and different rows. There
 Hand Smooth: When the two keys are on the index and middle finger where the middle finger is above the index. This is easier than other kinds of row change.
 
 Hand Warp: When the two keys are adjacent, and not Hand Smooth. This is harder than other kinds of row change.
+
+HOME JUMP
+
+When two keys are typed consecutively on the same hand and jump over the home row. There are two special types of home jump.
+
+Double Jump: Jumping over at least two rows adds an additional penalty.
+
+Hame Jump Index: When one of the keys lies under the index finger on the bottom row, the cost is significantly reduced because such jumps are significantly easier.
+
+RING JUMP
+
+When two keys are typed consecutively on the same hand where one is on the pinky and the other is on the middle finger. This move is considered to be difficult because of the ring finger's minimal dexterity.
+
+TO CENTER/TO OUTSIDE
+
+When two keys are typed consecutively on the same hand where one is in the center column (or an outside column) and the other is on one of the main columns.
+

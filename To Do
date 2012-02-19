@@ -14,7 +14,6 @@
 ***BUGS***
 
  - After the algrithm runs for a while, either a character is duplicated or a character that's not supposed to be on the keyboard somehow creeps in.
- - Sometimes the keyboard ends up blank.
 
 
 ***MISCELLANEOUS***

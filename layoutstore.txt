@@ -1,13 +1,7 @@
 # You can put comments after a pound sign.
 # You can also put comments on the same line as a layout after you've typed in the layout.
 #
-#qwdmfjpoukarstghneilzxcvb;y,./ MTGAP-QWERTY 0.2
-#,fhdkjcul.oantgmseriqxbpzyw'v; MTGAP 2.0
-#qwfpgjluy;arstdhneiozxcvbkm,./ Colemak
-#ql,p';fudkarenbgsitozw.hjvcymx Arensito
-#.ymdfjpluqaersgbtnioxzcv;kwh,/ Capewell
-#gylmwpfub;rsntdhaeoizxcvqjk,./ Carpalx GYLMWP
-#qdrwbjfup;ashtgyneoizxmcvkl,./ Workman
-#k,uypwlmfcoaeidrnthsq.';zxvgbj Klausler
-#',.pyfgcrlaoeuidhtns;qjkxbmwvz Dvorak
+#,fhdkjcul.oantgmseriqxbpzyw'v;<FHDKJCUL>OANTGMSERIQXBPZYW"V: MTGAP 2.0
+#qwfpgjluy;arstdhneiozxcvbkm,./QWFPGJLUY:ARSTDHNEIOZXCVBKM<>? Colemak
+#',.pyfgcrlaoeuidhtns;qjkxbmwvz"<>PYFGCRLAOEUIDHTNS:QJKXBMWVZ Dvorak
 #qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>? QWERTY
