@@ -389,6 +389,12 @@
 			86FF363314F07A94004EB3A5 /* PBXTextBookmark */ = 86FF363314F07A94004EB3A5 /* PBXTextBookmark */;
 			86FF363414F07A94004EB3A5 /* PBXTextBookmark */ = 86FF363414F07A94004EB3A5 /* PBXTextBookmark */;
 			86FF363514F07A94004EB3A5 /* PBXTextBookmark */ = 86FF363514F07A94004EB3A5 /* PBXTextBookmark */;
+			86FF363614F07ACA004EB3A5 /* PBXTextBookmark */ = 86FF363614F07ACA004EB3A5 /* PBXTextBookmark */;
+			86FF363714F07ACF004EB3A5 /* PBXTextBookmark */ = 86FF363714F07ACF004EB3A5 /* PBXTextBookmark */;
+			86FF363814F07B40004EB3A5 /* PBXTextBookmark */ = 86FF363814F07B40004EB3A5 /* PBXTextBookmark */;
+			86FF363914F07B40004EB3A5 /* PBXTextBookmark */ = 86FF363914F07B40004EB3A5 /* PBXTextBookmark */;
+			86FF363A14F07BB2004EB3A5 /* PBXTextBookmark */ = 86FF363A14F07BB2004EB3A5 /* PBXTextBookmark */;
+			86FF363F14F07C4A004EB3A5 /* PBXTextBookmark */ = 86FF363F14F07C4A004EB3A5 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 86ECBA21102CE32600E8AB8A /* Source Control */;
 		userBuildSettings = {
@@ -471,7 +477,7 @@
 	};
 	864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 439}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1379, 264}}";
 			sepNavSelRange = "{187, 0}";
 			sepNavVisRange = "{0, 403}";
 		};
@@ -870,9 +876,9 @@
 	};
 	86ECBA25102CE34E00E8AB8A /* keyboard.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 7527}}";
-			sepNavSelRange = "{12775, 0}";
-			sepNavVisRange = "{10989, 1249}";
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 7969}}";
+			sepNavSelRange = "{7541, 0}";
+			sepNavVisRange = "{7605, 970}";
 			sepNavWindowFrame = "{{15, 4}, {771, 874}}";
 		};
 	};
@@ -1026,7 +1032,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 492";
 		rLen = 43;
-		rLoc = 13208;
+		rLoc = 13210;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 12584;
@@ -1036,7 +1042,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 492";
 		rLen = 43;
-		rLoc = 13208;
+		rLoc = 13210;
 		rType = 0;
 		vrLen = 360;
 		vrLoc = 12584;
@@ -1046,7 +1052,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 492";
 		rLen = 43;
-		rLoc = 13208;
+		rLoc = 13210;
 		rType = 0;
 		vrLen = 681;
 		vrLoc = 12433;
@@ -1056,7 +1062,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 504";
 		rLen = 0;
-		rLoc = 13581;
+		rLoc = 13583;
 		rType = 0;
 		vrLen = 891;
 		vrLoc = 12812;
@@ -1066,7 +1072,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 504";
 		rLen = 0;
-		rLoc = 13581;
+		rLoc = 13583;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 12812;
@@ -1096,7 +1102,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 511";
 		rLen = 0;
-		rLoc = 14101;
+		rLoc = 14103;
 		rType = 0;
 		vrLen = 911;
 		vrLoc = 12823;
@@ -1106,7 +1112,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13581;
+		rLoc = 13583;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 12823;
@@ -1116,7 +1122,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13581;
+		rLoc = 13583;
 		rType = 0;
 		vrLen = 905;
 		vrLoc = 12823;
@@ -1126,7 +1132,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 513";
 		rLen = 0;
-		rLoc = 14054;
+		rLoc = 14056;
 		rType = 0;
 		vrLen = 596;
 		vrLoc = 13067;
@@ -1136,7 +1142,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 513";
 		rLen = 0;
-		rLoc = 14054;
+		rLoc = 14056;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 12823;
@@ -1206,7 +1212,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 518";
 		rLen = 0;
-		rLoc = 13879;
+		rLoc = 13881;
 		rType = 0;
 		vrLen = 907;
 		vrLoc = 13026;
@@ -1216,7 +1222,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 511";
 		rLen = 0;
-		rLoc = 13581;
+		rLoc = 13583;
 		rType = 0;
 		vrLen = 878;
 		vrLoc = 13026;
@@ -1226,7 +1232,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 515";
 		rLen = 0;
-		rLoc = 13783;
+		rLoc = 13785;
 		rType = 0;
 		vrLen = 931;
 		vrLoc = 13026;
@@ -1236,7 +1242,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 520";
 		rLen = 0;
-		rLoc = 13887;
+		rLoc = 13889;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 13025;
@@ -1246,7 +1252,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13878;
+		rLoc = 13880;
 		rType = 0;
 		vrLen = 869;
 		vrLoc = 13010;
@@ -1273,7 +1279,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 520";
 		rLen = 0;
-		rLoc = 13887;
+		rLoc = 13889;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 13025;
@@ -1433,7 +1439,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 538";
 		rLen = 7;
-		rLoc = 14284;
+		rLoc = 14286;
 		rType = 0;
 		vrLen = 287;
 		vrLoc = 13765;
@@ -1443,7 +1449,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 532";
 		rLen = 0;
-		rLoc = 14220;
+		rLoc = 14222;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 13717;
@@ -1453,7 +1459,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 538";
 		rLen = 7;
-		rLoc = 14284;
+		rLoc = 14286;
 		rType = 0;
 		vrLen = 648;
 		vrLoc = 13597;
@@ -1534,7 +1540,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 515";
 		rLen = 0;
-		rLoc = 13782;
+		rLoc = 13784;
 		rType = 0;
 		vrLen = 831;
 		vrLoc = 13081;
@@ -1544,7 +1550,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 515";
 		rLen = 0;
-		rLoc = 13782;
+		rLoc = 13784;
 		rType = 0;
 		vrLen = 500;
 		vrLoc = 13081;
@@ -1554,7 +1560,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 810;
 		vrLoc = 13220;
@@ -1564,7 +1570,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 655;
 		vrLoc = 13220;
@@ -1574,7 +1580,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 13038;
@@ -1604,7 +1610,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 655;
 		vrLoc = 13220;
@@ -1654,7 +1660,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 499";
 		rLen = 43;
-		rLoc = 13208;
+		rLoc = 13210;
 		rType = 0;
 		vrLen = 718;
 		vrLoc = 12797;
@@ -1664,7 +1670,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 517";
 		rLen = 0;
-		rLoc = 13810;
+		rLoc = 13812;
 		rType = 0;
 		vrLen = 874;
 		vrLoc = 13081;
@@ -1674,7 +1680,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 517";
 		rLen = 0;
-		rLoc = 13810;
+		rLoc = 13812;
 		rType = 0;
 		vrLen = 864;
 		vrLoc = 13220;
@@ -1694,7 +1700,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 594;
 		vrLoc = 13298;
@@ -1704,7 +1710,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 774;
 		vrLoc = 13220;
@@ -1734,7 +1740,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 519";
 		rLen = 0;
-		rLoc = 13842;
+		rLoc = 13844;
 		rType = 0;
 		vrLen = 594;
 		vrLoc = 13298;
@@ -1880,7 +1886,7 @@
 		isa = PBXTextBookmark;
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		rLen = 11;
-		rLoc = 13212;
+		rLoc = 13214;
 		rType = 0;
 	};
 	86FF352714F063A0004EB3A5 /* PBXTextBookmark */ = {
@@ -1888,7 +1894,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13557;
+		rLoc = 13559;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 12915;
@@ -1908,7 +1914,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13557;
+		rLoc = 13559;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 13029;
@@ -1918,7 +1924,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13557;
+		rLoc = 13559;
 		rType = 0;
 		vrLen = 927;
 		vrLoc = 12915;
@@ -1948,7 +1954,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 506";
 		rLen = 0;
-		rLoc = 13557;
+		rLoc = 13559;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 13029;
@@ -2145,7 +2151,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 545";
 		rLen = 32;
-		rLoc = 14350;
+		rLoc = 14352;
 		rType = 0;
 		vrLen = 327;
 		vrLoc = 14015;
@@ -2165,7 +2171,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 560";
 		rLen = 0;
-		rLoc = 14814;
+		rLoc = 14816;
 		rType = 0;
 		vrLen = 535;
 		vrLoc = 14050;
@@ -2175,7 +2181,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 561";
 		rLen = 11;
-		rLoc = 14787;
+		rLoc = 14789;
 		rType = 0;
 		vrLen = 376;
 		vrLoc = 14167;
@@ -2185,7 +2191,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 561";
 		rLen = 11;
-		rLoc = 14787;
+		rLoc = 14789;
 		rType = 0;
 		vrLen = 376;
 		vrLoc = 14167;
@@ -2235,7 +2241,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 574";
 		rLen = 0;
-		rLoc = 14773;
+		rLoc = 14775;
 		rType = 0;
 		vrLen = 581;
 		vrLoc = 14313;
@@ -2262,7 +2268,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 575";
 		rLen = 11;
-		rLoc = 14787;
+		rLoc = 14789;
 		rType = 0;
 		vrLen = 346;
 		vrLoc = 14402;
@@ -2759,7 +2765,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 472";
 		rLen = 0;
-		rLoc = 12523;
+		rLoc = 12525;
 		rType = 0;
 		vrLen = 721;
 		vrLoc = 11941;
@@ -2769,7 +2775,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 472";
 		rLen = 0;
-		rLoc = 12523;
+		rLoc = 12525;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 11941;
@@ -2789,7 +2795,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 472";
 		rLen = 0;
-		rLoc = 12523;
+		rLoc = 12525;
 		rType = 0;
 		vrLen = 957;
 		vrLoc = 11891;
@@ -2869,7 +2875,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 472";
 		rLen = 0;
-		rLoc = 12523;
+		rLoc = 12525;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 11941;
@@ -2946,7 +2952,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 992;
 		vrLoc = 11754;
@@ -2956,7 +2962,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 992;
 		vrLoc = 11754;
@@ -2976,7 +2982,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 613;
 		vrLoc = 11754;
@@ -2996,7 +3002,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 1017;
 		vrLoc = 11901;
@@ -3006,7 +3012,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 11901;
@@ -3016,7 +3022,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 699;
 		vrLoc = 11901;
@@ -3026,7 +3032,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 596;
 		vrLoc = 11798;
@@ -3086,7 +3092,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 453";
 		rLen = 0;
-		rLoc = 11915;
+		rLoc = 11917;
 		rType = 0;
 		vrLen = 943;
 		vrLoc = 11680;
@@ -3096,7 +3102,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 459";
 		rLen = 0;
-		rLoc = 12082;
+		rLoc = 12084;
 		rType = 0;
 		vrLen = 1019;
 		vrLoc = 11845;
@@ -3106,7 +3112,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 462";
 		rLen = 0;
-		rLoc = 12169;
+		rLoc = 12171;
 		rType = 0;
 		vrLen = 974;
 		vrLoc = 11845;
@@ -3116,7 +3122,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 462";
 		rLen = 0;
-		rLoc = 12169;
+		rLoc = 12171;
 		rType = 0;
 		vrLen = 613;
 		vrLoc = 11891;
@@ -3136,7 +3142,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 462";
 		rLen = 0;
-		rLoc = 12169;
+		rLoc = 12171;
 		rType = 0;
 		vrLen = 1034;
 		vrLoc = 11845;
@@ -3146,7 +3152,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 995;
 		vrLoc = 12094;
@@ -3156,7 +3162,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 717;
 		vrLoc = 12094;
@@ -3166,7 +3172,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 11919;
@@ -3196,7 +3202,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 717;
 		vrLoc = 12094;
@@ -3236,7 +3242,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 11919;
@@ -3246,7 +3252,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 484";
 		rLen = 0;
-		rLoc = 12938;
+		rLoc = 12940;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 11919;
@@ -3256,7 +3262,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 11919;
@@ -3276,7 +3282,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 12395;
@@ -3286,7 +3292,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 11919;
@@ -3316,7 +3322,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 12395;
@@ -3396,7 +3402,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 11943;
@@ -3406,7 +3412,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 11943;
@@ -3426,7 +3432,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 12395;
@@ -3436,7 +3442,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 11943;
@@ -3446,7 +3452,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 11943;
@@ -3456,7 +3462,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 12395;
@@ -3466,7 +3472,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 474";
 		rLen = 0;
-		rLoc = 12650;
+		rLoc = 12652;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 11943;
@@ -3476,7 +3482,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 483";
 		rLen = 0;
-		rLoc = 12883;
+		rLoc = 12885;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 11943;
@@ -3486,7 +3492,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 483";
 		rLen = 0;
-		rLoc = 12883;
+		rLoc = 12885;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 11943;
@@ -3496,7 +3502,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 483";
 		rLen = 0;
-		rLoc = 12883;
+		rLoc = 12885;
 		rType = 0;
 		vrLen = 957;
 		vrLoc = 11720;
@@ -3506,7 +3512,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 479";
 		rLen = 0;
-		rLoc = 12775;
+		rLoc = 12777;
 		rType = 0;
 		vrLen = 428;
 		vrLoc = 12702;
@@ -3516,7 +3522,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 479";
 		rLen = 0;
-		rLoc = 12775;
+		rLoc = 12777;
 		rType = 0;
 		vrLen = 704;
 		vrLoc = 12504;
@@ -3556,7 +3562,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 479";
 		rLen = 0;
-		rLoc = 12775;
+		rLoc = 12777;
 		rType = 0;
 		vrLen = 428;
 		vrLoc = 12702;
@@ -3586,7 +3592,7 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 479";
 		rLen = 0;
-		rLoc = 12775;
+		rLoc = 12777;
 		rType = 0;
 		vrLen = 771;
 		vrLoc = 12437;
@@ -3596,10 +3602,70 @@
 		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
 		name = "keyboard.c: 479";
 		rLen = 0;
-		rLoc = 12775;
+		rLoc = 12777;
 		rType = 0;
 		vrLen = 1249;
 		vrLoc = 10989;
+	};
+	86FF363614F07ACA004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
+		name = "keyboard.c: 479";
+		rLen = 0;
+		rLoc = 12777;
+		rType = 0;
+		vrLen = 1249;
+		vrLoc = 10989;
+	};
+	86FF363714F07ACF004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
+		name = "keyboard.c: 479";
+		rLen = 0;
+		rLoc = 12777;
+		rType = 0;
+		vrLen = 1249;
+		vrLoc = 10989;
+	};
+	86FF363814F07B40004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */;
+		name = "fullLayoutStore.txt: 2";
+		rLen = 0;
+		rLoc = 187;
+		rType = 0;
+		vrLen = 403;
+		vrLoc = 0;
+	};
+	86FF363914F07B40004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
+		name = "keyboard.c: 479";
+		rLen = 0;
+		rLoc = 12777;
+		rType = 0;
+		vrLen = 553;
+		vrLoc = 11685;
+	};
+	86FF363A14F07BB2004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
+		name = "keyboard.c: 324";
+		rLen = 0;
+		rLoc = 7541;
+		rType = 0;
+		vrLen = 920;
+		vrLoc = 7413;
+	};
+	86FF363F14F07C4A004EB3A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */;
+		name = "keyboard.c: 324";
+		rLen = 0;
+		rLoc = 7541;
+		rType = 0;
+		vrLen = 970;
+		vrLoc = 7605;
 	};
 	8DD76FA90486AB0100D96B5E /* Typing */ = {
 		activeExec = 0;

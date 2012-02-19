@@ -335,8 +335,8 @@ int printLayoutRaw(char layout[])
 			}
 		} else if (full_keyboard == FK_STANDARD) {
 			if (printable[i] == FALSE) {
-				if (i % 14 == 13) printf("  \n");
-				else printf("  ");
+				if (i % 14 == 13) printf("   \n");
+				else printf("   ");
 			} else if (i % 14 == 13) printf("%s\n", str);
 			else if (i % 14 == 5) printf("%s  ", str);
 			else printf("%s ", str);
