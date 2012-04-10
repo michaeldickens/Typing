@@ -21,8 +21,6 @@ int gameComputer(Keyboard *k, char difficulty);
 void worstDigraphsFromFile(char *filename, int damagingp);
 int worstDigraphs(Keyboard *k, int damagingp);
 
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
-
 /* 
  * Finds the single swap that will improve the layout the most.
  */

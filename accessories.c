@@ -42,7 +42,7 @@ int getCommands()
 
 		} else if (streq(cmd, "algorithm")) {
 			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
-			runCJAlgorithm(kbd_filename);
+			runCJAlgorithm(kbdFilename);
 
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
 			char *filename = cmd + strlen("best swap ");
@@ -111,6 +111,7 @@ int getCommands()
 			printf("\t(bool) keepNumbers\n");
 			printf("\t(bool) keepParentheses\n");
 			printf("\t(bool) keepShiftPairs\n");
+			printf("\t(bool) keepTab\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
 			printf("\toutRoll\n");
@@ -324,11 +325,12 @@ int gameComputer(Keyboard *k, char difficulty)
 	return 0;
 }
 
+/* Calculates worst digraphs for the first keyboard in the given file. */
 void worstDigraphsFromFile(char *filename, int damagingp)
 {
 	FILE *fp = fopen(filename, "r");
 	Keyboard k;
-	while (layoutFromFile(fp, &k) > 0) {
+	if (layoutFromFile(fp, &k) >= 0) {
 		printf("Keyboard Layout:\n");
 		printLayoutOnly(&k);
 		worstDigraphs(&k, damagingp);
@@ -339,7 +341,7 @@ void worstDigraphsFromFile(char *filename, int damagingp)
 int worstDigraphs(Keyboard *k, int damagingp)
 {
 	int i;
-	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
+	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	
 	char keys[diLen][2];
 	memcpy(keys, diKeys, sizeof(char) * diLen * 2);
@@ -374,9 +376,8 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		}
 		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
 
-		// Re-assign diValues[i] to the cost of that digraph.
-//		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
-		values[i] = k->sameFinger;
+		/* Re-assign diValues[i] to the cost of that digraph. */
+		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
 		
 		/* This function will tell you...
 		 * Without this line: Which digraphs have the worst score.
@@ -387,47 +388,18 @@ int worstDigraphs(Keyboard *k, int damagingp)
 	}
 	
 	sortDigraphs(keys, values, 0, diLen - 1);
+	
+	for (i = 0; i < diLen; ++i) {
+		char buf1[5];
+		char buf2[5];
+		charToPrintable(buf1, keys[i][0], FALSE);
+		charToPrintable(buf2, keys[i][1], FALSE);
 		
-	for (i = 0; i < diLen; ++i)
-		printf("%c%c = %lld\n", keys[i][0], keys[i][1], values[i]);
+		printf("%s%s = %lld\n", buf1, buf2, values[i]);
+		
+	}
 		
 	return 0;	
-}
-
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
-{	
-	int64_t lltemp;
-	char ctemp;
-	
-	int64_t pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	do {
-		while (values[i] < pivot) ++i;
-		while (values[j] > pivot) --j;
-		
-		if (i <= j) {
-			lltemp = values[i];
-			values[i] = values[j];
-			values[j] = lltemp;
-			
-			ctemp = keys[i][0];
-			keys[i][0] = keys[j][0];
-			keys[j][0] = ctemp;
-
-			ctemp = keys[i][1];
-			keys[i][1] = keys[j][1];
-			keys[j][1] = ctemp;
-			
-			++i;
-			--j;
-		}
-		
-	} while (i <= j);
-	
-	if (i < right) sortDigraphs(keys, values, i, right);
-	if (left < j) sortDigraphs(keys, values, left, j);
-	
-	return 0;
 }
 
 /* WARNING: Deprecated. Does not work with shifted characters.
@@ -606,8 +578,8 @@ int makeTypingData()
 	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-2000.)\n");
 	int max = getNumber("max: ");
 	
-	compileTypingData("allDigraphs.txt", diFilenames, multipliers, 8, 2, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
-	compileTypingData("allChars.txt", charFilenames, multipliers, 8, 1, "1234567890abcdefghijklmnopqrstuvwxyz,.)(_\";-'=/", max);
+	compileTypingData("allDigraphs.txt", diFilenames, multipliers, 8, 2, max);
+	compileTypingData("allChars.txt", charFilenames, multipliers, 8, 1, max);
 	
 	printf("\nDone writing typing data. See allChars.txt and allDigraphs.txt for the result.\n\n");
 	
@@ -756,7 +728,7 @@ int getNumber(char *description)
  */
 int testFitness()
 {
-	if (full_keyboard == FK_NO) {
+	if (fullKeyboard == FK_NO) {
 		printf("\nTesting calcInRoll():\n");
 		testResult(calcInRoll(0, 0), 0);
 		testResult(calcInRoll(10, 11), inRoll);
@@ -811,7 +783,7 @@ int testFitness()
 		testResult(calcToCenter(25, 9), toCenter);
 		testResult(calcToCenter(25, 15), 0);
 	
-	} else if (full_keyboard == FK_STANDARD) {
+	} else if (fullKeyboard == FK_STANDARD) {
 		printf("\nTesting calcHomeJump():\n");
 		testResult(calcHomeJump(8, 8), 0);
 		testResult(calcHomeJump(14, 0), 0);

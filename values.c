@@ -14,7 +14,7 @@ int initValues()
 	
 	initCosts();
 	
-	if (full_keyboard == FK_NO) {
+	if (fullKeyboard == FK_NO) {
 		// Set keyboard position costs. These costs were determined by looking 
 		// at how the positions were valued on some of the best alternative 
 		// layouts.
@@ -27,7 +27,7 @@ int initValues()
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
-	} else if (full_keyboard == FK_STANDARD) {
+	} else if (fullKeyboard == FK_STANDARD) {
 		
 		// These costs are optimized for a full standard layout. Any cost that 
 		// is 999 is not supposed to contain any character.
@@ -40,21 +40,22 @@ int initValues()
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 
-	} else if (full_keyboard == FK_KINESIS) {
+	} else if (fullKeyboard == FK_KINESIS) {
 		
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
 		int64_t costsCopy[KSIZE_MAX] = {
-			110, 100,  75, 100, 130, 130, 100,  75, 100, 110, 120, 
-			 40,  40,  30,  40,  70,  70,  40,  30,  40,  40,  90, 
-			  0,   0,   0,   0,  40,  40,   0,   0,   0,   0,  60, 
-			 70,  70,  70,  50,  80,  80,  50,  70,  70,  70, 999, 
-			140, 140, 999, 999, 999, 999, 999, 999, 140, 140, 999, 	
+			120, 110, 100,  75, 100, 130, 130, 100,  75, 100, 110, 120, 
+			 90,  40,  40,  30,  40,  70,  70,  40,  30,  40,  40,  90, 
+			 60,   0,   0,   0,   0,  40,  40,   0,   0,   0,   0,  60, 
+			999,  70,  70,  70,  50,  80,  80,  50,  70,  70,  70, 999, 
+			999, 140, 140, 999, 999, 999, 999, 999, 999, 140, 140, 999, 	
+			  0,  50, 999, 999, 999, 999, 999, 999, 999, 999,  50,   0, 
 		};
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
-	} else if (full_keyboard == FK_IPHONE) {
+	} else if (fullKeyboard == FK_IPHONE) {
 		
 		// Thumbs are centered over the QWERTY D and K keys.
 		int64_t costsCopy[KSIZE_MAX] = {
@@ -95,17 +96,29 @@ void initCosts()
 	keepNumbers = 1;
 	keepParentheses = TRUE;
 	keepShiftPairs = FALSE;
+	keepTab = FALSE;
 	keepConsonantsRight = FALSE;
 	
-	fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] = 8.0;
-	fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 13.0;
-	fingerPercentMaxes[2] = fingerPercentMaxes[FINGER_COUNT - 3] = 22.0;
-	fingerPercentMaxes[3] = fingerPercentMaxes[FINGER_COUNT - 4] = 22.0;
+	if (fullKeyboard == FK_KINESIS) {
+		fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] =  7.5;
+		fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 10.0;
+		fingerPercentMaxes[2] = fingerPercentMaxes[FINGER_COUNT - 3] = 20.0;
+		fingerPercentMaxes[3] = fingerPercentMaxes[FINGER_COUNT - 4] = 20.0;
+		fingerPercentMaxes[4] = fingerPercentMaxes[FINGER_COUNT - 5] = 18.0;
+	} else {
+		fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] =  9.0;
+		fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 11.5;
+		fingerPercentMaxes[2] = fingerPercentMaxes[FINGER_COUNT - 3] = 22.0;
+		fingerPercentMaxes[3] = fingerPercentMaxes[FINGER_COUNT - 4] = 22.0;
+		fingerPercentMaxes[4] = fingerPercentMaxes[FINGER_COUNT - 5] = 18.0;		
+	}
+
 	
-	fingerWorkCosts[0] = fingerWorkCosts[FINGER_COUNT - 1] = 30;
-	fingerWorkCosts[1] = fingerWorkCosts[FINGER_COUNT - 2] = 20;
-	fingerWorkCosts[2] = fingerWorkCosts[FINGER_COUNT - 3] = 15;
-	fingerWorkCosts[3] = fingerWorkCosts[FINGER_COUNT - 4] = 10;
+	fingerWorkCosts[0] = fingerWorkCosts[FINGER_COUNT - 1] = 40;
+	fingerWorkCosts[1] = fingerWorkCosts[FINGER_COUNT - 2] = 30;
+	fingerWorkCosts[2] = fingerWorkCosts[FINGER_COUNT - 3] = 20;
+	fingerWorkCosts[3] = fingerWorkCosts[FINGER_COUNT - 4] = 20;
+	fingerWorkCosts[4] = fingerWorkCosts[FINGER_COUNT - 5] = 20;
 	
 	// All values are compounding. For example, say we jump over the home row 
 	// on the index finger. The cost is sameHand + rowChange + homeJump + homeJumpIndex.
@@ -120,7 +133,7 @@ void initCosts()
 	sameFingerT =	100;
 	rowChangeDown =  10;
 	rowChangeUp =    15;
-	handWarp =		 15;
+	handWarp =		 25;
 	handSmooth =	- 5;
 	homeJump =		100;
 	homeJumpIndex = -90;

@@ -21,14 +21,14 @@
 #define TRUE 1
 #define FALSE 0
 
-/* Set full_keyboard in initValues(). */
-int full_keyboard;
+/* Set fullKeyboard in initValues(). */
+int fullKeyboard;
 
 int ksize, trueksize;
-char *kbd_filename;
+char *kbdFilename;
 
-#define KSIZE_MAX 100
-#define FINGER_COUNT 8
+#define KSIZE_MAX 200
+#define FINGER_COUNT 10
 
 #define NOT_WORK_WITH_full_keyboard(str) \
 	if (ksize != 30) { \
@@ -83,9 +83,14 @@ int detailedOutput;
 
 /* 0 for false, 1 for true. 
  * keepNumbers: 2 if numbers can move about but must stay in number row.
+ * 
+ * Some of these variables require that their condition be true, and others 
+ * merely provide a penalty for not doing so.
+ * The Former: keepNumbers, keepShiftPairs, keepTab
+ * The Latter: keepZXCV, keepParentheses
  */
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepShiftPairs, 
-	keepConsonantsRight;
+	keepTab, keepConsonantsRight;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 

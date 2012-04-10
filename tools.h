@@ -10,10 +10,14 @@
 
 #define streq(str1, str2) (strcmp(str1, str2) == 0)
 #define streqn(str1, str2, n) (strncmp(str1, str2, n) == 0)
+
+#define ASCII_SHIFT 14
  
 #define MAX_TRI_LEN 5000
 #define MAX_DI_LEN 5000
-#define MAX_MON_LEN 100
+#define MAX_MON_LEN 200
+
+#define ERROR_RATE_PERCENT 2
 
 int64_t totalMon;
 int64_t totalDi;
@@ -33,18 +37,19 @@ int monLen, diLen, triLen;
 /* Reduces monValues and diValues so as to prevent integer overflow. */
 #define DIVISOR 100
 
+/* These are guaranteed to hold a standard QWERTY layout. */
 #define DEFAULT_KEYBOARD_26 "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
 #define DEFAULT_KEYBOARD_30 "qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
 #define DEFAULT_KEYBOARD_STANDARD "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?"
-#define DEFAULT_KEYBOARD_KINESIS "1234567890-qwertyuiop\\asdfghjkl;'zxcvbnm,./`=[]!@#$%^&*()_QWERTYUIOP|ASDFGHJKL:\"ZXCVBNM<>?~+{}"
+#define DEFAULT_KEYBOARD_KINESIS "1234567890-\tqwertyuiop=asdfghjkl;'zxcvbnm,./`\\[]\n !@#$%^&*()_\tQWERTYUIOP+ASDFGHJKL:\"ZXCVBNM<>?~|{}\n "
 
-char keysToInclude[100];
+char keysToInclude[200];
 
 typedef struct {
 	char layout[KSIZE_MAX + 1]; /* The one extra character is set to '\0' so 
 								(layout) can be treated as a string. */
 	char shiftedLayout[KSIZE_MAX + 1];
-	int64_t fingerUsage[8];
+	int64_t fingerUsage[FINGER_COUNT];
 	int64_t shortcut;
 	int64_t fitness;
 	int64_t distance;
@@ -77,11 +82,17 @@ int strNumsToArr(int arr[], char *str, int length);
 int initData();
 void initKeyboardData();
 void initTypingData();
-int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, char *legalKeys, int max);
+int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, int max);
 int sortTypingData(char **keys, int *values, int left, int right);
+char convertEscapeChar(char c);
+
+int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
+int sortMonographs(char keys[], int64_t values[], int left, int right);
 
 int setValue(char *str);
 int getValue(char *name);
+
+int alwaysKeepShiftPairP(char c);
 
 
 int qwerty[30];

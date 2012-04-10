@@ -12,12 +12,12 @@
 int runCJAlgorithm(char *filename)
 {
 	int start = time(NULL), finish;
+	int i, roundNum, isFileEmpty;
 	
 	int64_t curEval;
-	Keyboard k, bestk;
 	int64_t bestEval = LLONG_MAX;
 
-	int i, numberOfRounds, isFileEmpty;
+	Keyboard k, prevk, bestk;
 	
 	FILE *fp = fopen(filename, "r");
 	
@@ -26,43 +26,47 @@ int runCJAlgorithm(char *filename)
 	// of using a mutated last layout is chanceToUsePreviousLayout.
 	double chanceToUsePreviousLayout = 0.2;
 	double subChanceToUseBestLayout = 0.1;
-	int numberOfSwaps = 1;
-	int roundsBeforeChanceInc = 100, roundsBeforeSwapInc = 50;
+	int numberOfSwaps = 3;
+	int roundsBeforeChanceInc = 100, roundsBeforeSwapInc = 10;
 
 	int usedPreviousLayout = FALSE;
 	int intervalBetweenPrints = 60, intervalInc = 0;
 	
 	/* Run Chris Johnson's simulated annealing algorithm. */
 	isFileEmpty = INIT_FROM_FILE ? FALSE : TRUE;
-	for (i = 0, numberOfRounds = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++numberOfRounds) {
+	for (i = 0, roundNum = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++roundNum) {
+		copy(&prevk, &k);
+
 		/* chanceToUsePreviousLayout increases as the program continues for longer and longer. */
-		if (numberOfRounds % roundsBeforeChanceInc == roundsBeforeChanceInc - 1) {
+		if (roundNum % roundsBeforeChanceInc == roundsBeforeChanceInc - 1) {
 			chanceToUsePreviousLayout *= 1.2;
-			roundsBeforeChanceInc *= 2;
+			roundsBeforeChanceInc = roundsBeforeChanceInc * 2 + 1;
 			if (detailedOutput) printf("Chance to use previous layout is now %f.\n", chanceToUsePreviousLayout);
 		}
 		
-		if (numberOfRounds % roundsBeforeSwapInc == roundsBeforeSwapInc - 1) {
+		if (roundNum % roundsBeforeSwapInc == roundsBeforeSwapInc - 1) {
 			++numberOfSwaps;
-			roundsBeforeSwapInc *= 2;
+			roundsBeforeSwapInc = roundsBeforeSwapInc * 1.4 + 1;
 			if (detailedOutput) printf("Number of swaps between rounds is now %d.\n", numberOfSwaps);
 		}
-				
-		int fileReadRes = -100;
+
+		int fileReadRes = FILE_READ_NOT_HAPPEN;
 		if (INIT_FROM_FILE && !isFileEmpty) {
-			if ((fileReadRes = layoutFromFile(fp, &k)) < 0) {
+			if ((fileReadRes = layoutFromFile(fp, &k)) != 0) {
 				isFileEmpty = TRUE;
 				fclose(fp);
 			}
 		} 
 				
-		if (isFileEmpty || fileReadRes == -100) {
-			if (numberOfRounds != 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {
+		if (isFileEmpty || fileReadRes == FILE_READ_NOT_HAPPEN) {
+			if (roundNum > 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {				
 				usedPreviousLayout = TRUE;
 				/* There is a 1 out of subChanceToUseBestLayout chance that the 
 				 * best layout will be used instead of the last layout.
 				 */
 				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copy(&k, &bestk);
+				else copy(&k, &prevk);
+				
 				smartMutate(&k, numberOfSwaps);
 			} else {
 				usedPreviousLayout = FALSE;
@@ -89,19 +93,18 @@ int runCJAlgorithm(char *filename)
 			copy(&bestk, &k);
 
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", numberOfRounds, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 		} else if (curEval == bestEval && detailedOutput) {
 			printf("Same layout found\n");
 		} else if (time(NULL) - finish >= intervalBetweenPrints) {
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", numberOfRounds, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 			++intervalInc;
 			if (intervalInc >= 4) {
 				intervalInc = 0;
 				intervalBetweenPrints *= 2;
 			}
 		}
-
 	}
 		
 	finish = time(NULL);
@@ -146,6 +149,7 @@ int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k)
 	/* try swaps until we beat evaluationToBeat... */
 	for (i = 0; i < 2 * trueksize; i++) {
 		for (j = i+1; j < 2 * trueksize; j++) {
+			
 			if (!isLegalSwap(k, indices[i], indices[j])) {
 				continue;
 			}

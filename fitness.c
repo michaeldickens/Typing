@@ -95,7 +95,7 @@ int calcFitness(Keyboard *k)
 {
 	int i;
 	
-	for (i = 0; i < 8; ++i) k->fingerUsage[i] = 0;
+	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	k->fitness		= 0;
 	k->distance		= 0;
 	k->inRoll		= 0;
@@ -130,7 +130,7 @@ int calcFitness(Keyboard *k)
 		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
 		
 		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
-		else k->fingerUsage[7 - finger[lc]] += monValues[i];
+		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += monValues[i];
 	}
 	calcFingerWork(k);	
 	
@@ -209,7 +209,7 @@ int64_t calcQWERTY(Keyboard *k)
 		if (finger[pos] != finger[i]) result += QWERTY_FINGER_COST * averageMon;
 		if (hand[pos] != hand[i]) result += QWERTY_HAND_COST * averageMon;
 	}
-						
+	
 	return result;
 }
 
@@ -237,7 +237,7 @@ int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
 	 */
 	if (openShifted == closeShifted && 
 			((openPar+1 == closePar && row[openPar] == row[closePar]) ||
-			(hand[openPar] != hand[closePar] && 
+			(hand[openPar] == LEFT && hand[closePar] == RIGHT && 
 			column[openPar] == column[closePar] && 
 			row[openPar] == row[closePar])))
 		return 0;
@@ -375,6 +375,6 @@ int calcToCenter(int loc0, int loc1)
  */
 int calcToOutside(int loc0, int loc1)
 {
-	if (full_keyboard != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
+	if (fullKeyboard != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
 	else return 0;
 }

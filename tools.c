@@ -42,7 +42,7 @@ int humanReadableToComputerReadable()
 int initData()
 {
 	initValues();
-
+	
 	int i, j;
 	
 	srand(time(NULL));
@@ -71,19 +71,20 @@ int initData()
 		for (j = 0; j < 5; ++j) {
 			rowChangeTableDown[i][j] = rowChangeDown;
 			rowChangeTableUp[i][j] = rowChangeUp;
-			if (i == MIDDLE && j == INDEX) rowChangeTableDown[i][j] += handSmooth;
-			else if (abs(i - j) == 1)      rowChangeTableDown[i][j] += handWarp;
-			
-			if (i == INDEX && j == MIDDLE) rowChangeTableUp[i][j] += handSmooth;
-			else if (abs(i - j) == 1)      rowChangeTableUp[i][j] += handWarp;
+			if (i != THUMB && j != THUMB) {
+				if (i == MIDDLE && j == INDEX) rowChangeTableDown[i][j] += handSmooth;
+				else if (abs(i - j) == 1)      rowChangeTableDown[i][j] += handWarp;
+				
+				if (i == INDEX && j == MIDDLE) rowChangeTableUp[i][j] += handSmooth;
+				else if (abs(i - j) == 1)      rowChangeTableUp[i][j] += handWarp;
+			}
 		}
 
+	if (fullKeyboard == FK_NO) strcpy(keysToInclude, DEFAULT_KEYBOARD_30);
+	else if (fullKeyboard == FK_STANDARD) strcpy(keysToInclude, DEFAULT_KEYBOARD_STANDARD);
+	else if (fullKeyboard == FK_KINESIS) strcpy(keysToInclude, DEFAULT_KEYBOARD_KINESIS);
+	
 	initKeyboardData();
-	
-	if (full_keyboard == FK_NO) strcpy(keysToInclude, DEFAULT_KEYBOARD_30);
-	else if (full_keyboard == FK_STANDARD) strcpy(keysToInclude, DEFAULT_KEYBOARD_STANDARD);
-	else if (full_keyboard == FK_KINESIS) strcpy(keysToInclude, DEFAULT_KEYBOARD_KINESIS);
-	
 	initTypingData();
 	
 	return 0;
@@ -93,9 +94,9 @@ void initKeyboardData()
 {
 	int i;
 	
-	numStart = 0;
+	numStart = strchr(keysToInclude, '1') - keysToInclude;
 	
-	if (full_keyboard == FK_NO) {
+	if (fullKeyboard == FK_NO) {
 		int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
@@ -155,16 +156,18 @@ void initKeyboardData()
 		copyArray(indices, indicesCopy, trueksize);
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 
-	} else if (full_keyboard == FK_STANDARD) {
+	} else if (fullKeyboard == FK_STANDARD) {
 		int fingerCopy[KSIZE_MAX] = {
-			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, PINKY, PINKY, 
-			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, PINKY, PINKY, 
-			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, PINKY, PINKY, 
-			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, PINKY, PINKY, 
+			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
+			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
+			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
+			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
+			THUMB, THUMB, THUMB, THUMB,  THUMB, THUMB, THUMB, THUMB, THUMB,  THUMB, THUMB, THUMB, THUMB, THUMB, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
 		int columnCopy[KSIZE_MAX] = {
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
@@ -177,13 +180,14 @@ void initKeyboardData()
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* thumb row */
 		};
 		copyArray(row, rowCopy, ksize);
 		
 		homeRow = 2;
-		numStart = 1;
 		
 		int handCopy[KSIZE_MAX] = {
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -196,6 +200,7 @@ void initKeyboardData()
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
@@ -204,14 +209,16 @@ void initKeyboardData()
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 		
 		int printableCopy[KSIZE_MAX] = {
-			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE, FALSE, 
-			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE, TRUE , 
-			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , FALSE, FALSE, 
+			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, FALSE, 
+			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, TRUE,  
+			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, 
+			TRUE,  FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE, FALSE, FALSE,
 		};
 		copyArray(printable, printableCopy, ksize);
 		
@@ -220,6 +227,7 @@ void initKeyboardData()
 		       15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
 			   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 
 			   43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 
+			56, 
 		};
 		int indicesShiftedCopy[KSIZE_MAX];
 		for (i = 0; i < KSIZE_MAX; ++i)
@@ -228,13 +236,14 @@ void initKeyboardData()
 		copyArray(indices, indicesCopy, trueksize);
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
-	} else if (full_keyboard == FK_KINESIS) {
+	} else if (fullKeyboard == FK_KINESIS) {
 		int fingerCopy[KSIZE_MAX] = {
-			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
-			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
-			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
-			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
-			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
+			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
@@ -244,62 +253,69 @@ void initKeyboardData()
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
+			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 		};
 		copyArray(column, columnCopy, ksize);
 		
 		int rowCopy[KSIZE_MAX] = {
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
-			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
-			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
+			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
+			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, /* thumb row */
 		};
 		copyArray(row, rowCopy, ksize);
 		
 		homeRow = 2;
 		
 		int handCopy[KSIZE_MAX] = {
-			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
-			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
-			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
-			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
-			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
+			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 		};
 		copyArray(hand, handCopy, ksize);	
 		
 		int isCenterCopy[KSIZE_MAX] = {
-			FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
-			FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
-			FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
-			FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
-			FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
 		int isOutsideCopy[KSIZE_MAX] = {
-			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
-			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
-			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
-			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
-			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 
 		int printableCopy[KSIZE_MAX] = {
-			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
-			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
-			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , 
-			TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , TRUE , FALSE, 
-			TRUE , TRUE , FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE , TRUE , FALSE, 
+			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
+			TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
+			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
+			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  FALSE, 
+			FALSE, TRUE,  TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE,  TRUE,  FALSE, 
+			FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE,  TRUE,  
 		};
 		copyArray(printable, printableCopy, ksize);		
 
 		int indicesCopy[KSIZE_MAX] = {
-			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 
-			11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 
-			22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 
-			33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 
-			44, 45,                         52, 53, 
+				 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 
+		    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 
+			    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 
+				37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 
+				49, 50,                         57, 58, 
+			                                        70, 71, 
 		};
 		int indicesShiftedCopy[KSIZE_MAX];
 		for (i = 0; i < KSIZE_MAX; ++i)
@@ -308,7 +324,7 @@ void initKeyboardData()
 		copyArray(indices, indicesCopy, trueksize);
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
-	} else if (full_keyboard == FK_IPHONE) {
+	} else if (fullKeyboard == FK_IPHONE) {
 		int fingerCopy[KSIZE_MAX] = {
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
@@ -343,8 +359,8 @@ void initKeyboardData()
 			isOutside[i] = FALSE;
 		
 		int printableCopy[KSIZE_MAX] = {
-			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , TRUE , 
-			TRUE , TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE , FALSE, 
+			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE,  
+			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
 		};
 		copyArray(printable, printableCopy, ksize);
@@ -362,6 +378,11 @@ void initKeyboardData()
 
 }
 
+/* Reads typing data from allChars.txt and allDigraphs.txt.
+ * 
+ * Produces monographs and digraphs involving backspace by assuming that all 
+ * characters are equally mistyped.
+ */
 void initTypingData()
 {
 	int i;
@@ -379,9 +400,22 @@ void initTypingData()
 			;
 		if (c == EOF) break;
 
+		if (c == '\\') c = convertEscapeChar(getc(file));
+		if (c == 0) {
+			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			return;
+		}
 		diKeys[i][0] = c;
-		diKeys[i][1] = getc(file);
-		c = getc(file); /* Read the space between the digraph and the value. */
+
+		c = getc(file);
+		if (c == '\\') c = convertEscapeChar(getc(file));
+		if (c == 0) {
+			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			return;
+		}
+		diKeys[i][1] = c;
+		
+		c = getc(file); /* Skip the space between the digraph and the value. */
 		
 		if (strchr(keysToInclude, diKeys[i][0]) && 
 				strchr(keysToInclude, diKeys[i][1])) {
@@ -418,9 +452,15 @@ void initTypingData()
 		while ((c = getc(file)) == '\n')
 			;
 		if (c == EOF) break;
-
+		
+		if (c == '\\') c = convertEscapeChar(getc(file));
+		if (c == 0) {
+			fprintf(stderr, "Error: In monograph file, unknown escape character \\%c.\n", c);
+			return;
+		}
 		monKeys[i] = c;
-		c = getc(file);
+		
+		c = getc(file); /* Skip the space between the char and the value. */
 		
 		if (strchr(keysToInclude, monKeys[i])) {
 			monValues[i] = 0;
@@ -443,6 +483,30 @@ void initTypingData()
 	
 	monLen = i;
 	fclose(file);
+	
+	/* If necessary, add the stats for backspace. */
+	if (strchr(keysToInclude, '\b')) {
+		/* Add backpace to the digraph list. */
+		for (i = 0; i < monLen; ++i) {
+			diKeys[diLen][0] = '\b';
+			diKeys[diLen][1] = monKeys[i];
+			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			++diLen;
+			
+			diKeys[diLen][1] = '\b';
+			diKeys[diLen][0] = monKeys[i];
+			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			++diLen;
+		}
+	 
+		/* Add backspace to the monograph list. */
+		monKeys[monLen] = '\b';
+		monValues[monLen] = totalMon * ERROR_RATE_PERCENT / 100;
+		++monLen;
+	}
+	
+	sortDigraphs(diKeys, diValues, 0, diLen - 1);
+	sortMonographs(monKeys, monValues, 0, monLen - 1);
 }
 
 /* 
@@ -453,20 +517,20 @@ void initTypingData()
  * multipliers: The multipliers corresponding with the filenames.
  * length: Length of filenames and multipliers.
  * unit: The unit size of the strings to be read (characters=1, digraphs=2, etc).
- * legalKeys: The keys to be included. For example if you only want to include letters, 
- *     legalKeys would be "abcdefghijklmnopqrstuvwxyz". If you want to include any 
- *     character, set legalKeys to NULL.
  * max: The maximum number of strings that can be put into the file.
  * 
  * Return Codes
  * 1: Null file.
  */
-int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, char *legalKeys, int max)
+int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, int max)
 {
 	size_t size = 5000;
 	char **keys = malloc(sizeof(char *) * size);
 	int *values = malloc(sizeof(int) * size);
 	
+	/* Number of elements in keys and values. */
+	int datalen = 0;
+
 	int linelen = 100;
 	char line[linelen];
 	
@@ -476,7 +540,7 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 		return 1;
 	}
 	
-	int i, k, datalen = 0;
+	int i, k;
 	for (i = 0; i < length; ++i) {
 		printf("file %s,  multiplier %d\n", filenames[i], multipliers[i]);
 		
@@ -486,19 +550,11 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 		FILE *file = fopen(filenames[i], "r");
 		if (file == NULL) {
 			fprintf(stderr, "Error: null file %s.\n", filenames[i]);
+			fclose(outfile);
 			return 1;
 		}
 		
-		while (fgets(line, linelen-1, file)) {
-			int skip = FALSE;
-			if (legalKeys)
-				for (k = 0; k < unit; ++k)
-					if (strchr(legalKeys, line[k]) == NULL) {
-						skip = TRUE;
-						break;
-					}
-			if (skip) continue;
-			
+		while (fgets(line, linelen-1, file)) {			
 			line[linelen-1] = '\0';
 			if (datalen >= size) {
 				size *= 2;
@@ -506,6 +562,7 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 				values = realloc(values, sizeof(int) * size);
 			}
 			
+			/* If the n-graph already exists, add to its value. */
 			int found = FALSE;
 			for (k = 0; k < datalen; ++k) {
 				if (streqn(keys[k], line, unit)) {
@@ -514,6 +571,7 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 				}
 			}
 			
+			/* If the n-graph does not already exist, add it. */
 			if (found == FALSE) {
 				keys[datalen] = malloc(sizeof(char) * (unit + 1));
 				strncpy(keys[datalen], line, unit);
@@ -545,6 +603,7 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 	return 0;
 }
 
+/* Give left = 0 and right = (length of arrays minus 1). */
 int sortTypingData(char **keys, int *values, int left, int right)
 {
 	int pivot = values[(left + right) / 2];
@@ -569,6 +628,31 @@ int sortTypingData(char **keys, int *values, int left, int right)
 	if (i < right) sortTypingData(keys, values, i, right);
 	
 	return 0;
+}
+
+/* 
+ * Accepts the following escape sequences: 
+ * \n (newline)
+ * \t (tab)
+ * \s (shift)
+ * \\ (backslash)
+ * \b (backspace)
+ * 
+ * return 0: Unknown escape character.
+ */
+char convertEscapeChar(char c)
+{
+	if (c == 'n') {
+		return '\n';
+	} else if (c == 't') {
+		return '\t';
+	} else if (c == 's') {
+		return ASCII_SHIFT;
+	} else if (c == '\\') {
+		return '\\';
+	} else if (c == 'b') {
+		return '\b'; /* backspace */
+	} else return 0;
 }
 
 /* 
@@ -602,6 +686,8 @@ int setValue(char *str)
 		keepParentheses = value;
 	} else if (streq(name, "keepShiftPairs")) {
 		keepShiftPairs = value;
+	} else if (streq(name, "keepTab")) {
+		keepTab = value;
 	} else if (streq(name, "distance")) {
 		distance = value;
 	} else if (streq(name, "inRoll")) {
@@ -662,6 +748,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepParentheses);
 	} else if (streq(name, "keepShiftPairs")) {
 		printf("%s = %d\n\n", name, keepShiftPairs);
+	} else if (streq(name, "keepTab")) {
+		printf("%s = %d\n\n", name, keepTab);
 	} else if (streq(name, "distance")) {
 		printf("%s = %d\n\n", name, distance);
 	} else if (streq(name, "inRoll")) {
@@ -706,30 +794,103 @@ int getValue(char *name)
 	return 0;
 }
 
+int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
+{	
+	int64_t lltemp;
+	char ctemp;
+	
+	int64_t pivot = values[(left + right) / 2];
+	int i = left, j = right;
+	do {
+		while (values[i] < pivot) ++i;
+		while (values[j] > pivot) --j;
+		
+		if (i <= j) {
+			lltemp = values[i];
+			values[i] = values[j];
+			values[j] = lltemp;
+			
+			ctemp = keys[i][0];
+			keys[i][0] = keys[j][0];
+			keys[j][0] = ctemp;
+
+			ctemp = keys[i][1];
+			keys[i][1] = keys[j][1];
+			keys[j][1] = ctemp;
+			
+			++i;
+			--j;
+		}
+		
+	} while (i <= j);
+	
+	if (i < right) sortDigraphs(keys, values, i, right);
+	if (left < j) sortDigraphs(keys, values, left, j);
+	
+	return 0;
+}
+
+int sortMonographs(char keys[], int64_t values[], int left, int right)
+{	
+	int64_t lltemp;
+	char ctemp;
+	
+	int64_t pivot = values[(left + right) / 2];
+	int i = left, j = right;
+	do {
+		while (values[i] < pivot) ++i;
+		while (values[j] > pivot) --j;
+		
+		if (i <= j) {
+			lltemp = values[i];
+			values[i] = values[j];
+			values[j] = lltemp;
+			
+			ctemp = keys[i];
+			keys[i] = keys[j];
+			keys[j] = ctemp;
+			
+			++i;
+			--j;
+		}
+		
+	} while (i <= j);
+	
+	if (i < right) sortMonographs(keys, values, i, right);
+	if (left < j) sortMonographs(keys, values, left, j);
+	
+	return 0;
+}
+
+int alwaysKeepShiftPairP(char c)
+{
+	return isalpha(c) || isspace(c) || c == '\b';
+}
+
 void setksize(int type)
 {
-	full_keyboard = type;
+	fullKeyboard = type;
 	
-	switch (full_keyboard) {
+	switch (fullKeyboard) {
 	case FK_NO:
 		ksize = 30;
 		trueksize = 30;
-		kbd_filename = "layoutStore.txt";
+		kbdFilename = "layoutStore.txt";
 		break;
 	case FK_STANDARD:
 		ksize = 56;
 		trueksize = 47;
-		kbd_filename = "fullLayoutStore.txt";
+		kbdFilename = "fullLayoutStore.txt";
 		break;
 	case FK_KINESIS:
-		ksize = 55;
-		trueksize = 47;
-		kbd_filename = "kinesisLayoutStore.txt";
+		ksize = 72;
+		trueksize = 50;
+		kbdFilename = "kinesisLayoutStore.txt";
 		break;
 	case FK_IPHONE:
 		ksize = 30;
 		trueksize = 26;
-		kbd_filename = NULL;
+		kbdFilename = NULL;
 		break;
 	}
 

@@ -35,6 +35,7 @@
 
 int initKeyboard(Keyboard *k);
 int setLayout(Keyboard *k, char *layout);
+int layoutFromFile(FILE *fp, Keyboard *k);
 int copy(Keyboard *k, Keyboard *original);
 int swap(Keyboard *k, int loc1, int loc2);
 int swapPair(Keyboard *k, int loc1, int loc2);
@@ -45,12 +46,13 @@ int printLayoutRaw(char layout[]);
 int printKeyboard(Keyboard *k);
 int printPercentages(Keyboard *k);
 int simplePrintKeyboard(Keyboard *k);
+int charToPrintable(char *buffer, char c, int changeSpace);
+
 int qwertyPositions(Keyboard *k);
 int readLayouts(Keyboard pool[], int length);
 
 int isSwappable(char c);
 int isLegalSwap(Keyboard *k, int i, int j);
-int layoutFromFile(FILE *fp, Keyboard *k);
 void shuffleIndices();
 void shuffleLayout(Keyboard *kbd);
 int loc(Keyboard *k, char c);

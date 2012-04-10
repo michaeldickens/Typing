@@ -1,4 +1,5 @@
-//1234567890q.,up()dlckxoainwmhtsr"'_yb;/fgv-`=jz Patience
-1234567890-qwfpgjluy;=arstdhneio'zxcvbkm,./`=[]!@#$%^&*()_QWFPGJLUY:+ARSTDHNEIO"ZXCVBKM<>?~+{} Colemak
-//7531902468=',.pyfgcrl/aoeuidhtns-;qjkxbmwvz`=[]!@#$%^&*()_<>"PYFGCRL?AOEUIDHTNS_:QJKXBMWVZ~+{} Dvorak
-//1234567890-qwertyuiop=asdfghjkl;'zxcvbnm,./`=[]!@#$%^&*()_QWERTYUIOP|ASDFGHJKL:"ZXCVBNM<>?~+{} QWERTY
+// MTGAP
+//1234567890-\tqwfpgjluy;=arstdhneio'zxcvbkm,./`\\[]\n !@#$%^&*()_\tQWFPGJLUY:+ARSTDHNEIO"ZXCVBKM<>?~|{}\n  Colemak
+//1234567890-\tql,p/;fudk=arenbgsito'zw.hjvcynx`\\[]\n !@#$%^&*()_\tQL<P?:FUDK+ARENBGSITO"ZW>HJVCYNX~|{}\n  Arensito, normalized
+//1234567890=\t',.pyfgcrl/aoeuidhtns-;qjkxbmwvz`\\[]\n !@#$%^&*()+\t"<>PYFGCRL?AOEUIDHTNS_:QJKXBMWVZ~|{}\n  Dvorak
+//1234567890-\tqwertyuiop=asdfghjkl;'zxcvbnm,./`\\[]\n !@#$%^&*()_\tQWERTYUIOP+ASDFGHJKL:"ZXCVBNM<>?~|{}\n  QWERTY
