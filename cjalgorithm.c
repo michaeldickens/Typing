@@ -37,7 +37,9 @@ int runCJAlgorithm(char *filename)
 	for (i = 0, roundNum = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++roundNum) {
 		copy(&prevk, &k);
 
-		/* chanceToUsePreviousLayout increases as the program continues for longer and longer. */
+		/* chanceToUsePreviousLayout increases as the program continues for 
+		   longer and longer.
+		 */
 		if (roundNum % roundsBeforeChanceInc == roundsBeforeChanceInc - 1) {
 			chanceToUsePreviousLayout *= 1.2;
 			roundsBeforeChanceInc = roundsBeforeChanceInc * 2 + 1;

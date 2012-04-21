@@ -213,7 +213,7 @@ int setLayout(Keyboard *k, char *layout)
 int layoutFromFile(FILE *fp, Keyboard *k)
 {
 	int i;
-	int prevC, c = 0;
+	int prevC = 0, c = 0;
 	
 	copy(k, &nilKeyboard);
 	
