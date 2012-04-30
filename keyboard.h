@@ -78,6 +78,7 @@ int64_t calcShortcuts(Keyboard *k);
 int64_t calcQWERTY(Keyboard *k);
 int64_t calcParentheses(Keyboard *k);
 int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar);
+int64_t calcNumbersShifted(Keyboard *k);
 
 int calcFingerWork(Keyboard *k);
 int calcDistance(int loc0, int loc1);

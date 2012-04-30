@@ -12,8 +12,9 @@
 
 ***BUGS***
 
+ - Numbers don't always stay where they are supposed to.
  - Parallel parentheses don't work on the standard keyboard, only Kinesis.
- - After the algrithm runs for a while, either a character is duplicated or a character that's not supposed to be on the keyboard somehow creeps in.
+ - After the algorithm runs for a while, either a character is duplicated or a character that's not supposed to be on the keyboard somehow creeps in.
 
 
 ***MISCELLANEOUS***
