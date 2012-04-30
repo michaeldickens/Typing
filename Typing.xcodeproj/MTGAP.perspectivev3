@@ -309,8 +309,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -328,7 +326,7 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>86FB28D9154F17A500B80107</string>
+										<string>8684D348154F5127003EF08B</string>
 										<key>history</key>
 										<array>
 											<string>86789A15154AF1BF00D2E3F5</string>
@@ -340,7 +338,7 @@
 											<string>86FB28C9154F169E00B80107</string>
 											<string>86FB28CA154F169E00B80107</string>
 											<string>86FB28D6154F178F00B80107</string>
-											<string>86FB28D7154F178F00B80107</string>
+											<string>8657049A154F50B100C9DB7B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -354,21 +352,23 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1233, 420}}</string>
+								<string>{{0, 0}, {1233, 400}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>420pt</string>
+							<string>400pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>353pt</string>
+							<string>373pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -379,7 +379,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 326}}</string>
+										<string>{{10, 27}, {1233, 346}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -396,8 +398,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1233, 326}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -463,11 +463,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>86FB28C2154F15DC00B80107</string>
+				<string>8684D349154F5127003EF08B</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>86FB28C3154F15DC00B80107</string>
+				<string>8684D34A154F5127003EF08B</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
-				<string>86FB28C4154F15DC00B80107</string>
+				<string>8684D34B154F5127003EF08B</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -615,14 +615,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>86FB28CF154F16E800B80107</string>
+				<string>8657049E154F50B100C9DB7B</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>86FB28D0154F16E800B80107</string>
-				<string>86FB28D1154F16E800B80107</string>
-				<string>86FB28D2154F16E800B80107</string>
-				<string>86FB28D3154F16E800B80107</string>
-				<string>86ECBA1B102CE32600E8AB8A</string>
+				<string>8657049F154F50B100C9DB7B</string>
+				<string>865704A0154F50B100C9DB7B</string>
+				<string>865704A1154F50B100C9DB7B</string>
+				<string>865704A2154F50B100C9DB7B</string>
+				<string>865704A3154F50B100C9DB7B</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
 			<string>2</string>
@@ -654,8 +654,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>86FB28D4154F16E800B80107</string>
-		<string>86FB28D5154F16E800B80107</string>
 		<string>/Users/MTGAP/XCodeProjects/Typing/Typing.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
