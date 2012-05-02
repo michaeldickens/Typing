@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -309,8 +311,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -328,19 +328,11 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>8620CFCC15376DD3002B94C2</string>
+										<string>8684D360154F52F8003EF08B</string>
 										<key>history</key>
 										<array>
-											<string>8669F80715000A7200074825</string>
-											<string>86E0BA8A15011D30003249D0</string>
-											<string>86E0BA8B15011D30003249D0</string>
-											<string>86FB0811150D314F00591C29</string>
-											<string>86449378152490C200C103FD</string>
-											<string>86370325152BBD2200F44538</string>
-											<string>86370326152BBD2200F44538</string>
-											<string>869A47D61536624E003E0363</string>
-											<string>869A47D71536624E003E0363</string>
-											<string>869A47DA1536648C003E0363</string>
+											<string>8684D35A154F52F2003EF08B</string>
+											<string>8684D35B154F52F2003EF08B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -354,18 +346,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1233, 488}}</string>
+								<string>{{0, 0}, {1233, 390}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>488pt</string>
+							<string>390pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>285pt</string>
+							<string>383pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -379,7 +371,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 258}}</string>
+										<string>{{10, 27}, {1233, 356}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
@@ -397,7 +389,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 250}}</string>
+										<string>{{10, 27}, {1233, 326}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -435,7 +427,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 309}}</string>
+										<string>{{10, 27}, {1233, 317}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -463,11 +455,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>8620CFCD15376DD3002B94C2</string>
+				<string>8684D35D154F52F2003EF08B</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>8620CFCE15376DD3002B94C2</string>
+				<string>8684D35E154F52F2003EF08B</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
-				<string>8620CFCF15376DD3002B94C2</string>
+				<string>8684D35F154F52F2003EF08B</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -615,14 +607,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>869A47C915365DD6003E0363</string>
+				<string>8657049E154F50B100C9DB7B</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>869A47CA15365DD6003E0363</string>
-				<string>869A47CB15365DD6003E0363</string>
-				<string>869A47CC15365DD6003E0363</string>
-				<string>869A47CD15365DD6003E0363</string>
-				<string>86ECBA1B102CE32600E8AB8A</string>
+				<string>8657049F154F50B100C9DB7B</string>
+				<string>865704A0154F50B100C9DB7B</string>
+				<string>865704A1154F50B100C9DB7B</string>
+				<string>865704A2154F50B100C9DB7B</string>
+				<string>865704A3154F50B100C9DB7B</string>
 			</array>
 			<key>ToolbarConfigUserDefaultsMinorVersion</key>
 			<string>2</string>
