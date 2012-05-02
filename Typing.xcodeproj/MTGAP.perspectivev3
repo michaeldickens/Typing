@@ -277,8 +277,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>22</integer>
-									<integer>1</integer>
+									<integer>35</integer>
+									<integer>27</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -316,7 +316,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>86ECBA1B102CE32600E8AB8A</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>values.c</string>
+								<string>To Do</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,15 +324,31 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>86ECBA1C102CE32600E8AB8A</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>values.c</string>
+										<string>To Do</string>
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
+<<<<<<< .merge_file_EwlUay
 										<string>8684D360154F52F8003EF08B</string>
 										<key>history</key>
 										<array>
 											<string>8684D35A154F52F2003EF08B</string>
 											<string>8684D35B154F52F2003EF08B</string>
+=======
+										<string>8684D348154F5127003EF08B</string>
+										<key>history</key>
+										<array>
+											<string>86789A15154AF1BF00D2E3F5</string>
+											<string>86789A16154AF1BF00D2E3F5</string>
+											<string>86789A18154AF1BF00D2E3F5</string>
+											<string>86789A20154AF1EE00D2E3F5</string>
+											<string>86789A2F154AF22C00D2E3F5</string>
+											<string>86FB28C8154F169E00B80107</string>
+											<string>86FB28C9154F169E00B80107</string>
+											<string>86FB28CA154F169E00B80107</string>
+											<string>86FB28D6154F178F00B80107</string>
+											<string>8657049A154F50B100C9DB7B</string>
+>>>>>>> .merge_file_RiYgPF
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -346,21 +362,35 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
+<<<<<<< .merge_file_EwlUay
 								<string>{{0, 0}, {1233, 390}}</string>
+=======
+								<string>{{0, 0}, {1233, 400}}</string>
+>>>>>>> .merge_file_RiYgPF
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
+<<<<<<< .merge_file_EwlUay
 							<string>390pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
 							<string>383pt</string>
+=======
+							<string>400pt</string>
+						</dict>
+						<dict>
+							<key>Proportion</key>
+							<string>373pt</string>
+>>>>>>> .merge_file_RiYgPF
 							<key>Tabs</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -371,7 +401,11 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
+<<<<<<< .merge_file_EwlUay
 										<string>{{10, 27}, {1233, 356}}</string>
+=======
+										<string>{{10, 27}, {1233, 346}}</string>
+>>>>>>> .merge_file_RiYgPF
 										<key>RubberWindowFrame</key>
 										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
@@ -455,11 +489,19 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
+<<<<<<< .merge_file_EwlUay
 				<string>8684D35D154F52F2003EF08B</string>
 				<string>1CA23ED40692098700951B8B</string>
 				<string>8684D35E154F52F2003EF08B</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
 				<string>8684D35F154F52F2003EF08B</string>
+=======
+				<string>8684D349154F5127003EF08B</string>
+				<string>1CA23ED40692098700951B8B</string>
+				<string>8684D34A154F5127003EF08B</string>
+				<string>86ECBA1B102CE32600E8AB8A</string>
+				<string>8684D34B154F5127003EF08B</string>
+>>>>>>> .merge_file_RiYgPF
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>

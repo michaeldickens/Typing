@@ -140,6 +140,7 @@ int calcFitness(Keyboard *k)
 	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
 	if (keepParentheses) k->fitness += calcParentheses(k);
+	if (keepNumbersShifted) k->fitness += calcNumbersShifted(k);
 
 	++totalCalcFitness;
 	return 0;
@@ -189,10 +190,10 @@ int64_t calcShortcuts(Keyboard *k)
 {
 	int64_t result;
 	result = 
-	      shortcutCosts[loc(k, 'z')] * (int64_t) Z_COST
-		+ shortcutCosts[loc(k, 'x')] * (int64_t) X_COST
-		+ shortcutCosts[loc(k, 'c')] * (int64_t) C_COST
-		+ shortcutCosts[loc(k, 'v')] * (int64_t) V_COST;
+	      shortcutCosts[loc(k, 'z')] * (int64_t) zCost
+		+ shortcutCosts[loc(k, 'x')] * (int64_t) xCost
+		+ shortcutCosts[loc(k, 'c')] * (int64_t) cCost
+		+ shortcutCosts[loc(k, 'v')] * (int64_t) vCost;
 		
 	return result * (totalMon / monLen);
 }
@@ -205,9 +206,9 @@ int64_t calcQWERTY(Keyboard *k)
 
 	int i, pos;
 	for (i = 0; i < 30; ++i) {
-		if ((pos = loc(k, qwerty[i])) != i) result += QWERTY_POS_COST * averageMon;
-		if (finger[pos] != finger[i]) result += QWERTY_FINGER_COST * averageMon;
-		if (hand[pos] != hand[i]) result += QWERTY_HAND_COST * averageMon;
+		if ((pos = loc(k, qwerty[i])) != i) result += qwertyPosCost * averageMon;
+		if (finger[pos] != finger[i]) result += qwertyFingerCost * averageMon;
+		if (hand[pos] != hand[i]) result += qwertyHandCost * averageMon;
 	}
 	
 	return result;
@@ -241,7 +242,19 @@ int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
 			column[openPar] == column[closePar] && 
 			row[openPar] == row[closePar])))
 		return 0;
-	else return PARENTHESES_COST / DIVISOR;
+	else return parenthesesCost / DIVISOR;
+}
+
+int64_t calcNumbersShifted(Keyboard *k)
+{
+	int64_t score = 0;
+	
+	char c;
+	for (c = '0'; c <= '9'; ++c)
+		if (strchr(k->shiftedLayout, c))
+			score += numbersShiftedCost;
+	
+	return score;
 }
 
 /* Requires that k->fingerUsage has been calculated. */

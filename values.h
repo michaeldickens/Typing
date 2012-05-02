@@ -64,15 +64,6 @@ char *kbdFilename;
 
 #define INIT_FROM_FILE TRUE
 
-#define Z_COST 10
-#define X_COST  6
-#define C_COST 12
-#define V_COST 14
-#define QWERTY_POS_COST		14
-#define QWERTY_FINGER_COST	4
-#define QWERTY_HAND_COST	20
-#define PARENTHESES_COST	5000000000 // WARNING: this will cause overflow
-
 int64_t distanceCosts[KSIZE_MAX];
 int64_t  trueDistance[KSIZE_MAX];
 int64_t shortcutCosts[KSIZE_MAX];
@@ -88,10 +79,12 @@ int detailedOutput;
  * Some of these variables require that their condition be true, and others 
  * merely provide a penalty for not doing so.
  * The Former: keepNumbers, keepShiftPairs, keepTab
- * The Latter: keepZXCV, keepParentheses
+ * The Latter: keepZXCV, keepParentheses, keepNumbersShifted
  */
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepShiftPairs, 
-	keepTab, keepConsonantsRight;
+	keepTab, keepConsonantsRight, keepNumbersShifted;
+int zCost, xCost, cCost, vCost, qwertyPosCost, qwertyFingerCost, qwertyHandCost, 
+	parenthesesCost, numbersShiftedCost;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 

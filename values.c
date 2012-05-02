@@ -93,12 +93,23 @@ void initCosts()
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
-	keepNumbers = 1;
+	keepNumbers = 0;
 	keepParentheses = TRUE;
 	keepShiftPairs = FALSE;
 	keepTab = FALSE;
 	keepConsonantsRight = FALSE;
+	keepNumbersShifted = TRUE;
 	
+	zCost = 10;
+	xCost =  6;
+	cCost = 12;
+	vCost = 14;
+	qwertyPosCost = 14;
+	qwertyFingerCost = 4;
+	qwertyHandCost = 20;
+	parenthesesCost = 5000000;
+	numbersShiftedCost = -1000000;
+
 	if (fullKeyboard == FK_KINESIS) {
 		fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] =  7.5;
 		fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 10.0;
