@@ -688,6 +688,8 @@ int setValue(char *str)
 		keepShiftPairs = value;
 	} else if (streq(name, "keepTab")) {
 		keepTab = value;
+	} else if (streq(name, "keepNumbersShifted")) {
+		keepNumbersShifted = value;
 	} else if (streq(name, "distance")) {
 		distance = value;
 	} else if (streq(name, "inRoll")) {
@@ -750,6 +752,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepShiftPairs);
 	} else if (streq(name, "keepTab")) {
 		printf("%s = %d\n\n", name, keepTab);
+	} else if (streq(name, "keepNumbersShifted")) {
+		printf("%s = %d\n\n", name, keepNumbersShifted);
 	} else if (streq(name, "distance")) {
 		printf("%s = %d\n\n", name, distance);
 	} else if (streq(name, "inRoll")) {

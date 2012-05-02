@@ -82,7 +82,8 @@ int detailedOutput;
  * The Latter: keepZXCV, keepParentheses, keepNumbersShifted
  */
 int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepShiftPairs, 
-	keepTab, keepConsonantsRight, keepNumbersShifted;
+	keepTab, keepConsonantsRight, 
+	keepNumbersShifted /* for bogboar */;
 int zCost, xCost, cCost, vCost, qwertyPosCost, qwertyFingerCost, qwertyHandCost, 
 	parenthesesCost, numbersShiftedCost;
 

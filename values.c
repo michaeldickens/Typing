@@ -98,7 +98,7 @@ void initCosts()
 	keepShiftPairs = FALSE;
 	keepTab = FALSE;
 	keepConsonantsRight = FALSE;
-	keepNumbersShifted = TRUE;
+	keepNumbersShifted = FALSE;
 	
 	zCost = 10;
 	xCost =  6;

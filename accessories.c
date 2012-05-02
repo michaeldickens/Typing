@@ -80,16 +80,16 @@ int getCommands()
 		} else if (streqn(cmd, "setfk ", 6)) {
 			if (streq(cmd+6, "no")) {
 				setksize(FK_NO);
-				printf("Keyboard set to non-full.\n\n");
+				printf("Keyboard set to non-full. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd+6, "standard")) {
 				setksize(FK_STANDARD);
-				printf("Keyboard set to full standard.\n\n");
+				printf("Keyboard set to full standard. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd+6, "kinesis")) {
 				setksize(FK_KINESIS);
-				printf("Keyboard set to full Kinesis.\n\n");
+				printf("Keyboard set to full Kinesis. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd+6, "iphone")) {
 				setksize(FK_IPHONE);
-				printf("Keyboard set to iPhone.\n\n");
+				printf("Keyboard set to iPhone. All user-defined values have been reset.\n\n");
 			} else {
 				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
 			}
@@ -112,6 +112,7 @@ int getCommands()
 			printf("\t(bool) keepParentheses\n");
 			printf("\t(bool) keepShiftPairs\n");
 			printf("\t(bool) keepTab\n");
+			printf("\t(bool) keepNumbersshifted\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
 			printf("\toutRoll\n");
