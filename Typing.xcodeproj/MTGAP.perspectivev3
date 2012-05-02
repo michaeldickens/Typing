@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -311,6 +309,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -328,14 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-<<<<<<< .merge_file_EwlUay
-										<string>8684D360154F52F8003EF08B</string>
-										<key>history</key>
-										<array>
-											<string>8684D35A154F52F2003EF08B</string>
-											<string>8684D35B154F52F2003EF08B</string>
-=======
-										<string>8684D348154F5127003EF08B</string>
+										<string>86F2C1141551648600B58453</string>
 										<key>history</key>
 										<array>
 											<string>86789A15154AF1BF00D2E3F5</string>
@@ -347,8 +340,7 @@
 											<string>86FB28C9154F169E00B80107</string>
 											<string>86FB28CA154F169E00B80107</string>
 											<string>86FB28D6154F178F00B80107</string>
-											<string>8657049A154F50B100C9DB7B</string>
->>>>>>> .merge_file_RiYgPF
+											<string>861A742C1551641B00FD9B65</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -362,35 +354,21 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-<<<<<<< .merge_file_EwlUay
-								<string>{{0, 0}, {1233, 390}}</string>
-=======
-								<string>{{0, 0}, {1233, 400}}</string>
->>>>>>> .merge_file_RiYgPF
+								<string>{{0, 0}, {1233, 380}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-<<<<<<< .merge_file_EwlUay
-							<string>390pt</string>
+							<string>380pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>383pt</string>
-=======
-							<string>400pt</string>
-						</dict>
-						<dict>
-							<key>Proportion</key>
-							<string>373pt</string>
->>>>>>> .merge_file_RiYgPF
+							<string>393pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -401,11 +379,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-<<<<<<< .merge_file_EwlUay
-										<string>{{10, 27}, {1233, 356}}</string>
-=======
-										<string>{{10, 27}, {1233, 346}}</string>
->>>>>>> .merge_file_RiYgPF
+										<string>{{10, 27}, {1233, 366}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 59 1440 819 0 0 1440 878 </string>
 									</dict>
@@ -489,19 +463,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-<<<<<<< .merge_file_EwlUay
-				<string>8684D35D154F52F2003EF08B</string>
+				<string>86F2C1151551648600B58453</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>8684D35E154F52F2003EF08B</string>
+				<string>86F2C1161551648600B58453</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
-				<string>8684D35F154F52F2003EF08B</string>
-=======
-				<string>8684D349154F5127003EF08B</string>
-				<string>1CA23ED40692098700951B8B</string>
-				<string>8684D34A154F5127003EF08B</string>
-				<string>86ECBA1B102CE32600E8AB8A</string>
-				<string>8684D34B154F5127003EF08B</string>
->>>>>>> .merge_file_RiYgPF
+				<string>86F2C1171551648600B58453</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
