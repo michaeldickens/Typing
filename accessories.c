@@ -479,10 +479,10 @@ int compare(char *filename)
 void improveFromFile(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
-	Keyboard k, imp;
+	Keyboard k;
 	if (layoutFromFile(fp, &k) != -1) {
 		printf("Layout to Improve:\n");
-		imp = improver(k);
+		improver(k);
 	} else {
 		fprintf(stderr, "Error: File %s does not contain a valid keyboard.\n\n", filename);
 	}
@@ -505,7 +505,6 @@ Keyboard improver(Keyboard k)
 	
 	if (curEval < bestEval) {
 		copy(&bestk, &tk);
-		bestEval = curEval;
 		calcFitnessDirect(&tk);
 		printPercentages(&tk);
 	}

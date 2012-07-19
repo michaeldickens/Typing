@@ -482,7 +482,10 @@ int printPercentages(Keyboard *k)
 			k->fingerUsage[6] + k->fingerUsage[7] + k->fingerUsage[8]
 			 + k->fingerUsage[9]) / total);
 
-	if (total == 0) printf("warning: total = 0\n");
+	if (total == 0) {
+        printf("warning: total = 0\n");
+        return 0;
+    }
 	// Finger
 	printf("Fingers: ");
 	for (i = 0; i < FINGER_COUNT; ++i) {
