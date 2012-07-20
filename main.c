@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "accessories.h"
 
-int main(int argc, const char *argv[])
+int main()
 {			
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);

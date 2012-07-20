@@ -10,7 +10,7 @@
 #include "algorithm.h"
 
 #define FILE_READ_NOT_HAPPEN -100
-#define FILE_READ_FAIL -101
+
 
 int runCJAlgorithm(char *filename);
 

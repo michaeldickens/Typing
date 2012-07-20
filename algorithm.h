@@ -10,9 +10,5 @@
 #include <limits.h>
 #include "keyboard.h"
 
-Keyboard runAlgorithm();
-Keyboard runForOne();
-int runLoop(Keyboard pool[]);
-int sortPool(Keyboard pool[], int left, int right);
 
 // See tools.h for declaration of mutate().

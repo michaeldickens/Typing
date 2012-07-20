@@ -7,8 +7,3 @@
  */
 
 #include "keyboard.h"
-
-void scoreTrigraph(Keyboard *k, char trigraph[], int multiplier, int allLocs[])
-{
-	
-}

@@ -37,12 +37,6 @@ char *kbdFilename;
 		return -1; \
 	}
 
-#define NOT_WORK_WITH_30_KEYBOARD(str) \
-	if (ksize == 30) { \
-		fprintf(stderr, "Error: Cannot use %s when keyboard size is 30.", str); \
-		return -1; \
-	}
-
 // If TRUE, run through the layouts in layoutstore.txt repeatedly when 
 // running the algorithm. If FALSE, only run through once.
 #define REPEAT_LAYOUTSTORE TRUE
@@ -53,14 +47,10 @@ char *kbdFilename;
 // For a thorough run:      64, 16, 1, 1024, 256
 // Moderately thorough run: 56, 14, 1,  512, 256
 // Fast run:                48, 12, 1,   64, 512
-#define POOL_SIZE             56
-#define GENERATIONS           14
-#define TAKE_BEST_N            1
-#define ALL_STAR_POOL_SIZE   512
-#define ALL_STAR_GENERATIONS 256
+
+
 
 #define SIM_ANNEAL_GENERATIONS INT_MAX
-#define IMPROVER_GENERATIONS 256
 
 #define INIT_FROM_FILE TRUE
 

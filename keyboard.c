@@ -14,58 +14,10 @@ int legalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
-int legalBox2[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 
-};
-
-int legalBox3[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 
-};
-
-int legalBox4[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	3, 3, 4, 4, 3, 3, 4, 4, 3, 3, 
-};
-
-int legalBox5[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
 int bigLegalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBox1[] = {
-	1, 2, 3, 4, 5, 6, 7, 8, 9,10,11, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBox2[] = {
-	1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBoxAtle[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
@@ -79,15 +31,6 @@ int bigLegalBoxConsonants[] = {
 
 int kinesisLegalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int kinesisLegalBox2[] = {
-	1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -360,31 +303,6 @@ int swapPair(Keyboard *k, int loc1, int loc2)
 	return 0;
 }
 
-int numberOfSameKeys(Keyboard *k, Keyboard *m)
-{
-	int i;
-	int result;
-	for (i = 0, result = 0; i < ksize; i++) if (k->layout[i] == m->layout[i]) ++result;
-	return result;
-}
-
-int isEqual(Keyboard *k, Keyboard *m)
-{
-	int i;
-	for (i = 0; i < ksize; ++i) if (k->layout[i] != m->layout[i]) return FALSE;
-	if (k->fitness != m->fitness) return FALSE;
-	if (k->inRoll != m->inRoll) return FALSE;
-	if (k->outRoll != m->outRoll) return FALSE;
-	if (k->sameHand != m->sameHand) return FALSE;
-	if (k->sameFinger != m->sameFinger) return FALSE;
-	if (k->rowChange != m->rowChange) return FALSE;
-	if (k->homeJump != m->homeJump) return FALSE;
-	if (k->toCenter != m->toCenter) return FALSE;
-	if (k->toOutside != m->toOutside) return FALSE;
-	
-	return TRUE;
-}
-
 int qwertyPositions(Keyboard *k)
 {
 	NOT_WORK_WITH_full_keyboard("qwertyPositions()");
@@ -445,28 +363,6 @@ int printLayoutRaw(char layout[])
 	return 0;
 }
 
-int printKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-
-	printf("Fitness: %lld\n", k->fitness);
-	if (keepQWERTY) printf("QWERTY positions: %d\n", qwertyPositions(k));
-	printf("Distance: %lld\n", k->distance);
-	printf("Finger work: %lld\n", k->fingerWork);
-	printf("Inward rolls: %lld\n", k->inRoll);
-	printf("Outward rolls: %lld\n", k->outRoll);
-	printf("Same hand: %lld\n", k->sameHand);
-	printf("Same finger: %lld\n", k->sameFinger);
-	printf("Row change: %lld\n", k->rowChange);
-	printf("Home jump: %lld\n", k->homeJump);
-	printf("Ring jump: %lld\n", k->ringJump);
-	printf("To center: %lld\n", k->toCenter);
-	if (ksize != 30) printf("To outside: %lld\n", k->toOutside);
-	printf("\n");
-	
-	return 0;
-}
-
 int printPercentages(Keyboard *k)
 {
 	int i;
@@ -515,26 +411,6 @@ int printPercentages(Keyboard *k)
 	if (ksize != 30) printf("To outside:    %.2f%%\n", ((double)(100*k->toOutside) / totalDi ));
 	printf("\n");
 
-	return 0;
-}
-
-int simplePrintKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-		
-	printf("\n");
-	printf("Fitness: %lld\n", (int64_t) (k->fitness / pow(10, SIMPLE_SHIFT)));
-	printf("Distance: %lld\n", (int64_t) (k->distance / pow(10, SIMPLE_SHIFT)));
-	printf("Inward rolls: %lld\n", (int64_t) (k->inRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Outward rolls: %lld\n", (int64_t) (k->outRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Same hand: %lld\n", (int64_t) (k->sameHand / pow(10, SIMPLE_SHIFT)));
-	printf("Same finger: %lld\n", (int64_t) (k->sameFinger / pow(10, SIMPLE_SHIFT)));
-	printf("Row change: %lld\n", (int64_t) (k->rowChange / pow(10, SIMPLE_SHIFT)));
-	printf("Home jump: %lld\n", (int64_t) (k->homeJump / pow(10, SIMPLE_SHIFT)));
-	printf("To center: %lld\n", (int64_t) (k->toCenter / pow(10, SIMPLE_SHIFT)));
-	if (ksize != 30) printf("To outside: %lld\n", (int64_t) (k->toOutside / pow(10, SIMPLE_SHIFT)));
-	printf("\n");
-	
 	return 0;
 }
 

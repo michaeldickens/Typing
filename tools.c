@@ -9,39 +9,9 @@
 #include "tools.h"
 
 
-int rand30()
-{
-	return rand() % 30;
-}
-
 void copyArray(int out[], int in[], int length)
 {
 	memcpy(out, in, length * sizeof(int));
-}
-
-// Reads in a layout from layoutStore.txt and prints it as a computer-readable layout.
-int humanReadableToComputerReadable()
-{
-	FILE *f = fopen("layoutStore.txt", "r");
-
-    if( !f ) {
-        printf("Unable to open file 'layoutStore.txt'\n");
-        return 0;
-    }
-	int layoutsInStore = 15;
-	
-	char c;
-	int i;
-	printf("\t");
-	for (i = 0; i < 30; ++i) {
-		c = getc(f);
-		printf("layouts[%d].layout[%d] = '", layoutsInStore, i);
-		if (c == '\'') printf("\\"); // Turns ' into \'
-		printf("%c'; ", c);
-		if (i % 5 == 4) printf("\n\t");
-	}
-	
-	return 0;
 }
 
 int initData()

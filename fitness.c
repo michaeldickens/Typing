@@ -61,36 +61,6 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 	return 0;
 }
 
-int preCalculateFitness()
-{
-	NOT_WORK_WITH_full_keyboard("preCalculateFitness")
-	int i, j;
-	
-	int calculatedCosts[900];
-	for (i = 0; i < 900; ++i) calculatedCosts[i] = 0;
-	
-	for (i = 0; i < 30; ++i)
-		for (j = 0; j < 30; ++j) {
-			calculatedCosts[30*i + j] += (distanceCosts[i] + distanceCosts[j]) * monValues[i] * distance;
-			if (hand[i] == hand[j]) {
-				calculatedCosts[30*i + j]	+= calcInRoll    (i, j);	
-				calculatedCosts[30*i + j] += calcOutRoll   (i, j);	
-				calculatedCosts[30*i + j] += sameHand		   ;
-				calculatedCosts[30*i + j] += calcSameFinger(i, j);
-				calculatedCosts[30*i + j] += calcRowChange (i, j);
-				calculatedCosts[30*i + j] += calcHomeJump  (i, j);
-				calculatedCosts[30*i + j] += calcRingJump  (i, j);
-				calculatedCosts[30*i + j] += calcToCenter  (i, j);
-				calculatedCosts[30*i + j] += calcToOutside (i, j);
-			}
-		}
-		
-	for (i = 0; i < 900; ++i)
-		printf("calculatedCosts[%d] = %d;\n", i, calculatedCosts[i]);
-		
-	return 0;
-}
-
 int calcFitness(Keyboard *k)
 {
 	int i;
@@ -302,13 +272,6 @@ int calcOutRoll(int loc0, int loc1)
 	else return 0;
 //	if (finger[loc1] < finger[loc0] && row[loc0] == row[loc1] && !isCenterOrOutside[loc0] && !isCenterOrOutside[loc1]) return outRoll;
 //	else return 0;
-}
-
-/* Adds to the score if the same hand is used twice in a row.
- */
-int calcSameHand(int loc0, int loc1)
-{	
-	return hand[loc0] == hand[loc1] ? sameHand : 0;
 }
 
 int calcSameFinger(int loc0, int loc1)
