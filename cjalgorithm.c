@@ -20,6 +20,12 @@ int runCJAlgorithm(char *filename)
 	Keyboard k, prevk, bestk;
 	
 	FILE *fp = fopen(filename, "r");
+
+	if( !fp )
+		{
+		printf("Unable to open file: %s\n", filename);
+		return 0;
+		}
 	
 	// The simulated annealing algorithm is seeded with either a completely random 
 	// layout or a mutated version of the last layout found so far. The probabilty 
