@@ -47,15 +47,15 @@ int getCommands()
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
 			char *filename = cmd + strlen("best swap ");
 			FILE *fp = fopen(filename, "r");
-            if( fp ) {
-                Keyboard k;
-                if (layoutFromFile(fp, &k) != -1) {
-                    layoutFromFile(fp, &k);
-                    bestSwap(&k);
-                }
+			if( fp ) {
+				Keyboard k;
+				if (layoutFromFile(fp, &k) != -1) {
+					layoutFromFile(fp, &k);
+					bestSwap(&k);
+				}
 
-                fclose(fp);
-            }
+				fclose(fp);
+			}
 
 		} else if (streqn(cmd, "compare ", 8)) {
 			compare(cmd + 8);
@@ -332,13 +332,13 @@ int gameComputer(Keyboard *k, char difficulty)
 void worstDigraphsFromFile(char *filename, int damagingp)
 {
 	FILE *fp = fopen(filename, "r");
-    if( fp ) {
-        Keyboard k;
-        if (layoutFromFile(fp, &k) >= 0) {
-            printf("Keyboard Layout:\n");
-            printLayoutOnly(&k);
-            worstDigraphs(&k, damagingp);
-        }
+	if( fp ) {
+		Keyboard k;
+		if (layoutFromFile(fp, &k) >= 0) {
+			printf("Keyboard Layout:\n");
+			printLayoutOnly(&k);
+			worstDigraphs(&k, damagingp);
+		}
 	}
 }
 
@@ -459,20 +459,20 @@ int compare(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
 
-    if( fp ) {
-        int ret = 1;
-        while (ret != EOF && ret >= 0) {
-            Keyboard k;
-            ret = layoutFromFile(fp, &k);
-            if (ret >= 0) {
-                calcFitnessDirect(&k);
-                printPercentages(&k);
-            }
-        }
+	if( fp ) {
+		int ret = 1;
+		while (ret != EOF && ret >= 0) {
+			Keyboard k;
+			ret = layoutFromFile(fp, &k);
+			if (ret >= 0) {
+				calcFitnessDirect(&k);
+				printPercentages(&k);
+			}
+		}
 	
-        fclose(fp);
-        printf("\n");
-    }
+		fclose(fp);
+		printf("\n");
+	}
 	
 	return 0;
 }
@@ -485,16 +485,16 @@ void improveFromFile(char *filename)
 {
 	FILE *fp = fopen(filename, "r");
 
-    if( fp ) {
-        Keyboard k;
-        if (layoutFromFile(fp, &k) != -1) {
-            printf("Layout to Improve:\n");
-            improver(k);
-        } else {
-            fprintf(stderr, "Error: File %s does not contain a valid keyboard.\n\n", filename);
-        }
-        fclose( fp );
-    }
+	if( fp ) {
+		Keyboard k;
+		if (layoutFromFile(fp, &k) != -1) {
+			printf("Layout to Improve:\n");
+			improver(k);
+		} else {
+			fprintf(stderr, "Error: File %s does not contain a valid keyboard.\n\n", filename);
+		}
+		fclose( fp );
+	}
 }
 
 /*
