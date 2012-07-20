@@ -79,10 +79,10 @@ int initKeyboard(Keyboard *const k)
 	}
 	
 	if (keepTab) {
-		const int loc = locWithShifted(k, '\t');
-		if (loc >= 0) {
+		const int locShifted = locWithShifted(k, '\t');
+		if (locShifted >= 0) {
 			const int tabLoc = ksize == 72 ? 12 : 14;
-			swap(k, loc, tabLoc);
+			swap(k, locShifted, tabLoc);
 		}
 	}
 	
