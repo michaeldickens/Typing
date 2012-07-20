@@ -112,7 +112,6 @@ int calcFitness(Keyboard *const k)
 	if (keepParentheses) k->fitness += calcParentheses(k);
 	if (keepNumbersShifted) k->fitness += calcNumbersShifted(k);
 
-	++totalCalcFitness;
 	return 0;
 }
 

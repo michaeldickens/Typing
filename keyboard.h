@@ -51,7 +51,7 @@ int scoreDigraph(Keyboard *const k, const char digraph[], const int multiplier, 
 
 
 
-int totalCalcFitness;
+
 
 int64_t calcShortcuts(const Keyboard *k);
 int64_t calcQWERTY(const Keyboard *k);
