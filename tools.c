@@ -23,6 +23,11 @@ void copyArray(int out[], int in[], int length)
 int humanReadableToComputerReadable()
 {
 	FILE *f = fopen("layoutStore.txt", "r");
+
+    if( !f ) {
+        printf("Unable to open file 'layoutStore.txt'\n");
+        return 0;
+    }
 	int layoutsInStore = 15;
 	
 	char c;
