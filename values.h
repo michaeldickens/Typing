@@ -39,7 +39,7 @@ char *kbdFilename;
 
 // If TRUE, run through the layouts in layoutstore.txt repeatedly when 
 // running the algorithm. If FALSE, only run through once.
-#define REPEAT_LAYOUTSTORE TRUE
+
 
 // For the following values...
 // Peter Klausler used 4096, 50, ?, 50, ?
@@ -52,7 +52,7 @@ char *kbdFilename;
 
 #define SIM_ANNEAL_GENERATIONS INT_MAX
 
-#define INIT_FROM_FILE TRUE
+
 
 int64_t distanceCosts[KSIZE_MAX];
 int64_t  trueDistance[KSIZE_MAX];

@@ -22,42 +22,42 @@
 int initKeyboard(Keyboard *k);
 int setLayout(Keyboard *k, char *layout);
 int layoutFromFile(FILE *fp, Keyboard *k);
-int copy(Keyboard *k, Keyboard *original);
+int copy(Keyboard *const k, const Keyboard *const original);
 int swap(Keyboard *k, int loc1, int loc2);
 int swapPair(Keyboard *k, int loc1, int loc2);
 
-int printLayoutOnly(Keyboard *k);
-int printLayoutRaw(char layout[]);
-int printPercentages(Keyboard *k);
+int printLayoutOnly(const Keyboard *const k);
+int printLayoutRaw(const char layout[]);
+int printPercentages(const Keyboard *const k);
 
 int charToPrintable(char *buffer, char c, int changeSpace);
 
-int qwertyPositions(Keyboard *k);
+int qwertyPositions(const Keyboard *const k);
 
 
 int isSwappable(char c);
-int isLegalSwap(Keyboard *k, int i, int j);
+int isLegalSwap(const Keyboard *const k, int i, int j);
 void shuffleIndices();
 void shuffleLayout(Keyboard *kbd);
-int loc(Keyboard *k, char c);
-int locWithShifted(Keyboard *k, char c);
+int loc(const Keyboard *const k, const char c);
+int locWithShifted(const Keyboard *const k, const char c);
 
 
 int calcFitnessDirect(Keyboard *k);
-int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier);
+int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multiplier);
 int calcFitness(Keyboard *k);
-int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[]);
+int scoreDigraph(Keyboard *const k, const char digraph[], const int multiplier, const int allLocs[]);
 
 
 
 
 int totalCalcFitness;
 
-int64_t calcShortcuts(Keyboard *k);
-int64_t calcQWERTY(Keyboard *k);
-int64_t calcParentheses(Keyboard *k);
-int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar);
-int64_t calcNumbersShifted(Keyboard *k);
+int64_t calcShortcuts(const Keyboard *k);
+int64_t calcQWERTY(const Keyboard *k);
+int64_t calcParentheses(const Keyboard *const k);
+int64_t calcParensGeneric(const Keyboard *const k, char openChar, char closeChar);
+int64_t calcNumbersShifted(const Keyboard *const k);
 
 int calcFingerWork(Keyboard *k);
 int calcInRoll(int loc0, int loc1);

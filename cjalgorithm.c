@@ -9,9 +9,10 @@
 #include "cjalgorithm.h"
  
 
-int runCJAlgorithm(char *filename)
+int runCJAlgorithm(char *const filename)
 {
-	int start = time(NULL), finish;
+	const int start = time(NULL);
+    int finish;
 	int i, roundNum, isFileEmpty;
 	
 	int64_t curEval;
@@ -31,7 +32,7 @@ int runCJAlgorithm(char *filename)
 	// layout or a mutated version of the last layout found so far. The probabilty 
 	// of using a mutated last layout is chanceToUsePreviousLayout.
 	double chanceToUsePreviousLayout = 0.2;
-	double subChanceToUseBestLayout = 0.1;
+	const double subChanceToUseBestLayout = 0.1;
 	int numberOfSwaps = 3;
 	int roundsBeforeChanceInc = 100, roundsBeforeSwapInc = 10;
 
@@ -39,7 +40,7 @@ int runCJAlgorithm(char *filename)
 	int intervalBetweenPrints = 60, intervalInc = 0;
 	
 	/* Run Chris Johnson's simulated annealing algorithm. */
-	isFileEmpty = INIT_FROM_FILE ? FALSE : TRUE;
+	isFileEmpty = FALSE;
 	for (i = 0, roundNum = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++roundNum) {
 		copy(&prevk, &k);
 
@@ -59,7 +60,7 @@ int runCJAlgorithm(char *filename)
 		}
 
 		int fileReadRes = FILE_READ_NOT_HAPPEN;
-		if (INIT_FROM_FILE && !isFileEmpty) {
+		if (!isFileEmpty) {
 			if ((fileReadRes = layoutFromFile(fp, &k)) != 0) {
 				isFileEmpty = TRUE;
 				fclose(fp);
@@ -81,11 +82,9 @@ int runCJAlgorithm(char *filename)
 				initKeyboard(&k);
 			}
 			
-			if (REPEAT_LAYOUTSTORE) {
-				fclose(fp);
-				fp = fopen(filename, "r");
-				isFileEmpty = FALSE;
-			}
+   			fclose(fp);
+			fp = fopen(filename, "r");
+			isFileEmpty = FALSE;
 		}
 				
 		curEval = anneal(&k);
@@ -121,7 +120,7 @@ int runCJAlgorithm(char *filename)
     return 0;
 }
 
-int64_t anneal(Keyboard *k)
+int64_t anneal(Keyboard *const k)
 {
 	int64_t lastEvaluation, evaluation;
 	int64_t lastImprovement = 0;
@@ -149,7 +148,7 @@ int64_t anneal(Keyboard *k)
 	return evaluation;
 }
 
-int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k)
+int64_t improveLayout(const int64_t evaluationToBeat, Keyboard *const k)
 {
 	int64_t evaluation;
 	int i, j;
@@ -198,11 +197,11 @@ int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k)
  * somewhat more probable and illegal swaps are of course completely impossible.
  * 
  */
-int smartMutate(Keyboard *k, int numberOfSwaps)
+int smartMutate(Keyboard *const k, const int numberOfSwaps)
 {
-	int q = 8;
+	const int q = 8;
 	
-	int swapslen = 2 * numberOfSwaps;	
+	const int swapslen = 2 * numberOfSwaps;	
 	char swaps[swapslen];
 	
 	int i, j;

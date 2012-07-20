@@ -13,7 +13,7 @@ int getCommands()
 	printf("Welcome to the Keyboard Layout Optimizer. If you have questions or comments, contact Michael Dickens by email (mdickens93@gmail.com) or leave a comment at http://mathematicalmulticore.wordpress.com/category/keyboards/.\n");
 	printf("Type \"help\" for a listing of commands.\n\n");
 
-	int length = 5000;
+	const int length = 5000;
 	char cmd[length];
 
 	do {
@@ -45,7 +45,7 @@ int getCommands()
 			runCJAlgorithm(kbdFilename);
 
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
-			char *filename = cmd + strlen("best swap ");
+			const char *const filename = cmd + strlen("best swap ");
 			FILE *fp = fopen(filename, "r");
 			if( fp ) {
 				Keyboard k;
@@ -61,7 +61,7 @@ int getCommands()
 			compare(cmd + 8);
 
 		} else if (streqn(cmd, "damaging ", 9)) {
-			char *filename = cmd + 9;
+			const char *const filename = cmd + 9;
 			worstDigraphsFromFile(filename, TRUE);
 
 		} else if (streq(cmd, "game")) {
@@ -134,7 +134,7 @@ int getCommands()
 			printf("\ttoOutside\n");
 
 		} else if (streqn(cmd, "worst ", 6)) {
-			char *filename = cmd + 6;
+			const char *const filename = cmd + 6;
 			worstDigraphsFromFile(filename, FALSE);
 
 		} else if (streq(cmd, "quit")) {
@@ -164,7 +164,7 @@ int game()
 	printf("to put the letter 'c' at position 5, you would type in \"c 5\".");
 	printf("\n\n");
 	
-	int divisor = 10000;
+	const int divisor = 10000;
 	char input[1000];
 	
 	int p2_computer = TRUE;
@@ -197,7 +197,7 @@ int game()
 		}
 	} while (FALSE);
 	
-	int p1 = 0, p2 = 1;
+	const int p1 = 0, p2 = 1;
 	int64_t score[2];
 	score[0] = 0; score[1] = 0;
 	
@@ -223,8 +223,8 @@ int game()
 				--keynum;
 				continue;
 			}
-			char c = input[0];
-			int pos = atoi(input + 2);
+			const char c = input[0];
+			const int pos = atoi(input + 2);
 			
 			if (k.layout[pos]) {
 				printf("That position is occupied. Please try again.\n");
@@ -267,7 +267,7 @@ int game()
 	return 0;
 }
 
-int gameComputer(Keyboard *k, char difficulty)
+int gameComputer(Keyboard *const k, const char difficulty)
 {
 	int bestp; char bestc;
 	int64_t score, bestScore = LLONG_MAX;
@@ -329,9 +329,9 @@ int gameComputer(Keyboard *k, char difficulty)
 }
 
 /* Calculates worst digraphs for the first keyboard in the given file. */
-void worstDigraphsFromFile(char *filename, int damagingp)
+void worstDigraphsFromFile(const char *const filename, const int damagingp)
 {
-	FILE *fp = fopen(filename, "r");
+	FILE *const fp = fopen(filename, "r");
 	if( fp ) {
 		Keyboard k;
 		if (layoutFromFile(fp, &k) >= 0) {
@@ -342,7 +342,7 @@ void worstDigraphsFromFile(char *filename, int damagingp)
 	}
 }
 
-int worstDigraphs(Keyboard *k, int damagingp)
+int worstDigraphs(Keyboard *const k, const int damagingp)
 {
 	int i;
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
@@ -408,14 +408,14 @@ int worstDigraphs(Keyboard *k, int damagingp)
 
 /* WARNING: Deprecated. Does not work with shifted characters.
  */
-int bestSwap(Keyboard *k)
+int bestSwap(Keyboard *const k)
 {
 	calcFitnessDirect(k);
 	printPercentages(k);
 
 	calcFitness(k);
-	int64_t fitness = k->fitness;
-	int64_t origFitness = fitness;
+	const int64_t fitness = k->fitness;
+	const int64_t origFitness = fitness;
 	int64_t bestFitness = fitness;
 	int bestIndices[2];
 	Keyboard bestKeyboard = *k;
@@ -455,7 +455,7 @@ int bestSwap(Keyboard *k)
 /* 
  * Read in each layout from the file and print out detailed information.
  */
-int compare(char *filename)
+int compare(const char *const filename)
 {
 	FILE *fp = fopen(filename, "r");
 
@@ -481,7 +481,7 @@ int compare(char *filename)
 /* 
  * Improves each layout in the given file to the maximum extent possible.
  */
-void improveFromFile(char *filename)
+void improveFromFile(char *const filename)
 {
 	FILE *fp = fopen(filename, "r");
 
@@ -508,8 +508,8 @@ Keyboard improver(Keyboard k)
 	Keyboard tk, bestk;
 	copy(&tk, &k);
 	copy(&bestk, &k);
-	int64_t bestEval = k.fitness;
-	int64_t curEval = anneal(&tk);
+	const int64_t bestEval = k.fitness;
+	const int64_t curEval = anneal(&tk);
 	
 	if (curEval < bestEval) {
 		copy(&bestk, &tk);
@@ -525,7 +525,7 @@ Keyboard improver(Keyboard k)
  */
 int makeTypingData()
 {
-	char *diFilenames[] = {
+	char *const diFilenames[] = {
 		"freq_types/digraphs_00allProse.txt", 
 		"freq_types/digraphs_01allCasual.txt", 
 		"freq_types/digraphs_02allC.txt", 
@@ -536,7 +536,7 @@ int makeTypingData()
 		"freq_types/digraphs_04allNews.txt", 
 	};
 	
-	char *charFilenames[] = {
+	char *const charFilenames[] = {
 		"freq_types/chars_00allProse.txt", 
 		"freq_types/chars_01allCasual.txt", 
 		"freq_types/chars_02allC.txt", 
@@ -584,7 +584,7 @@ int makeTypingData()
 	
 	printf("\nPlease specify the maximum number of strings to put in the file. The optimizer will run faster ");
 	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-2000.)\n");
-	int max = getNumber("max: ");
+	const int max = getNumber("max: ");
 	
 	compileTypingData("allDigraphs.txt", diFilenames, multipliers, 8, 2, max);
 	compileTypingData("allChars.txt", charFilenames, multipliers, 8, 1, max);
@@ -594,7 +594,7 @@ int makeTypingData()
 	return 0;
 }
 
-int getNumber(char *description)
+int getNumber(char *const description)
 {
 	char input[100];
 	int num;
@@ -836,7 +836,7 @@ int testFitness()
 	return 0;
 }
 
-int testResult(int result, int expected)
+int testResult(const int result, const int expected)
 {
 	if (result == expected) printf("Test succeeded.\n");
 	else printf("Test failed (%d expected, %d found).\n", expected, result);

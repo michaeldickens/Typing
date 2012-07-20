@@ -13,7 +13,7 @@
 // For all score calculators, it is assumed that loc0 and loc1 are on the same hand.
 
 // Calculates the stats for k. Useful for human-readable output.
-int calcFitnessDirect(Keyboard *k)
+int calcFitnessDirect(Keyboard *const k)
 {
 	calcFitness(k); // Otherwise, k->fitness, k->fingerUsage, and k->fingerWork 
 	                // would not get assigned properly.
@@ -39,7 +39,7 @@ int calcFitnessDirect(Keyboard *k)
 	return 0;
 }
 
-int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
+int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multiplier)
 {
 	int locs[2];
 	int i;
@@ -61,7 +61,7 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 	return 0;
 }
 
-int calcFitness(Keyboard *k)
+int calcFitness(Keyboard *const k)
 {
 	int i;
 	
@@ -96,7 +96,7 @@ int calcFitness(Keyboard *k)
 	 * monographs instead of digraphs.
 	 */
 	for (i = 0; i < monLen; ++i) {
-		int lc = locs[monKeys[i]] % ksize;
+		const int lc = locs[monKeys[i]] % ksize;
 		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
 		
 		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
@@ -116,10 +116,10 @@ int calcFitness(Keyboard *k)
 	return 0;
 }
 
-int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
+int scoreDigraph(Keyboard *const k, const char digraph[], const int multiplier, const int allLocs[])
 {
-	int loc0 = allLocs[digraph[0]] % ksize;
-	int loc1 = allLocs[digraph[1]] % ksize;
+	const int loc0 = allLocs[digraph[0]] % ksize;
+	const int loc1 = allLocs[digraph[1]] % ksize;
 	
 	if (loc0 == -1 || loc1 == -1) {
 		return 1;
@@ -156,7 +156,7 @@ int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 	return 0;
 }
 
-int64_t calcShortcuts(Keyboard *k)
+int64_t calcShortcuts(const Keyboard *const k)
 {
 	int64_t result;
 	result = 
@@ -168,11 +168,11 @@ int64_t calcShortcuts(Keyboard *k)
 	return result * (totalMon / monLen);
 }
 
-int64_t calcQWERTY(Keyboard *k)
+int64_t calcQWERTY(const Keyboard *const k)
 {
 	NOT_WORK_WITH_full_keyboard("calcQWERTY")
 	int64_t result = 0;
-	int64_t averageMon = totalMon / 30;
+	const int64_t averageMon = totalMon / 30;
 
 	int i, pos;
 	for (i = 0; i < 30; ++i) {
@@ -184,21 +184,21 @@ int64_t calcQWERTY(Keyboard *k)
 	return result;
 }
 
-int64_t calcParentheses(Keyboard *k)
+int64_t calcParentheses(const Keyboard *const k)
 {
 	return calcParensGeneric(k, '(', ')') + calcParensGeneric(k, '<', '>') + 
 			calcParensGeneric(k, '[', ']') + calcParensGeneric(k, '{', '}');
 }
 
-int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
+int64_t calcParensGeneric(const Keyboard *const k, const char openChar, const char closeChar)
 {
 	int openPar = locWithShifted(k, openChar);
 	if (openPar == -1) return -1;
 	int closePar = locWithShifted(k, closeChar);
 	if (closePar == -1) return -1;
 	
-	int openShifted = openPar >= ksize;
-	int closeShifted = closePar >= ksize;
+	const int openShifted = openPar >= ksize;
+	const int closeShifted = closePar >= ksize;
 	
 	openPar %= ksize;
 	closePar %= ksize;
@@ -215,7 +215,7 @@ int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
 	else return parenthesesCost / DIVISOR;
 }
 
-int64_t calcNumbersShifted(Keyboard *k)
+int64_t calcNumbersShifted(const Keyboard *const k)
 {
 	int64_t score = 0;
 	
@@ -228,7 +228,7 @@ int64_t calcNumbersShifted(Keyboard *k)
 }
 
 /* Requires that k->fingerUsage has been calculated. */
-int calcFingerWork(Keyboard *k)
+int calcFingerWork(Keyboard *const k)
 {
 	int64_t total = 0;
 	int i;
@@ -254,7 +254,7 @@ int calcFingerWork(Keyboard *k)
  * 
  * Rolls must occur on the same row.
  */
-int calcInRoll(int loc0, int loc1)
+int calcInRoll(const int loc0, const int loc1)
 {
 	if (finger[loc1] == finger[loc0] + 1 && row[loc0] == row[loc1] && 
 			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
@@ -264,7 +264,7 @@ int calcInRoll(int loc0, int loc1)
 //	else return 0;
 }
 
-int calcOutRoll(int loc0, int loc1)
+int calcOutRoll(const int loc0, const int loc1)
 {
 	if (finger[loc1] == finger[loc0] - 1 && row[loc0] == row[loc1] && 
 			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
@@ -274,7 +274,7 @@ int calcOutRoll(int loc0, int loc1)
 //	else return 0;
 }
 
-int calcSameFinger(int loc0, int loc1)
+int calcSameFinger(const int loc0, const int loc1)
 {
 	if (finger[loc0] == finger[loc1]) {
 		if (loc0 == loc1) return 0;
@@ -298,7 +298,7 @@ int calcSameFinger(int loc0, int loc1)
 // If the row changes on the same hand, there is a penalty.
 // Jumping over the home row is an additional penalty, but 
 // isn't calculated here (see calcHomeJump()).
-int calcRowChange(int loc0, int loc1)
+int calcRowChange(const int loc0, const int loc1)
 {
 	if (row[loc0] != row[loc1]) {
 		if (row[loc0] < row[loc1]) { // loc1 is a lower row
@@ -310,10 +310,10 @@ int calcRowChange(int loc0, int loc1)
 	return 0;
 }
 
-int calcHomeJump(int loc0, int loc1)
+int calcHomeJump(const int loc0, const int loc1)
 {
-	int row0 = row[loc0];
-	int row1 = row[loc1];
+	const int row0 = row[loc0];
+	const int row1 = row[loc1];
 	
 	if (row0 < row1) {
 		if (homeRow <= row0 || homeRow >= row1) return 0;
@@ -333,7 +333,7 @@ int calcHomeJump(int loc0, int loc1)
 	return 0;
 }
 
-int calcRingJump(int loc0, int loc1)
+int calcRingJump(const int loc0, const int loc1)
 {
 	if ((finger[loc0] == PINKY && finger[loc1] == MIDDLE) || 
 			(finger[loc0] == MIDDLE && finger[loc1] == PINKY)) return ringJump;
@@ -341,7 +341,7 @@ int calcRingJump(int loc0, int loc1)
 	
 }
 
-int calcToCenter(int loc0, int loc1)
+int calcToCenter(const int loc0, const int loc1)
 {
 	if (isCenter[loc0] ^ isCenter[loc1]) return toCenter;
 	else return 0;
@@ -349,7 +349,7 @@ int calcToCenter(int loc0, int loc1)
 
 /* Only applies for the extended keyboard.
  */
-int calcToOutside(int loc0, int loc1)
+int calcToOutside(const int loc0, const int loc1)
 {
 	if (fullKeyboard != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
 	else return 0;

@@ -9,7 +9,7 @@
 #include "tools.h"
 
 
-void copyArray(int out[], int in[], int length)
+void copyArray(int out[], const int in[], const int length)
 {
 	memcpy(out, in, length * sizeof(int));
 }
@@ -72,21 +72,21 @@ void initKeyboardData()
 	numStart = strchr(keysToInclude, '1') - keysToInclude;
 	
 	if (fullKeyboard == FK_NO) {
-		int fingerCopy[KSIZE_MAX] = {
+		const int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		int columnCopy[KSIZE_MAX] = {
+		const int columnCopy[KSIZE_MAX] = {
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		int rowCopy[] = {
+		const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -95,14 +95,14 @@ void initKeyboardData()
 		
 		homeRow = 1;
 		
-		int handCopy[KSIZE_MAX] = {
+		const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		int isCenterCopy[KSIZE_MAX] = {
+		const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
@@ -112,14 +112,14 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		int printableCopy[KSIZE_MAX] = {
+		const int printableCopy[KSIZE_MAX] = {
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-		int indicesCopy[KSIZE_MAX] = {
+		const int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 			20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 
@@ -132,7 +132,7 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 
 	} else if (fullKeyboard == FK_STANDARD) {
-		int fingerCopy[KSIZE_MAX] = {
+		const int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
@@ -141,7 +141,7 @@ void initKeyboardData()
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		int columnCopy[KSIZE_MAX] = {
+		const int columnCopy[KSIZE_MAX] = {
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
@@ -150,7 +150,7 @@ void initKeyboardData()
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		int rowCopy[] = {
+		const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -161,7 +161,7 @@ void initKeyboardData()
 		
 		homeRow = 2;
 		
-		int handCopy[KSIZE_MAX] = {
+		const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -170,7 +170,7 @@ void initKeyboardData()
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		int isCenterCopy[KSIZE_MAX] = {
+		const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
@@ -179,7 +179,7 @@ void initKeyboardData()
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
-		int isOutsideCopy[KSIZE_MAX] = {
+		const int isOutsideCopy[KSIZE_MAX] = {
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
@@ -188,7 +188,7 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 		
-		int printableCopy[KSIZE_MAX] = {
+		const int printableCopy[KSIZE_MAX] = {
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, TRUE,  
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, FALSE, 
@@ -197,7 +197,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);
 		
-		int indicesCopy[KSIZE_MAX] = {
+		const int indicesCopy[KSIZE_MAX] = {
 			0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 
 		       15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
 			   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 
@@ -212,7 +212,7 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (fullKeyboard == FK_KINESIS) {
-		int fingerCopy[KSIZE_MAX] = {
+		const int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
@@ -222,7 +222,7 @@ void initKeyboardData()
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		int columnCopy[KSIZE_MAX] = {
+		const int columnCopy[KSIZE_MAX] = {
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
@@ -232,7 +232,7 @@ void initKeyboardData()
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		int rowCopy[KSIZE_MAX] = {
+		const int rowCopy[KSIZE_MAX] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -244,7 +244,7 @@ void initKeyboardData()
 		
 		homeRow = 2;
 		
-		int handCopy[KSIZE_MAX] = {
+		const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -254,7 +254,7 @@ void initKeyboardData()
 		};
 		copyArray(hand, handCopy, ksize);	
 		
-		int isCenterCopy[KSIZE_MAX] = {
+		const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
@@ -264,7 +264,7 @@ void initKeyboardData()
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
-		int isOutsideCopy[KSIZE_MAX] = {
+		const int isOutsideCopy[KSIZE_MAX] = {
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
@@ -274,7 +274,7 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 
-		int printableCopy[KSIZE_MAX] = {
+		const int printableCopy[KSIZE_MAX] = {
 			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
 			TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
 			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
@@ -284,7 +284,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);		
 
-		int indicesCopy[KSIZE_MAX] = {
+		const int indicesCopy[KSIZE_MAX] = {
 				 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 
 		    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 
 			    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 
@@ -300,14 +300,14 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (fullKeyboard == FK_IPHONE) {
-		int fingerCopy[KSIZE_MAX] = {
+		const int fingerCopy[KSIZE_MAX] = {
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		int rowCopy[] = {
+		const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -316,14 +316,14 @@ void initKeyboardData()
 		
 		homeRow = 1;
 		
-		int handCopy[KSIZE_MAX] = {
+		const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		int isCenterCopy[KSIZE_MAX] = {
+		const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
@@ -333,14 +333,14 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		int printableCopy[KSIZE_MAX] = {
+		const int printableCopy[KSIZE_MAX] = {
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE,  
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-		int indicesCopy[KSIZE_MAX] = {
+		const int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 
 			    21, 22, 23, 24, 25, 26, 27, 
@@ -497,7 +497,12 @@ void initTypingData()
  * Return Codes
  * 1: Null file.
  */
-int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, int max)
+int compileTypingData(char *const outfileName,
+                        char *const filenames[],
+                        const int multipliers[],
+                        const int length,
+                        const int unit,
+                        const int max)
 {
 	size_t size = 5000;
 	char **keys = malloc(sizeof(char *) * size);
@@ -506,7 +511,7 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 	/* Number of elements in keys and values. */
 	int datalen = 0;
 
-	int linelen = 100;
+	const int linelen = 100;
 	char line[linelen];
 	
 	FILE *outfile = fopen(outfileName, "w");
@@ -583,9 +588,9 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 }
 
 /* Give left = 0 and right = (length of arrays minus 1). */
-int sortTypingData(char **keys, int *values, int left, int right)
+int sortTypingData(char **const keys, int *const values, const int left, const int right)
 {
-	int pivot = values[(left + right) / 2];
+	const int pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	
 	while (i <= j) {
@@ -593,10 +598,10 @@ int sortTypingData(char **keys, int *values, int left, int right)
 		while (values[j] < pivot) --j;
 		
 		if (i <= j) {
-			char *ctemp = keys[i];
+			char *const ctemp = keys[i];
 			keys[i] = keys[j];
 			keys[j] = ctemp;
-			int itemp = values[i];
+			const int itemp = values[i];
 			values[i] = values[j];
 			values[j] = itemp;
 			++i; --j;
@@ -619,7 +624,7 @@ int sortTypingData(char **keys, int *values, int left, int right)
  * 
  * return 0: Unknown escape character.
  */
-char convertEscapeChar(char c)
+char convertEscapeChar(const char c)
 {
 	if (c == 'n') {
 		return '\n';
@@ -638,20 +643,20 @@ char convertEscapeChar(char c)
  * Takes a string containing a name and a value. Sets the variable with the given name to
  * the given value.
  */
-int setValue(char *str)
+int setValue(char *const str)
 {
-	int len = strlen(str);
+	const int len = strlen(str);
 	
 	if (len == 0) {
 		printf("No variable specified. Type \"variables\" for a complete listing of possible variables.\n\n");
 		return 0;
 	}
 	
-	char *name = str;
+	char *const name = str;
 	char *valstr = strchr(str, ' ');
 	*valstr = '\0'; ++valstr;
 	
-	int value = atoi(valstr);
+	const int value = atoi(valstr);
 	
 	if (streq(name, "detailedOutput")) {
 		detailedOutput = value;
@@ -715,7 +720,7 @@ int setValue(char *str)
 	return 0;
 }
 
-int getValue(char *name)
+int getValue(char *const name)
 {
 	if (streq(name, "detailedOutput")) {
 		printf("%s = %d\n\n", name, detailedOutput);
@@ -777,12 +782,12 @@ int getValue(char *name)
 	return 0;
 }
 
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
+int sortDigraphs(char keys[][2], int64_t values[], const int left, const int right)
 {	
 	int64_t lltemp;
 	char ctemp;
 	
-	int64_t pivot = values[(left + right) / 2];
+	const int64_t pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	do {
 		while (values[i] < pivot) ++i;
@@ -813,12 +818,12 @@ int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
 	return 0;
 }
 
-int sortMonographs(char keys[], int64_t values[], int left, int right)
+int sortMonographs(char keys[], int64_t values[], const int left, const int right)
 {	
 	int64_t lltemp;
 	char ctemp;
 	
-	int64_t pivot = values[(left + right) / 2];
+	const int64_t pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	do {
 		while (values[i] < pivot) ++i;
@@ -845,12 +850,12 @@ int sortMonographs(char keys[], int64_t values[], int left, int right)
 	return 0;
 }
 
-int alwaysKeepShiftPairP(char c)
+int alwaysKeepShiftPairP(const char c)
 {
 	return isalpha(c) || isspace(c) || c == '\b';
 }
 
-void setksize(int type)
+void setksize(const int type)
 {
 	fullKeyboard = type;
 	
