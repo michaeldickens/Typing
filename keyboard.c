@@ -381,7 +381,7 @@ int printPercentages(const Keyboard *const k)
 	if (total == 0) {
         printf("warning: total = 0\n");
         return 0;
-    }
+	}
 	// Finger
 	printf("Fingers: ");
 	for (i = 0; i < FINGER_COUNT; ++i) {

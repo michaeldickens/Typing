@@ -238,7 +238,7 @@ int calcFingerWork(Keyboard *const k)
 	
 	for (i = 0; i < FINGER_COUNT; ++i) {
 		if (1000*k->fingerUsage[i]/total > fingerPercentMaxes[i]*10) {
-			k->fingerWork += (k->fingerUsage[i] - 
+			k->fingerWork += (int64_t) (k->fingerUsage[i] - 
 					(fingerPercentMaxes[i]*total/100))
 					* fingerWorkCosts[i];
 		}
