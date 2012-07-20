@@ -500,16 +500,16 @@ void initTypingData()
 int compileTypingData(char *const outfileName,
                         char *const filenames[],
                         const int multipliers[],
-                        const int length,
+                        const size_t length,
                         const int unit,
-                        const int max)
+                        const size_t max)
 {
 	size_t size = 5000;
 	char **keys = malloc(sizeof(char *) * size);
 	int *values = malloc(sizeof(int) * size);
 	
 	/* Number of elements in keys and values. */
-	int datalen = 0;
+	size_t datalen = 0;
 
 	const int linelen = 100;
 	char line[linelen];
@@ -522,7 +522,7 @@ int compileTypingData(char *const outfileName,
 		return 1;
 	}
 	
-	int i, k;
+	size_t i, k;
 	for (i = 0; i < length; ++i) {
 		printf("file %s,  multiplier %d\n", filenames[i], multipliers[i]);
 		

@@ -96,7 +96,7 @@ int initKeyboard(Keyboard *const k)
 			48, 49, 50, 51, 52, 
 		};
 				
-		for (i = 0; i < sizeof(halfIndices)/sizeof(int); ++i)
+		for (i = 0; i < (int) (sizeof(halfIndices)/sizeof(int)); ++i)
 			swap(k, loc(k, consonants[i]), halfIndices[i]);
 	}
 	
