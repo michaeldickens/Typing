@@ -48,7 +48,7 @@ int runCJAlgorithm(char *filename)
 		
 		if (roundNum % roundsBeforeSwapInc == roundsBeforeSwapInc - 1) {
 			++numberOfSwaps;
-			roundsBeforeSwapInc = roundsBeforeSwapInc * 1.4 + 1;
+			roundsBeforeSwapInc = (int) (roundsBeforeSwapInc * 1.4) + 1;
 			if (detailedOutput) printf("Number of swaps between rounds is now %d.\n", numberOfSwaps);
 		}
 

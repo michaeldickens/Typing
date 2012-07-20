@@ -66,27 +66,27 @@ int preCalculateFitness()
 	NOT_WORK_WITH_full_keyboard("preCalculateFitness")
 	int i, j;
 	
-	int costs[900];
-	for (i = 0; i < 900; ++i) costs[i] = 0;
+	int calculatedCosts[900];
+	for (i = 0; i < 900; ++i) calculatedCosts[i] = 0;
 	
 	for (i = 0; i < 30; ++i)
 		for (j = 0; j < 30; ++j) {
-			costs[30*i + j] += (distanceCosts[i] + distanceCosts[j]) * monValues[i] * distance;
+			calculatedCosts[30*i + j] += (distanceCosts[i] + distanceCosts[j]) * monValues[i] * distance;
 			if (hand[i] == hand[j]) {
-				costs[30*i + j]	+= calcInRoll    (i, j);	
-				costs[30*i + j] += calcOutRoll   (i, j);	
-				costs[30*i + j] += sameHand		   ;
-				costs[30*i + j] += calcSameFinger(i, j);
-				costs[30*i + j] += calcRowChange (i, j);
-				costs[30*i + j] += calcHomeJump  (i, j);
-				costs[30*i + j] += calcRingJump  (i, j);
-				costs[30*i + j] += calcToCenter  (i, j);
-				costs[30*i + j] += calcToOutside (i, j);
+				calculatedCosts[30*i + j]	+= calcInRoll    (i, j);	
+				calculatedCosts[30*i + j] += calcOutRoll   (i, j);	
+				calculatedCosts[30*i + j] += sameHand		   ;
+				calculatedCosts[30*i + j] += calcSameFinger(i, j);
+				calculatedCosts[30*i + j] += calcRowChange (i, j);
+				calculatedCosts[30*i + j] += calcHomeJump  (i, j);
+				calculatedCosts[30*i + j] += calcRingJump  (i, j);
+				calculatedCosts[30*i + j] += calcToCenter  (i, j);
+				calculatedCosts[30*i + j] += calcToOutside (i, j);
 			}
 		}
 		
 	for (i = 0; i < 900; ++i)
-		printf("costs[%d] = %d;\n", i, costs[i]);
+		printf("calculatedCosts[%d] = %d;\n", i, calculatedCosts[i]);
 		
 	return 0;
 }

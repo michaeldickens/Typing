@@ -50,8 +50,8 @@ Keyboard runAlgorithm()
 	Keyboard oldBest;
 	initKeyboard(&oldBest);
 	
-	int generationsSoFar, totalGenerations;
-	for (generationsSoFar = 0, totalGenerations = 0; generationsSoFar < ALL_STAR_GENERATIONS; ++generationsSoFar, ++totalGenerations) {
+	int generationsSoFar;
+	for (generationsSoFar = 0; generationsSoFar < ALL_STAR_GENERATIONS; ++generationsSoFar) {
 		copy(&oldBest, &allStarPool[0]);
 		for (i = 0; i < ALL_STAR_POOL_SIZE; ++i) calcFitness(&allStarPool[i]);
 		sortPool(allStarPool, 0, ALL_STAR_POOL_SIZE - 1);
@@ -77,9 +77,9 @@ Keyboard runForOne()
 	Keyboard oldBest;
 	initKeyboard(&oldBest);
 
-	int generationsSoFar, totalGenerations;
+	int generationsSoFar;
 	int deleteThisMany = POOL_SIZE / 2;
-	for (generationsSoFar = 0, totalGenerations = 0; generationsSoFar < GENERATIONS; ++generationsSoFar, ++totalGenerations) {
+	for (generationsSoFar = 0; generationsSoFar < GENERATIONS; ++generationsSoFar) {
 		copy(&oldBest, &pool[0]);
 		
 		for (i = 0; i < POOL_SIZE; ++i) calcFitness(&pool[i]);

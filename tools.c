@@ -390,7 +390,7 @@ void initTypingData()
 	
 	file = fopen("allDigraphs.txt", "r");
 	
-	char c = '\0';
+	int c = '\0';
 	i = 0;
 	totalDi = 0;
 	diLen = 0;
