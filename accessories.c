@@ -525,7 +525,7 @@ Keyboard improver(Keyboard k)
  */
 int makeTypingData()
 {
-	char *const diFilenames[] = {
+	static char *const diFilenames[] = {
 		"freq_types/digraphs_00allProse.txt", 
 		"freq_types/digraphs_01allCasual.txt", 
 		"freq_types/digraphs_02allC.txt", 
@@ -536,7 +536,7 @@ int makeTypingData()
 		"freq_types/digraphs_04allNews.txt", 
 	};
 	
-	char *const charFilenames[] = {
+	static char *const charFilenames[] = {
 		"freq_types/chars_00allProse.txt", 
 		"freq_types/chars_01allCasual.txt", 
 		"freq_types/chars_02allC.txt", 

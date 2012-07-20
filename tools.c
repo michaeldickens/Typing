@@ -72,21 +72,21 @@ void initKeyboardData()
 	numStart = strchr(keysToInclude, '1') - keysToInclude;
 	
 	if (fullKeyboard == FK_NO) {
-		const int fingerCopy[KSIZE_MAX] = {
+		static const int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		const int columnCopy[KSIZE_MAX] = {
+		static const int columnCopy[KSIZE_MAX] = {
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 			0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		const int rowCopy[] = {
+		static const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -95,14 +95,14 @@ void initKeyboardData()
 		
 		homeRow = 1;
 		
-		const int handCopy[KSIZE_MAX] = {
+		static const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		const int isCenterCopy[KSIZE_MAX] = {
+		static const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
@@ -112,14 +112,14 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		const int printableCopy[KSIZE_MAX] = {
+		static const int printableCopy[KSIZE_MAX] = {
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 			TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-		const int indicesCopy[KSIZE_MAX] = {
+		static const int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 			20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 
@@ -132,7 +132,7 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 
 	} else if (fullKeyboard == FK_STANDARD) {
-		const int fingerCopy[KSIZE_MAX] = {
+		static const int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
@@ -141,7 +141,7 @@ void initKeyboardData()
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		const int columnCopy[KSIZE_MAX] = {
+		static const int columnCopy[KSIZE_MAX] = {
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1, -2, -3, 
@@ -150,7 +150,7 @@ void initKeyboardData()
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		const int rowCopy[] = {
+		static const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -161,7 +161,7 @@ void initKeyboardData()
 		
 		homeRow = 2;
 		
-		const int handCopy[KSIZE_MAX] = {
+		static const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -170,7 +170,7 @@ void initKeyboardData()
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		const int isCenterCopy[KSIZE_MAX] = {
+		static const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 
@@ -179,7 +179,7 @@ void initKeyboardData()
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
-		const int isOutsideCopy[KSIZE_MAX] = {
+		static const int isOutsideCopy[KSIZE_MAX] = {
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
 			TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
@@ -188,7 +188,7 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 		
-		const int printableCopy[KSIZE_MAX] = {
+		static const int printableCopy[KSIZE_MAX] = {
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE, TRUE,  
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, FALSE, 
@@ -197,7 +197,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);
 		
-		const int indicesCopy[KSIZE_MAX] = {
+		static const int indicesCopy[KSIZE_MAX] = {
 			0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 
 		       15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
 			   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 
@@ -212,7 +212,7 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (fullKeyboard == FK_KINESIS) {
-		const int fingerCopy[KSIZE_MAX] = {
+		static const int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
@@ -222,7 +222,7 @@ void initKeyboardData()
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		const int columnCopy[KSIZE_MAX] = {
+		static const int columnCopy[KSIZE_MAX] = {
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
 			-1, 0, 1, 2, 3, 4, 4, 3, 2, 1, 0, -1,
@@ -232,7 +232,7 @@ void initKeyboardData()
 		};
 		copyArray(column, columnCopy, ksize);
 		
-		const int rowCopy[KSIZE_MAX] = {
+		static const int rowCopy[KSIZE_MAX] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
@@ -244,7 +244,7 @@ void initKeyboardData()
 		
 		homeRow = 2;
 		
-		const int handCopy[KSIZE_MAX] = {
+		static const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
@@ -254,7 +254,7 @@ void initKeyboardData()
 		};
 		copyArray(hand, handCopy, ksize);	
 		
-		const int isCenterCopy[KSIZE_MAX] = {
+		static const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 
@@ -264,7 +264,7 @@ void initKeyboardData()
 		};
 		copyArray(isCenter, isCenterCopy, ksize);
 		
-		const int isOutsideCopy[KSIZE_MAX] = {
+		static const int isOutsideCopy[KSIZE_MAX] = {
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
 			TRUE,  FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, 
@@ -274,7 +274,7 @@ void initKeyboardData()
 		};
 		copyArray(isOutside, isOutsideCopy, ksize);
 
-		const int printableCopy[KSIZE_MAX] = {
+		static const int printableCopy[KSIZE_MAX] = {
 			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
 			TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
 			FALSE, TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  
@@ -284,7 +284,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);		
 
-		const int indicesCopy[KSIZE_MAX] = {
+		static const int indicesCopy[KSIZE_MAX] = {
 				 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 
 		    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 
 			    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 
@@ -300,14 +300,14 @@ void initKeyboardData()
 		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (fullKeyboard == FK_IPHONE) {
-		const int fingerCopy[KSIZE_MAX] = {
+		static const int fingerCopy[KSIZE_MAX] = {
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 		};
 		copyArray(finger, fingerCopy, ksize);
 		
-		const int rowCopy[] = {
+		static const int rowCopy[] = {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -316,14 +316,14 @@ void initKeyboardData()
 		
 		homeRow = 1;
 		
-		const int handCopy[KSIZE_MAX] = {
+		static const int handCopy[KSIZE_MAX] = {
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 			LEFT, LEFT, LEFT, LEFT, LEFT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, 
 		};
 		copyArray(hand, handCopy, ksize);
 		
-		const int isCenterCopy[KSIZE_MAX] = {
+		static const int isCenterCopy[KSIZE_MAX] = {
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
 			FALSE, FALSE, FALSE,  FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, 
@@ -333,14 +333,14 @@ void initKeyboardData()
 		for (i = 0; i < KSIZE_MAX; ++i)
 			isOutside[i] = FALSE;
 		
-		const int printableCopy[KSIZE_MAX] = {
+		static const int printableCopy[KSIZE_MAX] = {
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  TRUE,  
 			TRUE,  TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,  FALSE, 
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-		const int indicesCopy[KSIZE_MAX] = {
+		static const int indicesCopy[KSIZE_MAX] = {
 			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 
 			    21, 22, 23, 24, 25, 26, 27, 

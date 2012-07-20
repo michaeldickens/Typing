@@ -89,7 +89,7 @@ int initKeyboard(Keyboard *const k)
 	if (keepConsonantsRight && fullKeyboard == FK_STANDARD) {
 		const char *const consonants = "bcdfghjklmnpqrstvwxyz";
 		/* TODO: Swap both shifted and unshifted */
-		const int halfIndices[] = {
+		static const int halfIndices[] = {
 			11, 12, 
 			20, 21, 22, 23, 24, 25, 26, 27, 
 			34, 35, 36, 37, 38, 39, 
