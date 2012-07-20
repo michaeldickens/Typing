@@ -537,8 +537,8 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 	FILE *outfile = fopen(outfileName, "w");
 	if (outfile == NULL) {
 		fprintf(stderr, "Error: null file %s.\n", outfileName);
-        free(keys);
-        free(values);
+		free(keys);
+		free(values);
 		return 1;
 	}
 	
@@ -553,8 +553,8 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 		if (file == NULL) {
 			fprintf(stderr, "Error: null file %s.\n", filenames[i]);
 			fclose(outfile);
-            free(keys);
-            free(values);
+			free(keys);
+			free(values);
 			return 1;
 		}
 		
