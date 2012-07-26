@@ -93,7 +93,7 @@ void initCosts()
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
-	keepNumbers = 0;
+	keepNumbers = 1;
 	keepParentheses = TRUE;
 	keepShiftPairs = FALSE;
 	keepTab = FALSE;
