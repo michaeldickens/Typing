@@ -129,7 +129,7 @@ int scoreDigraph(Keyboard *const k, const char digraph[], const int multiplier, 
 	 */
 	if (allLocs[digraph[0]] >= ksize && allLocs[digraph[1]] >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
-	} else if (allLocs[digraph[0]] >= ksize ^ allLocs[digraph[1]] >= ksize) {
+	} else if ((allLocs[digraph[0]] >= ksize) != (allLocs[digraph[1]] >= ksize)) {
 		k->distance += shiftCost * multiplier;
 	}
 	
