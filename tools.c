@@ -369,7 +369,11 @@ void initTypingData()
 	FILE *file;
 	
 	file = fopen("allDigraphs.txt", "r");
-	
+
+	if( file == NULL ) {
+		internalError( 7 );
+		return;
+	}
 	int c = '\0';
 	i = 0;
 	totalDi = 0;
@@ -422,7 +426,10 @@ void initTypingData()
 	
 
 	file = fopen("allChars.txt", "r");
-	
+	if( file == NULL ) {
+		internalError( 8 );
+		return;
+	}
 	c = '\0';
 	i = 0;
 	totalMon = 0;
