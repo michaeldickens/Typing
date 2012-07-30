@@ -115,7 +115,7 @@ int calcFitness(Keyboard *const k)
 	return 0;
 }
 
-int scoreDigraph(Keyboard *const k, const char digraph[], const int multiplier, const int allLocs[])
+int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int allLocs[])
 {
 	const int loc0 = allLocs[digraph[0]] % ksize;
 	const int loc1 = allLocs[digraph[1]] % ksize;
