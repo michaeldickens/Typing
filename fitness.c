@@ -231,15 +231,19 @@ int calcFingerWork(Keyboard *const k)
 {
 	int64_t total = 0;
 	int i;
+	double usage;
+	double percentMax;
+	double difference;
 	for (i = 0; i < FINGER_COUNT; ++i) total += k->fingerUsage[i];
 
 	k->fingerWork = 0;
 	
 	for (i = 0; i < FINGER_COUNT; ++i) {
-		if (1000*k->fingerUsage[i]/total > fingerPercentMaxes[i]*10) {
-			k->fingerWork += (int64_t) (k->fingerUsage[i] - 
-					(fingerPercentMaxes[i]*total/100))
-					* fingerWorkCosts[i];
+		usage = k->fingerUsage[i];
+		percentMax = fingerPercentMaxes[i];
+		if (1000*usage/total > percentMax*10) {
+			difference = usage - (percentMax*total/100);
+			k->fingerWork += (int64_t) difference * fingerWorkCosts[i];
 		}
 	}
 		
