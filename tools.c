@@ -554,7 +554,14 @@ int compileTypingData(char *const outfileName,
 				keys = realloc(keys, sizeof(char) * size);
 				values = realloc(values, sizeof(int) * size);
 			}
-			
+			if( keys == NULL ) {
+				internalError( 4 );
+				return 0;
+			}
+			if( values == NULL ) {
+				internalError( 5 );
+				return 0;
+			}
 			/* If the n-graph already exists, add to its value. */
 			int found = FALSE;
 			for (k = 0; k < datalen; ++k) {
@@ -663,6 +670,12 @@ int setValue(char *const str)
 	
 	char *const name = str;
 	char *valstr = strchr(str, ' ');
+	
+	if( valstr == NULL )
+		{
+		internalError( 6 );
+		return 0;
+		}
 	*valstr = '\0'; ++valstr;
 	
 	const int value = atoi(valstr);
