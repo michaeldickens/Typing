@@ -18,7 +18,9 @@ int runCJAlgorithm(char *const filename)
 	int64_t curEval;
 	int64_t bestEval = LLONG_MAX;
 
-	Keyboard k, prevk, bestk;
+	Keyboard k = nilKeyboard;
+	Keyboard prevk;
+	Keyboard bestk = nilKeyboard;
 	
 	FILE *fp = fopen(filename, "r");
 
