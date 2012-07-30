@@ -509,9 +509,10 @@ void shuffleLayout(Keyboard *const k)
 			do {
 				x = rand() % (n + 1);
 			} while (!isLegalSwap(k, x, n));
+			swap(k, x, n);
 		}
 		
-		swap(k, x, n);
+
 	}
 }
 

@@ -12,7 +12,7 @@
 int runCJAlgorithm(char *const filename)
 {
 	const int start = time(NULL);
-    int finish;
+    int finish = 0;
 	int i, roundNum, isFileEmpty;
 	
 	int64_t curEval;

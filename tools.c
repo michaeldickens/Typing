@@ -484,6 +484,15 @@ void initTypingData()
 	sortMonographs(monKeys, monValues, 0, monLen - 1);
 }
 
+/* Report an internal error.
+ * 
+ * code: The internal error code to report to the User.
+ */
+void internalError( int code )
+{
+    printf("Internal error:\t#%d\n", code);
+}
+
 /* 
  * Compile the typing data from each of the given files into  a single file.
  * 

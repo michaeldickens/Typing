@@ -269,7 +269,7 @@ int game()
 
 int gameComputer(Keyboard *const k, const char difficulty)
 {
-	int bestp; char bestc;
+	int bestp = -1; char bestc = '\0';
 	int64_t score, bestScore = LLONG_MAX;
 	
 	Keyboard k2;
@@ -322,9 +322,25 @@ int gameComputer(Keyboard *const k, const char difficulty)
 			}
 		}
 	}
-	
-	printf("The computer puts %c at %d.\n", bestc, bestp);
-	k->layout[bestp] = bestc;
+
+    if( (bestp >= 0) && (bestc != '\0') )
+		{
+		printf("The computer puts %c at %d.\n", bestc, bestp);
+		k->layout[bestp] = bestc;
+		}	
+	else if( bestp < 0 )
+		{
+		internalError( 1 );
+		}
+	else if( bestc == '\0' )
+		{
+		internalError( 2 );
+		}
+	else
+		{
+		internalError( 3 );
+		}
+
 	return 0;
 }
 
@@ -417,7 +433,7 @@ int bestSwap(Keyboard *const k)
 	const int64_t fitness = k->fitness;
 	const int64_t origFitness = fitness;
 	int64_t bestFitness = fitness;
-	int bestIndices[2];
+	int bestIndices[2] = { -1, -1 };
 	Keyboard bestKeyboard = *k;
 	
 	int i, j;
