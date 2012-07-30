@@ -97,7 +97,11 @@ int calcFitness(Keyboard *const k)
 	 */
 	for (i = 0; i < monLen; ++i) {
 		const int lc = locs[monKeys[i]] % ksize;
-		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
+		if (lc >= 0) k->distance += distanceCosts[lc] * monValues[i] * distance;
+		else {
+			internalError( 9 );
+			return 0;
+		}
 		
 		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
 		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += monValues[i];
