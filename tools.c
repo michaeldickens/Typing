@@ -68,8 +68,13 @@ int initData()
 void initKeyboardData()
 {
 	int i;
+	char *oneInKeys = strchr(keysToInclude, '1');
 	
-	numStart = strchr(keysToInclude, '1') - keysToInclude;
+	if( oneInKeys ) {
+		numStart = oneInKeys - keysToInclude;
+	} else {
+		numStart = -1;
+	}
 	
 	if (fullKeyboard == FK_NO) {
 		static const int fingerCopy[KSIZE_MAX] = {
