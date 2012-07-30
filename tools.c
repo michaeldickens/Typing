@@ -568,10 +568,12 @@ int compileTypingData(char *const outfileName,
 			}
 			if( keys == NULL ) {
 				internalError( 4 );
+				free( values );
 				return 0;
 			}
 			if( values == NULL ) {
 				internalError( 5 );
+				free( keys );
 				return 0;
 			}
 			/* If the n-graph already exists, add to its value. */

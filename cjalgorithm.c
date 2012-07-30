@@ -66,6 +66,7 @@ int runCJAlgorithm(char *const filename)
 			if ((fileReadRes = layoutFromFile(fp, &k)) != 0) {
 				isFileEmpty = TRUE;
 				fclose(fp);
+				fp = NULL;
 			}
 		} 
 				
@@ -84,8 +85,13 @@ int runCJAlgorithm(char *const filename)
 				initKeyboard(&k);
 			}
 			
-   			fclose(fp);
+			if( fp )
+				fclose(fp);
 			fp = fopen(filename, "r");
+			if( !fp ) {
+				printf("Unable to re-open file: %s\n", filename);
+				return 0;
+			}
 			isFileEmpty = FALSE;
 		}
 				
