@@ -528,6 +528,8 @@ int compileTypingData(char *const outfileName,
 	size_t size = 5000;
 	char **keys = malloc(sizeof(char *) * size);
 	int *values = malloc(sizeof(int) * size);
+	int aMultiplier;
+	char *aFilename;
 	
 	/* Number of elements in keys and values. */
 	size_t datalen = 0;
@@ -545,14 +547,17 @@ int compileTypingData(char *const outfileName,
 	
 	size_t i, k;
 	for (i = 0; i < length; ++i) {
-		printf("file %s,  multiplier %d\n", filenames[i], multipliers[i]);
+		aMultiplier = multipliers[i];
+		aFilename = filenames[i];
+		printf("file %s,  multiplier %d\n", aFilename, aMultiplier);
+
 		
-		if (multipliers[i] == 0)
+		if (aMultiplier == 0)
 			continue;
 		
-		FILE *file = fopen(filenames[i], "r");
+		FILE *file = fopen(aFilename, "r");
 		if (file == NULL) {
-			fprintf(stderr, "Error: null file %s.\n", filenames[i]);
+			fprintf(stderr, "Error: null file %s.\n", aFilename);
 			fclose(outfile);
 			free(keys);
 			free(values);
@@ -581,7 +586,7 @@ int compileTypingData(char *const outfileName,
 			for (k = 0; k < datalen; ++k) {
 				if (streqn(keys[k], line, unit)) {
 					found = TRUE;
-					values[k] += atoi(line + unit + 1) * multipliers[i];
+					values[k] += atoi(line + unit + 1) * aMultiplier;
 				}
 			}
 			
@@ -590,7 +595,7 @@ int compileTypingData(char *const outfileName,
 				keys[datalen] = malloc(sizeof(char) * (unit + 1));
 				strncpy(keys[datalen], line, unit);
 				keys[datalen][unit] = '\0';
-				values[k] = atoi(line + unit + 1) * multipliers[i];
+				values[k] = atoi(line + unit + 1) * aMultiplier;
 				++datalen;
 			}
 			
