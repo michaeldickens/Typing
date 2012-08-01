@@ -361,6 +361,13 @@ void worstDigraphsFromFile(const char *const filename, const int damagingp)
 int worstDigraphs(Keyboard *const k, const int damagingp)
 {
 	int i;
+	int loc0;
+	int loc1;
+	char *aKey;
+	char key0;
+	char key1;
+	char buf1[5];
+	char buf2[5];
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	
 	char keys[diLen][2];
@@ -378,23 +385,24 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 		k->homeJump		= 0;
 		k->toCenter		= 0;
 		k->toOutside	= 0;
-		int locs[2];
-		
-		locs[0] = loc(k, diKeys[i][0]);
-		locs[1] = loc(k, diKeys[i][1]);
+		aKey = diKeys[i];
+		key0 = aKey[0];
+		key1 = aKey[1];
+		loc0 = loc(k, key0);
+		loc1 = loc(k, key1);
 		
 		// These all require that the hand be the same.
-		if (hand[locs[0]] == hand[locs[1]]) {
-			k->inRoll		= calcInRoll    (locs[0], locs[1]);	
-			k->outRoll		= calcOutRoll   (locs[0], locs[1]);	
-			k->sameHand		= sameHand						  ;
-			k->sameFinger	= calcSameFinger(locs[0], locs[1]);
-			k->rowChange	= calcRowChange (locs[0], locs[1]);
-			k->homeJump		= calcHomeJump  (locs[0], locs[1]);
-			k->toCenter		= calcToCenter  (locs[0], locs[1]);
-			k->toOutside	= calcToOutside (locs[0], locs[1]);
+		if (hand[loc0] == hand[loc1]) {
+			k->inRoll		= calcInRoll    (loc0, loc1);
+			k->outRoll		= calcOutRoll   (loc0, loc1);
+			k->sameHand		= sameHand					;
+			k->sameFinger	= calcSameFinger(loc0, loc1);
+			k->rowChange	= calcRowChange (loc0, loc1);
+			k->homeJump		= calcHomeJump  (loc0, loc1);
+			k->toCenter		= calcToCenter  (loc0, loc1);
+			k->toOutside	= calcToOutside (loc0, loc1);
 		}
-		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
+		k->distance = (distanceCosts[loc0] + distanceCosts[loc1]) * distance;
 
 		/* Re-assign diValues[i] to the cost of that digraph. */
 		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
@@ -410,10 +418,11 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 	sortDigraphs(keys, values, 0, diLen - 1);
 	
 	for (i = 0; i < diLen; ++i) {
-		char buf1[5];
-		char buf2[5];
-		charToPrintable(buf1, keys[i][0], FALSE);
-		charToPrintable(buf2, keys[i][1], FALSE);
+		aKey = keys[i];
+		key0 = aKey[0];
+		key1 = aKey[1];
+		charToPrintable(buf1, key0, FALSE);
+		charToPrintable(buf2, key1, FALSE);
 		
 		printf("%s%s = %lld\n", buf1, buf2, values[i]);
 		

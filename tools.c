@@ -476,16 +476,18 @@ void initTypingData()
 	
 	/* If necessary, add the stats for backspace. */
 	if (strchr(keysToInclude, '\b')) {
+		int64_t value;
 		/* Add backpace to the digraph list. */
 		for (i = 0; i < monLen; ++i) {
+			value = monValues[i] * ERROR_RATE_PERCENT / 100;
 			diKeys[diLen][0] = '\b';
 			diKeys[diLen][1] = monKeys[i];
-			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			diValues[diLen] = value;
 			++diLen;
 			
 			diKeys[diLen][1] = '\b';
 			diKeys[diLen][0] = monKeys[i];
-			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			diValues[diLen] = value;
 			++diLen;
 		}
 	 
