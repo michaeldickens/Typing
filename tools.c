@@ -6,6 +6,7 @@
  *
  */
 
+#include "judy64.h"
 #include "tools.h"
 
 
@@ -525,14 +526,14 @@ int compileTypingData(char *const outfileName,
                         const int unit,
                         const size_t max)
 {
-	size_t size = 5000;
-	char **keys = malloc(sizeof(char *) * size);
-	int *values = malloc(sizeof(int) * size);
 	int aMultiplier;
 	char *aFilename;
-	
-	/* Number of elements in keys and values. */
-	size_t datalen = 0;
+	Judy *aJudy;
+	uchar *aKey;
+	char *aValueString;
+	int aValue;
+	JudySlot *aCell;
+	void outputTypingDataByDescendingValue( Judy *aJudy, FILE *outfile, size_t max);
 
 	const int linelen = 100;
 	char line[linelen];
@@ -540,12 +541,11 @@ int compileTypingData(char *const outfileName,
 	FILE *outfile = fopen(outfileName, "w");
 	if (outfile == NULL) {
 		fprintf(stderr, "Error: null file %s.\n", outfileName);
-		free(keys);
-		free(values);
 		return 1;
 	}
-	
-	size_t i, k;
+	aJudy = judy_open(1024);
+
+	size_t i;
 	for (i = 0; i < length; ++i) {
 		aMultiplier = multipliers[i];
 		aFilename = filenames[i];
@@ -559,94 +559,91 @@ int compileTypingData(char *const outfileName,
 		if (file == NULL) {
 			fprintf(stderr, "Error: null file %s.\n", aFilename);
 			fclose(outfile);
-			free(keys);
-			free(values);
 			return 1;
 		}
 		
 		while (fgets(line, linelen-1, file)) {			
 			line[linelen-1] = '\0';
-			if (datalen >= size) {
-				size *= 2;
-				keys = realloc(keys, sizeof(char) * size);
-				values = realloc(values, sizeof(int) * size);
-			}
-			if( keys == NULL ) {
-				internalError( 4 );
-				free( values );
-				return 0;
-			}
-			if( values == NULL ) {
-				internalError( 5 );
-				free( keys );
-				return 0;
-			}
-			/* If the n-graph already exists, add to its value. */
-			int found = FALSE;
-			for (k = 0; k < datalen; ++k) {
-				if (streqn(keys[k], line, unit)) {
-					found = TRUE;
-					values[k] += atoi(line + unit + 1) * aMultiplier;
-				}
-			}
-			
-			/* If the n-graph does not already exist, add it. */
-			if (found == FALSE) {
-				keys[datalen] = malloc(sizeof(char) * (unit + 1));
-				strncpy(keys[datalen], line, unit);
-				keys[datalen][unit] = '\0';
-				values[k] = atoi(line + unit + 1) * aMultiplier;
-				++datalen;
-			}
-			
+			line[unit] = 0;
+			aKey = (uchar *) line;
+			aValueString = line + unit + 1;
+			aValue = atoi(aValueString);
+			aCell = judy_cell( aJudy, aKey, unit );
+			*aCell += aValue;
 		}
 		
 		fclose(file);
 	}
 	
-	sortTypingData(keys, values, 0, datalen-1);
-	
-	for (i = 0; i < datalen && i < max; ++i) {
-		strncpy(line, keys[i], unit);
-		sprintf(line + unit, " %d\n", values[i]);
-		
-		fputs(line, outfile);
-		free(keys[i]);
-	}
-	
+	outputTypingDataByDescendingValue(aJudy, outfile, max);
 	fclose(outfile);
-	
-	free(keys);
-	free(values);
 	
 	return 0;
 }
 
-/* Give left = 0 and right = (length of arrays minus 1). */
-int sortTypingData(char **const keys, int *const values, const int left, const int right)
+/* returns the maximum value stored within the Judy array
+ */
+JudySlot getMaximumTypingValue(Judy *aJudy)
 {
-	const int pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	
-	while (i <= j) {
-		while (values[i] > pivot) ++i;
-		while (values[j] < pivot) --j;
-		
-		if (i <= j) {
-			char *const ctemp = keys[i];
-			keys[i] = keys[j];
-			keys[j] = ctemp;
-			const int itemp = values[i];
-			values[i] = values[j];
-			values[j] = itemp;
-			++i; --j;
+	JudySlot maximumValue = 0;
+	const JudySlot *aCell;
+
+	for (aCell = judy_strt(aJudy, NULL, 0);
+		 aCell;
+		 aCell = judy_nxt(aJudy))
+	{
+		if(*aCell > maximumValue) {
+			maximumValue = *aCell;
 		}
 	}
-	
-	if (left < j) sortTypingData(keys, values, left, j);
-	if (i < right) sortTypingData(keys, values, i, right);
-	
-	return 0;
+	return maximumValue;
+}
+
+/* outputs the typing data, sorted by value from highest to lowest
+ *
+ * aJudy: the Judy array containing the typing data
+ * outfile: the file to which the data is to be written
+ * max: the maximum number of items to output
+ */
+void outputTypingDataByDescendingValue(Judy *aJudy, FILE *outfile, size_t max)
+{
+	void outputTypingDataWithValue(Judy *aJudy,
+									FILE *outfile,
+									const JudySlot value,
+									size_t *pmax);
+	JudySlot maximumValue = getMaximumTypingValue(aJudy);
+
+	for( ; (maximumValue > 0) && (max > 0); maximumValue-- ) {
+		outputTypingDataWithValue(aJudy, outfile, maximumValue, &max);
+	}
+}
+
+/* locates each entry in the Judy array with a specific value and
+ * outputs it and the value to a file
+ *
+ * aJudy: the Judy array
+ * outfile: the file to which the function writes
+ * value: the value for which to search
+ * pmax: a pointer to the maximum number of items to output
+ */
+void outputTypingDataWithValue(Judy *aJudy,
+								FILE *outfile,
+								const JudySlot value,
+								size_t *pmax)
+{
+	const JudySlot *aCell;
+	uchar buffer[10];
+
+	for (aCell = judy_strt(aJudy, NULL, 0);
+		 aCell && (*pmax > 0);
+		 aCell = judy_nxt(aJudy))
+	{
+		if(*aCell == value) {
+			(void) judy_key(aJudy, buffer, sizeof(buffer));
+			fprintf( outfile, "%s %ull\n", buffer, *aCell );
+			(*pmax)--;
+		}
+	}
 }
 
 /* 

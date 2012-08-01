@@ -79,7 +79,6 @@ void initKeyboardData();
 void initTypingData();
 void internalError();
 int compileTypingData(char *outfileName, char *const filenames[], const int multipliers[], const size_t length, const int unit, const size_t max);
-int sortTypingData(char **keys, int *values, int left, int right);
 char convertEscapeChar(char c);
 
 int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
