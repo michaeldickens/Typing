@@ -13,7 +13,7 @@
 
 #define ASCII_SHIFT 14
  
-#define MAX_TRI_LEN 5000
+
 #define MAX_DI_LEN 5000
 #define MAX_MON_LEN 200
 
@@ -21,7 +21,7 @@
 
 int64_t totalMon;
 int64_t totalDi;
-int monLen, diLen, triLen;
+int monLen, diLen;
 
 /* Constant definitions */
 
@@ -38,7 +38,7 @@ int monLen, diLen, triLen;
 #define DIVISOR 100
 
 /* These are guaranteed to hold a standard QWERTY layout. */
-#define DEFAULT_KEYBOARD_26 "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+
 #define DEFAULT_KEYBOARD_30 "qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
 #define DEFAULT_KEYBOARD_STANDARD "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?"
 #define DEFAULT_KEYBOARD_KINESIS "1234567890-\tqwertyuiop=asdfghjkl;'zxcvbnm,./`\\[]\n !@#$%^&*()_\tQWERTYUIOP+ASDFGHJKL:\"ZXCVBNM<>?~|{}\n "
@@ -50,7 +50,6 @@ typedef struct {
 								(layout) can be treated as a string. */
 	char shiftedLayout[KSIZE_MAX + 1];
 	int64_t fingerUsage[FINGER_COUNT];
-	int64_t shortcut;
 	int64_t fitness;
 	int64_t distance;
 	int64_t fingerWork;
@@ -71,19 +70,15 @@ Keyboard nilKeyboard;
 
 /* These are declared here because C's file hierarchy is stupid.
  */
-Keyboard atleMutate(Keyboard k);
-Keyboard simpleMutate(Keyboard k);
-Keyboard mutate(Keyboard k);
 
-int rand30();
-int mod30(int x);
-void copyArray(int out[], int in[], int length);
-int strNumsToArr(int arr[], char *str, int length);
+
+
+void copyArray(int out[], const int in[], const int length);
 int initData();
 void initKeyboardData();
 void initTypingData();
-int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, int max);
-int sortTypingData(char **keys, int *values, int left, int right);
+void internalError();
+int compileTypingData(char *outfileName, char *const filenames[], const int multipliers[], const size_t length, const int unit, const size_t max);
 char convertEscapeChar(char c);
 
 int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
@@ -96,8 +91,6 @@ int alwaysKeepShiftPairP(char c);
 
 
 int qwerty[30];
-
-int randomizer;
 
 /* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing that key.
  */
@@ -149,11 +142,6 @@ int printable[KSIZE_MAX];
 int rowChangeTableUp[5][5];
 int rowChangeTableDown[5][5];
 
-
-int costs[900];
-
-char triKeys[MAX_TRI_LEN][3];
-int64_t triValues[MAX_TRI_LEN];
 
 char diKeys[MAX_DI_LEN][2];
 int64_t diValues[MAX_DI_LEN];

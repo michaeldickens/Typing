@@ -18,7 +18,7 @@ int initValues()
 		// Set keyboard position costs. These costs were determined by looking 
 		// at how the positions were valued on some of the best alternative 
 		// layouts.
-		int64_t costsCopy[KSIZE_MAX] = {
+		static const int64_t costsCopy[KSIZE_MAX] = {
 			 40,  40,  30,  40,  70,  80,  40,  30,  40,  40, 
 			  0,   0,   0,   0,  30,  30,   0,   0,   0,   0, 
 			 70,  70,  70,  50,  95,  60,  40,  60,  70,  70, 
@@ -31,7 +31,7 @@ int initValues()
 		
 		// These costs are optimized for a full standard layout. Any cost that 
 		// is 999 is not supposed to contain any character.
-		int64_t costsCopy[KSIZE_MAX] = {
+		static const int64_t costsCopy[KSIZE_MAX] = {
 			110, 100,  90,  75, 100, 120, 160, 100,  75,  90, 100, 110, 120, 999,
 			999,  40,  40,  30,  40,  70,  80,  40,  30,  40,  40,  60,  90, 140, 
 			999,   0,   0,   0,   0,  30,  30,   0,   0,   0,   0,  50, 999, 999, 
@@ -44,7 +44,7 @@ int initValues()
 		
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
-		int64_t costsCopy[KSIZE_MAX] = {
+		static const int64_t costsCopy[KSIZE_MAX] = {
 			120, 110, 100,  75, 100, 130, 130, 100,  75, 100, 110, 120, 
 			 90,  40,  40,  30,  40,  70,  70,  40,  30,  40,  40,  90, 
 			 60,   0,   0,   0,   0,  40,  40,   0,   0,   0,   0,  60, 
@@ -58,7 +58,7 @@ int initValues()
 	} else if (fullKeyboard == FK_IPHONE) {
 		
 		// Thumbs are centered over the QWERTY D and K keys.
-		int64_t costsCopy[KSIZE_MAX] = {
+		static const int64_t costsCopy[KSIZE_MAX] = {
 			  45,  30,  20,  10,  20,  20,  10,  20,  30,  40, 
 			  20,  10,   0,   0,  10,  10,   0,   0,  10, 999,
 			 999,  60,  50,  30,  20,  20,  50,  60, 999, 999, 

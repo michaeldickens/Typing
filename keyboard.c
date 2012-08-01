@@ -8,68 +8,20 @@
 
 #include "keyboard.h"
 
-int legalBox[] = {
+const int legalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
-int legalBox2[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 
-};
-
-int legalBox3[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 
-};
-
-int legalBox4[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	3, 3, 4, 4, 3, 3, 4, 4, 3, 3, 
-};
-
-int legalBox5[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBox[] = {
+const int bigLegalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
-int bigLegalBox1[] = {
-	1, 2, 3, 4, 5, 6, 7, 8, 9,10,11, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBox2[] = {
-	1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBoxAtle[] = {
-	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int bigLegalBoxConsonants[] = {
+const int bigLegalBoxConsonants[] = {
 	1,12, 3, 4, 5, 6, 7, 8, 9,10,11, 2, 2, 2, 
 	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 
 	1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 
@@ -77,7 +29,7 @@ int bigLegalBoxConsonants[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
-int kinesisLegalBox[] = {
+const int kinesisLegalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -86,16 +38,7 @@ int kinesisLegalBox[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
-int kinesisLegalBox2[] = {
-	1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-};
-
-int initKeyboard(Keyboard *k)
+int initKeyboard(Keyboard *const k)
 {
 	int i;
 	
@@ -130,30 +73,30 @@ int initKeyboard(Keyboard *k)
 		char c;
 		for (c = '0'; c <= '9'; ++c) {
 			i = loc(k, c);
-			int n = (c - '0' + 9) % 10 + numStart;
+			const int n = (c - '0' + 9) % 10 + numStart;
 			swap(k, i, n);
 		}
 	}
 	
 	if (keepTab) {
-		int loc = locWithShifted(k, '\t');
-		if (loc >= 0) {
-			int tabLoc = ksize == 72 ? 12 : 14;
-			swap(k, loc, tabLoc);
+		const int locShifted = locWithShifted(k, '\t');
+		if (locShifted >= 0) {
+			const int tabLoc = ksize == 72 ? 12 : 14;
+			swap(k, locShifted, tabLoc);
 		}
 	}
 	
 	if (keepConsonantsRight && fullKeyboard == FK_STANDARD) {
-		const char *consonants = "bcdfghjklmnpqrstvwxyz";
+		const char *const consonants = "bcdfghjklmnpqrstvwxyz";
 		/* TODO: Swap both shifted and unshifted */
-		int halfIndices[] = {
+		static const int halfIndices[] = {
 			11, 12, 
 			20, 21, 22, 23, 24, 25, 26, 27, 
 			34, 35, 36, 37, 38, 39, 
 			48, 49, 50, 51, 52, 
 		};
 				
-		for (i = 0; i < sizeof(halfIndices)/sizeof(int); ++i)
+		for (i = 0; i < (int) (sizeof(halfIndices)/sizeof(int)); ++i)
 			swap(k, loc(k, consonants[i]), halfIndices[i]);
 	}
 	
@@ -171,7 +114,7 @@ int initKeyboard(Keyboard *k)
 	return 0;
 }
 
-int setLayout(Keyboard *k, char *layout)
+int setLayout(Keyboard *const k, char *layout)
 {
 	int i;
 	char *savedLayout = layout;
@@ -210,7 +153,7 @@ int setLayout(Keyboard *k, char *layout)
  * -2: No new layout was found in the file.
  * 0: Success.
  */
-int layoutFromFile(FILE *fp, Keyboard *k)
+int layoutFromFile(FILE *const fp, Keyboard *const k)
 {
 	int i;
 	int prevC = 0, c = 0;
@@ -247,7 +190,7 @@ int layoutFromFile(FILE *fp, Keyboard *k)
 			
 			if (escaped) {
 				escaped = FALSE;
-				char saved = c;
+				const char saved = c;
 				c = convertEscapeChar(c);
 				if (c == 0) {
 					fprintf(stderr, "Error: Unknown escape character \\%c.\n", saved);
@@ -280,7 +223,7 @@ int layoutFromFile(FILE *fp, Keyboard *k)
 	return 0;
 }
 
-int copy(Keyboard *k, Keyboard *original)
+int copy(Keyboard *const k, const Keyboard *const original)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {
@@ -308,7 +251,7 @@ int copy(Keyboard *k, Keyboard *original)
  * -1: loc1 or loc2 is out of bounds.
  * -2: loc1 or loc2 is over an unprintable position.
  */
-int swap(Keyboard *k, int loc1, int loc2)
+int swap(Keyboard *const k, int loc1, int loc2)
 {
 	if (loc1 < 0 || loc2 < 0 || loc1 >= 2 * ksize || loc2 >= 2 * ksize) return -1;
 	if (printable[loc1 % ksize] ^ printable[loc2 % ksize]) return -2;
@@ -334,7 +277,7 @@ int swap(Keyboard *k, int loc1, int loc2)
 		loc2 -= ksize;
 	}
 	
-	char temp = layout1[loc1];
+	const char temp = layout1[loc1];
 	layout1[loc1] = layout2[loc2];
 	layout2[loc2] = temp;
 			
@@ -344,7 +287,7 @@ int swap(Keyboard *k, int loc1, int loc2)
 /* 
  * Simultaneously swaps two keys' shifted and unshifted values.
  */
-int swapPair(Keyboard *k, int loc1, int loc2)
+int swapPair(Keyboard *const k, const int loc1, const int loc2)
 {
 	if (loc1 < 0 || loc2 < 0 || loc1 >= ksize || loc2 >= ksize) return -1;
 	if (printable[loc1] ^ printable[loc2]) return -2;
@@ -360,32 +303,7 @@ int swapPair(Keyboard *k, int loc1, int loc2)
 	return 0;
 }
 
-int numberOfSameKeys(Keyboard *k, Keyboard *m)
-{
-	int i;
-	int result;
-	for (i = 0, result = 0; i < ksize; i++) if (k->layout[i] == m->layout[i]) ++result;
-	return result;
-}
-
-int isEqual(Keyboard *k, Keyboard *m)
-{
-	int i;
-	for (i = 0; i < ksize; ++i) if (k->layout[i] != m->layout[i]) return FALSE;
-	if (k->fitness != m->fitness) return FALSE;
-	if (k->inRoll != m->inRoll) return FALSE;
-	if (k->outRoll != m->outRoll) return FALSE;
-	if (k->sameHand != m->sameHand) return FALSE;
-	if (k->sameFinger != m->sameFinger) return FALSE;
-	if (k->rowChange != m->rowChange) return FALSE;
-	if (k->homeJump != m->homeJump) return FALSE;
-	if (k->toCenter != m->toCenter) return FALSE;
-	if (k->toOutside != m->toOutside) return FALSE;
-	
-	return TRUE;
-}
-
-int qwertyPositions(Keyboard *k)
+int qwertyPositions(const Keyboard *const k)
 {
 	NOT_WORK_WITH_full_keyboard("qwertyPositions()");
 	
@@ -399,14 +317,14 @@ int qwertyPositions(Keyboard *k)
 	return count;
 }
 
-int printLayoutOnly(Keyboard *k)
+int printLayoutOnly(const Keyboard *const k)
 {
 	printLayoutRaw(k->shiftedLayout);
 	printLayoutRaw(k->layout);
 	return 0;
 }
 
-int printLayoutRaw(char layout[])
+int printLayoutRaw(const char layout[])
 {
 	int i;
 	
@@ -445,29 +363,7 @@ int printLayoutRaw(char layout[])
 	return 0;
 }
 
-int printKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-
-	printf("Fitness: %lld\n", k->fitness);
-	if (keepQWERTY) printf("QWERTY positions: %d\n", qwertyPositions(k));
-	printf("Distance: %lld\n", k->distance);
-	printf("Finger work: %lld\n", k->fingerWork);
-	printf("Inward rolls: %lld\n", k->inRoll);
-	printf("Outward rolls: %lld\n", k->outRoll);
-	printf("Same hand: %lld\n", k->sameHand);
-	printf("Same finger: %lld\n", k->sameFinger);
-	printf("Row change: %lld\n", k->rowChange);
-	printf("Home jump: %lld\n", k->homeJump);
-	printf("Ring jump: %lld\n", k->ringJump);
-	printf("To center: %lld\n", k->toCenter);
-	if (ksize != 30) printf("To outside: %lld\n", k->toOutside);
-	printf("\n");
-	
-	return 0;
-}
-
-int printPercentages(Keyboard *k)
+int printPercentages(const Keyboard *const k)
 {
 	int i;
 	
@@ -482,11 +378,14 @@ int printPercentages(Keyboard *k)
 			k->fingerUsage[6] + k->fingerUsage[7] + k->fingerUsage[8]
 			 + k->fingerUsage[9]) / total);
 
-	if (total == 0) printf("warning: total = 0\n");
+	if (total == 0) {
+        printf("warning: total = 0\n");
+        return 0;
+	}
 	// Finger
 	printf("Fingers: ");
 	for (i = 0; i < FINGER_COUNT; ++i) {
-		double usage = lround(100.0 * k->fingerUsage[i] / total);
+		const double usage = lround(100.0 * k->fingerUsage[i] / total);
 		if (usage < 1) printf("%.2f%% ", usage);
 		else if (usage < 10) printf("%.1f%% ", usage);
 		else printf("%.0f%% ", usage);
@@ -515,31 +414,11 @@ int printPercentages(Keyboard *k)
 	return 0;
 }
 
-int simplePrintKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-		
-	printf("\n");
-	printf("Fitness: %lld\n", (int64_t) (k->fitness / pow(10, SIMPLE_SHIFT)));
-	printf("Distance: %lld\n", (int64_t) (k->distance / pow(10, SIMPLE_SHIFT)));
-	printf("Inward rolls: %lld\n", (int64_t) (k->inRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Outward rolls: %lld\n", (int64_t) (k->outRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Same hand: %lld\n", (int64_t) (k->sameHand / pow(10, SIMPLE_SHIFT)));
-	printf("Same finger: %lld\n", (int64_t) (k->sameFinger / pow(10, SIMPLE_SHIFT)));
-	printf("Row change: %lld\n", (int64_t) (k->rowChange / pow(10, SIMPLE_SHIFT)));
-	printf("Home jump: %lld\n", (int64_t) (k->homeJump / pow(10, SIMPLE_SHIFT)));
-	printf("To center: %lld\n", (int64_t) (k->toCenter / pow(10, SIMPLE_SHIFT)));
-	if (ksize != 30) printf("To outside: %lld\n", (int64_t) (k->toOutside / pow(10, SIMPLE_SHIFT)));
-	printf("\n");
-	
-	return 0;
-}
-
 /* Assumes buffer is at least 3 characters. 
  * 
  * Converts ' ' to "SP" if changeSpace is true.
  */
-int charToPrintable(char *buffer, char c, int changeSpace)
+int charToPrintable(char *const buffer, const char c, const int changeSpace)
 {
 	if (c == '\n') sprintf(buffer, "\\n");
 	else if (c == '\t') sprintf(buffer, "\\t");
@@ -551,12 +430,12 @@ int charToPrintable(char *buffer, char c, int changeSpace)
 	return 0;
 }
 
-int isSwappable(char c)
+int isSwappable(const char c)
 {
 	return !(keepNumbers && c >= '0' && c <= '9');
 }
 
-int isLegalSwap(Keyboard *k, int i, int j)
+int isLegalSwap(const Keyboard *const k, int i, int j)
 {
 	if (i < 0 || j < 0 || i >= 2 * ksize || j >= 2 * ksize)
 		return FALSE;
@@ -607,7 +486,7 @@ void shuffleIndices()
 	}
 }
 
-void shuffleLayout(Keyboard *k)
+void shuffleLayout(Keyboard *const k)
 {
 	/* Shuffle the layout where shifted and unshifted characters are bound 
 	 * together.
@@ -630,13 +509,14 @@ void shuffleLayout(Keyboard *k)
 			do {
 				x = rand() % (n + 1);
 			} while (!isLegalSwap(k, x, n));
+			swap(k, x, n);
 		}
 		
-		swap(k, x, n);
+
 	}
 }
 
-int loc(Keyboard *k, char c)
+int loc(const Keyboard *const k, const char c)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {
@@ -650,7 +530,7 @@ int loc(Keyboard *k, char c)
 /* Guaranteed to check unshifted first, so if a character is the same on both 
  * shifted and unshifted layouts, it will return unshifted first.
  */
-int locWithShifted(Keyboard *k, char c)
+int locWithShifted(const Keyboard *const k, const char c)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {
