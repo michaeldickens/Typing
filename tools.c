@@ -388,6 +388,7 @@ void initTypingData()
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
 			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			fclose(file);
 			return;
 		}
 		diKeys[i][0] = c;
@@ -396,6 +397,7 @@ void initTypingData()
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
 			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			fclose(file);
 			return;
 		}
 		diKeys[i][1] = c;
