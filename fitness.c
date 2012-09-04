@@ -33,7 +33,7 @@ int calcFitnessDirect(Keyboard *k)
 	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
 
 	for (i = 0; i < monLen; ++i) { 
-		k->distance += trueDistance[loc(k, monKeys[i])] * (monValues[i] / 100); // meters 
+		k->distance += trueDistance[locWithoutShifted(k, monKeys[i])] * (monValues[i] / 100); // meters 
 	}
 	
 	return 0;
@@ -43,7 +43,7 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 {
 	int locs[2];
 	int i;
-	for (i = 0; i < 2; ++i) locs[i] = loc(k, digraph[i]);
+	for (i = 0; i < 2; ++i) locs[i] = locWithoutShifted(k, digraph[i]);
 	
 	// These all require that the hand be the same.
 	if (hand[locs[0]] == hand[locs[1]]) {
@@ -139,7 +139,7 @@ int calcFitness(Keyboard *k)
 		k->toCenter + k->toOutside;
 	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
-	if (keepParentheses) k->fitness += calcParentheses(k);
+	if (keepParentheses) k->fitness += calcBrackets(k);
 	if (keepNumbersShifted) k->fitness += calcNumbersShifted(k);
 
 	++totalCalcFitness;
@@ -190,10 +190,10 @@ int64_t calcShortcuts(Keyboard *k)
 {
 	int64_t result;
 	result = 
-	      shortcutCosts[loc(k, 'z')] * (int64_t) zCost
-		+ shortcutCosts[loc(k, 'x')] * (int64_t) xCost
-		+ shortcutCosts[loc(k, 'c')] * (int64_t) cCost
-		+ shortcutCosts[loc(k, 'v')] * (int64_t) vCost;
+	      shortcutCosts[locWithoutShifted(k, 'z')] * (int64_t) zCost
+		+ shortcutCosts[locWithoutShifted(k, 'x')] * (int64_t) xCost
+		+ shortcutCosts[locWithoutShifted(k, 'c')] * (int64_t) cCost
+		+ shortcutCosts[locWithoutShifted(k, 'v')] * (int64_t) vCost;
 		
 	return result * (totalMon / monLen);
 }
@@ -206,7 +206,7 @@ int64_t calcQWERTY(Keyboard *k)
 
 	int i, pos;
 	for (i = 0; i < 30; ++i) {
-		if ((pos = loc(k, qwerty[i])) != i) result += qwertyPosCost * averageMon;
+		if ((pos = locWithoutShifted(k, qwerty[i])) != i) result += qwertyPosCost * averageMon;
 		if (finger[pos] != finger[i]) result += qwertyFingerCost * averageMon;
 		if (hand[pos] != hand[i]) result += qwertyHandCost * averageMon;
 	}
@@ -214,13 +214,13 @@ int64_t calcQWERTY(Keyboard *k)
 	return result;
 }
 
-int64_t calcParentheses(Keyboard *k)
+int64_t calcBrackets(Keyboard *k)
 {
-	return calcParensGeneric(k, '(', ')') + calcParensGeneric(k, '<', '>') + 
-			calcParensGeneric(k, '[', ']') + calcParensGeneric(k, '{', '}');
+	return calcBracketsGeneric(k, '(', ')') + calcBracketsGeneric(k, '<', '>') + 
+			calcBracketsGeneric(k, '[', ']') + calcBracketsGeneric(k, '{', '}');
 }
 
-int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
+int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
 {
 	int openPar = locWithShifted(k, openChar);
 	if (openPar == -1) return -1;
@@ -242,7 +242,7 @@ int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar)
 			column[openPar] == column[closePar] && 
 			row[openPar] == row[closePar])))
 		return 0;
-	else return parenthesesCost / DIVISOR;
+	else return bracketsCost / DIVISOR;
 }
 
 int64_t calcNumbersShifted(Keyboard *k)
@@ -358,14 +358,15 @@ int calcHomeJump(int loc0, int loc1)
 		if (homeRow <= row1 || homeRow >= row0) return 0;
 	} else return 0;
 	
-	if (abs(row0 - row1) == 2)
+	if (abs(row0 - row1) == 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
 			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
 		else return homeJump;
-	else if (abs(row0 - row1) > 2)
+	} else if (abs(row0 - row1) > 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
 			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
 		else return doubleJump;
+	}
 
 	return 0;
 }

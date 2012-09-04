@@ -13,8 +13,11 @@
 #define FILE_READ_FAIL -101
 
 int runCJAlgorithm(char *filename);
+int64_t greatToBest(Keyboard *k);
+int tryPermutations(int length, int *p, int index, int *used, int *locs, 
+	Keyboard *bestk, Keyboard *origk);
 
-int64_t anneal(Keyboard *keybr);
-int64_t improveLayout(int64_t evaluationToBeat, Keyboard *keybr);
-int smartMutate(Keyboard *k, int numberOfSwaps);
-
+int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length);
+int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k, 
+	int lockins[][2], size_t lockin_length);
+int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps);

@@ -75,8 +75,6 @@ Keyboard atleMutate(Keyboard k);
 Keyboard simpleMutate(Keyboard k);
 Keyboard mutate(Keyboard k);
 
-int rand30();
-int mod30(int x);
 void copyArray(int out[], int in[], int length);
 int strNumsToArr(int arr[], char *str, int length);
 int initData();
@@ -86,11 +84,16 @@ int compileTypingData(char *outfileName, char *filenames[], int multipliers[], i
 int sortTypingData(char **keys, int *values, int left, int right);
 char convertEscapeChar(char c);
 
+/* Sort by values from highest to lowest.
+ */
 int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
 int sortMonographs(char keys[], int64_t values[], int left, int right);
 
 int setValue(char *str);
 int getValue(char *name);
+
+#define isBracket(c) (getMatchingBracket(c) != 0)
+char getMatchingBracket(char c);
 
 int alwaysKeepShiftPairP(char c);
 

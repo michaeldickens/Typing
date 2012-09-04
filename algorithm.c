@@ -62,7 +62,6 @@ Keyboard runAlgorithm()
 	printf("\nAfter %d fitness calculations, ", totalCalcFitness);
 	printf("\nFinal Best Keyboard: \n");
 	printKeyboard(&allStarPool[0]);
-	calcFitnessDirect(&allStarPool[0]);
 	printPercentages(&allStarPool[0]);	
 	
 	return allStarPool[0];

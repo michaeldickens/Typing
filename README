@@ -27,8 +27,6 @@ INSTALLATION
 
 	./optimizer
 
-to run the program.
-
 This program is designed for a 64-bit platform. If you are using a 32-bit or smaller platform, it will run significantly slower.
 
 - - - - - - - - - - - - - - - - - - - - - - - -

@@ -29,9 +29,12 @@
 /* The shift value for simplePrintKeyboard(). */
 #define SIMPLE_SHIFT 0 // 3
 
-/* WARNING: Both k and index are evaluated multiple times.
+/* Takes a Keyboard pointer k and an integer index.
+ * 
+ * WARNING: Both k and index are evaluated multiple times.
  */
-#define charAt(k, index) ((index) < ksize ? (k)->layout[index] : (k)->shiftedLayout[index])
+#define charAt(k, index) ((index) < ksize ? (k)->layout[index] : (k)->shiftedLayout[index - ksize])
+#define setCharAt(k, index, c) ((index) < ksize ? ((k)->layout[index] = (c)) : ((k)->shiftedLayout[index - ksize] = (c)))
 
 int initKeyboard(Keyboard *k);
 int setLayout(Keyboard *k, char *layout);
@@ -55,7 +58,13 @@ int isSwappable(char c);
 int isLegalSwap(Keyboard *k, int i, int j);
 void shuffleIndices();
 void shuffleLayout(Keyboard *kbd);
-int loc(Keyboard *k, char c);
+
+/* Returns the index of c on either the shifted or unshifted layout. */
+int locWithoutShifted(Keyboard *k, char c);
+
+/* Returns the index of c if c is on the unshifted layout, or index + ksize 
+ * if c is on the shifted layout.
+ */
 int locWithShifted(Keyboard *k, char c);
 
 
@@ -76,8 +85,8 @@ int totalCalcFitness;
 
 int64_t calcShortcuts(Keyboard *k);
 int64_t calcQWERTY(Keyboard *k);
-int64_t calcParentheses(Keyboard *k);
-int64_t calcParensGeneric(Keyboard *k, char openChar, char closeChar);
+int64_t calcBrackets(Keyboard *k);
+int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar);
 int64_t calcNumbersShifted(Keyboard *k);
 
 int calcFingerWork(Keyboard *k);

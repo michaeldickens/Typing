@@ -129,7 +129,7 @@ int initKeyboard(Keyboard *k)
 	if (keepNumbers && ksize > 30) {
 		char c;
 		for (c = '0'; c <= '9'; ++c) {
-			i = loc(k, c);
+			i = locWithoutShifted(k, c);
 			int n = (c - '0' + 9) % 10 + numStart;
 			swap(k, i, n);
 		}
@@ -154,7 +154,7 @@ int initKeyboard(Keyboard *k)
 		};
 				
 		for (i = 0; i < sizeof(halfIndices)/sizeof(int); ++i)
-			swap(k, loc(k, consonants[i]), halfIndices[i]);
+			swap(k, locWithoutShifted(k, consonants[i]), halfIndices[i]);
 	}
 	
 	k->fitness = 0;
@@ -301,6 +301,11 @@ int copy(Keyboard *k, Keyboard *original)
 }
 
 /* 
+ * If loc1 or loc2 falls on [0, ksize), it swaps an unshifted char. 
+ * If it falls on [ksize, 2 * ksize), it swaps a shifted char. 
+ * If loc1 or loc2 is a char that has a paired shifted char, this will 
+ * automatically call swapPair().
+ * 
  * WARNING: Can perform illegal swaps.
  * 
  * Return Codes
@@ -471,6 +476,9 @@ int printPercentages(Keyboard *k)
 {
 	int i;
 	
+	/* Calculate fitness so that the keyboard's values will print properly. */
+	calcFitnessDirect(k);
+
 	int64_t total = 0;
 	for (i = 0; i < FINGER_COUNT; ++i) total += k->fingerUsage[i];
 
@@ -636,7 +644,7 @@ void shuffleLayout(Keyboard *k)
 	}
 }
 
-int loc(Keyboard *k, char c)
+int locWithoutShifted(Keyboard *k, char c)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {

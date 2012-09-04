@@ -1,0 +1,43 @@
+numberOfSwaps, roundsBeforeSwapInc: scores
+
+without lockins
+0, 64: 17340, 
+1, 64: 
+2, 64: 17331, 17339
+3, 64: 17354, 17360
+4, 64: 17361, 17352
+
+with lockins
+0, 64: 17367, 17375
+2, 64: 17383, 17383
+
+with lockins on even rounds, without on odd rounds
+
+0, 64: 17325, 17358
+2, 64: 17376, 17383
+
+optimizer with half lockins every round (GENERATIONS = 64), run for 12h: 
+0, 16: 17329 (2h), 17331 (5h)
+4, 16: 17329 (2h)
+8, 16: 17321 (8h)
+12,16: 17341 (1h)
+
+optimizer with half lockins (GENERATIONS = 256), every 64 rounds on current best, run for 22h: 
+0, 64: 17313 (17h)
+4, 64: 17323 (19h)
+
+GTB every N rounds, where N=64 and divides by 2 every 500 rounds, run for 23h:
+0, 64: 17313 (3h)
+0, 32: 17313 (9h)
+
+GTB N=64 and divides by 2 every 200 rounds, run for 8h: 
+0, 64: 17313 (3h)
+
+brute-force GTB:
+run for 5h: 17331 (2h)
+run for   :
+
+
+ * TODO: test to see if making strategic changes and re-annealing is better than not
+ * TODO: after a certain point, stop running anneal() and only do greatToBest()
+ * TODO: if one paren is used in a permutation, also use the other one

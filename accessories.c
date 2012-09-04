@@ -32,7 +32,7 @@ int getCommands()
 			printf("improve <filename>: Try to improve the first keyboard in <filename>. The keyboard must be in the proper format.\n");
 			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
 			printf("set <variable> <value>: Set the specified variable to the given value.\n");
-			printf("setfk <fk_setting>: Set the keyboard type. Type \"setfk help\" for more information.\n");
+			printf("setksize <fk_setting>: Set the keyboard type. Type \"setksize help\" for more information.\n");
 			printf("test fitness: Test that the fitness functions are working properly.\n");
 			printf("use <keys>: Use <keys> in the keyboard layout instead of the default.\n");
 			printf("worst <filename>: Find the worst digraphs for the keyboard layouts in <filename>.\n");
@@ -68,30 +68,31 @@ int getCommands()
 		} else if (streqn(cmd, "get ", 4)) {
 			getValue(cmd + 4);
 
-		} else if (streqn(cmd, "improve ", 8)) {
+		} else if (streqn(cmd, "improve ", strlen("improve "))) {
 			improveFromFile(cmd + 8);
 
 		} else if (streq(cmd, "make typing data")) {
 			makeTypingData();
 
-		} else if (streqn(cmd, "set ", 4)) {
+		} else if (streqn(cmd, "set ", strlen("set "))) {
 			setValue(cmd + 4);
 
-		} else if (streqn(cmd, "setfk ", 6)) {
-			if (streq(cmd+6, "no")) {
+		} else if (streqn(cmd, "setksize ", strlen("setksize "))) {
+			size_t str_len = strlen("setksize ");
+			if (streq(cmd + str_len, "no")) {
 				setksize(FK_NO);
 				printf("Keyboard set to non-full. All user-defined values have been reset.\n\n");
-			} else if (streq(cmd+6, "standard")) {
+			} else if (streq(cmd + str_len, "standard")) {
 				setksize(FK_STANDARD);
 				printf("Keyboard set to full standard. All user-defined values have been reset.\n\n");
-			} else if (streq(cmd+6, "kinesis")) {
+			} else if (streq(cmd + str_len, "kinesis")) {
 				setksize(FK_KINESIS);
 				printf("Keyboard set to full Kinesis. All user-defined values have been reset.\n\n");
-			} else if (streq(cmd+6, "iphone")) {
+			} else if (streq(cmd + str_len, "iphone")) {
 				setksize(FK_IPHONE);
 				printf("Keyboard set to iPhone. All user-defined values have been reset.\n\n");
 			} else {
-				printf("Undefined input. Valid inputs: \"setfk no\" (do not use full keyboard), \"setfk standard\" (use standard full keyboard), \"setfk kinesis\" (use Kinesis full keyboard).\n\n");
+				printf("Undefined input. Valid inputs: \"setksize no\" (do not use full keyboard), \"setksize standard\" (use standard full keyboard), \"setksize kinesis\" (use Kinesis full keyboard).\n\n");
 			}
 
 		} else if (streq(cmd, "test fitness")) {
@@ -105,14 +106,15 @@ int getCommands()
 
 		} else if (streq(cmd, "variables")) {
 			printf("Boolean variables should be set to 0 for false and 1 for true. Variables not specified as booleans are integers.\n");
-			printf("\t(bool) detailedOutput\n");
-			printf("\t(bool) keepZXCV\n");
-			printf("\t(bool) keepQWERTY\n");
-			printf("\t(bool) keepNumbers\n");
-			printf("\t(bool) keepParentheses\n");
-			printf("\t(bool) keepShiftPairs\n");
-			printf("\t(bool) keepTab\n");
-			printf("\t(bool) keepNumbersshifted\n");
+			printf("\t(bool) detailedOutput    : provide additional information while running the algorithm\n");
+			printf("\t(bool) keepZXCV          : keep keys Z, X, C, and V in place\n");
+			printf("\t(bool) keepQWERTY        : try to keep keys in their QWERTY positions\n");
+			printf("\t(bool) keepNumbers       : keep numbers in place\n");
+			printf("\t(bool) keepBrackets      : keep brackets symmetrical\n");
+			printf("\t(bool) keepShiftPairs    : shifted/unshifted pairs of special characters stay together\n");
+			printf("\t(bool) keepTab           : keep Tab in place\n");
+			printf("\t(bool) keepNumbersShifted: numbers do not move between shifted and unshifted\n");
+			printf("\nThese variables determine the costs for particular key combinations. Higher cost is worse.\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
 			printf("\toutRoll\n");
@@ -228,7 +230,7 @@ int game()
 				printf("That position is occupied. Please try again.\n");
 				--keynum;
 				continue;
-			} else if (loc(&k, c) != -1) {
+			} else if (locWithoutShifted(&k, c) != -1) {
 				printf("That character has already been placed. Please try again.\n");
 				--keynum;
 				continue;
@@ -276,7 +278,7 @@ int gameComputer(Keyboard *k, char difficulty)
 	
 	int i, j, inx, total = 0, done = FALSE;
 	for (i = 0; i < monLen && !done; ++i) {
-		if (loc(k, monKeys[i]) != -1) continue;
+		if (locWithoutShifted(k, monKeys[i]) != -1) continue;
 		
 		for (j = 0; j < ksize && !done; ++j) {
 			inx = indices[j];
@@ -361,8 +363,8 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		k->toOutside	= 0;
 		int locs[2];
 		
-		locs[0] = loc(k, diKeys[i][0]);
-		locs[1] = loc(k, diKeys[i][1]);
+		locs[0] = locWithoutShifted(k, diKeys[i][0]);
+		locs[1] = locWithoutShifted(k, diKeys[i][1]);
 		
 		// These all require that the hand be the same.
 		if (hand[locs[0]] == hand[locs[1]]) {
@@ -407,7 +409,6 @@ int worstDigraphs(Keyboard *k, int damagingp)
  */
 int bestSwap(Keyboard *k)
 {
-	calcFitnessDirect(k);
 	printPercentages(k);
 
 	calcFitness(k);
@@ -435,7 +436,6 @@ int bestSwap(Keyboard *k)
 			
 			/* Print out all swaps that are a certain percentage better. */
 			if ((origFitness - k->fitness) / ((double) origFitness) > 0.05) {
-				calcFitnessDirect(k);
 				printPercentages(k);
 			}
 
@@ -444,7 +444,6 @@ int bestSwap(Keyboard *k)
 	}
 	
 	printf("swap: %c and %c\n", k->layout[bestIndices[0]], k->layout[bestIndices[1]]);
-	calcFitnessDirect(&bestKeyboard);
 	printPercentages(&bestKeyboard);
 	return 0;
 }
@@ -460,7 +459,6 @@ int compare(char *filename)
 		Keyboard k;
 		ret = layoutFromFile(fp, &k);
 		if (ret >= 0) {
-			calcFitnessDirect(&k);
 			printPercentages(&k);
 		}
 
@@ -494,19 +492,17 @@ void improveFromFile(char *filename)
  */
 Keyboard improver(Keyboard k)
 {
-	calcFitnessDirect(&k);
 	printPercentages(&k);
 	
 	Keyboard tk, bestk;
 	copy(&tk, &k);
 	copy(&bestk, &k);
 	int64_t bestEval = k.fitness;
-	int64_t curEval = anneal(&tk);
+	int64_t curEval = anneal(&tk, NULL, 0);
 	
 	if (curEval < bestEval) {
 		copy(&bestk, &tk);
 		bestEval = curEval;
-		calcFitnessDirect(&tk);
 		printPercentages(&tk);
 	}
 
@@ -617,7 +613,7 @@ int getNumber(char *description)
  *  Time to copy 100,000 keyboards:			~12,000 microseconds.
  *  Time to score 100,000 keyboards:    ~43,630,000 microseconds. ~160,000,000 microseconds if trigraphs are used for same hand.
  *  Time to sort 1024 keyboards:			   ~600 microseconds.
- *  Time to do loc() 100,000 times:			  ~9000 microseconds.
+ *  Time to do locWithoutShifted() 100,000 times:			  ~9000 microseconds.
  *  Time to do rand30() 100,000 times:		  ~2000 microseconds.
  *  
  *  new: 
@@ -628,7 +624,7 @@ int getNumber(char *description)
  *  Time to mutate 100,000 keyboards:		~180,000 microseconds.
  *  Time to copy 100,000 keyboards:			 ~29,000 microseconds.
  *  Time to score 100,000 keyboards:	  ~8,140,858 microseconds.
- *  Time to do loc() 100,000 times:			   ~2000 microseconds.
+ *  Time to do locWithoutShifted() 100,000 times:			   ~2000 microseconds.
  *  Time to do rand30() 100,000 times:		   ~4000 microseconds.
 
  *  
@@ -699,7 +695,7 @@ int getNumber(char *description)
 //		gettimeofday(&tv, NULL);
 //		start = tv.tv_usec;
 //		startsec = tv.tv_sec;
-//		for (i = 0; i < 100000; ++i) loc(&tester, 'a');
+//		for (i = 0; i < 100000; ++i) locWithoutShifted(&tester, 'a');
 //		gettimeofday(&tv, NULL);
 //		locAverage = ((locAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
 //
@@ -716,7 +712,7 @@ int getNumber(char *description)
 //	printf(" *  Time to sort 1024 keyboards:			%d microseconds.\n", sortAverage);
 //	printf(" *  Time to copy 100,000 keyboards:			%d microseconds.\n", copyAverage);
 //	printf(" *  Time to score 100,000 keyboards:		%d microseconds.\n", fitnessAverage);
-//	printf(" *  Time to do loc() 100,000 times:			%d microseconds.\n", locAverage);
+//	printf(" *  Time to do locWithoutShifted() 100,000 times:			%d microseconds.\n", locAverage);
 //	printf(" *  Time to do rand30() 100,000 times:		%d microseconds.\n", randAverage);
 //	
 //	return 0;

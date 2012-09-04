@@ -2,9 +2,11 @@
 
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
  - Add shift, space, enter, backspace, tab. On Kinesis, add thumb pads and leftmost column.
+ - Make it easier to add new physical keyboard types.
 
 ***SMALL CHANGES***
 
+ - Check to see which keys change between best layouts, and integrate that into smartMutate().
  - Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
  - Every movement from one finger to another has its own specific cost.
  - Create an option to not use shifted keys.
@@ -12,7 +14,9 @@
 
 ***BUGS***
 
- - Numbers don't always stay where they are supposed to.
+ - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
+
+Possibly Fixed: 
  - Parallel parentheses don't work on the standard keyboard, only Kinesis.
  - After the algorithm runs for a while, either a character is duplicated or a character that's not supposed to be on the keyboard somehow creeps in.
 

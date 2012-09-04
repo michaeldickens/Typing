@@ -43,6 +43,7 @@
 		862C5BE2102F973A00D95A5C /* algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = algorithm.h; sourceTree = "<group>"; };
 		862C5BE3102F973A00D95A5C /* algorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = algorithm.c; sourceTree = "<group>"; };
 		8639B9B814B12C7800362E2D /* Makefile_saved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile_saved; sourceTree = "<group>"; };
+		8640BBB415EF27D40001DA41 /* Timing Data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timing Data"; sourceTree = "<group>"; };
 		864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fullLayoutStore.txt; sourceTree = "<group>"; };
 		8652F53A12CD270600CAF998 /* cjalgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cjalgorithm.h; sourceTree = "<group>"; };
 		865382BE1035344A00E1CFE8 /* layoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layoutStore.txt; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 				867D4B7212D29AD90045BD97 /* Saved Full Keyboards */,
 				C6A0FF2C0290799A04C91782 /* Typing.1 */,
 				867DD36911D07B8900379D1F /* To Do */,
+				8640BBB415EF27D40001DA41 /* Timing Data */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";

@@ -60,9 +60,10 @@ char *kbdFilename;
 #define ALL_STAR_GENERATIONS 256
 
 #define SIM_ANNEAL_GENERATIONS INT_MAX
+#define GREAT_TO_BEST_GENERATIONS 256
 #define IMPROVER_GENERATIONS 256
 
-#define INIT_FROM_FILE TRUE
+#define INIT_FROM_FILE FALSE
 
 int64_t distanceCosts[KSIZE_MAX];
 int64_t  trueDistance[KSIZE_MAX];
@@ -85,7 +86,7 @@ int keepZXCV, keepQWERTY, keepNumbers, keepParentheses, keepShiftPairs,
 	keepTab, keepConsonantsRight, 
 	keepNumbersShifted /* for bogboar */;
 int zCost, xCost, cCost, vCost, qwertyPosCost, qwertyFingerCost, qwertyHandCost, 
-	parenthesesCost, numbersShiftedCost;
+	bracketsCost, numbersShiftedCost;
 
 int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM, 
 	sameFingerI, sameFingerT, rowChangeDown, rowChangeUp, handWarp, handSmooth, 

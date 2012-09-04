@@ -9,11 +9,6 @@
 #include "tools.h"
 
 
-int rand30()
-{
-	return rand() % 30;
-}
-
 void copyArray(int out[], int in[], int length)
 {
 	memcpy(out, in, length * sizeof(int));
@@ -444,10 +439,9 @@ void initTypingData()
 	file = fopen("allChars.txt", "r");
 	
 	c = '\0';
-	i = 0;
 	totalMon = 0;
 	monLen = 0;
-	while (TRUE) {
+	for (i = 0; i < MAX_MON_LEN; ) {
 		/* Skip any extra newlines. */
 		while ((c = getc(file)) == '\n')
 			;
@@ -470,12 +464,11 @@ void initTypingData()
 			}
 			
 			monValues[i] /= DIVISOR;
-			totalMon += monValues[i++];
+			totalMon += monValues[i];
 
-			if (i >= MAX_MON_LEN)
-				break;
+			++i;
 		}
-
+		
 		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
@@ -800,19 +793,19 @@ int getValue(char *name)
 
 int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
 {	
-	int64_t lltemp;
+	int64_t vtemp;
 	char ctemp;
 	
 	int64_t pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	do {
-		while (values[i] < pivot) ++i;
-		while (values[j] > pivot) --j;
+		while (values[i] > pivot) ++i;
+		while (values[j] < pivot) --j;
 		
 		if (i <= j) {
-			lltemp = values[i];
+			vtemp = values[i];
 			values[i] = values[j];
-			values[j] = lltemp;
+			values[j] = vtemp;
 			
 			ctemp = keys[i][0];
 			keys[i][0] = keys[j][0];
@@ -836,19 +829,19 @@ int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
 
 int sortMonographs(char keys[], int64_t values[], int left, int right)
 {	
-	int64_t lltemp;
+	int64_t vtemp;
 	char ctemp;
 	
 	int64_t pivot = values[(left + right) / 2];
 	int i = left, j = right;
 	do {
-		while (values[i] < pivot) ++i;
-		while (values[j] > pivot) --j;
+		while (values[i] > pivot) ++i;
+		while (values[j] < pivot) --j;
 		
 		if (i <= j) {
-			lltemp = values[i];
+			vtemp = values[i];
 			values[i] = values[j];
-			values[j] = lltemp;
+			values[j] = vtemp;
 			
 			ctemp = keys[i];
 			keys[i] = keys[j];
@@ -864,6 +857,32 @@ int sortMonographs(char keys[], int64_t values[], int left, int right)
 	if (left < j) sortMonographs(keys, values, left, j);
 	
 	return 0;
+}
+
+/* Returns the matching bracket for c. If c is not a bracket, returns 0.
+ */
+char getMatchingBracket(char c)
+{
+	switch (c) {
+	case '(':
+		return ')';
+	case ')':
+		return '(';
+	case '[':
+		return ']';
+	case ']':
+		return '[';
+	case '{':
+		return '}';
+	case '}':
+		return '{';
+	case '<':
+		return '>';
+	case '>':
+		return '<';
+	default:
+		return 0;
+	}
 }
 
 int alwaysKeepShiftPairP(char c)
