@@ -26,8 +26,9 @@ int runCJAlgorithm(char *filename)
 	// of using a mutated last layout is chanceToUsePreviousLayout.
 	double chanceToUsePreviousLayout = 0.2; /* 0.2 */
 	double subChanceToUseBestLayout = 0.1; /* 0.1 */
-	int numberOfSwaps = 3;
-	int roundsBeforeChanceInc = 100, roundsBeforeSwapInc = 10;
+	int numberOfSwaps = ksize / 15;
+	int roundsBeforeChanceInc = 100;
+	int roundsBeforeSwapInc = (600 / ksize > 1 ? 600 / ksize : 1);
 	int roundOnChanceInc = roundsBeforeChanceInc, 
 		roundOnSwapInc = roundsBeforeSwapInc;
 	int greatToBestInterval = 64, roundsBeforeGTBIDec = 200;
@@ -140,15 +141,15 @@ int runCJAlgorithm(char *filename)
 /* Take a great keyboard and make it the best keyboard. Uses an optimization 
  * heuristic that works best for nearly-optimal keyboards.
  */
-int64_t oldGreatToBest(Keyboard *k)
+int64_t greatToBest(Keyboard *k)
 {
 	Keyboard bestk;
 	copy(&bestk, k);
 	
 	calcFitness(&bestk);
 	int64_t curEval, bestEval = bestk.fitness;
-	int numberOfSwaps = 0;
-	int roundsBeforeSwapInc = 64;
+	int numberOfSwaps = 16;
+	int roundsBeforeSwapInc = 16;
 	
 	int i, roundNum;
 	for (i = 0, roundNum = 0; i < GREAT_TO_BEST_GENERATIONS; ++i, ++roundNum) {
@@ -172,7 +173,7 @@ int64_t oldGreatToBest(Keyboard *k)
 	return bestEval;
 }
 
-int64_t greatToBest(Keyboard *k)
+int64_t greatToBestBruteForce(Keyboard *k)
 {
 	int i, j, length = 9;
 	int locs[length], origLocs[length];
@@ -203,11 +204,6 @@ int64_t greatToBest(Keyboard *k)
 					origLocs[j] = locs[j] = savedLoc;
 		}
 	}
-	
-	for (i = 0; i < length; ++i)
-		printf("%c ", charAt(k, locs[i]));
-
-	printf("\n");
 	
 	/* Initialize the keyboards. */
 	calcFitness(k);

@@ -516,3 +516,32 @@ Same finger:   0.59%
 Row change:    9.51%
 Home jump:     0.24%
 To center:     1.38%
+
+***************
+***************
+***************
+
+8/4/12 MTGAP 3.14
+
+Hands: 50% 49%
+Fingers: 9.0% 9.0% 19% 14% 0.00% 0.00% 16% 15% 10% 8.0% 
+
+ Y  P  O  U  J   K  D  L  C  W
+ I  N  E  A  ;   M  H  T  S  R
+ Q  Z  <  >  ?   B  F  G  V  X
+
+ y  p  o  u  j   k  d  l  c  w
+ i  n  e  a  ,   m  h  t  s  r
+ q  z  /  .  :   b  f  g  v  x
+
+Fitness:       14239952
+Distance:      55843
+Finger work:   0
+Inward rolls:  10.49%
+Outward rolls: 2.41%
+Same hand:     34.47%
+Same finger:   1.40%
+Row change:    12.56%
+Home jump:     0.99%
+Ring jump:     3.16%
+To center:     2.41%

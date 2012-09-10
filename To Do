@@ -3,6 +3,7 @@
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
  - Add shift, space, enter, backspace, tab. On Kinesis, add thumb pads and leftmost column.
  - Make it easier to add new physical keyboard types.
+ - Write a subroutine that automatically generates a keyboard file for any platform.
 
 ***SMALL CHANGES***
 
@@ -23,7 +24,7 @@ Possibly Fixed:
 
 ***MISCELLANEOUS***
 
- - Convert layouts in all_layouts.txt to Kinesis form.
+ - Convert layouts in allLayouts.txt to full-layout form.
 
 
 ***THUMBS***

@@ -31,11 +31,15 @@ GTB every N rounds, where N=64 and divides by 2 every 500 rounds, run for 23h:
 0, 32: 17313 (9h)
 
 GTB N=64 and divides by 2 every 200 rounds, run for 8h: 
-0, 64: 17313 (3h)
+ 0, 64: 17313 (3h)
+16, 16: 
 
 brute-force GTB:
 run for 5h: 17331 (2h)
-run for   :
+
+testing chanceToUsePrevLayout without GTB, run for :
+0.0: 
+0.2: 
 
 
  * TODO: test to see if making strategic changes and re-annealing is better than not

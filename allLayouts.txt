@@ -6,7 +6,7 @@
 # This is either because I could not find them or because they are not in the 
 # proper format.
 # 
-# TO DO: Convert these to Kinesis form so that every character is included.
+# TO DO: Convert these to full-layout form so that every character is included.
 
 # Not very good layouts
 abcdefghijklmnopqrstuvwxyz,.'; Alphabetical
