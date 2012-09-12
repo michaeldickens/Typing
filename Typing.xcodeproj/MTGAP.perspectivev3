@@ -327,19 +327,19 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>86141DA615FE827800990190</string>
+										<string>86141E2715FFC4EB00990190</string>
 										<key>history</key>
 										<array>
-											<string>86B9D95715F6880D008B11C9</string>
+											<string>86141DE115FEBF2500990190</string>
 											<string>86B9D95D15F6935D008B11C9</string>
-											<string>86B9D95E15F6935D008B11C9</string>
-											<string>86E83A0715FD74CB00269FF9</string>
 											<string>86E83A0915FD74CB00269FF9</string>
-											<string>86141D9015FE807B00990190</string>
-											<string>86141D9715FE80A500990190</string>
-											<string>86141D9A15FE80F600990190</string>
-											<string>86141DA415FE827800990190</string>
-											<string>86141DA515FE827800990190</string>
+											<string>86141DA815FE8D7600990190</string>
+											<string>86141DD415FEBB7700990190</string>
+											<string>86141DFB15FED57800990190</string>
+											<string>86141DFC15FED57800990190</string>
+											<string>86141E0E15FF07A300990190</string>
+											<string>86141E2415FFC4E700990190</string>
+											<string>86141E2515FFC4E700990190</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -434,7 +434,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1233, 287}}</string>
+										<string>{{10, 27}, {1233, 333}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -652,6 +652,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>86141DC415FE9FF600990190</string>
+		<string>86141DC515FE9FF600990190</string>
 		<string>/Users/MTGAP/XCodeProjects/Typing/Typing.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

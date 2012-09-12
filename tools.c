@@ -481,14 +481,15 @@ void initTypingData()
 	if (strchr(keysToInclude, '\b')) {
 		/* Add backpace to the digraph list. */
 		for (i = 0; i < monLen; ++i) {
+			int64_t error_rate = monValues[i] * ERROR_RATE_PERCENT / 100;
 			diKeys[diLen][0] = '\b';
 			diKeys[diLen][1] = monKeys[i];
-			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			diValues[diLen] = error_rate;
 			++diLen;
 			
 			diKeys[diLen][1] = '\b';
 			diKeys[diLen][0] = monKeys[i];
-			diValues[diLen] = monValues[i] * ERROR_RATE_PERCENT / 100;
+			diValues[diLen] = error_rate;
 			++diLen;
 		}
 	 

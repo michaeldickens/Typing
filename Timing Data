@@ -31,17 +31,37 @@ GTB every N rounds, where N=64 and divides by 2 every 500 rounds, run for 23h:
 0, 32: 17313 (9h)
 
 GTB N=64 and divides by 2 every 200 rounds, run for 8h: 
- 0, 64: 17313 (3h)
-16, 16: 
+ 0, 64: 173139 (3h)
+16, 16: 173212 (8h)
 
 brute-force GTB:
 run for 5h: 17331 (2h)
 
-testing chanceToUsePrevLayout without GTB, run for :
-0.0: 
-0.2: 
+For below, (Xh of Yh) means it found the best layout after X hours, but ran for a total of Y hours.
+
+testing chanceToUsePrevLayout without GTB, where roundsBeforeChanceInc = 100 
+and every however-many rounds, chanceToUsePrevLayout is raised to the 0.8 power:
+0.0: 173445 (5h of 9h), 173256 (4h of 13h)
+0.2: 173212 (7h of 9h), 173303 (6h of 13h)
+0.4: 173258 (2h of 13h)
+(2.5 GHz)
+0.5: 173256 (5h of 7h), 173215 (8h of 13h)
+0.8: 173303 (2h of 7h), 173303 (10h of 13h)
+(2.0 GHz)
+0.95:173328 (7h of 13h)
+0.99:173298 (30m of 13h)
+
+results for above after <1h: 
+0.0: 173606, 173660
+0.2: 173459, 173340
+0.4: 173354
+0.5: 173308, 173540, 173573
+0.8: 173303, 173443, 173305 (5m)
+0.95:173349
+0.99:173298
+
+The above uses the default -O setting. The below uses -O3.
 
 
- * TODO: test to see if making strategic changes and re-annealing is better than not
+
  * TODO: after a certain point, stop running anneal() and only do greatToBest()
- * TODO: if one paren is used in a permutation, also use the other one

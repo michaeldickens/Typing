@@ -19,16 +19,16 @@ int calcFitnessDirect(Keyboard *k)
 	                // would not get assigned properly.
 
 	int i;
-	k->distance		= 0;
-	k->inRoll		= 0;
-	k->outRoll		= 0;
-	k->sameHand		= 0;
-	k->sameFinger	= 0;
-	k->rowChange	= 0;
-	k->homeJump		= 0;
-	k->ringJump     = 0;
-	k->toCenter		= 0;
-	k->toOutside	= 0;
+	k->distance   = 0;
+	k->inRoll     = 0;
+	k->outRoll    = 0;
+	k->sameHand   = 0;
+	k->sameFinger = 0;
+	k->rowChange  = 0;
+	k->homeJump   = 0;
+	k->ringJump   = 0;
+	k->toCenter   = 0;
+	k->toOutside  = 0;
 
 	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
 
@@ -96,17 +96,17 @@ int calcFitness(Keyboard *k)
 	int i;
 	
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
-	k->fitness		= 0;
-	k->distance		= 0;
-	k->inRoll		= 0;
-	k->outRoll		= 0;
-	k->sameHand		= 0;
-	k->sameFinger	= 0;
-	k->rowChange	= 0;
-	k->homeJump		= 0;
-	k->ringJump     = 0;
-	k->toCenter		= 0;
-	k->toOutside	= 0;
+	k->fitness    = 0;
+	k->distance   = 0;
+	k->inRoll     = 0;
+	k->outRoll    = 0;
+	k->sameHand   = 0;
+	k->sameFinger = 0;
+	k->rowChange  = 0;
+	k->homeJump   = 0;
+	k->ringJump   = 0;
+	k->toCenter   = 0;
+	k->toOutside  = 0;
 	
 	int locs[128];
 	for (i = 0; i < 128; ++i) locs[i] = -1;
@@ -148,21 +148,21 @@ int calcFitness(Keyboard *k)
 
 int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 {
-	int loc0 = allLocs[digraph[0]] % ksize;
-	int loc1 = allLocs[digraph[1]] % ksize;
+	int loc0 = allLocs[digraph[0]];
+	int loc1 = allLocs[digraph[1]];
 	
-	if (loc0 == -1 || loc1 == -1) {
+	if (loc0 < 0 || loc1 < 0) {
 		return 1;
 	}
 	
-	/* TODO: Once modifier keys are added, change this to include the cost of 
-	 * hitting Shift, plus an extra penalty.
-	 */
-	if (allLocs[digraph[0]] >= ksize && allLocs[digraph[1]] >= ksize) {
+	if (loc0 >= ksize && loc1 >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
-	} else if (allLocs[digraph[0]] >= ksize ^ allLocs[digraph[1]] >= ksize) {
+	} else if (loc0 >= ksize ^ loc1 >= ksize) {
 		k->distance += shiftCost * multiplier;
 	}
+	
+	loc0 %= ksize;
+	loc1 %= ksize;
 	
 	/* These all require that the hand be the same. */
 	if (hand[loc0] == hand[loc1]) {
@@ -173,13 +173,13 @@ int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 		 * relatively separate from the rest of the fingers.
 		 */
 		if (finger[loc0] != THUMB && finger[loc1] != THUMB) {
-			k->inRoll		+= calcInRoll    (loc0, loc1) * multiplier;	
-			k->outRoll		+= calcOutRoll   (loc0, loc1) * multiplier;	
-			k->rowChange	+= calcRowChange (loc0, loc1) * multiplier;
-			k->homeJump		+= calcHomeJump  (loc0, loc1) * multiplier;
-			k->ringJump     += calcRingJump  (loc0, loc1) * multiplier;
-			k->toCenter		+= calcToCenter  (loc0, loc1) * multiplier;
-			k->toOutside	+= calcToOutside (loc0, loc1) * multiplier;		
+			k->inRoll    += calcInRoll    (loc0, loc1) * multiplier;	
+			k->outRoll   += calcOutRoll   (loc0, loc1) * multiplier;	
+			k->rowChange += calcRowChange (loc0, loc1) * multiplier;
+			k->homeJump  += calcHomeJump  (loc0, loc1) * multiplier;
+			k->ringJump  += calcRingJump  (loc0, loc1) * multiplier;
+			k->toCenter  += calcToCenter  (loc0, loc1) * multiplier;
+			k->toOutside += calcToOutside (loc0, loc1) * multiplier;		
 		}
 	}
 	

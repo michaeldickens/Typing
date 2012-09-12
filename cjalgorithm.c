@@ -27,7 +27,7 @@ int runCJAlgorithm(char *filename)
 	double chanceToUsePreviousLayout = 0.2; /* 0.2 */
 	double subChanceToUseBestLayout = 0.1; /* 0.1 */
 	int numberOfSwaps = ksize / 15;
-	int roundsBeforeChanceInc = 100;
+	int roundsBeforeChanceInc = 10;
 	int roundsBeforeSwapInc = (600 / ksize > 1 ? 600 / ksize : 1);
 	int roundOnChanceInc = roundsBeforeChanceInc, 
 		roundOnSwapInc = roundsBeforeSwapInc;
@@ -45,8 +45,8 @@ int runCJAlgorithm(char *filename)
 		 * runs for longer and longer.
 		 */
 		if (roundNum == roundOnChanceInc) {
-			chanceToUsePreviousLayout = pow(chanceToUsePreviousLayout, 0.8);
-			roundsBeforeChanceInc = roundsBeforeChanceInc * 1.8 + 1;
+			chanceToUsePreviousLayout = pow(chanceToUsePreviousLayout, 0.7);
+			roundsBeforeChanceInc = (int) (roundsBeforeChanceInc * 1.2) + 1;
 			roundOnChanceInc += roundsBeforeChanceInc;
 			if (detailedOutput) printf("Chance to use previous layout is now %f.\n", chanceToUsePreviousLayout);
 		}
@@ -88,7 +88,8 @@ int runCJAlgorithm(char *filename)
 				isFileEmpty = FALSE;
 			}
 		}
-				
+		
+		/* Create the optimized keyboard for this round. */
 		curEval = anneal(&k, NULL, 0);
 		
 		if (curEval < bestEval) {

@@ -106,30 +106,12 @@ int initKeyboard(Keyboard *k)
 	
 	shuffleLayout(k);
 	
-	/* If keepZXCV is enabled, move ZXCV back to their positions. */
-	if (keepZXCV && ksize == 30) {
-		for (i = 0; i < ksize; ++i) {
-			if (k->layout[i] == 'z') {
-				k->layout[i] = k->layout[20];
-				k->layout[20] = 'z';
-			} else if (k->layout[i] == 'x') {
-				k->layout[i] = k->layout[21];
-				k->layout[21] = 'x';
-			} else if (k->layout[i] == 'c') {
-				k->layout[i] = k->layout[22];
-				k->layout[22] = 'c';
-			} else if (k->layout[i] == 'v') {
-				k->layout[i] = k->layout[23];
-				k->layout[23] = 'v';
-			}
-		}
-	}
-	
 	/* If keepNumbers is enabled, move all numbers back to their positions. */
 	if (keepNumbers && ksize > 30) {
 		char c;
 		for (c = '0'; c <= '9'; ++c) {
 			i = locWithoutShifted(k, c);
+			if (i < 0) continue;
 			int n = (c - '0' + 9) % 10 + numStart;
 			swap(k, i, n);
 		}
@@ -157,16 +139,16 @@ int initKeyboard(Keyboard *k)
 			swap(k, locWithoutShifted(k, consonants[i]), halfIndices[i]);
 	}
 	
-	k->fitness = 0;
-	k->distance = 0;
-	k->inRoll = 0;
-	k->outRoll = 0;
-	k->sameHand = 0;
+	k->fitness    = 0;
+	k->distance   = 0;
+	k->inRoll     = 0;
+	k->outRoll    = 0;
+	k->sameHand   = 0;
 	k->sameFinger = 0;
-	k->rowChange = 0;
-	k->homeJump = 0;
-	k->toCenter = 0;
-	k->toOutside = 0;
+	k->rowChange  = 0;
+	k->homeJump   = 0;
+	k->toCenter   = 0;
+	k->toOutside  = 0;
 	
 	return 0;
 }
@@ -287,15 +269,15 @@ int copy(Keyboard *k, Keyboard *original)
 		k->layout[i] = original->layout[i];
 		k->shiftedLayout[i] = original->shiftedLayout[i];
 	}
-	k->fitness = original->fitness;
-	k->inRoll = original->inRoll;
-	k->outRoll = original->outRoll;
-	k->sameHand = original->sameHand;
+	k->fitness    = original->fitness;
+	k->inRoll     = original->inRoll;
+	k->outRoll    = original->outRoll;
+	k->sameHand   = original->sameHand;
 	k->sameFinger = original->sameFinger;
-	k->rowChange = original->rowChange;
-	k->homeJump = original->homeJump;
-	k->toCenter = original->toCenter;
-	k->toOutside = original->toOutside;
+	k->rowChange  = original->rowChange;
+	k->homeJump   = original->homeJump;
+	k->toCenter   = original->toCenter;
+	k->toOutside  = original->toOutside;
 	
 	return 0;
 }
