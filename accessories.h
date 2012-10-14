@@ -18,7 +18,7 @@ int gameComputer(Keyboard *k, char difficulty);
  *   account digraph frequency. If false, finds the worst digraphs without 
  *   respect to frequency.
  */
-void worstDigraphsFromFile(char *filename, int damagingp);
+int worstDigraphsFromFile(const char *filename, int damagingp);
 int worstDigraphs(Keyboard *k, int damagingp);
 
 /* 
@@ -26,9 +26,9 @@ int worstDigraphs(Keyboard *k, int damagingp);
  */
 int bestSwap(Keyboard *k);
 
-int compare(char *filename);
+int compare(const char *filename);
 
-void improveFromFile(char *filename);
+int improveFromFile(const char *filename);
 Keyboard improver(Keyboard k);
 
 int makeTypingData();

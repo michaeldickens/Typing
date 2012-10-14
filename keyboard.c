@@ -118,24 +118,24 @@ int initKeyboard(Keyboard *k)
 	}
 	
 	if (keepTab) {
-		int loc = locWithShifted(k, '\t');
-		if (loc >= 0) {
-			int tabLoc = ksize == 72 ? 12 : 14;
-			swap(k, loc, tabLoc);
-		}
+		int tabLoc = locWithShifted(k, '\t');
+		if (tabLoc >= 0) {
+			int expectedTabLoc = ksize == 72 ? 12 : 14;
+			swap(k, tabLoc, expectedTabLoc);
+		}		
 	}
 	
 	if (keepConsonantsRight && fullKeyboard == FK_STANDARD) {
 		const char *consonants = "bcdfghjklmnpqrstvwxyz";
 		/* TODO: Swap both shifted and unshifted */
-		int halfIndices[] = {
+		static int halfIndices[] = {
 			11, 12, 
 			20, 21, 22, 23, 24, 25, 26, 27, 
 			34, 35, 36, 37, 38, 39, 
 			48, 49, 50, 51, 52, 
 		};
 				
-		for (i = 0; i < sizeof(halfIndices)/sizeof(int); ++i)
+		for (i = 0; i < (long) (sizeof(halfIndices)/sizeof(int)); ++i)
 			swap(k, locWithoutShifted(k, consonants[i]), halfIndices[i]);
 	}
 	
@@ -185,14 +185,14 @@ int setLayout(Keyboard *k, char *layout)
 }
 
 /* 
- * Copies a layout from fp onto k.
+ * Copies a layout from file onto k.
  * 
  * Return Codes
  * -1: Error.
  * -2: No new layout was found in the file.
  * 0: Success.
  */
-int layoutFromFile(FILE *fp, Keyboard *k)
+int layoutFromFile(FILE *file, Keyboard *k)
 {
 	int i;
 	int prevC = 0, c = 0;
@@ -200,7 +200,7 @@ int layoutFromFile(FILE *fp, Keyboard *k)
 	copy(k, &nilKeyboard);
 	
 	int readUntilN = FALSE, noNewKeyboard = TRUE, escaped = FALSE;
-	for (i = 0; (c = getc(fp)) != EOF && i < 2 * ksize; ++i, prevC = c) {
+	for (i = 0; (c = getc(file)) != EOF && i < 2 * ksize; ++i, prevC = c) {
 		if (readUntilN) {
 			i = -1;
 			if (c == '\n') readUntilN = FALSE;
@@ -253,7 +253,7 @@ int layoutFromFile(FILE *fp, Keyboard *k)
 	
 	k->layout[ksize] = '\0';
 	k->shiftedLayout[ksize] = '\0';
-	while (c != EOF && c != '\n') c = fgetc(fp);
+	while (c != EOF && c != '\n') c = fgetc(file);
 		
 	if (noNewKeyboard)
 		return -2;
@@ -347,34 +347,9 @@ int swapPair(Keyboard *k, int loc1, int loc2)
 	return 0;
 }
 
-int numberOfSameKeys(Keyboard *k, Keyboard *m)
-{
-	int i;
-	int result;
-	for (i = 0, result = 0; i < ksize; i++) if (k->layout[i] == m->layout[i]) ++result;
-	return result;
-}
-
-int isEqual(Keyboard *k, Keyboard *m)
-{
-	int i;
-	for (i = 0; i < ksize; ++i) if (k->layout[i] != m->layout[i]) return FALSE;
-	if (k->fitness != m->fitness) return FALSE;
-	if (k->inRoll != m->inRoll) return FALSE;
-	if (k->outRoll != m->outRoll) return FALSE;
-	if (k->sameHand != m->sameHand) return FALSE;
-	if (k->sameFinger != m->sameFinger) return FALSE;
-	if (k->rowChange != m->rowChange) return FALSE;
-	if (k->homeJump != m->homeJump) return FALSE;
-	if (k->toCenter != m->toCenter) return FALSE;
-	if (k->toOutside != m->toOutside) return FALSE;
-	
-	return TRUE;
-}
-
 int qwertyPositions(Keyboard *k)
 {
-	NOT_WORK_WITH_full_keyboard("qwertyPositions()");
+	NOT_WORK_WITH_FULL_KEYBOARD("qwertyPositions()");
 	
 	int count = 0;
 	
@@ -432,28 +407,6 @@ int printLayoutRaw(char layout[])
 	return 0;
 }
 
-int printKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-
-	printf("Fitness: %lld\n", k->fitness);
-	if (keepQWERTY) printf("QWERTY positions: %d\n", qwertyPositions(k));
-	printf("Distance: %lld\n", k->distance);
-	printf("Finger work: %lld\n", k->fingerWork);
-	printf("Inward rolls: %lld\n", k->inRoll);
-	printf("Outward rolls: %lld\n", k->outRoll);
-	printf("Same hand: %lld\n", k->sameHand);
-	printf("Same finger: %lld\n", k->sameFinger);
-	printf("Row change: %lld\n", k->rowChange);
-	printf("Home jump: %lld\n", k->homeJump);
-	printf("Ring jump: %lld\n", k->ringJump);
-	printf("To center: %lld\n", k->toCenter);
-	if (ksize != 30) printf("To outside: %lld\n", k->toOutside);
-	printf("\n");
-	
-	return 0;
-}
-
 int printPercentages(Keyboard *k)
 {
 	int i;
@@ -472,7 +425,11 @@ int printPercentages(Keyboard *k)
 			k->fingerUsage[6] + k->fingerUsage[7] + k->fingerUsage[8]
 			 + k->fingerUsage[9]) / total);
 
-	if (total == 0) printf("warning: total = 0\n");
+	if (total == 0) {
+		fprintf(stderr, "Error: In printPercentages(), total finger usage = 0\n");
+		return 1;
+	}
+	
 	// Finger
 	printf("Fingers: ");
 	for (i = 0; i < FINGER_COUNT; ++i) {
@@ -502,26 +459,6 @@ int printPercentages(Keyboard *k)
 	if (ksize != 30) printf("To outside:    %.2f%%\n", ((double)(100*k->toOutside) / totalDi ));
 	printf("\n");
 
-	return 0;
-}
-
-int simplePrintKeyboard(Keyboard *k)
-{
-	printLayoutOnly(k);
-		
-	printf("\n");
-	printf("Fitness: %lld\n", (int64_t) (k->fitness / pow(10, SIMPLE_SHIFT)));
-	printf("Distance: %lld\n", (int64_t) (k->distance / pow(10, SIMPLE_SHIFT)));
-	printf("Inward rolls: %lld\n", (int64_t) (k->inRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Outward rolls: %lld\n", (int64_t) (k->outRoll / pow(10, SIMPLE_SHIFT)));
-	printf("Same hand: %lld\n", (int64_t) (k->sameHand / pow(10, SIMPLE_SHIFT)));
-	printf("Same finger: %lld\n", (int64_t) (k->sameFinger / pow(10, SIMPLE_SHIFT)));
-	printf("Row change: %lld\n", (int64_t) (k->rowChange / pow(10, SIMPLE_SHIFT)));
-	printf("Home jump: %lld\n", (int64_t) (k->homeJump / pow(10, SIMPLE_SHIFT)));
-	printf("To center: %lld\n", (int64_t) (k->toCenter / pow(10, SIMPLE_SHIFT)));
-	if (ksize != 30) printf("To outside: %lld\n", (int64_t) (k->toOutside / pow(10, SIMPLE_SHIFT)));
-	printf("\n");
-	
 	return 0;
 }
 
@@ -620,9 +557,9 @@ void shuffleLayout(Keyboard *k)
 			do {
 				x = rand() % (n + 1);
 			} while (!isLegalSwap(k, x, n));
-		}
-		
-		swap(k, x, n);
+
+			swap(k, x, n);
+		}		
 	}
 }
 

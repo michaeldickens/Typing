@@ -9,17 +9,20 @@
 #include "cjalgorithm.h"
  
 
-int runCJAlgorithm(char *filename)
+int runCJAlgorithm(const char *const filename)
 {
 	int start = time(NULL), finish;
-	int i, roundNum, isFileEmpty;
+	int roundNum, isFileEmpty;
 	
 	int64_t curEval;
 	int64_t bestEval = LLONG_MAX;
 
-	Keyboard k, prevk, bestk;
+	Keyboard k = nilKeyboard;
+	Keyboard prevk;
+	Keyboard bestk = nilKeyboard;
 	
-	FILE *fp = fopen(filename, "r");
+	FILE *file = fopen(filename, "r");
+	CHECK_FILE_FOR_NULL(file, filename);
 	
 	// The simulated annealing algorithm is seeded with either a completely random 
 	// layout or a mutated version of the last layout found so far. The probabilty 
@@ -37,8 +40,8 @@ int runCJAlgorithm(char *filename)
 	int intervalBetweenPrints = 60, intervalInc = 0;
 	
 	/* Run Chris Johnson's simulated annealing algorithm. */
-	isFileEmpty = INIT_FROM_FILE ? FALSE : TRUE;
-	for (i = 0, roundNum = 0; i < SIM_ANNEAL_GENERATIONS; ++i, ++roundNum) {
+	isFileEmpty = (INIT_FROM_FILE ? FALSE : TRUE);
+	for (roundNum = 0; roundNum < SIM_ANNEAL_GENERATIONS; ++roundNum) {
 		copy(&prevk, &k);
 
 		/* chanceToUsePreviousLayout and numberOfSwaps increase as the program 
@@ -53,17 +56,17 @@ int runCJAlgorithm(char *filename)
 		
 		if (roundNum == roundOnSwapInc) {
 			++numberOfSwaps;
-			roundsBeforeSwapInc = roundsBeforeSwapInc * 1.1 + 1;
+			roundsBeforeSwapInc = (int) (roundsBeforeSwapInc * 1.1) + 1;
 			roundOnSwapInc += roundsBeforeSwapInc;
 			if (detailedOutput) printf("Number of swaps between rounds is now %d.\n", numberOfSwaps);
 		}
 
 		int fileReadRes = FILE_READ_NOT_HAPPEN;
 		if (INIT_FROM_FILE && !isFileEmpty) {
-			if ((fileReadRes = layoutFromFile(fp, &k)) != 0) {
+			if ((fileReadRes = layoutFromFile(file, &k)) != 0) {
 				isFileEmpty = TRUE;
-				fclose(fp);
-				fp = NULL;
+				fclose(file);
+				file = NULL;
 			}
 		} 
 				
@@ -83,8 +86,9 @@ int runCJAlgorithm(char *filename)
 			}
 			
 			if (REPEAT_LAYOUTSTORE) {
-				if (fp) fclose(fp);
-				fp = fopen(filename, "r");
+				if (file) fclose(file);
+				file = fopen(filename, "r");
+				CHECK_FILE_FOR_NULL(file, filename);
 				isFileEmpty = FALSE;
 			}
 		}
@@ -96,7 +100,6 @@ int runCJAlgorithm(char *filename)
 			if (usedPreviousLayout && detailedOutput) {
 				printf("\nFound from previous layout: \n");
 			}
-			i = 0;
 			copy(&bestk, &k);
 			bestEval = curEval;
 			printPercentages(&k);
@@ -115,7 +118,7 @@ int runCJAlgorithm(char *filename)
 			}
 		}
 
-		if (FALSE && i % greatToBestInterval == 0) {
+		if (roundNum % greatToBestInterval == greatToBestInterval - 1) {
 			int64_t newBestEval = greatToBest(&bestk);
 			
 			if (greatToBestInterval > 1 && 

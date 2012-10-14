@@ -7,12 +7,11 @@
  */
 
 #include <limits.h>
-#include "algorithm.h"
+#include "keyboard.h"
 
 #define FILE_READ_NOT_HAPPEN -100
-#define FILE_READ_FAIL -101
 
-int runCJAlgorithm(char *filename);
+int runCJAlgorithm(const char *const filename);
 int64_t greatToBest(Keyboard *k);
 int tryPermutations(int length, int *p, int index, int *used, int *locs, 
 	Keyboard *bestk, Keyboard *origk);

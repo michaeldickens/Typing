@@ -1,7 +1,7 @@
 ***BIG CHANGES***
 
+ - Add multithreading.
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
- - Add shift, space, enter, backspace, tab. On Kinesis, add thumb pads and leftmost column.
  - Make it easier to add new physical keyboard types.
  - Write a subroutine that automatically generates a keyboard file for any platform.
 
@@ -16,6 +16,7 @@
 ***BUGS***
 
  - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
+ - preCalculateFitness() causes layouts to be scored incorrectly.
 
 Possibly Fixed: 
  - Parallel parentheses don't work on the standard keyboard, only Kinesis.

@@ -34,37 +34,24 @@ char *kbdFilename;
 #define KSIZE_MAX 200
 #define FINGER_COUNT 10
 
-#define NOT_WORK_WITH_full_keyboard(str) \
+#define NOT_WORK_WITH_FULL_KEYBOARD(str) \
 	if (ksize != 30) { \
 		fprintf(stderr, "Error: Cannot use %s when keyboard size is not 30.", str); \
 		return -1; \
 	}
 
-#define NOT_WORK_WITH_30_KEYBOARD(str) \
-	if (ksize == 30) { \
-		fprintf(stderr, "Error: Cannot use %s when keyboard size is 30.", str); \
-		return -1; \
-	}
-
-// If TRUE, run through the layouts in layoutstore.txt repeatedly when 
-// running the algorithm. If FALSE, only run through once.
+/* If TRUE, run through the layouts in layoutstore.txt repeatedly when 
+ * running the algorithm. If FALSE, only run through once.
+ */
 #define REPEAT_LAYOUTSTORE TRUE
 
-// For the following values...
-// Peter Klausler used 4096, 50, ?, 50, ?
-// Michael Capewell used 2048, 16, 32, N/A (48), 144
-// For a thorough run:      64, 16, 1, 1024, 256
-// Moderately thorough run: 56, 14, 1,  512, 256
-// Fast run:                48, 12, 1,   64, 512
-#define POOL_SIZE             56
-#define GENERATIONS           14
-#define TAKE_BEST_N            1
-#define ALL_STAR_POOL_SIZE   512
-#define ALL_STAR_GENERATIONS 256
+/* If TRUE, scoreDigraph() uses allDigraphCosts to calculate costs. Otherwise, 
+ * calculates costs by calling calcX functions.
+ */
+#define USE_COST_ARRAY FALSE
 
 #define SIM_ANNEAL_GENERATIONS INT_MAX
 #define GREAT_TO_BEST_GENERATIONS 256
-#define IMPROVER_GENERATIONS 256
 
 #define INIT_FROM_FILE FALSE
 
@@ -99,3 +86,6 @@ int distance, inRoll, outRoll, sameHand, sameFingerP, sameFingerR, sameFingerM,
 int initValues();
 void initCosts();
 void setksize(int type);
+
+/* Defined in fitness.c */
+int preCalculateFitness();
