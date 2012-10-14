@@ -91,6 +91,7 @@ void initCosts()
 {
 	detailedOutput = TRUE;
 	useMultithreading = TRUE;
+	threadCount = 4;
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
