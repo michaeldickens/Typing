@@ -90,6 +90,7 @@ int initValues()
 void initCosts()
 {
 	detailedOutput = TRUE;
+	useMultithreading = TRUE;
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;

@@ -45,7 +45,7 @@ int initData()
 	
 	for (i = 0; i <= ksize; ++i)
 		nilKeyboard.layout[i] = nilKeyboard.shiftedLayout[i] = '\0';
-	nilKeyboard.fitness = 0;
+	nilKeyboard.fitness = INT64_MAX;
 	nilKeyboard.distance = 0;
 	nilKeyboard.inRoll = 0;
 	nilKeyboard.outRoll = 0;
@@ -142,18 +142,6 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-		static int indicesCopy[KSIZE_MAX] = {
-			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
-			10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
-			20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 
-		};
-		int indicesShiftedCopy[KSIZE_MAX];
-		for (i = 0; i < KSIZE_MAX; ++i)
-			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
-		
-		copyArray(indices, indicesCopy, trueksize);
-		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
-
 	} else if (fullKeyboard == FK_STANDARD) {
 		static int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
@@ -219,20 +207,6 @@ void initKeyboardData()
 			TRUE,  FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE, FALSE, FALSE,
 		};
 		copyArray(printable, printableCopy, ksize);
-		
-		static int indicesCopy[KSIZE_MAX] = {
-			0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 
-		       15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
-			   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 
-			   43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 
-			56, 
-		};
-		int indicesShiftedCopy[KSIZE_MAX];
-		for (i = 0; i < KSIZE_MAX; ++i)
-			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
-		
-		copyArray(indices, indicesCopy, trueksize);
-		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
 		
 	} else if (fullKeyboard == FK_KINESIS) {
 		static int fingerCopy[KSIZE_MAX] = {
@@ -307,21 +281,6 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);		
 
-		static int indicesCopy[KSIZE_MAX] = {
-				 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 
-		    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 
-			    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 
-				37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 
-				49, 50,                         57, 58, 
-			                                        70, 71, 
-		};
-		int indicesShiftedCopy[KSIZE_MAX];
-		for (i = 0; i < KSIZE_MAX; ++i)
-			indicesShiftedCopy[i] = indicesCopy[i] + ksize;
-		
-		copyArray(indices, indicesCopy, trueksize);
-		copyArray(indices + trueksize, indicesShiftedCopy, trueksize);
-		
 	} else if (fullKeyboard == FK_IPHONE) {
 		static int fingerCopy[KSIZE_MAX] = {
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
@@ -362,13 +321,6 @@ void initKeyboardData()
 			FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, 
 		};
 		copyArray(printable, printableCopy, ksize);
-	
-		static int indicesCopy[KSIZE_MAX] = {
-			 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
-			10, 11, 12, 13, 14, 15, 16, 17, 18, 
-			    21, 22, 23, 24, 25, 26, 27, 
-		};
-		copyArray(indices, indicesCopy, ksize);		
 	}
 	
 	for (i = 0; i < ksize; ++i)

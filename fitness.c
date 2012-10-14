@@ -153,7 +153,7 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	int loc0 = allLocs[digraph[0]];
 	int loc1 = allLocs[digraph[1]];
 	
-	if (USE_COST_ARRAY)
+	if (USE_COST_ARRAY && ksize == 30)
 		return allDigraphCosts[30*loc0 + loc1];
 	
 	if (loc0 < 0 || loc1 < 0) {

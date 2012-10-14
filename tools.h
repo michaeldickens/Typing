@@ -155,5 +155,3 @@ int64_t diValues[MAX_DI_LEN];
 char monKeys[MAX_MON_LEN];
 int64_t monValues[MAX_MON_LEN];
 
-/* Used in cjalgorithm.c. */
-int indices[2 * KSIZE_MAX];

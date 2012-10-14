@@ -277,7 +277,8 @@ int gameComputer(Keyboard *k, char difficulty)
 	
 	Keyboard k2;
 	
-	shuffleIndices();
+	int indices[2 * trueksize];
+	buildShuffledIndices(indices, 2 * trueksize);
 	
 	int i, j, inx, total = 0, done = FALSE;
 	for (i = 0; i < monLen && !done; ++i) {
@@ -418,46 +419,9 @@ int worstDigraphs(Keyboard *k, int damagingp)
 	return 0;	
 }
 
-/* WARNING: Deprecated. Does not work with shifted characters.
- */
 int bestSwap(Keyboard *k)
 {
-	printPercentages(k);
-
-	calcFitness(k);
-	int64_t fitness = k->fitness;
-	int64_t origFitness = fitness;
-	int64_t bestFitness = fitness;
-	int bestIndices[2];
-	Keyboard bestKeyboard = *k;
-	
-	int i, j;
-	for (i = 0; i < trueksize; i++) {
-		for (j = i+1; j < trueksize; j++) {
-			if (!isLegalSwap(k, indices[i], indices[j]))
-				continue;
-			
-			swap(k, indices[i], indices[j]);
-			calcFitness(k);
-			
-			if (k->fitness < bestFitness) {
-				bestFitness = k->fitness;
-				bestKeyboard = *k;
-				bestIndices[0] = indices[i];
-				bestIndices[1] = indices[j];
-			}
-			
-			/* Print out all swaps that are a certain percentage better. */
-			if ((origFitness - k->fitness) / ((double) origFitness) > 0.05) {
-				printPercentages(k);
-			}
-
-			swap(k, indices[i], indices[j]);
-		}
-	}
-	
-	printf("swap: %c and %c\n", k->layout[bestIndices[0]], k->layout[bestIndices[1]]);
-	printPercentages(&bestKeyboard);
+	printf("Sorry, this function is not yet implemented.\n");
 	return 0;
 }
 

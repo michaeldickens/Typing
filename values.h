@@ -8,14 +8,12 @@
 
 #include <ctype.h>
 #include <math.h>
+#include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-/* TODO: for testing purposes. remove before commit. */
-#include <sys/time.h>
  
 #define FK_NO 0
 #define FK_STANDARD 1
@@ -62,7 +60,7 @@ int64_t shortcutCosts[KSIZE_MAX];
 double fingerPercentMaxes[FINGER_COUNT];
 int64_t fingerWorkCosts[FINGER_COUNT];
 
-int detailedOutput;
+int detailedOutput, useMultithreading;
 
 /* 0 for false, 1 for true. 
  * keepNumbers: 2 if numbers can move about but must stay in number row.

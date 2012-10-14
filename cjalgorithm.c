@@ -15,7 +15,7 @@ int runCJAlgorithm(const char *const filename)
 	int roundNum, isFileEmpty;
 	
 	int64_t curEval;
-	int64_t bestEval = LLONG_MAX;
+	int64_t bestEval = INT64_MAX;
 
 	Keyboard k = nilKeyboard;
 	Keyboard prevk;
@@ -30,11 +30,15 @@ int runCJAlgorithm(const char *const filename)
 	double chanceToUsePreviousLayout = 0.2; /* 0.2 */
 	double subChanceToUseBestLayout = 0.1; /* 0.1 */
 	int numberOfSwaps = ksize / 15;
+	
+	/* TODO: these two need to happen every round within multiRun, not just 
+	 * every outer round */
 	int roundsBeforeChanceInc = 10;
 	int roundsBeforeSwapInc = (600 / ksize > 1 ? 600 / ksize : 1);
+	
 	int roundOnChanceInc = roundsBeforeChanceInc, 
 		roundOnSwapInc = roundsBeforeSwapInc;
-	int greatToBestInterval = 64, roundsBeforeGTBIDec = 200;
+	int multiRunRounds = 64, roundsBeforeMMRDec = 200;
 
 	int usedPreviousLayout = FALSE;
 	int intervalBetweenPrints = 60, intervalInc = 0;
@@ -61,78 +65,79 @@ int runCJAlgorithm(const char *const filename)
 			if (detailedOutput) printf("Number of swaps between rounds is now %d.\n", numberOfSwaps);
 		}
 
-		int fileReadRes = FILE_READ_NOT_HAPPEN;
-		if (INIT_FROM_FILE && !isFileEmpty) {
-			if ((fileReadRes = layoutFromFile(file, &k)) != 0) {
-				isFileEmpty = TRUE;
-				fclose(file);
-				file = NULL;
-			}
-		} 
-				
-		if (isFileEmpty || fileReadRes == FILE_READ_NOT_HAPPEN) {
-			if (roundNum > 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {				
-				usedPreviousLayout = TRUE;
-				/* There is a 1 out of subChanceToUseBestLayout chance that the 
-				 * best layout will be used instead of the last layout.
-				 */
-				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copy(&k, &bestk);
-				else copy(&k, &prevk);
-				
-				smartMutate(NULL, &k, numberOfSwaps);
-			} else {
-				usedPreviousLayout = FALSE;
-				initKeyboard(&k);
-			}
-			
-			if (REPEAT_LAYOUTSTORE) {
-				if (file) fclose(file);
-				file = fopen(filename, "r");
-				CHECK_FILE_FOR_NULL(file, filename);
-				isFileEmpty = FALSE;
-			}
-		}
-		
 		/* Create the optimized keyboard for this round. */
-		curEval = anneal(&k, NULL, 0);
-		
-		if (curEval < bestEval) {
-			if (usedPreviousLayout && detailedOutput) {
-				printf("\nFound from previous layout: \n");
+		int i;
+		for (i = 0; i < multiRunRounds; i++) {
+			int fileReadRes = FILE_READ_NOT_HAPPEN;
+			if (INIT_FROM_FILE && !isFileEmpty) {
+				if ((fileReadRes = layoutFromFile(file, &k)) != 0) {
+					isFileEmpty = TRUE;
+					fclose(file);
+					file = NULL;
+				}
+			} 
+					
+			if (isFileEmpty || fileReadRes == FILE_READ_NOT_HAPPEN) {
+				if (roundNum > 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {				
+					usedPreviousLayout = TRUE;
+					/* There is a 1 out of subChanceToUseBestLayout chance that the 
+					 * best layout will be used instead of the last layout.
+					 */
+					if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copy(&k, &bestk);
+					else copy(&k, &prevk);
+					
+					smartMutate(NULL, &k, numberOfSwaps);
+				} else {
+					usedPreviousLayout = FALSE;
+					initKeyboard(&k);
+				}
+				
+				if (REPEAT_LAYOUTSTORE) {
+					if (file) fclose(file);
+					file = fopen(filename, "r");
+					CHECK_FILE_FOR_NULL(file, filename);
+					isFileEmpty = FALSE;
+				}
 			}
-			copy(&bestk, &k);
-			bestEval = curEval;
-			printPercentages(&k);
+			
+			curEval = anneal(&k, NULL, 0);
+			
+			if (curEval < bestEval) {
+				if (usedPreviousLayout && detailedOutput) {
+					printf("\nFound from previous layout: \n");
+				}
+				copy(&bestk, &k);
+				bestEval = curEval;
+				printPercentages(&k);
 
-			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-		} else if (curEval == bestEval && detailedOutput) {
-			printf("Same layout found\n");
-		} else if (time(NULL) - finish >= intervalBetweenPrints) {
-			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-			++intervalInc;
-			if (intervalInc >= 4) {
-				intervalInc = 0;
-				intervalBetweenPrints *= 2;
-			}
+				finish = time(NULL);
+				printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			} else if (curEval == bestEval && detailedOutput) {
+				printf("Same layout found\n");
+			} else if (time(NULL) - finish >= intervalBetweenPrints) {
+				finish = time(NULL);
+				printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+				++intervalInc;
+				if (intervalInc >= 4) {
+					intervalInc = 0;
+					intervalBetweenPrints *= 2;
+				}
+			}		
 		}
 
-		if (roundNum % greatToBestInterval == greatToBestInterval - 1) {
-			int64_t newBestEval = greatToBest(&bestk);
-			
-			if (greatToBestInterval > 1 && 
-					roundNum % roundsBeforeGTBIDec == roundsBeforeGTBIDec - 1)
-				greatToBestInterval /= 2;
-			
-			if (newBestEval < bestEval) {
-				bestEval = newBestEval;
-				printPercentages(&bestk);
-	
-				finish = time(NULL);
-				printf("Time elapsed after greatToBest(): %d hours, %d minutes, %d seconds\n", 
-					(finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);			
-			}
+		int64_t newBestEval = greatToBest(&bestk);
+		
+		if (multiRunRounds > 1 && 
+				roundNum % roundsBeforeMMRDec == roundsBeforeMMRDec - 1)
+			multiRunRounds /= 2;
+		
+		if (newBestEval < bestEval) {
+			bestEval = newBestEval;
+			printPercentages(&bestk);
+
+			finish = time(NULL);
+			printf("Time elapsed after greatToBest(): %d hours, %d minutes, %d seconds\n", 
+				(finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);			
 		}
 	}
 		
@@ -140,6 +145,119 @@ int runCJAlgorithm(const char *const filename)
 	printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 
     return 0;
+}
+
+
+/*
+ * Uses multiple threads to search for an optimal keyboard layout.
+ */
+void runThreadedAlgorithm()
+{
+	Keyboard bestk;
+	copy(&bestk, &nilKeyboard);
+	time_t start = time(NULL), finish = time(NULL), printInterval = 30;
+	
+	struct ThreadArg arg;
+	copy(&arg.bestk, &nilKeyboard);
+	arg.numRounds = 64;
+	arg.start = start;
+	arg.threadCount = 3;
+	arg.isFinished = FALSE;
+	
+	while (TRUE) {
+		runThreadsRec((void *) (&arg));
+		
+		/* TODO: This only runs on a single thread. Boooooriiing.
+		greatToBest(&arg.bestk);
+		
+		finish = time(NULL);
+		
+		if (arg.bestk.fitness < bestk.fitness) {
+			copy(&bestk, &arg.bestk);
+			
+			printPercentages(&bestk);
+			printf("Time elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);	
+		} else if (finish - start >= printInterval) {
+			printf("Time elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);	
+			printInterval *= 2;
+		}
+	}
+}
+
+/* 
+ * This is the core function called by runThreadedAlgorithm(). It uses the 
+ * following process to avoid as much downtime as possible.
+ * 
+ *  1. If threadCount == 0, call runSingleThread and return.
+ *  2. Recursively call this function with a decremented threadCount.
+ *  3. Until the inner call of this function returns, keep running anneal().
+ *  4. If the inner call found a bestk better than the current call, set the 
+ *     current bestk to the inner bestk.
+ * 
+ * The core of this algorithm is step 3. In the worst case, this function will 
+ * just be starting a new call to anneal() as the inner function returns, so 
+ * the most possible time that can be wasted is the length of one anneal() call 
+ * multiplied by the depth of the recursive call tree. The greatest proportion 
+ * of time that can be wasted is (threadCount / numRounds), so for sufficiently 
+ * large values of numRounds (perhaps 16 and above), the wasted time is trivial.
+ */
+void * runThreadsRec(void *arg)
+{
+	struct ThreadArg *threadArg = (struct ThreadArg *) arg;
+
+	if (threadArg->threadCount == 0) {
+		return runSingleThread(arg);
+	}
+	
+	time_t start = time(NULL), finish = time(NULL);
+	
+	struct ThreadArg innerArg;
+	copy(&innerArg.bestk, &nilKeyboard);
+	innerArg.numRounds = threadArg->numRounds;
+	innerArg.start = start;
+	innerArg.threadCount = threadArg->threadCount - 1;
+	innerArg.isFinished = FALSE;
+	
+	pthread_t thread;
+	int ret = pthread_create(&thread, NULL, &runThreadsRec, 
+			(void *) (&innerArg));
+	if (ret) return (void *) ret;
+	
+	Keyboard k;
+	while (!innerArg.isFinished) {
+		initKeyboard(&k);
+		anneal(&k, NULL, 0);
+				
+		if (k.fitness < threadArg->bestk.fitness) {
+			copy(&threadArg->bestk, &k);
+		}	
+	}
+		
+	if (innerArg.bestk.fitness < threadArg->bestk.fitness) {
+		copy(&threadArg->bestk, &innerArg.bestk);
+	}
+	
+	threadArg->isFinished = TRUE;
+	return NULL;
+}
+
+void * runSingleThread(void *arg)
+{
+	struct ThreadArg *threadArg = (struct ThreadArg *) arg;
+	
+	Keyboard k;
+	int i;
+	for (i = 0; i < threadArg->numRounds; ++i) {
+		initKeyboard(&k);
+		anneal(&k, NULL, 0);
+		
+		if (k.fitness < threadArg->bestk.fitness) {
+			copy(&threadArg->bestk, &k);
+		}			
+	}
+	
+	threadArg->isFinished = TRUE;
+	return NULL;
 }
 
 /* Take a great keyboard and make it the best keyboard. Uses an optimization 
@@ -268,7 +386,7 @@ int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 {
 	int64_t lastEvaluation, evaluation;
 	int64_t lastImprovement = 0;
-	int64_t evaluationToBeat = LLONG_MAX;
+	int64_t evaluationToBeat = INT64_MAX;
 		
 	/* Do the "zeroth" iteration */
 	calcFitness(k);
@@ -283,7 +401,6 @@ int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 		}
 		
 		lastEvaluation = evaluation;
-		shuffleIndices();
 		evaluationToBeat = lastEvaluation + lastImprovement;
 		evaluation = improveLayout(evaluationToBeat, k, lockins, lockin_length);
 		
@@ -297,10 +414,14 @@ int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k,
 {
 	int64_t evaluation;
 	int i, j, inx;
-		
+	
+	/* Create a list of indices and shuffle it. */
+	int indices[2 * trueksize];
+	buildShuffledIndices(indices, 2 * trueksize);
+
 	/* try swaps until we beat evaluationToBeat... */
-	for (i = 0; i < 2 * trueksize; i++) {
-		for (j = i + 1; j < 2 * trueksize; j++) {
+	for (i = 0; i < 2 * trueksize; ++i) {
+		for (j = i + 1; j < 2 * trueksize; ++j) {
 			
 			if (!isLegalSwap(k, indices[i], indices[j])) {
 				continue;

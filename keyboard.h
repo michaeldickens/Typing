@@ -19,10 +19,12 @@
 #define charAt(k, index) ((index) < ksize ? (k)->layout[index] : (k)->shiftedLayout[index - ksize])
 #define setCharAt(k, index, c) ((index) < ksize ? ((k)->layout[index] = (c)) : ((k)->shiftedLayout[index - ksize] = (c)))
 
+void buildShuffledIndices(int indices[], int length);
+
 int initKeyboard(Keyboard *k);
 int setLayout(Keyboard *k, char *layout);
 int layoutFromFile(FILE *file, Keyboard *k);
-int copy(Keyboard *k, Keyboard *original);
+void copy(Keyboard *k, Keyboard *original);
 int swap(Keyboard *k, int loc1, int loc2);
 int swapPair(Keyboard *k, int loc1, int loc2);
 int printLayoutOnly(Keyboard *k);
@@ -35,7 +37,6 @@ int readLayouts(Keyboard pool[], int length);
 
 int isSwappable(char c);
 int isLegalSwap(Keyboard *k, int i, int j);
-void shuffleIndices();
 void shuffleLayout(Keyboard *kbd);
 
 /* Returns the index of c on either the shifted or unshifted layout. */

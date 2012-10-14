@@ -15,6 +15,7 @@
 
 ***BUGS***
 
+ - When multithreading, sometimes it prints a keyboard that's worse than the previous best.
  - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
  - preCalculateFitness() causes layouts to be scored incorrectly.
 

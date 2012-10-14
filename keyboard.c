@@ -95,6 +95,17 @@ int kinesisLegalBox2[] = {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 };
 
+void buildShuffledIndices(int indices[], int length)
+{
+	indices[0] = 0;
+	int i, j;
+	for (i = 0; i < length; ++i) {
+		j = rand() % (i + 1);
+		indices[i] = indices[j];
+		indices[j] = i;
+	}
+}
+
 int initKeyboard(Keyboard *k)
 {
 	int i;
@@ -262,24 +273,9 @@ int layoutFromFile(FILE *file, Keyboard *k)
 	return 0;
 }
 
-int copy(Keyboard *k, Keyboard *original)
+void copy(Keyboard *k, Keyboard *original)
 {
-	int i;
-	for (i = 0; i < ksize; ++i) {
-		k->layout[i] = original->layout[i];
-		k->shiftedLayout[i] = original->shiftedLayout[i];
-	}
-	k->fitness    = original->fitness;
-	k->inRoll     = original->inRoll;
-	k->outRoll    = original->outRoll;
-	k->sameHand   = original->sameHand;
-	k->sameFinger = original->sameFinger;
-	k->rowChange  = original->rowChange;
-	k->homeJump   = original->homeJump;
-	k->toCenter   = original->toCenter;
-	k->toOutside  = original->toOutside;
-	
-	return 0;
+	memcpy(k, original, sizeof(Keyboard));
 }
 
 /* 
@@ -518,20 +514,6 @@ int isLegalSwap(Keyboard *k, int i, int j)
 	}
 
 	return TRUE;
-}
-
-void shuffleIndices()
-{
-	int temp, k, n = 2 * trueksize;
-
-	while (n > 1) {
-		k = rand() % n;
-		n--;
-
-		temp = indices[n];
-		indices[n] = indices[k];
-		indices[k] = temp;
-	}
 }
 
 void shuffleLayout(Keyboard *k)
