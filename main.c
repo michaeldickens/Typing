@@ -13,8 +13,7 @@ int main()
 {
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
-//	getCommands();
-    runAlgorithm();
+	getCommands();
 	
 	return 0;
 }
