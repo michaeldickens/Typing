@@ -1,9 +1,10 @@
 ***BIG CHANGES***
 
- - Add multithreading.
+ - Add convergence hacks to the multithreaded algorithm.
+ - Score keyboards using a cost array instead of repeatedly re-calculating costs.
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
  - Make it easier to add new physical keyboard types.
- - Write a subroutine that automatically generates a keyboard file for any platform.
+ - Write a subroutine that automatically generates a .keylayout file for any platform.
 
 ***SMALL CHANGES***
 

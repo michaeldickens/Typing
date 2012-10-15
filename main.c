@@ -15,7 +15,9 @@ int main()
 	setksize(FK_NO);
 //	getCommands();
 	setksize(FK_STANDARD);
-	runThreadedAlgorithm();
+    compare("/Users/MTGAP/XCodeProjects/Typing4/Typing/layoutStore.txt");
+//	runThreadedAlgorithm();
+//    runCJAlgorithm("fullLayoutStore.txt");
 	
 	return 0;
 }

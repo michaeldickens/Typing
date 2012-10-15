@@ -9,30 +9,17 @@
 #include "tools.h"
 
 
-void copyArray(int out[], int in[], int length)
+void copyArray(int dest[], int src[], int length)
 {
-	memcpy(out, in, length * sizeof(int));
+	memcpy(dest, src, length * sizeof(int));
 }
 
-// Reads in a layout from layoutStore.txt and prints it as a computer-readable layout.
-int humanReadableToComputerReadable()
+void printTime(time_t start)
 {
-	FILE *file = fopen("layoutStore.txt", "r");
-	CHECK_FILE_FOR_NULL(file, "layoutStore.txt");
-	int layoutsInStore = 15;
-	
-	char c;
-	int i;
-	printf("\t");
-	for (i = 0; i < 30; ++i) {
-		c = getc(file);
-		printf("layouts[%d].layout[%d] = '", layoutsInStore, i);
-		if (c == '\'') printf("\\"); // Turns ' into \'
-		printf("%c'; ", c);
-		if (i % 5 == 4) printf("\n\t");
-	}
-	
-	return 0;
+    time_t finish = time(NULL);
+    printf("Time elapsed: %ld hours, %ld minutes, %ld seconds\n",
+           (finish-start) / 3600, ((finish - start) % 3600) / 60,
+           (finish-start) % 60);
 }
 
 int initData()
@@ -41,11 +28,11 @@ int initData()
 	
 	int i, j;
 	
-	srand(time(NULL));
+	srand((unsigned int) time(NULL));
 	
 	for (i = 0; i <= ksize; ++i)
 		nilKeyboard.layout[i] = nilKeyboard.shiftedLayout[i] = '\0';
-	nilKeyboard.fitness = INT64_MAX;
+	nilKeyboard.fitness = FITNESS_MAX;
 	nilKeyboard.distance = 0;
 	nilKeyboard.inRoll = 0;
 	nilKeyboard.outRoll = 0;
@@ -91,7 +78,7 @@ void initKeyboardData()
 	int i;
 	
 	char *ptrToOne = strchr(keysToInclude, '1');
-	if (ptrToOne) numStart = ptrToOne - keysToInclude;
+	if (ptrToOne) numStart = (int) (ptrToOne - keysToInclude);
 	else numStart = -1;
 	
 	if (fullKeyboard == FK_NO) {
@@ -643,7 +630,7 @@ int convertEscapeChar(int c)
  */
 int setValue(char *str)
 {
-	int len = strlen(str);
+	size_t len = strlen(str);
 	
 	char *name = str;
 	char *valstr = strchr(str, ' ');
@@ -673,6 +660,8 @@ int setValue(char *str)
 		keepTab = value;
 	} else if (streq(name, "keepNumbersShifted")) {
 		keepNumbersShifted = value;
+    } else if (streq(name, "threadCount")) {
+        threadCount = value;
 	} else if (streq(name, "distance")) {
 		distance = value;
 	} else if (streq(name, "inRoll")) {
@@ -737,6 +726,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepTab);
 	} else if (streq(name, "keepNumbersShifted")) {
 		printf("%s = %d\n\n", name, keepNumbersShifted);
+    } else if (streq(name, "threadCount")) {
+		printf("%s = %d\n\n", name, threadCount);
 	} else if (streq(name, "distance")) {
 		printf("%s = %d\n\n", name, distance);
 	} else if (streq(name, "inRoll")) {

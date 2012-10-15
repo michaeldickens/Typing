@@ -71,7 +71,9 @@ typedef struct {
 
 Keyboard nilKeyboard;
 
-void copyArray(int out[], int in[], int length);
+void copyArray(int dest[], int src[], int length);
+void printTime(time_t start);
+
 int initData();
 void initKeyboardData();
 int initTypingData();

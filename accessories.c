@@ -116,6 +116,7 @@ int getCommands()
 			printf("\t(bool) keepShiftPairs    : shifted/unshifted pairs of special characters stay together\n");
 			printf("\t(bool) keepTab           : keep Tab in place\n");
 			printf("\t(bool) keepNumbersShifted: numbers do not move between shifted and unshifted\n");
+            printf("\tthreadCount: number of threads to create\n");
 			printf("\nThese variables determine the costs for particular key combinations. Higher cost is worse.\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
@@ -204,11 +205,11 @@ int game()
 	score[0] = 0; score[1] = 0;
 	
 	Keyboard k;
-	copy(&k, &nilKeyboard);
+	copyKeyboard(&k, &nilKeyboard);
 	
 	calcFitness(&k);
 	
-	int prev_fitness = k.fitness;
+	int64_t prev_fitness = k.fitness;
 	
 	int keynum;
 	for (keynum = 0; keynum < ksize; ++keynum) {
@@ -273,7 +274,7 @@ int gameComputer(Keyboard *k, char difficulty)
 {
 	int bestp = -1;
 	char bestc = '\0';
-	int64_t score, bestScore = INT64_MAX;
+	int64_t score, bestScore = FITNESS_MAX;
 	
 	Keyboard k2;
 	
@@ -288,7 +289,7 @@ int gameComputer(Keyboard *k, char difficulty)
 			inx = indices[j];
 			if (k->layout[inx]) continue;
 			
-			copy(&k2, k);
+			copyKeyboard(&k2, k);
 			k2.layout[inx] = monKeys[i];
 			
 			calcFitness(&k2);
@@ -340,7 +341,14 @@ int gameComputer(Keyboard *k, char difficulty)
 	return 0;	
 }
 
-/* Calculates worst digraphs for the first keyboard in the given file. */
+/* 
+ * Calculates worst digraphs for the first keyboard in the given file.
+ *
+ * damagingp: If true, finds the most damaging digraphs, i.e. takes into
+ *   account digraph frequency. If false, finds the worst digraphs without
+ *   respect to frequency.
+ */
+
 int worstDigraphsFromFile(const char *const filename, int damagingp)
 {
 	FILE *file = fopen(filename, "r");
@@ -419,6 +427,9 @@ int worstDigraphs(Keyboard *k, int damagingp)
 	return 0;	
 }
 
+/*
+ * Finds the single swap that will improve the layout the most.
+ */
 int bestSwap(Keyboard *k)
 {
 	printf("Sorry, this function is not yet implemented.\n");
@@ -474,13 +485,13 @@ Keyboard improver(Keyboard k)
 	printPercentages(&k);
 	
 	Keyboard tk, bestk;
-	copy(&tk, &k);
-	copy(&bestk, &k);
+	copyKeyboard(&tk, &k);
+	copyKeyboard(&bestk, &k);
 	int64_t bestEval = k.fitness;
 	int64_t curEval = anneal(&tk, NULL, 0);
 	
 	if (curEval < bestEval) {
-		copy(&bestk, &tk);
+		copyKeyboard(&bestk, &tk);
 		bestEval = curEval;
 		printPercentages(&tk);
 	}
@@ -585,7 +596,7 @@ int getNumber(char *description)
 /*
  *  TIMING DATA
  *  
- *  Updated 10 Sep 2012, run on a MacBook Pro 2.7 GHz
+ *  Updated 10 Sep 2012, run on a MacBook Pro 2.7 GHz using one thread
  * 
  *  Main-30 Keyboard: 
  *  
@@ -612,17 +623,18 @@ int getNumber(char *description)
  *  Peter Klausler's program (http://klausler.com/evolved.html)
  *  
  */
+#ifdef SYS_TIME_H
 int runTimingTests()
 {
-	int start, startsec;
+	time_t start, startsec;
 	int i, j;
 	Keyboard tester;
 	Keyboard array[1024];
 	
-	int initAverage = 0;
-	int copyAverage = 0;
-	int fitnessAverage = 0;
-	int locAverage = 0;
+	long initAverage = 0;
+	long copyAverage = 0;
+	long fitnessAverage = 0;
+	long locAverage = 0;
 	
 	struct timeval tv;
 		
@@ -640,7 +652,7 @@ int runTimingTests()
 		gettimeofday(&tv, NULL);
 		start = tv.tv_usec;
 		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) copy(&tester, &array[0]);
+		for (i = 0; i < 100000; ++i) copyKeyboard(&tester, &array[0]);
 		gettimeofday(&tv, NULL);
 		copyAverage = ((copyAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
 
@@ -660,13 +672,14 @@ int runTimingTests()
 		gettimeofday(&tv, NULL);
 		locAverage = ((locAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
 	}
-	printf(" *  Time to initialize 100,000 keyboards:     %d microseconds.\n", initAverage);
-	printf(" *  Time to copy 100,000 keyboards:           %d microseconds.\n", copyAverage);
-	printf(" *  Time to score 100,000 keyboards:          %d microseconds.\n", fitnessAverage);
-	printf(" *  Time to do locW/OShifted() 100,000 times: %d microseconds.\n", locAverage);
+	printf(" *  Time to initialize 100,000 keyboards:     %ld microseconds.\n", initAverage);
+	printf(" *  Time to copy 100,000 keyboards:           %ld microseconds.\n", copyAverage);
+	printf(" *  Time to score 100,000 keyboards:          %ld microseconds.\n", fitnessAverage);
+	printf(" *  Time to do locW/OShifted() 100,000 times: %ld microseconds.\n", locAverage);
 	
 	return 0;
 }
+#endif
 
 /* 
  * Make sure that all of the fitness functions are working correctly. A bug in there 

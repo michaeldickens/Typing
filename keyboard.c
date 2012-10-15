@@ -110,7 +110,7 @@ int initKeyboard(Keyboard *k)
 {
 	int i;
 	
-	copy(k, &nilKeyboard);
+	copyKeyboard(k, &nilKeyboard);
 	setLayout(k, keysToInclude);
 			
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
@@ -208,7 +208,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 	int i;
 	int prevC = 0, c = 0;
 	
-	copy(k, &nilKeyboard);
+	copyKeyboard(k, &nilKeyboard);
 	
 	int readUntilN = FALSE, noNewKeyboard = TRUE, escaped = FALSE;
 	for (i = 0; (c = getc(file)) != EOF && i < 2 * ksize; ++i, prevC = c) {
@@ -217,7 +217,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 			if (c == '\n') readUntilN = FALSE;
 		} else if (c == '/' && prevC == '/') { // "//" comments out the rest of the line.
 			noNewKeyboard = TRUE;
-			copy(k, &nilKeyboard);
+			copyKeyboard(k, &nilKeyboard);
 			readUntilN = TRUE;
 			i = -1;
 		} else if (!escaped && c == '\\') {
@@ -226,13 +226,13 @@ int layoutFromFile(FILE *file, Keyboard *k)
 		} else if (c == '\n') { 
 			if (i > 0) {
 				fprintf(stderr, "Error: In layoutFromFile(), keyboard layout is not %d characters.\n", trueksize);
-				copy(k, &nilKeyboard);
+				copyKeyboard(k, &nilKeyboard);
 				return -1;
 			} else i = -1;
 		} else if (strchr(keysToInclude, c) == NULL) {
 			fprintf(stderr, "Error: In layoutFromFile(), character '%c' (#%d) may not be used in a keyboard.\n", c, c);
 			fprintf(stderr, "i = %d\n", i);
-			copy(k, &nilKeyboard);
+			copyKeyboard(k, &nilKeyboard);
 			return -1;
 		} else {
 			while (i < 2 * ksize && !printable[i % ksize])
@@ -248,7 +248,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 				} else if (strchr(keysToInclude, c) == NULL) {
 					fprintf(stderr, "Error: In layoutFromFile(), escape character '%c' (#%d) may not be used in a keyboard.\n", c, c);
 					fprintf(stderr, "i = %d\n", i);
-					copy(k, &nilKeyboard);
+					copyKeyboard(k, &nilKeyboard);
 					return -1;
 				}
 			}
@@ -273,7 +273,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 	return 0;
 }
 
-void copy(Keyboard *k, Keyboard *original)
+void copyKeyboard(Keyboard *k, Keyboard *original)
 {
 	memcpy(k, original, sizeof(Keyboard));
 }

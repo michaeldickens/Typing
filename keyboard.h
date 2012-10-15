@@ -24,7 +24,7 @@ void buildShuffledIndices(int indices[], int length);
 int initKeyboard(Keyboard *k);
 int setLayout(Keyboard *k, char *layout);
 int layoutFromFile(FILE *file, Keyboard *k);
-void copy(Keyboard *k, Keyboard *original);
+void copyKeyboard(Keyboard *k, Keyboard *original);
 int swap(Keyboard *k, int loc1, int loc2);
 int swapPair(Keyboard *k, int loc1, int loc2);
 int printLayoutOnly(Keyboard *k);

@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#ifdef SYS_TIME_H
+#include <sys/time.h>
+#endif
  
 #define FK_NO 0
 #define FK_STANDARD 1
@@ -29,6 +33,7 @@ int fullKeyboard;
 int ksize, trueksize;
 char *kbdFilename;
 
+#define FITNESS_MAX INT64_MAX
 #define KSIZE_MAX 200
 #define FINGER_COUNT 10
 
@@ -48,10 +53,19 @@ char *kbdFilename;
  */
 #define USE_COST_ARRAY FALSE
 
-#define SIM_ANNEAL_GENERATIONS INT_MAX
-#define GREAT_TO_BEST_GENERATIONS 256
-
 #define INIT_FROM_FILE FALSE
+
+#define ALGORITHM_ROUNDS 16 /* recommended 8-32 */
+#define CHANCE_TO_USE_PREVIOUS_LAYOUT 0.2 /* recommended 0.2 */
+#define RUNS_BEFORE_CHANCE_INC 1 /* recommended 1 */
+#define NUM_SWAPS_BETWEEN_ROUNDS (ksize / 15) /* recommended (ksize / 15) */
+#define RUNS_BEFORE_SWAPS_INC 1 /* recommended 1 */
+
+/* Constants for greatToBest(). */
+#define GTB_ROUNDS 16 /* recommended 64-256 */
+#define RUNS_BEFORE_GTB_ROUNDS_INC 4
+#define GTB_NUMBER_OF_SWAPS 10 /* recommended 10-16 */
+#define GTB_ROUNDS_BEFORE_SWAP_INC 64
 
 int64_t distanceCosts[KSIZE_MAX];
 int64_t  trueDistance[KSIZE_MAX];

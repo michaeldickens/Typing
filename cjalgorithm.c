@@ -2,7 +2,7 @@
  *  cjalgorithm.m
  *  Typing
  *
- *  Created by Chris Johnson and Michael Dickens.
+ *  Written by Chris Johnson and Michael Dickens.
  *
  */
 
@@ -11,11 +11,11 @@
 
 int runCJAlgorithm(const char *const filename)
 {
-	int start = time(NULL), finish;
+	time_t start = time(NULL), finish;
 	int roundNum, isFileEmpty;
 	
 	int64_t curEval;
-	int64_t bestEval = INT64_MAX;
+	int64_t bestEval = FITNESS_MAX;
 
 	Keyboard k = nilKeyboard;
 	Keyboard prevk;
@@ -31,8 +31,6 @@ int runCJAlgorithm(const char *const filename)
 	double subChanceToUseBestLayout = 0.1; /* 0.1 */
 	int numberOfSwaps = ksize / 15;
 	
-	/* TODO: these two need to happen every round within multiRun, not just 
-	 * every outer round */
 	int roundsBeforeChanceInc = 10;
 	int roundsBeforeSwapInc = (600 / ksize > 1 ? 600 / ksize : 1);
 	
@@ -45,8 +43,8 @@ int runCJAlgorithm(const char *const filename)
 	
 	/* Run Chris Johnson's simulated annealing algorithm. */
 	isFileEmpty = (INIT_FROM_FILE ? FALSE : TRUE);
-	for (roundNum = 0; roundNum < SIM_ANNEAL_GENERATIONS; ++roundNum) {
-		copy(&prevk, &k);
+	for (roundNum = 0; ; ++roundNum) {
+		copyKeyboard(&prevk, &k);
 
 		/* chanceToUsePreviousLayout and numberOfSwaps increase as the program 
 		 * runs for longer and longer.
@@ -55,14 +53,18 @@ int runCJAlgorithm(const char *const filename)
 			chanceToUsePreviousLayout = pow(chanceToUsePreviousLayout, 0.7);
 			roundsBeforeChanceInc = (int) (roundsBeforeChanceInc * 1.2) + 1;
 			roundOnChanceInc += roundsBeforeChanceInc;
-			if (detailedOutput) printf("Chance to use previous layout is now %f.\n", chanceToUsePreviousLayout);
+			if (detailedOutput)
+                printf("Chance to use previous layout is now %f.\n",
+                       chanceToUsePreviousLayout);
 		}
 		
 		if (roundNum == roundOnSwapInc) {
 			++numberOfSwaps;
 			roundsBeforeSwapInc = (int) (roundsBeforeSwapInc * 1.1) + 1;
 			roundOnSwapInc += roundsBeforeSwapInc;
-			if (detailedOutput) printf("Number of swaps between rounds is now %d.\n", numberOfSwaps);
+			if (detailedOutput)
+                printf("Number of swaps between rounds is now %d.\n",
+                       numberOfSwaps);
 		}
 
 		/* Create the optimized keyboard for this round. */
@@ -81,8 +83,8 @@ int runCJAlgorithm(const char *const filename)
 				/* There is a 1 out of subChanceToUseBestLayout chance that the 
 				 * best layout will be used instead of the last layout.
 				 */
-				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copy(&k, &bestk);
-				else copy(&k, &prevk);
+				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copyKeyboard(&k, &bestk);
+				else copyKeyboard(&k, &prevk);
 				
 				smartMutate(NULL, &k, numberOfSwaps);
 			} else {
@@ -104,17 +106,17 @@ int runCJAlgorithm(const char *const filename)
 			if (usedPreviousLayout && detailedOutput) {
 				printf("\nFound from previous layout: \n");
 			}
-			copy(&bestk, &k);
+			copyKeyboard(&bestk, &k);
 			bestEval = curEval;
 			printPercentages(&k);
 
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 		} else if (curEval == bestEval && detailedOutput) {
 			printf("Same layout found\n");
 		} else if (time(NULL) - finish >= intervalBetweenPrints) {
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 			++intervalInc;
 			if (intervalInc >= 4) {
 				intervalInc = 0;
@@ -123,25 +125,25 @@ int runCJAlgorithm(const char *const filename)
 		}
 
 		if (roundNum % greatToBestInterval == greatToBestInterval - 1) {
-			int64_t newBestEval = greatToBest(&bestk);
+			greatToBest(&bestk, GTB_ROUNDS);
 			
 			if (greatToBestInterval > 1 && 
 					roundNum % roundsBeforeGTBIDec == roundsBeforeGTBIDec - 1)
 				greatToBestInterval /= 2;
 			
-			if (newBestEval < bestEval) {
-				bestEval = newBestEval;
+			if (bestk.fitness < bestEval) {
+				bestEval = bestk.fitness;
 				printPercentages(&bestk);
 
 				finish = time(NULL);
-				printf("Time elapsed after greatToBest(): %d hours, %d minutes, %d seconds\n", 
+				printf("Time elapsed after greatToBest(): %ld hours, %ld minutes, %ld seconds\n", 
 					(finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);			
 			}
 		}
 	}
 		
 	finish = time(NULL);
-	printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+	printf("\nTime elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 
     return 0;
 }
@@ -151,36 +153,71 @@ int runCJAlgorithm(const char *const filename)
  * Uses multiple threads to search for an optimal keyboard layout.
  */
 void runThreadedAlgorithm()
-{
-	Keyboard bestk;
-	copy(&bestk, &nilKeyboard);
-	time_t start = time(NULL), finish = time(NULL), printInterval = 30;
-	
+{	
 	struct ThreadArg arg;
-	copy(&arg.bestk, &nilKeyboard);
-	arg.numRounds = 64;
-	arg.start = start;
+	copyKeyboard(&arg.bestk, &nilKeyboard);
+	arg.numRounds = ALGORITHM_ROUNDS;
+	arg.startTime = time(NULL);
 	arg.threadCount = threadCount;
+    arg.chanceToUsePreviousLayout = CHANCE_TO_USE_PREVIOUS_LAYOUT;
+    arg.numberOfSwaps = NUM_SWAPS_BETWEEN_ROUNDS;
 	arg.isFinished = FALSE;
+    
+    int runsBeforeChanceInc = RUNS_BEFORE_CHANCE_INC;
+    int runsBeforeSwapsInc = RUNS_BEFORE_SWAPS_INC;
+    int gtbRounds = GTB_ROUNDS;
+    
+    int64_t prevBestFitness = FITNESS_MAX;
 	
-	while (TRUE) {
+    int runNum;
+	for (runNum = 0; ; ++runNum) {
+        if (runNum % runsBeforeChanceInc == 0) {
+            arg.chanceToUsePreviousLayout =
+                    pow(arg.chanceToUsePreviousLayout, 0.7);
+			runsBeforeChanceInc = (int) (runsBeforeChanceInc * 1.2) + 1;
+			if (detailedOutput)
+                printf("Chance to use previous layout is now %f.\n",
+                       arg.chanceToUsePreviousLayout);
+        }
+        
+        if (runNum % runsBeforeSwapsInc == 0) {
+            ++arg.numberOfSwaps;
+			runsBeforeSwapsInc = (int) (runsBeforeSwapsInc * 1.1) + 1;
+			if (detailedOutput)
+                printf("Number of swaps between rounds is now %d.\n",
+                       arg.numberOfSwaps);
+        }
+        
+        if (runNum % RUNS_BEFORE_GTB_ROUNDS_INC == 0) {
+            gtbRounds *= 2;
+            if (detailedOutput)
+                printf("Number of rounds in greatToBest() is now %d.\n",
+                       gtbRounds);
+        }
+        
 		runThreadsRec((void *) (&arg));
 		
-		/* TODO: Add greatToBest and convergence hacks. Keep running threads 
-		 * while greatToBest is going.
-		 */
-		
-		finish = time(NULL);
-		
-		if (arg.bestk.fitness < bestk.fitness) {
-			copy(&bestk, &arg.bestk);
-			
-			printPercentages(&bestk);
-			printf("Time elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);	
-		} else if (finish - start >= printInterval) {
-			printf("Time elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);	
-			printInterval *= 2;
-		}
+		/* TODO: Add convergence hacks. */
+        
+        if (arg.bestk.fitness < prevBestFitness) {
+            prevBestFitness = arg.bestk.fitness;
+            printPercentages(&arg.bestk);
+            printTime(arg.startTime);
+        } else if ((double) (int) (log2(runNum) * 4) == log2(runNum) * 4) {
+            /* TODO: this never prints */
+            printTime(arg.startTime);
+        }
+        
+        int64_t bestBeforeGTB = arg.bestk.fitness;
+        greatToBest(&arg.bestk, gtbRounds);
+        
+        if (arg.bestk.fitness < bestBeforeGTB) {
+            prevBestFitness = arg.bestk.fitness;
+            if (detailedOutput)
+                printf("\n***Found from greatToBest()***\n");
+            printPercentages(&arg.bestk);
+            printTime(arg.startTime);
+        }
 	}
 }
 
@@ -188,8 +225,8 @@ void runThreadedAlgorithm()
  * This is the core function called by runThreadedAlgorithm(). It uses the 
  * following process to avoid as much downtime as possible.
  * 
- *  1. If threadCount == 0, call runSingleThread and return.
- *  2. Recursively call this function with a decremented threadCount.
+ *  1. If threadCount <= 1, run anneal() numRounds times.
+ *  2. Otherwise, recursively call this function with a decremented threadCount.
  *  3. Until the inner call of this function returns, keep running anneal().
  *  4. If the inner call found a bestk better than the current call, set the 
  *     current bestk to the inner bestk.
@@ -204,54 +241,55 @@ void runThreadedAlgorithm()
 void * runThreadsRec(void *arg)
 {
 	struct ThreadArg *threadArg = (struct ThreadArg *) arg;
-
-	if (threadArg->threadCount <= 1) {
-		return runSingleThread(arg);
-	}
 		
 	struct ThreadArg innerArg;
-	copy(&innerArg.bestk, &nilKeyboard);
-	innerArg.numRounds = threadArg->numRounds;
-	innerArg.start = threadArg->start;
+	copyThreadArg(&innerArg, threadArg);
 	innerArg.threadCount = threadArg->threadCount - 1;
 	innerArg.isFinished = FALSE;
 	
-	pthread_t thread;
-	int ret = pthread_create(&thread, NULL, &runThreadsRec, 
-			(void *) (&innerArg));
-	if (ret) return (void *) ret;
+    if (threadArg->threadCount > 1) {
+        pthread_t thread;
+        int ret = pthread_create(&thread, NULL, &runThreadsRec, 
+                                 (void *) (&innerArg));
+        if (ret) {
+            threadArg->isFinished = TRUE;
+            return (void *) ret;
+        }
+    }
 	
-	Keyboard k;
-	while (!innerArg.isFinished) {
-		initKeyboard(&k);
-		anneal(&k, NULL, 0);
-				
+	Keyboard k, prevk;
+    copyKeyboard(&k, &nilKeyboard);
+    copyKeyboard(&prevk, &nilKeyboard);
+    
+    int i;
+	for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
+                !innerArg.isFinished; ++i) {
+        if (i > 0 && rand() / RAND_MAX < threadArg->chanceToUsePreviousLayout) {
+            copyKeyboard(&k, &prevk);
+            smartMutate(NULL, &k, threadArg->numberOfSwaps);
+        } else {
+            initKeyboard(&k);
+        }
+		
+        anneal(&k, NULL, 0);
+        copyKeyboard(&prevk, &k);
+        
 		if (k.fitness < threadArg->bestk.fitness) {
-			copy(&threadArg->bestk, &k);
-		}	
-	}
+            copyKeyboard(&threadArg->bestk, &k);
+            
+            /* Only print keyboards on the bottom thread. This is less 
+             * cluttered than printing from every thread, and the user still 
+             * gets to see something.
+             */
+            if (threadArg->threadCount <= 1) {
+                printPercentages(&threadArg->bestk);
+                printTime(threadArg->startTime);
+            }
+        }
+    }
 		
 	if (innerArg.bestk.fitness < threadArg->bestk.fitness) {
-		copy(&threadArg->bestk, &innerArg.bestk);
-	}
-	
-	threadArg->isFinished = TRUE;
-	return NULL;
-}
-
-void * runSingleThread(void *arg)
-{
-	struct ThreadArg *threadArg = (struct ThreadArg *) arg;
-	
-	Keyboard k;
-	int i;
-	for (i = 0; i < threadArg->numRounds; ++i) {
-		initKeyboard(&k);
-		anneal(&k, NULL, 0);
-		
-		if (k.fitness < threadArg->bestk.fitness) {
-			copy(&threadArg->bestk, &k);
-		}			
+		copyKeyboard(&threadArg->bestk, &innerArg.bestk);
 	}
 	
 	threadArg->isFinished = TRUE;
@@ -261,51 +299,73 @@ void * runSingleThread(void *arg)
 /* Take a great keyboard and make it the best keyboard. Uses an optimization 
  * heuristic that works best for nearly-optimal keyboards.
  */
-int64_t greatToBest(Keyboard *k)
+void greatToBest(Keyboard *k, int numRounds)
 {
-	Keyboard bestk;
-	copy(&bestk, k);
+	struct ThreadArg arg;
+    initThreadArg(&arg);
+	copyKeyboard(&arg.bestk, k);
+	arg.numRounds = numRounds;
+	arg.threadCount = threadCount;
+	arg.isFinished = FALSE;
 	
-	calcFitness(&bestk);
-	int64_t curEval, bestEval = bestk.fitness;
-	int numberOfSwaps = 16;
-	int roundsBeforeSwapInc = 16;
+	greatToBestThreadRec((void *) (&arg));
+    copyKeyboard(k, &arg.bestk);
+}
+
+void * greatToBestThreadRec(void *arg)
+{
+    struct ThreadArg *threadArg = (struct ThreadArg *) arg;
+    
+	Keyboard k;
+    copyKeyboard(&k, &threadArg->bestk);
+	
+	struct ThreadArg innerArg;
+	copyThreadArg(&innerArg, threadArg);
+	innerArg.threadCount = threadArg->threadCount - 1;
+	innerArg.isFinished = FALSE;
+	
+    if (threadArg->threadCount > 1) {
+        pthread_t thread;
+        int ret = pthread_create(&thread, NULL, &greatToBestThreadRec, 
+                                 (void *) (&innerArg));
+        if (ret) {
+            threadArg->isFinished = TRUE;
+            return (void *) ret;
+        }
+    }
+	
+	int numberOfSwaps = GTB_NUMBER_OF_SWAPS;
 	
 	int i;
-	for (i = 0; i < GREAT_TO_BEST_GENERATIONS; ++i) {
-		if (i % roundsBeforeSwapInc == 0) {
+	for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
+                !innerArg.isFinished; ++i) {
+		if (i % GTB_ROUNDS_BEFORE_SWAP_INC == GTB_ROUNDS_BEFORE_SWAP_INC - 1) {
 			++numberOfSwaps;
 		}
+        
+        copyKeyboard(&k, &threadArg->bestk);
 		
-		/* Any swaps made by smartMutate() may not be undone by anneal(). */
+		/* Any swaps made by smartMutate() are "locked in" and may not be 
+         * undone by anneal().
+         */
 		int lockins[numberOfSwaps][2];
-		smartMutate(lockins, k, numberOfSwaps);
+		smartMutate(lockins, &k, numberOfSwaps);
 		
-		if (i % 2 == 0) curEval = anneal(k, lockins, numberOfSwaps);
-		else curEval = anneal(k, NULL, 0);
+        /* Use lockins only half the time. */
+		if (i % 2 == 0) anneal(&k, lockins, numberOfSwaps);
+		else anneal(&k, NULL, 0);
 		
-		calcFitness(k);
-		if (curEval < bestEval) {
-			copy(&bestk, k);
-			bestEval = curEval;
+		calcFitness(&k);
+		if (k.fitness < threadArg->bestk.fitness) {
+			copyKeyboard(&threadArg->bestk, &k);
 		}
 	}
-	
-	copy(k, &bestk);
-	return bestEval;
+	    
+    threadArg->isFinished = TRUE;
+	return NULL;
 }
 
-int64_t greatToBestThread(Keyboard *k, int generations)
-{
-	int i;
-	for (i = 0; i < generations; ++i) {
-        
-    }
-    
-    /* TODO: Finish implementing this */
-}
-
-int64_t greatToBestBruteForce(Keyboard *k)
+void greatToBestBruteForce(Keyboard *k)
 {
 	int i, j, length = 9;
 	int locs[length], origLocs[length];
@@ -340,18 +400,17 @@ int64_t greatToBestBruteForce(Keyboard *k)
 	/* Initialize the keyboards. */
 	calcFitness(k);
 	Keyboard origk;
-	copy(&origk, k);
+	copyKeyboard(&origk, k);
 
 	/* Find the best permutation. */
 	int p[length];
 	int used[length];
 	memset(used, 0, sizeof(int) * length);
 	tryPermutations(length, p, 0, used, locs, k, &origk);
-	
-	return k->fitness;
 }
 
-/* Adapted from the permutation algorithm used in the Ruby 1.9 standard library.
+/* 
+ * Adapted from the permutation algorithm used in the Ruby 1.9 standard library.
  * 
  * p: the array of indices that we're filling in
  * index: what index we're filling in now
@@ -380,7 +439,7 @@ int tryPermutations(int length, int *p, int index, int *used, int *locs,
 				calcFitness(origk);
 								
 				if (origk->fitness < bestk->fitness)
-					copy(bestk, origk);
+					copyKeyboard(bestk, origk);
 
 				/* Put keys back to their original spots. */
 				for (j = 0; j < length; ++j)
@@ -392,11 +451,14 @@ int tryPermutations(int length, int *p, int index, int *used, int *locs,
 	return 0;
 }
 
+/* 
+ * Simulated annealing algorithm written by Chris Johnson.
+ */
 int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 {
 	int64_t lastEvaluation, evaluation;
 	int64_t lastImprovement = 0;
-	int64_t evaluationToBeat = INT64_MAX;
+	int64_t evaluationToBeat = FITNESS_MAX;
 		
 	/* Do the "zeroth" iteration */
 	calcFitness(k);
@@ -419,6 +481,9 @@ int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 	return evaluation;
 }
 
+/* 
+ * Written by Chris Johnson.
+ */
 int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k, 
 	int lockins[][2], size_t lockin_length)
 {
@@ -484,7 +549,7 @@ int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k,
  * 
  * Alternatively, 
  *   P(n) = (q-1)^(n-1) / q^n
- * (This condensed formula does not necessarily apply for the last element.)
+ * (This formula does not necessarily apply for the last element.)
  * 
  * These probabilities are only correct if every swap is legal. If not, legal 
  * swaps are somewhat more probable and illegal swaps are of course completely 
@@ -504,8 +569,7 @@ int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps)
 	
 	int i, j;
 	
-	/* This is slow, but it's okay because this function is not called often.
-	 */
+	/* Fills charsToSwap. */
 	for (j = 0; j < swapslen; ++j) {
 		charsToSwap[j] = monKeys[0];
 
@@ -522,8 +586,10 @@ int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps)
 		lc1 = locWithShifted(k, charsToSwap[i]);
 		lc2 = locWithShifted(k, charsToSwap[i+1]);
 		
-		if (swapIndices) swapIndices[i / 2][0] = lc1;
-		if (swapIndices) swapIndices[i / 2][1] = lc2;
+		if (swapIndices) {
+            swapIndices[i / 2][0] = lc1;
+            swapIndices[i / 2][1] = lc2;
+        }
 		
 		if (isLegalSwap(k, lc1, lc2)) {
 			swap(k, lc1, lc2);
@@ -533,3 +599,12 @@ int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps)
 	return 0;
 }
 
+void initThreadArg(struct ThreadArg *arg)
+{
+    memset(arg, 0, sizeof(struct ThreadArg));
+}
+
+void copyThreadArg(struct ThreadArg *dest, struct ThreadArg *src)
+{
+    memcpy(dest, src, sizeof(struct ThreadArg));
+}
