@@ -92,7 +92,7 @@ void initCosts()
 	detailedOutput = TRUE;
     
     /* If you do not wish to use multithreading, set threadCount to 1. */
-	threadCount = 4;
+	threadCount = 2;
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
