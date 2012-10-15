@@ -7,152 +7,11 @@
  */
 
 #include "cjalgorithm.h"
- 
-
-int runCJAlgorithm(const char *const filename)
-{
-	time_t start = time(NULL), finish;
-	int roundNum, isFileEmpty;
-	
-	int64_t curEval;
-	int64_t bestEval = FITNESS_MAX;
-
-	Keyboard k = nilKeyboard;
-	Keyboard prevk;
-	Keyboard bestk = nilKeyboard;
-	
-	FILE *file = fopen(filename, "r");
-	CHECK_FILE_FOR_NULL(file, filename);
-	
-	// The simulated annealing algorithm is seeded with either a completely random 
-	// layout or a mutated version of the last layout found so far. The probabilty 
-	// of using a mutated last layout is chanceToUsePreviousLayout.
-	double chanceToUsePreviousLayout = 0.2; /* 0.2 */
-	double subChanceToUseBestLayout = 0.1; /* 0.1 */
-	int numberOfSwaps = ksize / 15;
-	
-	int roundsBeforeChanceInc = 10;
-	int roundsBeforeSwapInc = (600 / ksize > 1 ? 600 / ksize : 1);
-	
-	int roundOnChanceInc = roundsBeforeChanceInc, 
-		roundOnSwapInc = roundsBeforeSwapInc;
-	int greatToBestInterval = 64, roundsBeforeGTBIDec = 200;
-
-	int usedPreviousLayout = FALSE;
-	int intervalBetweenPrints = 60, intervalInc = 0;
-	
-	/* Run Chris Johnson's simulated annealing algorithm. */
-	isFileEmpty = (INIT_FROM_FILE ? FALSE : TRUE);
-	for (roundNum = 0; ; ++roundNum) {
-		copyKeyboard(&prevk, &k);
-
-		/* chanceToUsePreviousLayout and numberOfSwaps increase as the program 
-		 * runs for longer and longer.
-		 */
-		if (roundNum == roundOnChanceInc) {
-			chanceToUsePreviousLayout = pow(chanceToUsePreviousLayout, 0.7);
-			roundsBeforeChanceInc = (int) (roundsBeforeChanceInc * 1.2) + 1;
-			roundOnChanceInc += roundsBeforeChanceInc;
-			if (detailedOutput)
-                printf("Chance to use previous layout is now %f.\n",
-                       chanceToUsePreviousLayout);
-		}
-		
-		if (roundNum == roundOnSwapInc) {
-			++numberOfSwaps;
-			roundsBeforeSwapInc = (int) (roundsBeforeSwapInc * 1.1) + 1;
-			roundOnSwapInc += roundsBeforeSwapInc;
-			if (detailedOutput)
-                printf("Number of swaps between rounds is now %d.\n",
-                       numberOfSwaps);
-		}
-
-		/* Create the optimized keyboard for this round. */
-		int fileReadRes = FILE_READ_NOT_HAPPEN;
-		if (INIT_FROM_FILE && !isFileEmpty) {
-			if ((fileReadRes = layoutFromFile(file, &k)) != 0) {
-				isFileEmpty = TRUE;
-				fclose(file);
-				file = NULL;
-			}
-		} 
-				
-		if (isFileEmpty || fileReadRes == FILE_READ_NOT_HAPPEN) {
-			if (roundNum > 0 && (double) rand() / RAND_MAX <= chanceToUsePreviousLayout) {				
-				usedPreviousLayout = TRUE;
-				/* There is a 1 out of subChanceToUseBestLayout chance that the 
-				 * best layout will be used instead of the last layout.
-				 */
-				if ((double) rand() / RAND_MAX <= subChanceToUseBestLayout) copyKeyboard(&k, &bestk);
-				else copyKeyboard(&k, &prevk);
-				
-				smartMutate(NULL, &k, numberOfSwaps);
-			} else {
-				usedPreviousLayout = FALSE;
-				initKeyboard(&k);
-			}
-			
-			if (REPEAT_LAYOUTSTORE) {
-				if (file) fclose(file);
-				file = fopen(filename, "r");
-				CHECK_FILE_FOR_NULL(file, filename);
-				isFileEmpty = FALSE;
-			}
-		}
-		
-		curEval = anneal(&k, NULL, 0);
-		
-		if (curEval < bestEval) {
-			if (usedPreviousLayout && detailedOutput) {
-				printf("\nFound from previous layout: \n");
-			}
-			copyKeyboard(&bestk, &k);
-			bestEval = curEval;
-			printPercentages(&k);
-
-			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-		} else if (curEval == bestEval && detailedOutput) {
-			printf("Same layout found\n");
-		} else if (time(NULL) - finish >= intervalBetweenPrints) {
-			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-			++intervalInc;
-			if (intervalInc >= 4) {
-				intervalInc = 0;
-				intervalBetweenPrints *= 2;
-			}
-		}
-
-		if (roundNum % greatToBestInterval == greatToBestInterval - 1) {
-			greatToBest(&bestk, GTB_ROUNDS);
-			
-			if (greatToBestInterval > 1 && 
-					roundNum % roundsBeforeGTBIDec == roundsBeforeGTBIDec - 1)
-				greatToBestInterval /= 2;
-			
-			if (bestk.fitness < bestEval) {
-				bestEval = bestk.fitness;
-				printPercentages(&bestk);
-
-				finish = time(NULL);
-				printf("Time elapsed after greatToBest(): %ld hours, %ld minutes, %ld seconds\n", 
-					(finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);			
-			}
-		}
-	}
-		
-	finish = time(NULL);
-	printf("\nTime elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
-
-    return 0;
-}
-
 
 /*
  * Uses multiple threads to search for an optimal keyboard layout.
  */
-void runThreadedAlgorithm()
+void runAlgorithm()
 {	
 	struct ThreadArg arg;
 	copyKeyboard(&arg.bestk, &nilKeyboard);
@@ -166,6 +25,8 @@ void runThreadedAlgorithm()
     int runsBeforeChanceInc = RUNS_BEFORE_CHANCE_INC;
     int runsBeforeSwapsInc = RUNS_BEFORE_SWAPS_INC;
     int gtbRounds = GTB_ROUNDS;
+    time_t printTimeInterval = PRINT_TIME_INTERVAL;
+    time_t timeOnPrint = time(NULL) + printTimeInterval;
     
     int64_t prevBestFitness = FITNESS_MAX;
 	
@@ -196,16 +57,21 @@ void runThreadedAlgorithm()
         }
         
 		runThreadsRec((void *) (&arg));
-		
-		/* TODO: Add convergence hacks. */
-        
+		        
         if (arg.bestk.fitness < prevBestFitness) {
             prevBestFitness = arg.bestk.fitness;
             printPercentages(&arg.bestk);
             printTime(arg.startTime);
-        } else if ((double) (int) (log2(runNum) * 4) == log2(runNum) * 4) {
+            
+            /* If a keyboard was just printed, don't print the time for  
+             * a while.
+             */
+            timeOnPrint = time(NULL) + printTimeInterval;
+        } else if (time(NULL) >= timeOnPrint) {
             /* TODO: this never prints */
             printTime(arg.startTime);
+            timeOnPrint = time(NULL) + printTimeInterval;
+            printTimeInterval = 1.5 * printTimeInterval + 1;
         }
         
         int64_t bestBeforeGTB = arg.bestk.fitness;

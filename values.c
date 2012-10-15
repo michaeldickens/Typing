@@ -90,7 +90,8 @@ int initValues()
 void initCosts()
 {
 	detailedOutput = TRUE;
-	useMultithreading = TRUE;
+    
+    /* If you do not wish to use multithreading, set threadCount to 1. */
 	threadCount = 4;
 	
 	keepZXCV = FALSE;

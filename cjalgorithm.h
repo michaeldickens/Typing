@@ -29,9 +29,7 @@ struct ThreadArg {
 	int isFinished;
 };
 
-int runCJAlgorithm(const char *const filename);
-
-void runThreadedAlgorithm();
+void runAlgorithm();
 void * runThreadsRec(void *arg);
 
 void greatToBest(Keyboard *k, int numRounds);

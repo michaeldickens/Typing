@@ -55,16 +55,17 @@ char *kbdFilename;
 
 #define INIT_FROM_FILE FALSE
 
-#define ALGORITHM_ROUNDS 16 /* recommended 8-32 */
-#define CHANCE_TO_USE_PREVIOUS_LAYOUT 0.2 /* recommended 0.2 */
-#define RUNS_BEFORE_CHANCE_INC 1 /* recommended 1 */
-#define NUM_SWAPS_BETWEEN_ROUNDS (ksize / 15) /* recommended (ksize / 15) */
-#define RUNS_BEFORE_SWAPS_INC 1 /* recommended 1 */
+#define ALGORITHM_ROUNDS 16                     /* recommended 8-32 */
+#define CHANCE_TO_USE_PREVIOUS_LAYOUT 0.2       /* recommended 0.2 */
+#define RUNS_BEFORE_CHANCE_INC 1                /* recommended 1 */
+#define NUM_SWAPS_BETWEEN_ROUNDS (ksize / 15)   /* recommended (ksize / 15) */
+#define RUNS_BEFORE_SWAPS_INC 1                 /* recommended 1 */
+#define PRINT_TIME_INTERVAL 60
 
 /* Constants for greatToBest(). */
-#define GTB_ROUNDS 16 /* recommended 64-256 */
-#define RUNS_BEFORE_GTB_ROUNDS_INC 4
-#define GTB_NUMBER_OF_SWAPS 10 /* recommended 10-16 */
+#define GTB_ROUNDS 16                   /* recommended 16-64 */
+#define RUNS_BEFORE_GTB_ROUNDS_INC 4    /* recommended 4-20 */
+#define GTB_NUMBER_OF_SWAPS 10          /* recommended 10-16 */
 #define GTB_ROUNDS_BEFORE_SWAP_INC 64
 
 int64_t distanceCosts[KSIZE_MAX];
@@ -74,7 +75,7 @@ int64_t shortcutCosts[KSIZE_MAX];
 double fingerPercentMaxes[FINGER_COUNT];
 int64_t fingerWorkCosts[FINGER_COUNT];
 
-int detailedOutput, useMultithreading, threadCount;
+int detailedOutput, threadCount;
 
 /* 0 for false, 1 for true. 
  * keepNumbers: 2 if numbers can move about but must stay in number row.

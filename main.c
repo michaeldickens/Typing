@@ -14,10 +14,7 @@ int main()
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
 //	getCommands();
-	setksize(FK_STANDARD);
-    compare("/Users/MTGAP/XCodeProjects/Typing4/Typing/layoutStore.txt");
-//	runThreadedAlgorithm();
-//    runCJAlgorithm("fullLayoutStore.txt");
+    runAlgorithm();
 	
 	return 0;
 }

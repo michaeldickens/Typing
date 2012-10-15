@@ -42,7 +42,7 @@ int getCommands()
 
 		} else if (streq(cmd, "algorithm")) {
 			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
-			runCJAlgorithm(kbdFilename);
+			runAlgorithm();
 
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
 			const char *const filename = cmd + strlen("best swap ");
