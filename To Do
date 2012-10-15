@@ -1,9 +1,10 @@
 ***BIG CHANGES***
 
+ - Add convergence hacks to the multithreaded algorithm.
+ - Score keyboards using a cost array instead of repeatedly re-calculating costs.
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
- - Add shift, space, enter, backspace, tab. On Kinesis, add thumb pads and leftmost column.
  - Make it easier to add new physical keyboard types.
- - Write a subroutine that automatically generates a keyboard file for any platform.
+ - Write a subroutine that automatically generates a .keylayout file for any platform.
 
 ***SMALL CHANGES***
 
@@ -15,7 +16,9 @@
 
 ***BUGS***
 
+ - When multithreading, sometimes it prints a keyboard that's worse than the previous best.
  - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
+ - preCalculateFitness() causes layouts to be scored incorrectly.
 
 Possibly Fixed: 
  - Parallel parentheses don't work on the standard keyboard, only Kinesis.

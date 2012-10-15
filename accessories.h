@@ -13,28 +13,22 @@ int getCommands();
 int game();
 int gameComputer(Keyboard *k, char difficulty);
 
-/* 
- * damagingp: If true, finds the most damaging digraphs, i.e. takes into 
- *   account digraph frequency. If false, finds the worst digraphs without 
- *   respect to frequency.
- */
-void worstDigraphsFromFile(char *filename, int damagingp);
+int worstDigraphsFromFile(const char *filename, int damagingp);
 int worstDigraphs(Keyboard *k, int damagingp);
 
-/* 
- * Finds the single swap that will improve the layout the most.
- */
 int bestSwap(Keyboard *k);
 
-int compare(char *filename);
+int compare(const char *filename);
 
-void improveFromFile(char *filename);
+int improveFromFile(const char *filename);
 Keyboard improver(Keyboard k);
 
 int makeTypingData();
 int getNumber(char *description);
 
-//int runTimingTests();
+#ifdef SYS_TIME_H
+int runTimingTests();
+#endif
 
 int testFitness();
 int testResult(int result, int expected);

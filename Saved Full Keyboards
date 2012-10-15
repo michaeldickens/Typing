@@ -20,6 +20,11 @@ Home jump:     0.26%
 To center:     2.29%
 To outside:    0.50%
 
+***************
+***************
+***************
+
+
 MTGAP Kinesis -- Tentative Version
 
 1 2 3 4 5  6 7 8 9 0 q
@@ -42,6 +47,11 @@ To outside:    0.39%
 
 Time elapsed: 0 hours, 6 minutes, 14 seconds
 
+***************
+***************
+***************
+
+
 MTGAP Full -- Tentative Version
 
 = 1 2 3 4 5  6 7 8 9 0 q z   
@@ -62,3 +72,37 @@ To outside:    0.52%
 
 
 Time elapsed: 0 hours, 23 minutes, 25 seconds
+
+***************
+***************
+***************
+
+
+MTGAP Full (8/??/12)
+
+Hands: 50% 49%
+Fingers: 9.0% 9.0% 19% 14% 0.00% 0.00% 15% 15% 10% 9.0% 
+
+ ^  ~  [  /  |  %   #  <  >  ]  +  Q  Z    
+    Y  P  O  U  =   K  D  L  C  W  *  X  @
+    I  N  E  A  :   M  H  T  S  R  !       
+    `  {  }  ?  &   B  F  G  V  J          
+
+ \  1  2  3  4  5   6  7  8  9  0  q  z    
+    y  p  o  u  -   k  d  l  c  w  ;  x  $
+    i  n  e  a  ,   m  h  t  s  r  "       
+    (  )  '  .  _   b  f  g  v  j          
+
+Fitness:       17371911
+Distance:      33560
+Finger work:   57956
+Inward rolls:  10.08%
+Outward rolls: 2.36%
+Same hand:     34.41%
+Same finger:   1.54%
+Row change:    12.75%
+Home jump:     1.05%
+Ring jump:     3.21%
+To center:     2.69%
+To outside:    0.53%
+

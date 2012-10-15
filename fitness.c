@@ -10,9 +10,10 @@
 
 #include "keyboard.h"
 
-// For all score calculators, it is assumed that loc0 and loc1 are on the same hand.
-
-// Calculates the stats for k. Useful for human-readable output.
+/*
+ * Calculates fitness without score multipliers. Useful for producing 
+ * human-readable output.
+ */
 int calcFitnessDirect(Keyboard *k)
 {
 	calcFitness(k); // Otherwise, k->fitness, k->fingerUsage, and k->fingerWork 
@@ -39,13 +40,12 @@ int calcFitnessDirect(Keyboard *k)
 	return 0;
 }
 
-int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
+int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier)
 {
 	int locs[2];
 	int i;
 	for (i = 0; i < 2; ++i) locs[i] = locWithoutShifted(k, digraph[i]);
 	
-	// These all require that the hand be the same.
 	if (hand[locs[0]] == hand[locs[1]]) {
 		if (calcInRoll    (locs[0], locs[1]) != 0) k->inRoll     += multiplier;
 		if (calcOutRoll   (locs[0], locs[1]) != 0) k->outRoll    += multiplier;
@@ -63,30 +63,33 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int multiplier)
 
 int preCalculateFitness()
 {
-	NOT_WORK_WITH_full_keyboard("preCalculateFitness")
+	NOT_WORK_WITH_FULL_KEYBOARD("preCalculateFitness")
 	int i, j;
 	
-	int costs[900];
-	for (i = 0; i < 900; ++i) costs[i] = 0;
+	for (i = 0; i < 900; ++i) allDigraphCosts[i] = 0;
 	
-	for (i = 0; i < 30; ++i)
+	for (i = 0; i < 30; ++i) {
 		for (j = 0; j < 30; ++j) {
-			costs[30*i + j] += (distanceCosts[i] + distanceCosts[j]) * monValues[i] * distance;
+			int index = 30*i + j;
+			allDigraphCosts[index] += (distanceCosts[i] + distanceCosts[j]) * 
+					monValues[i] * distance;
+			int64_t multiplier = diValues[index];
 			if (hand[i] == hand[j]) {
-				costs[30*i + j]	+= calcInRoll    (i, j);	
-				costs[30*i + j] += calcOutRoll   (i, j);	
-				costs[30*i + j] += sameHand		   ;
-				costs[30*i + j] += calcSameFinger(i, j);
-				costs[30*i + j] += calcRowChange (i, j);
-				costs[30*i + j] += calcHomeJump  (i, j);
-				costs[30*i + j] += calcRingJump  (i, j);
-				costs[30*i + j] += calcToCenter  (i, j);
-				costs[30*i + j] += calcToOutside (i, j);
+				allDigraphCosts[index] += sameHand;
+				allDigraphCosts[index] += calcSameFinger(i, j);
+
+				if (finger[i] != THUMB && finger[j] != THUMB) {
+					allDigraphCosts[index] += calcInRoll   (i, j) * multiplier;	
+					allDigraphCosts[index] += calcOutRoll  (i, j) * multiplier;	
+					allDigraphCosts[index] += calcRowChange(i, j) * multiplier;
+					allDigraphCosts[index] += calcHomeJump (i, j) * multiplier;
+					allDigraphCosts[index] += calcRingJump (i, j) * multiplier;
+					allDigraphCosts[index] += calcToCenter (i, j) * multiplier;
+					allDigraphCosts[index] += calcToOutside(i, j) * multiplier;
+				}
 			}
 		}
-		
-	for (i = 0; i < 900; ++i)
-		printf("costs[%d] = %d;\n", i, costs[i]);
+	}
 		
 	return 0;
 }
@@ -127,7 +130,7 @@ int calcFitness(Keyboard *k)
 	 */
 	for (i = 0; i < monLen; ++i) {
 		int lc = locs[monKeys[i]] % ksize;
-		if (lc != -1) k->distance += distanceCosts[lc] * monValues[i] * distance;
+		if (lc >= 0) k->distance += distanceCosts[lc] * monValues[i] * distance;
 		
 		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
 		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += monValues[i];
@@ -142,14 +145,16 @@ int calcFitness(Keyboard *k)
 	if (keepParentheses) k->fitness += calcBrackets(k);
 	if (keepNumbersShifted) k->fitness += calcNumbersShifted(k);
 
-	++totalCalcFitness;
 	return 0;
 }
 
-int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
+int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 {
 	int loc0 = allLocs[digraph[0]];
 	int loc1 = allLocs[digraph[1]];
+	
+	if (USE_COST_ARRAY && ksize == 30)
+		return allDigraphCosts[30*loc0 + loc1];
 	
 	if (loc0 < 0 || loc1 < 0) {
 		return 1;
@@ -157,7 +162,7 @@ int scoreDigraph(Keyboard *k, char digraph[], int multiplier, int allLocs[])
 	
 	if (loc0 >= ksize && loc1 >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
-	} else if (loc0 >= ksize ^ loc1 >= ksize) {
+	} else if ((loc0 >= ksize) != (loc1 >= ksize)) {
 		k->distance += shiftCost * multiplier;
 	}
 	
@@ -200,7 +205,7 @@ int64_t calcShortcuts(Keyboard *k)
 
 int64_t calcQWERTY(Keyboard *k)
 {
-	NOT_WORK_WITH_full_keyboard("calcQWERTY")
+	NOT_WORK_WITH_FULL_KEYBOARD("calcQWERTY")
 	int64_t result = 0;
 	int64_t averageMon = totalMon / 30;
 
@@ -262,15 +267,20 @@ int calcFingerWork(Keyboard *k)
 {
 	int64_t total = 0;
 	int i;
-	for (i = 0; i < FINGER_COUNT; ++i) total += k->fingerUsage[i];
+	double usage, percentMax, difference;
+	
+	for (i = 0; i < FINGER_COUNT; ++i)
+		total += k->fingerUsage[i];
 
 	k->fingerWork = 0;
 	
 	for (i = 0; i < FINGER_COUNT; ++i) {
-		if (1000*k->fingerUsage[i]/total > fingerPercentMaxes[i]*10) {
-			k->fingerWork += (k->fingerUsage[i] - 
-					(fingerPercentMaxes[i]*total/100))
-					* fingerWorkCosts[i];
+		usage = k->fingerUsage[i];
+		percentMax = fingerPercentMaxes[i];
+		
+		if (100*usage/total > percentMax) {
+			difference = usage - (percentMax*total/100);
+			k->fingerWork += (int64_t) (difference * fingerWorkCosts[i]);
 		}
 	}
 		
@@ -304,13 +314,6 @@ int calcOutRoll(int loc0, int loc1)
 //	else return 0;
 }
 
-/* Adds to the score if the same hand is used twice in a row.
- */
-int calcSameHand(int loc0, int loc1)
-{	
-	return hand[loc0] == hand[loc1] ? sameHand : 0;
-}
-
 int calcSameFinger(int loc0, int loc1)
 {
 	if (finger[loc0] == finger[loc1]) {
@@ -337,8 +340,11 @@ int calcSameFinger(int loc0, int loc1)
 // isn't calculated here (see calcHomeJump()).
 int calcRowChange(int loc0, int loc1)
 {
-	if (row[loc0] != row[loc1]) {
-		if (row[loc0] < row[loc1]) { // loc1 is a lower row
+	int row0 = row[loc0];
+	int row1 = row[loc1];
+
+	if (row0 != row1) {
+		if (row0 < row1) { // loc1 is a lower row
 			return rowChangeTableDown[finger[loc0]][finger[loc1]];
 		} else { // loc1 is a higher row
 			return rowChangeTableUp[finger[loc0]][finger[loc1]];

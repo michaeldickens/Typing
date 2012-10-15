@@ -7,17 +7,42 @@
  */
 
 #include <limits.h>
-#include "algorithm.h"
+#include "keyboard.h"
 
 #define FILE_READ_NOT_HAPPEN -100
-#define FILE_READ_FAIL -101
 
-int runCJAlgorithm(char *filename);
-int64_t greatToBest(Keyboard *k);
-int tryPermutations(int length, int *p, int index, int *used, int *locs, 
+struct ThreadArg {
+	Keyboard bestk;
+    
+	int numRounds;
+    double chanceToUsePreviousLayout;
+    int numberOfSwaps;
+    
+	time_t startTime;
+	
+	/* Indicates that the subroutine should keep creating new threads until 
+	 * this reaches 0.
+	 */
+	int threadCount;
+	
+	/* Indicates whether the current thread is done running. */
+	int isFinished;
+};
+
+void runAlgorithm();
+void * runThreadsRec(void *arg);
+
+void greatToBest(Keyboard *k, int numRounds);
+void * greatToBestThreadRec(void *arg);
+void greatToBestBruteForce(Keyboard *k);
+
+int tryPermutations(int length, int *p, int index, int *used, int *locs,
 	Keyboard *bestk, Keyboard *origk);
 
 int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length);
 int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k, 
 	int lockins[][2], size_t lockin_length);
 int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps);
+
+void initThreadArg(struct ThreadArg *arg);
+void copyThreadArg(struct ThreadArg *dest, struct ThreadArg *src);

@@ -6,6 +6,9 @@
 *.exe
 *.o
 *.so
+a.out
+build
+optimizer
 
 # Packages #
 ############
@@ -33,6 +36,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
-optimizer
-a.out
-build
+# Misc #
+########
+
+*.xcodeproj

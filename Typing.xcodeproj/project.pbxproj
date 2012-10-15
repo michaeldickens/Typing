@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		862456351051D223002DD016 /* cjalgorithm.c in Sources */ = {isa = PBXBuildFile; fileRef = 862456341051D223002DD016 /* cjalgorithm.c */; };
+<<<<<<< HEAD
 		862C5BB7102F905100D95A5C /* trikeys.c in Sources */ = {isa = PBXBuildFile; fileRef = 862C5BB6102F905100D95A5C /* trikeys.c */; };
+=======
+>>>>>>> multithread
 		867D402110309F1E00DCE1EE /* fitness.c in Sources */ = {isa = PBXBuildFile; fileRef = 867D402010309F1E00DCE1EE /* fitness.c */; };
 		8687000D1031FFA8000845D5 /* accessories.c in Sources */ = {isa = PBXBuildFile; fileRef = 8687000C1031FFA8000845D5 /* accessories.c */; };
 		86ECBA26102CE34E00E8AB8A /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 86ECBA25102CE34E00E8AB8A /* keyboard.c */; };
@@ -18,6 +21,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		8617CD221620F674001FA932 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -31,9 +43,15 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		86240ABD148A90590010665B /* Fitness */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fitness; sourceTree = "<group>"; wrapsLines = 1; };
 		862456341051D223002DD016 /* cjalgorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cjalgorithm.c; sourceTree = "<group>"; };
 		862C5BB6102F905100D95A5C /* trikeys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trikeys.c; sourceTree = "<group>"; };
+=======
+		8617CD241620F674001FA932 /* Typing4 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Typing4; sourceTree = BUILT_PRODUCTS_DIR; };
+		86240ABD148A90590010665B /* Fitness */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fitness; sourceTree = "<group>"; wrapsLines = 1; };
+		862456341051D223002DD016 /* cjalgorithm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cjalgorithm.c; sourceTree = "<group>"; };
+>>>>>>> multithread
 		8639B9B814B12C7800362E2D /* Makefile_saved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile_saved; sourceTree = "<group>"; };
 		8640BBB415EF27D40001DA41 /* Timing Data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Timing Data"; sourceTree = "<group>"; };
 		864C8C1812E211ED00899EA5 /* fullLayoutStore.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fullLayoutStore.txt; sourceTree = "<group>"; };
@@ -63,6 +81,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8617CD211620F674001FA932 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,7 +125,10 @@
 				86841A4711D3F137006F70A1 /* allLayouts.txt */,
 				86ECBA27102CE76500E8AB8A /* tools.h */,
 				86ECBA28102CE76500E8AB8A /* tools.c */,
+<<<<<<< HEAD
 				862C5BB6102F905100D95A5C /* trikeys.c */,
+=======
+>>>>>>> multithread
 				86FE236C1041B22F005CD54C /* values.h */,
 				86FE236D1041B22F005CD54C /* values.c */,
 				8685824612E363CB00D07E99 /* Makefile */,
@@ -115,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				8DD76FB20486AB0100D96B5E /* Typing */,
+				8617CD241620F674001FA932 /* Typing4 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,6 +166,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8617CD231620F674001FA932 /* Typing4 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8617CD2B1620F674001FA932 /* Build configuration list for PBXNativeTarget "Typing4" */;
+			buildPhases = (
+				8617CD201620F674001FA932 /* Sources */,
+				8617CD211620F674001FA932 /* Frameworks */,
+				8617CD221620F674001FA932 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Typing4;
+			productName = Typing4;
+			productReference = 8617CD241620F674001FA932 /* Typing4 */;
+			productType = "com.apple.product-type.tool";
+		};
 		8DD76FA90486AB0100D96B5E /* Typing */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "Typing" */;
@@ -175,11 +221,19 @@
 			projectRoot = "";
 			targets = (
 				8DD76FA90486AB0100D96B5E /* Typing */,
+				8617CD231620F674001FA932 /* Typing4 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8617CD201620F674001FA932 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD76FAB0486AB0100D96B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -187,7 +241,10 @@
 				8DD76FAC0486AB0100D96B5E /* main.c in Sources */,
 				86ECBA26102CE34E00E8AB8A /* keyboard.c in Sources */,
 				86ECBA29102CE76500E8AB8A /* tools.c in Sources */,
+<<<<<<< HEAD
 				862C5BB7102F905100D95A5C /* trikeys.c in Sources */,
+=======
+>>>>>>> multithread
 				867D402110309F1E00DCE1EE /* fitness.c in Sources */,
 				8687000D1031FFA8000845D5 /* accessories.c in Sources */,
 				86FE236E1041B22F005CD54C /* values.c in Sources */,
@@ -249,6 +306,55 @@
 			};
 			name = Release;
 		};
+		8617CD2C1620F674001FA932 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8617CD2D1620F674001FA932 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -266,6 +372,15 @@
 			buildConfigurations = (
 				1DEB928A08733DD80010E9CD /* Debug */,
 				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8617CD2B1620F674001FA932 /* Build configuration list for PBXNativeTarget "Typing4" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8617CD2C1620F674001FA932 /* Debug */,
+				8617CD2D1620F674001FA932 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

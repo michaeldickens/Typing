@@ -78,9 +78,6 @@ cjalgorithm.c: Runs an algorithm based on one written by Chris Johnson (kinky_b@
 accessories.h: Header file for accessories.
 accessories.c: Contains various extras that are not directly related to the algorithm. Contains a keyboard improvement function, a function to collect timing data, a function that compares various layouts in a simple way, and a function to evaluate the cost of each individual digraph for a given keyboard.
 
-algorithm.h: Header file for algorithm.
-algorithm.c: This is the core of the evolutionary algorithm. It is responsible for generating and evaluating keyboards.
-
 keyboard.h: Header file for keyboard and fitness.
 keyboard.c: Contains functions that center around the keyboard structure itself. Responsible for initializing and printing a keyboard. Also contains some miscellaneous functions that are directly related to the keyboard structure.
 
@@ -88,8 +85,6 @@ fitness.c: Contains the core "calcFitness" function as well as several smaller f
 
 tools.h: Header file for tools and trikeys.
 tools.c: Contains necessary tools for running the algorithm. Contains the lists of digraphs and monographs. Also contains some miscellaneous functions such as the rand30() function.
-
-trikeys.c: A list of trigraphs. This list was too long to include in any other file so it had to be given a separate file.
 
 values.h: Contains various constants as well as the fitness costs.
 values.c: Contains some fitness costs as arrays.

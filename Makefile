@@ -1,8 +1,8 @@
-optimizer: accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c
-	gcc -O3 -o optimizer accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c -lm
-debug: accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c 
-	gcc -g -O0 -o optimizer accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c -lm
-profile: accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c 
-	gcc -pg -O0 -o optimizer accessories.c algorithm.c cjalgorithm.c costs.c fitness.c keyboard.c main.c tools.c trifitness.c trikeys.c values.c -lm
+optimizer: accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c
+	gcc -O3 -o optimizer accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c -lm -lpthread
+debug: accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c 
+	gcc -g -O0 -o optimizer accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c -lm -lpthread
+profile: accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c 
+	gcc -pg -O3 -o optimizer accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c -lm -lpthread
 clean: 
-	rm optimizer accessories.o algorithm.o cjalgorithm.o costs.o fitness.o keyboard.o main.o tools.o trifitness.o trikeys.o values.o 
+	rm optimizer accessories.o cjalgorithm.o fitness.o keyboard.o main.o tools.o values.o 

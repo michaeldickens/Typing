@@ -13,7 +13,6 @@
 
 #define ASCII_SHIFT 14
  
-#define MAX_TRI_LEN 5000
 #define MAX_DI_LEN 5000
 #define MAX_MON_LEN 200
 
@@ -38,10 +37,15 @@ int monLen, diLen, triLen;
 #define DIVISOR 100
 
 /* These are guaranteed to hold a standard QWERTY layout. */
-#define DEFAULT_KEYBOARD_26 "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
 #define DEFAULT_KEYBOARD_30 "qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>?"
 #define DEFAULT_KEYBOARD_STANDARD "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?"
 #define DEFAULT_KEYBOARD_KINESIS "1234567890-\tqwertyuiop=asdfghjkl;'zxcvbnm,./`\\[]\n !@#$%^&*()_\tQWERTYUIOP+ASDFGHJKL:\"ZXCVBNM<>?~|{}\n "
+
+#define CHECK_FILE_FOR_NULL(file, filename) \
+	if ((file) == NULL) { \
+		fprintf(stderr, "Unable to open file: %s\n", (filename)); \
+		return 1; \
+	}
 
 char keysToInclude[200];
 
@@ -50,7 +54,6 @@ typedef struct {
 								(layout) can be treated as a string. */
 	char shiftedLayout[KSIZE_MAX + 1];
 	int64_t fingerUsage[FINGER_COUNT];
-	int64_t shortcut;
 	int64_t fitness;
 	int64_t distance;
 	int64_t fingerWork;
@@ -66,23 +69,18 @@ typedef struct {
 } Keyboard;
 
 
-
 Keyboard nilKeyboard;
 
-/* These are declared here because C's file hierarchy is stupid.
- */
-Keyboard atleMutate(Keyboard k);
-Keyboard simpleMutate(Keyboard k);
-Keyboard mutate(Keyboard k);
+void copyArray(int dest[], int src[], int length);
+void printTime(time_t start);
 
-void copyArray(int out[], int in[], int length);
-int strNumsToArr(int arr[], char *str, int length);
 int initData();
 void initKeyboardData();
-void initTypingData();
-int compileTypingData(char *outfileName, char *filenames[], int multipliers[], int length, int unit, int max);
+int initTypingData();
+int compileTypingData(char *outfileName, const char *filenames[], 
+		int multipliers[], int length, int unit, int max);
 int sortTypingData(char **keys, int *values, int left, int right);
-char convertEscapeChar(char c);
+int convertEscapeChar(int c);
 
 /* Sort by values from highest to lowest.
  */
@@ -99,8 +97,6 @@ int alwaysKeepShiftPairP(char c);
 
 
 int qwerty[30];
-
-int randomizer;
 
 /* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing that key.
  */
@@ -155,14 +151,9 @@ int rowChangeTableDown[5][5];
 
 int costs[900];
 
-char triKeys[MAX_TRI_LEN][3];
-int64_t triValues[MAX_TRI_LEN];
-
 char diKeys[MAX_DI_LEN][2];
 int64_t diValues[MAX_DI_LEN];
 
 char monKeys[MAX_MON_LEN];
 int64_t monValues[MAX_MON_LEN];
 
-/* Used in cjalgorithm.c. */
-int indices[2 * KSIZE_MAX];

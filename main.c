@@ -5,20 +5,17 @@
  *  Created by Michael Dickens on 8/11/09.
  *
  */
- 
+
 #include <stdio.h>
 #include "accessories.h"
 
-int main(int argc, const char *argv[])
-{			
+int main()
+{
 	/* Initialize the typing data and the keyboard layout settings. */
 	setksize(FK_NO);
-	
 //	getCommands();
+    runAlgorithm();
 	
-	setksize(FK_STANDARD);
-	runCJAlgorithm("fullLayoutStore.txt");
-
 	return 0;
 }
 

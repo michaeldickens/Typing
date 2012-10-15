@@ -327,10 +327,26 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
+<<<<<<< HEAD
 										<string>867B26D5162A652F00BF0E79</string>
 										<key>history</key>
 										<array>
 											<string>867B26D4162A652F00BF0E79</string>
+=======
+										<string>867B26C4162A643000BF0E79</string>
+										<key>history</key>
+										<array>
+											<string>8657860E162A3B730008B23E</string>
+											<string>867B25F7162A50E000BF0E79</string>
+											<string>867B262E162A55B300BF0E79</string>
+											<string>867B2655162A570500BF0E79</string>
+											<string>867B2661162A575400BF0E79</string>
+											<string>867B2662162A575400BF0E79</string>
+											<string>867B26A6162A5DA200BF0E79</string>
+											<string>867B26A7162A5DA200BF0E79</string>
+											<string>867B26BD162A62D300BF0E79</string>
+											<string>867B26C3162A642B00BF0E79</string>
+>>>>>>> multithread
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -344,18 +360,30 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
+<<<<<<< HEAD
 								<string>{{0, 0}, {1233, 485}}</string>
+=======
+								<string>{{0, 0}, {1233, 493}}</string>
+>>>>>>> multithread
 								<key>RubberWindowFrame</key>
 								<string>0 60 1440 818 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
+<<<<<<< HEAD
 							<string>485pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
 							<string>287pt</string>
+=======
+							<string>493pt</string>
+						</dict>
+						<dict>
+							<key>Proportion</key>
+							<string>279pt</string>
+>>>>>>> multithread
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -369,9 +397,13 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
+<<<<<<< HEAD
 										<string>{{10, 27}, {1233, 260}}</string>
 										<key>RubberWindowFrame</key>
 										<string>0 60 1440 818 0 0 1440 878 </string>
+=======
+										<string>{{10, 27}, {1233, 252}}</string>
+>>>>>>> multithread
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -426,6 +458,11 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1233, 252}}</string>
+<<<<<<< HEAD
+=======
+										<key>RubberWindowFrame</key>
+										<string>0 60 1440 818 0 0 1440 878 </string>
+>>>>>>> multithread
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -453,11 +490,19 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
+<<<<<<< HEAD
 				<string>867B26D6162A652F00BF0E79</string>
 				<string>1CA23ED40692098700951B8B</string>
 				<string>867B26D7162A652F00BF0E79</string>
 				<string>86ECBA1B102CE32600E8AB8A</string>
 				<string>867B26D8162A652F00BF0E79</string>
+=======
+				<string>867B25F2162A504700BF0E79</string>
+				<string>1CA23ED40692098700951B8B</string>
+				<string>867B25F3162A504700BF0E79</string>
+				<string>86ECBA1B102CE32600E8AB8A</string>
+				<string>867B25F4162A504700BF0E79</string>
+>>>>>>> multithread
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -643,6 +688,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+<<<<<<< HEAD
+=======
+		<string>867B2608162A50F000BF0E79</string>
+		<string>867B2609162A50F000BF0E79</string>
+>>>>>>> multithread
 		<string>/Users/MTGAP/XCodeProjects/Typing/Typing.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
