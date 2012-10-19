@@ -8,6 +8,45 @@
 
 #include "cjalgorithm.h"
 
+/* 
+ * Runs a simple version of the algorithm without all the bells and whistles.
+ * Only uses a single thread, and generally runs significantly slower than 
+ * runAlgorithm().
+ */
+void runSimpleAlgorithm()
+{
+    Keyboard bestk, k;
+    copyKeyboard(&bestk, &nilKeyboard);
+    copyKeyboard(&k, &nilKeyboard);
+    
+    time_t startTime = time(NULL);
+    time_t printTimeInterval = PRINT_TIME_INTERVAL;
+    time_t timeOnPrint = startTime + printTimeInterval;
+    
+    int roundNum;
+    for (roundNum = 0; ; ++roundNum) {
+        initKeyboard(&k);
+        anneal(&k, NULL, 0);
+        
+        if (k.fitness < bestk.fitness) {
+            copyKeyboard(&bestk, &k);
+            printPercentages(&bestk);
+            printf("%d Rounds\n", roundNum);
+            printTime(startTime);
+            
+            /* If a keyboard was just printed, don't print the time for
+             * a while.
+             */
+            timeOnPrint = time(NULL) + printTimeInterval;
+        } else if (time(NULL) >= timeOnPrint) {
+            printf("%d Rounds\n", roundNum);
+            printTime(startTime);
+            timeOnPrint = time(NULL) + printTimeInterval;
+            printTimeInterval = 1.5 * printTimeInterval + 1;
+        }
+    }
+}
+
 /*
  * Uses multiple threads to search for an optimal keyboard layout.
  */
@@ -26,12 +65,12 @@ void runAlgorithm()
     int runsBeforeSwapsInc = RUNS_BEFORE_SWAPS_INC;
     int gtbRounds = GTB_ROUNDS;
     time_t printTimeInterval = PRINT_TIME_INTERVAL;
-    time_t timeOnPrint = time(NULL) + printTimeInterval;
+    time_t timeOnPrint = arg.startTime + printTimeInterval;
     
     int64_t prevBestFitness = FITNESS_MAX;
 	
     int runNum;
-	for (runNum = 0; ; ++runNum) {
+	for (runNum = 0; runNum < MAX_RUNS; ++runNum) {
         if (runNum % runsBeforeChanceInc == 0) {
             arg.chanceToUsePreviousLayout =
                     pow(arg.chanceToUsePreviousLayout, 0.7);
@@ -43,7 +82,7 @@ void runAlgorithm()
         
         if (runNum % runsBeforeSwapsInc == 0) {
             ++arg.numberOfSwaps;
-			runsBeforeSwapsInc = (int) (runsBeforeSwapsInc * 1.1) + 1;
+			runsBeforeSwapsInc = (int) (runsBeforeSwapsInc * 1.2) + 1;
 			if (detailedOutput)
                 printf("Number of swaps between rounds is now %d.\n",
                        arg.numberOfSwaps);
@@ -67,8 +106,7 @@ void runAlgorithm()
              * a while.
              */
             timeOnPrint = time(NULL) + printTimeInterval;
-        } else if (time(NULL) >= timeOnPrint) {
-            /* TODO: this never prints */
+        } else if (time(NULL) >= timeOnPrint && detailedOutput) {
             printTime(arg.startTime);
             timeOnPrint = time(NULL) + printTimeInterval;
             printTimeInterval = 1.5 * printTimeInterval + 1;
@@ -318,7 +356,7 @@ int tryPermutations(int length, int *p, int index, int *used, int *locs,
 }
 
 /* 
- * Simulated annealing algorithm written by Chris Johnson.
+ * Simulated annealing algorithm based on an implementation by Chris Johnson.
  */
 int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 {
@@ -329,7 +367,10 @@ int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 	/* Do the "zeroth" iteration */
 	calcFitness(k);
 	lastEvaluation = evaluation = k->fitness;
-		
+        
+    /* TODO: Test the three versions of this to see which works best. (See 
+     * email "source code" for details.)
+     */
 	/* Keep doing iterations while the layout is still improving */
 	do {
 		if (evaluation < lastEvaluation) {
@@ -341,14 +382,13 @@ int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length)
 		lastEvaluation = evaluation;
 		evaluationToBeat = lastEvaluation + lastImprovement;
 		evaluation = improveLayout(evaluationToBeat, k, lockins, lockin_length);
-		
 	} while (evaluation < evaluationToBeat);
 
 	return evaluation;
 }
 
 /* 
- * Written by Chris Johnson.
+ * Modified from a version written by Chris Johnson.
  */
 int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k, 
 	int lockins[][2], size_t lockin_length)

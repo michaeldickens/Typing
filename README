@@ -156,4 +156,12 @@ Add a new section that looks like this:
 			distanceCosts[i] = costsCopy[i];
 	}
 
-4. In tools.c there's a function called initKeyboardData(). It includes all the data for each keyboard, including fingerCopy[], rowCopy[], homeRow, handCopy[], isCenterCopy[], isOutsideCopy[], printItCopy[], indicesCopy[]. You'll have to create one of each of these. See tools.h for an explanation of what they each do. (In tools.h the names don't contain the word 'Copy'.)
+4. In tools.c there's a function called initKeyboardData(). It includes all the data for each keyboard, including fingerCopy[], rowCopy[], homeRow, handCopy[], isCenterCopy[], isOutsideCopy[], printItCopy[], indicesCopy[]. You'll have to create one of each of these. See tools.h for an explanation of what they each do. (In tools.h the names don't contain the word 'Copy'.) Also add this line in initKeyboardData(): 
+
+    strcpy(keysToInclude, DEFAULT_KEYBOARD_BINARY);
+
+5. Now you need to define the default keyboard. In tools.h, write
+
+    #define DEFAULT_KEYBOARD_BINARY "<list of characters to include on the keyboard>"
+   
+And you're done.

@@ -41,7 +41,7 @@ int getCommands()
 			printf("\n");
 
 		} else if (streq(cmd, "algorithm")) {
-			printf("Running the keyboard optimization algorithm. Press ctrl-C to abort.\n\n");
+			printf("Running the keyboard optimization algorithm. Press ctrl-C to quit.\n\n");
 			runAlgorithm();
 
 		} else if (streqn(cmd, "best swap ", strlen("best swap "))) {
@@ -614,6 +614,7 @@ int getNumber(char *description)
  *  Time to mutate 100,000 keyboards:        294,000 microseconds.
  *  Time to copy 100,000 keyboards:           20,000 microseconds.
  *  Time to score 100,000 keyboards:       3,910,000 microseconds.
+ *          with USE_COST_ARRAY:           1,640,000 microseconds.
  *  Time to do locW/OShifted() 100,000 times: 15,000 microseconds.
  *  
  *  

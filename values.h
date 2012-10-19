@@ -15,6 +15,8 @@
 #include <string.h>
 #include <time.h>
 
+#define SYS_TIME_H
+
 #ifdef SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -51,10 +53,11 @@ char *kbdFilename;
 /* If TRUE, scoreDigraph() uses allDigraphCosts to calculate costs. Otherwise, 
  * calculates costs by calling calcX functions.
  */
-#define USE_COST_ARRAY FALSE
+#define USE_COST_ARRAY TRUE
 
 #define INIT_FROM_FILE FALSE
 
+#define MAX_RUNS 1                              
 #define ALGORITHM_ROUNDS 16                     /* recommended 8-32 */
 #define CHANCE_TO_USE_PREVIOUS_LAYOUT 0.2       /* recommended 0.2 */
 #define RUNS_BEFORE_CHANCE_INC 1                /* recommended 1 */
@@ -64,12 +67,11 @@ char *kbdFilename;
 
 /* Constants for greatToBest(). */
 #define GTB_ROUNDS 16                   /* recommended 16-64 */
-#define RUNS_BEFORE_GTB_ROUNDS_INC 4    /* recommended 4-20 */
+#define RUNS_BEFORE_GTB_ROUNDS_INC 64   /* recommended 4-20 */
 #define GTB_NUMBER_OF_SWAPS 10          /* recommended 10-16 */
-#define GTB_ROUNDS_BEFORE_SWAP_INC 64
+#define GTB_ROUNDS_BEFORE_SWAP_INC 32   /* recommended ~64 */
 
 int64_t distanceCosts[KSIZE_MAX];
-int64_t  trueDistance[KSIZE_MAX];
 int64_t shortcutCosts[KSIZE_MAX];
 
 double fingerPercentMaxes[FINGER_COUNT];

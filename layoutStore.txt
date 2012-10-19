@@ -2,6 +2,6 @@
 // You can also put comments on the same line as a layout after you've typed in the layout.
 //
 //,fhdkjcul.oantgmseriqxbpzyw'v;<FHDKJCUL>OANTGMSERIQXBPZYW"V: MTGAP 2.0
-qwfpgjluy;arstdhneiozxcvbkm,./QWFPGJLUY:ARSTDHNEIOZXCVBKM<>? Colemak
+//qwfpgjluy;arstdhneiozxcvbkm,./QWFPGJLUY:ARSTDHNEIOZXCVBKM<>? Colemak
 //',.pyfgcrlaoeuidhtns;qjkxbmwvz"<>PYFGCRLAOEUIDHTNS:QJKXBMWVZ Dvorak
 qwertyuiopasdfghjkl;zxcvbnm,./QWERTYUIOPASDFGHJKL:ZXCVBNM<>? QWERTY

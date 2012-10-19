@@ -34,7 +34,7 @@ int calcFitnessDirect(Keyboard *k)
 	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
 
 	for (i = 0; i < monLen; ++i) { 
-		k->distance += trueDistance[locWithoutShifted(k, monKeys[i])] * (monValues[i] / 100); // meters 
+		k->distance += distanceCosts[locWithoutShifted(k, monKeys[i])] * (monValues[i] / 100); // meters
 	}
 	
 	return 0;
@@ -63,29 +63,24 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier)
 
 int preCalculateFitness()
 {
-	NOT_WORK_WITH_FULL_KEYBOARD("preCalculateFitness")
 	int i, j;
 	
-	for (i = 0; i < 900; ++i) allDigraphCosts[i] = 0;
+    memset(allDigraphCosts, 0, sizeof(allDigraphCosts));
 	
-	for (i = 0; i < 30; ++i) {
-		for (j = 0; j < 30; ++j) {
-			int index = 30*i + j;
-			allDigraphCosts[index] += (distanceCosts[i] + distanceCosts[j]) * 
-					monValues[i] * distance;
-			int64_t multiplier = diValues[index];
+	for (i = 0; i < ksize; ++i) {
+		for (j = 0; j < ksize; ++j) {
 			if (hand[i] == hand[j]) {
-				allDigraphCosts[index] += sameHand;
-				allDigraphCosts[index] += calcSameFinger(i, j);
+				allDigraphCosts[i][j] += sameHand;
+				allDigraphCosts[i][j] += calcSameFinger(i, j);
 
 				if (finger[i] != THUMB && finger[j] != THUMB) {
-					allDigraphCosts[index] += calcInRoll   (i, j) * multiplier;	
-					allDigraphCosts[index] += calcOutRoll  (i, j) * multiplier;	
-					allDigraphCosts[index] += calcRowChange(i, j) * multiplier;
-					allDigraphCosts[index] += calcHomeJump (i, j) * multiplier;
-					allDigraphCosts[index] += calcRingJump (i, j) * multiplier;
-					allDigraphCosts[index] += calcToCenter (i, j) * multiplier;
-					allDigraphCosts[index] += calcToOutside(i, j) * multiplier;
+					allDigraphCosts[i][j] += calcInRoll   (i, j);	
+					allDigraphCosts[i][j] += calcOutRoll  (i, j);	
+					allDigraphCosts[i][j] += calcRowChange(i, j);
+					allDigraphCosts[i][j] += calcHomeJump (i, j);
+					allDigraphCosts[i][j] += calcRingJump (i, j);
+					allDigraphCosts[i][j] += calcToCenter (i, j);
+					allDigraphCosts[i][j] += calcToOutside(i, j);
 				}
 			}
 		}
@@ -94,6 +89,10 @@ int preCalculateFitness()
 	return 0;
 }
 
+/* 
+ * Not guaranteed to set any variables in k other than k->fitness. For 
+ * generating detailed output, use calcFitnessDirect().
+ */
 int calcFitness(Keyboard *k)
 {
 	int i;
@@ -121,11 +120,11 @@ int calcFitness(Keyboard *k)
 			locs[k->shiftedLayout[i]] = ksize + i;
 		}
 	
-	for (i = diLen - 1; i >= 0; --i) {
+	for (i = 0; i < diLen; ++i) {
 		scoreDigraph(k, diKeys[i], diValues[i], locs);
 	}
 	
-	/* Calculate distance. Done here and not in scoreDigraph because it uses 
+	/* Calculate distance. Done here and not in scoreDigraph because it uses
 	 * monographs instead of digraphs.
 	 */
 	for (i = 0; i < monLen; ++i) {
@@ -137,9 +136,9 @@ int calcFitness(Keyboard *k)
 	}
 	calcFingerWork(k);	
 	
-	k->fitness = k->distance + k->fingerWork + k->inRoll + k->outRoll + 
-		k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->ringJump + 
-		k->toCenter + k->toOutside;
+    k->fitness += k->distance + k->fingerWork + k->inRoll + k->outRoll +
+        k->sameHand + k->sameFinger + k->rowChange + k->homeJump +
+        k->ringJump + k->toCenter + k->toOutside;
 	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
 	if (keepParentheses) k->fitness += calcBrackets(k);
@@ -153,9 +152,6 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	int loc0 = allLocs[digraph[0]];
 	int loc1 = allLocs[digraph[1]];
 	
-	if (USE_COST_ARRAY && ksize == 30)
-		return allDigraphCosts[30*loc0 + loc1];
-	
 	if (loc0 < 0 || loc1 < 0) {
 		return 1;
 	}
@@ -168,6 +164,11 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	
 	loc0 %= ksize;
 	loc1 %= ksize;
+	
+	if (USE_COST_ARRAY) {
+		k->fitness += allDigraphCosts[loc0][loc1] * multiplier;
+        return 0;
+    }
 	
 	/* These all require that the hand be the same. */
 	if (hand[loc0] == hand[loc1]) {
@@ -228,9 +229,9 @@ int64_t calcBrackets(Keyboard *k)
 int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
 {
 	int openPar = locWithShifted(k, openChar);
-	if (openPar == -1) return -1;
+	if (openPar < 0) return 0;
 	int closePar = locWithShifted(k, closeChar);
-	if (closePar == -1) return -1;
+	if (closePar < 0) return 0;
 	
 	int openShifted = openPar >= ksize;
 	int closeShifted = closePar >= ksize;

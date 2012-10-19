@@ -8,6 +8,8 @@
 
 ***SMALL CHANGES***
 
+ - Some small percentage of the time in GTB, run GTBBruteForce.
+ - Instead of running GTB on the single best every time, run it on the best of the run with some probability.
  - Check to see which keys change between best layouts, and integrate that into smartMutate().
  - Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
  - Every movement from one finger to another has its own specific cost.
@@ -16,9 +18,10 @@
 
 ***BUGS***
 
- - When multithreading, sometimes it prints a keyboard that's worse than the previous best.
+ - shortcutCosts only works for FK_NO.
  - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
  - preCalculateFitness() causes layouts to be scored incorrectly.
+ - runAlgorithm() occasionally prints the same layout twice in a row.
 
 Possibly Fixed: 
  - Parallel parentheses don't work on the standard keyboard, only Kinesis.

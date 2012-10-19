@@ -62,6 +62,24 @@ results for above after <1h:
 
 The above uses the default -O setting. The below uses -O3.
 
+Time to find optimal layout for FK_NO (14262392), in seconds; 
+Using two versions of CJ anneal() algorithm
+Note- These results may be significantly influenced by greatToBest(). GTB may currently be better calibrated for one or the other. It seems to slow down when GTB gets to 256 or so.
+Greedy     : geometric mean 22.68 over 200 runs
+Semi-Greedy: geometric mean 33.37 over 200 runs
+Non-Greedy :
+            
+Best numbers for FK_NO: 
+    GTB_ROUNDS 4
+    RUNS_BEFORE_GTB_ROUNDS_INC 4
+
+For FK_STANDARD (varying GTB_ROUNDS, RUNS_BEFORE_GTB_ROUNDS): 
+4, 4  : 17371508 (30m of 20h)
+4, 16 : 17358853 (2h of 20h)
+4, 64 : 17356508 (13h of 20h) only 5 chars different from above
+16, 4 : 17372878 (5h of 20h)
+16, 16: 17367353 (5h of 20h)
+16, 64: 17363958 (15h of 20h)
 
 
  * TODO: after a certain point, stop running anneal() and only do greatToBest()

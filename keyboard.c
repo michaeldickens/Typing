@@ -518,9 +518,6 @@ int isLegalSwap(Keyboard *k, int i, int j)
 
 void shuffleLayout(Keyboard *k)
 {
-	/* Shuffle the layout where shifted and unshifted characters are bound 
-	 * together.
-	 */
 	int x, n = 2 * ksize;
 	int i, legalSwapExists;
 	while (n > 1) 

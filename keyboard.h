@@ -48,7 +48,7 @@ int locWithoutShifted(Keyboard *k, char c);
 int locWithShifted(Keyboard *k, char c);
 
 /* To use, set USE_COST_ARRAY to TRUE. */
-int64_t allDigraphCosts[900];
+int allDigraphCosts[KSIZE_MAX][KSIZE_MAX];
 
 int calcFitnessDirect(Keyboard *k);
 int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier);

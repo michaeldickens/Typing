@@ -68,14 +68,6 @@ int initValues()
 		
 	}
 
-	// Distance in mm.
-	trueDistance[ 0] = 19; trueDistance[ 1] = 19; trueDistance[ 2] = 19; trueDistance[ 3] = 19; trueDistance[ 4] = 28; 
-	trueDistance[ 5] = 28; trueDistance[ 6] = 19; trueDistance[ 7] = 19; trueDistance[ 8] = 19; trueDistance[ 9] = 19; 
-	trueDistance[10] =  0; trueDistance[11] =  0; trueDistance[12] =  0; trueDistance[13] =  0; trueDistance[14] = 19; 
-	trueDistance[15] = 19; trueDistance[16] =  0; trueDistance[17] =  0; trueDistance[18] =  0; trueDistance[19] =  0; 
-	trueDistance[20] = 19; trueDistance[21] = 19; trueDistance[22] = 19; trueDistance[23] = 19; trueDistance[24] = 28; 
-	trueDistance[25] = 28; trueDistance[26] = 19; trueDistance[27] = 19; trueDistance[28] = 19; trueDistance[29] = 19; 
-
 	// Based on distance from the ctrl key and how much of a stretch it is.
 	shortcutCosts[ 0] =  0; shortcutCosts[ 1] =  0; shortcutCosts[ 2] =  1; shortcutCosts[ 3] =  3; shortcutCosts[ 4] =  4; 
 	shortcutCosts[ 5] =  8; shortcutCosts[ 6] = 10; shortcutCosts[ 7] = 10; shortcutCosts[ 8] = 10; shortcutCosts[ 9] = 10; 
@@ -92,7 +84,7 @@ void initCosts()
 	detailedOutput = TRUE;
     
     /* If you do not wish to use multithreading, set threadCount to 1. */
-	threadCount = 2;
+	threadCount = 1;
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
@@ -134,8 +126,10 @@ void initCosts()
 	fingerWorkCosts[3] = fingerWorkCosts[FINGER_COUNT - 4] = 20;
 	fingerWorkCosts[4] = fingerWorkCosts[FINGER_COUNT - 5] = 20;
 	
-	// All values are compounding. For example, say we jump over the home row 
-	// on the index finger. The cost is sameHand + rowChange + homeJump + homeJumpIndex.
+	/* All values are compounding. For example, say we jump over the home row
+	 * on the index finger. The cost is 
+     *     sameHand + rowChange + homeJump + homeJumpIndex.
+     */
 	distance =		  1;
 	inRoll =		-40;
 	outRoll =		  5;
@@ -151,7 +145,7 @@ void initCosts()
 	handSmooth =	- 5;
 	homeJump =		100;
 	homeJumpIndex = -90;
-	doubleJump =	220; // Does not compound with homeJump.
+	doubleJump =	220; /* Does not compound with homeJump. */
 	ringJump =       40;
 	toCenter =		 30;
 	toOutside =		 30;
