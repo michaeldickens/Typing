@@ -50,7 +50,7 @@ char *kbdFilename;
 
 #define INIT_FROM_FILE FALSE
 
-#define MAX_RUNS 1                              
+#define MAX_RUNS INT_MAX
 #define ALGORITHM_ROUNDS 16                     /* recommended 8-32 */
 #define CHANCE_TO_USE_PREVIOUS_LAYOUT 0.2       /* recommended 0.2 */
 #define RUNS_BEFORE_CHANCE_INC 1                /* recommended 1 */
