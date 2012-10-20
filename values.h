@@ -15,8 +15,6 @@
 #include <string.h>
 #include <time.h>
 
-#define SYS_TIME_H
-
 #ifdef SYS_TIME_H
 #include <sys/time.h>
 #endif
