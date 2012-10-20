@@ -596,15 +596,15 @@ int getNumber(char *description)
 /*
  *  TIMING DATA
  *  
- *  Updated 10 Sep 2012, run on a MacBook Pro 2.7 GHz using one thread
+ *  Updated 19 Oct 12, run on a MacBook Pro 2.7 GHz with -O3
  * 
  *  Main-30 Keyboard: 
  *  
- *  Time to initialize 100,000 keyboards:     190,000 microseconds.
+ *  Time to initialize 100,000 keyboards:     180,000 microseconds.
  *  Time to copy 100,000 keyboards:             1,800 microseconds.
  *  Time to score 100,000 keyboards:          345,000 microseconds.
- *          with USE_COST_ARRAY:              161,000 microseconds.
- *  Time to do locW/OShifted() 100,000 times:   3,100 microseconds.
+ *          with USE_COST_ARRAY:              163,000 microseconds.
+ *  Time to do locW/OShifted() 100,000 times:   2,900 microseconds.
  *
  *  
  *  Full Standard Keyboard: 

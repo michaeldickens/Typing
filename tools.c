@@ -702,6 +702,12 @@ int setValue(char *str)
 		printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
 		return 1;
 	}
+    
+    /* If the user changes a cost, it is necessary to redo 
+     * preCalculateFitness().
+     */
+    if (USE_COST_ARRAY)
+        preCalculateFitness();
 	
 	printf("%s set to %d.\n", name, value);
 	
