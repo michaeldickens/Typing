@@ -45,11 +45,6 @@ char *kbdFilename;
 		return -1; \
 	}
 
-/* If TRUE, run through the layouts in layoutstore.txt repeatedly when 
- * running the algorithm. If FALSE, only run through once.
- */
-#define REPEAT_LAYOUTSTORE TRUE
-
 /* If TRUE, scoreDigraph() uses allDigraphCosts to calculate costs. Otherwise, 
  * calculates costs by calling calcX functions.
  */

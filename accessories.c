@@ -600,22 +600,20 @@ int getNumber(char *description)
  * 
  *  Main-30 Keyboard: 
  *  
- *  Time to initialize 100,000 keyboards:   448,000 microseconds.
- *  Time to mutate 100,000 keyboards:       293,000 microseconds.
- *  Time to copy 100,000 keyboards:          11,000 microseconds.
- *  Time to score 100,000 keyboards:      1,477,000 microseconds.
- *  Time to do locW/OShifted() 100,000 times: 8,000 microseconds.
- *  Time to do rand30() 100,000 times:          700 microseconds.
- *  
+ *  Time to initialize 100,000 keyboards:     190,000 microseconds.
+ *  Time to copy 100,000 keyboards:             1,800 microseconds.
+ *  Time to score 100,000 keyboards:          345,000 microseconds.
+ *          with USE_COST_ARRAY:              161,000 microseconds.
+ *  Time to do locW/OShifted() 100,000 times:   3,100 microseconds.
+ *
  *  
  *  Full Standard Keyboard: 
  *  
- *  Time to initialize 100,000 keyboards:  1,130,000 microseconds.
- *  Time to mutate 100,000 keyboards:        294,000 microseconds.
- *  Time to copy 100,000 keyboards:           20,000 microseconds.
- *  Time to score 100,000 keyboards:       3,910,000 microseconds.
- *          with USE_COST_ARRAY:           1,640,000 microseconds.
- *  Time to do locW/OShifted() 100,000 times: 15,000 microseconds.
+ *  Time to initialize 100,000 keyboards:     438,000 microseconds.
+ *  Time to copy 100,000 keyboards:             1,700 microseconds.
+ *  Time to score 100,000 keyboards:          908,000 microseconds.
+ *          with USE_COST_ARRAY:              368,000 microseconds.
+ *  Time to do locW/OShifted() 100,000 times:   5,700 microseconds.
  *  
  *  
  *  This program can score about 60,000 layouts per second. This is about 20 

@@ -67,20 +67,29 @@ int preCalculateFitness()
 	
     memset(allDigraphCosts, 0, sizeof(allDigraphCosts));
 	
-	for (i = 0; i < ksize; ++i) {
-		for (j = 0; j < ksize; ++j) {
-			if (hand[i] == hand[j]) {
+	for (i = 0; i < 2 * ksize; ++i) {
+		for (j = 0; j < 2 * ksize; ++j) {
+            if (i >= ksize && j >= ksize) {
+                allDigraphCosts[i][j] += doubleShiftCost;
+            } else if ((i >= ksize) != (j >= ksize)) {
+                allDigraphCosts[i][j] += shiftCost;
+            }
+            
+            int loc0 = i % ksize;
+            int loc1 = j % ksize;
+            
+			if (hand[loc0] == hand[loc1]) {
 				allDigraphCosts[i][j] += sameHand;
-				allDigraphCosts[i][j] += calcSameFinger(i, j);
+				allDigraphCosts[i][j] += calcSameFinger(loc0, loc1);
 
 				if (finger[i] != THUMB && finger[j] != THUMB) {
-					allDigraphCosts[i][j] += calcInRoll   (i, j);	
-					allDigraphCosts[i][j] += calcOutRoll  (i, j);	
-					allDigraphCosts[i][j] += calcRowChange(i, j);
-					allDigraphCosts[i][j] += calcHomeJump (i, j);
-					allDigraphCosts[i][j] += calcRingJump (i, j);
-					allDigraphCosts[i][j] += calcToCenter (i, j);
-					allDigraphCosts[i][j] += calcToOutside(i, j);
+					allDigraphCosts[i][j] += calcInRoll   (loc0, loc1);
+					allDigraphCosts[i][j] += calcOutRoll  (loc0, loc1);	
+					allDigraphCosts[i][j] += calcRowChange(loc0, loc1);
+					allDigraphCosts[i][j] += calcHomeJump (loc0, loc1);
+					allDigraphCosts[i][j] += calcRingJump (loc0, loc1);
+					allDigraphCosts[i][j] += calcToCenter (loc0, loc1);
+					allDigraphCosts[i][j] += calcToOutside(loc0, loc1);
 				}
 			}
 		}
@@ -152,9 +161,10 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	int loc0 = allLocs[digraph[0]];
 	int loc1 = allLocs[digraph[1]];
 	
-	if (loc0 < 0 || loc1 < 0) {
-		return 1;
-	}
+	if (USE_COST_ARRAY) {
+		k->fitness += allDigraphCosts[loc0][loc1] * multiplier;
+        return 0;
+    }
 	
 	if (loc0 >= ksize && loc1 >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
@@ -164,11 +174,6 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	
 	loc0 %= ksize;
 	loc1 %= ksize;
-	
-	if (USE_COST_ARRAY) {
-		k->fitness += allDigraphCosts[loc0][loc1] * multiplier;
-        return 0;
-    }
 	
 	/* These all require that the hand be the same. */
 	if (hand[loc0] == hand[loc1]) {
@@ -228,6 +233,7 @@ int64_t calcBrackets(Keyboard *k)
 
 int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
 {
+    /* Some layouts do not contain brackets. That's okay; just return 0. */
 	int openPar = locWithShifted(k, openChar);
 	if (openPar < 0) return 0;
 	int closePar = locWithShifted(k, closeChar);

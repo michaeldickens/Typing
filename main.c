@@ -31,8 +31,11 @@ void timeRun()
 int main()
 {
 	/* Initialize the typing data and the keyboard layout settings. */
-    setksize(FK_NO);
-    getCommands();
+//    setksize(FK_NO);
+//    getCommands();
+    setksize(FK_STANDARD);
+    compare("/Users/MTGAP/XCodeProjects/Typing4/Typing/fullLayoutStore.txt");
+//    runTimingTests();
 	
 	return 0;
 }
