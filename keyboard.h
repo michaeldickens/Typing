@@ -40,7 +40,7 @@ int isLegalSwap(Keyboard *k, int i, int j);
 void shuffleLayout(Keyboard *kbd);
 
 /* Returns the index of c on either the shifted or unshifted layout. */
-int locWithoutShifted(Keyboard *k, char c);
+int locIgnoreShifted(Keyboard *k, char c);
 
 /* Returns the index of c if c is on the unshifted layout, or index + ksize 
  * if c is on the shifted layout.

@@ -233,7 +233,7 @@ int game()
 				printf("That position is occupied. Please try again.\n");
 				--keynum;
 				continue;
-			} else if (locWithoutShifted(&k, c) != -1) {
+			} else if (locIgnoreShifted(&k, c) % ksize != -1) {
 				printf("That character has already been placed. Please try again.\n");
 				--keynum;
 				continue;
@@ -283,7 +283,7 @@ int gameComputer(Keyboard *k, char difficulty)
 	
 	int i, j, inx, total = 0, done = FALSE;
 	for (i = 0; i < monLen && !done; ++i) {
-		if (locWithoutShifted(k, monKeys[i]) != -1) continue;
+		if (locIgnoreShifted(k, monKeys[i]) != -1) continue;
 		
 		for (j = 0; j < ksize && !done; ++j) {
 			inx = indices[j];
@@ -385,8 +385,8 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		k->toOutside    = 0;
 		int locs[2];
 		
-		locs[0] = locWithoutShifted(k, diKeys[i][0]);
-		locs[1] = locWithoutShifted(k, diKeys[i][1]);
+		locs[0] = locIgnoreShifted(k, diKeys[i][0]);
+		locs[1] = locIgnoreShifted(k, diKeys[i][1]);
 		
 		// These all require that the hand be the same.
 		if (hand[locs[0]] == hand[locs[1]]) {
@@ -667,7 +667,7 @@ int runTimingTests()
 		gettimeofday(&tv, NULL);
 		start = tv.tv_usec;
 		startsec = tv.tv_sec;
-		for (i = 0; i < 100000; ++i) locWithoutShifted(&tester, 'a');
+		for (i = 0; i < 100000; ++i) locIgnoreShifted(&tester, 'a');
 		gettimeofday(&tv, NULL);
 		locAverage = ((locAverage * j) + tv.tv_usec - start + 1000000*(tv.tv_sec - startsec)) / (j + 1);
 	}

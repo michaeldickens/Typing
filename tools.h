@@ -93,7 +93,7 @@ int getValue(char *name);
 #define isBracket(c) (getMatchingBracket(c) != 0)
 char getMatchingBracket(char c);
 
-int alwaysKeepShiftPairP(char c);
+int keepShiftPair(char c);
 
 
 int qwerty[30];

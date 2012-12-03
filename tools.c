@@ -652,8 +652,8 @@ int setValue(char *str)
 		keepQWERTY = value;
 	} else if (streq(name, "keepNumbers")) {
 		keepNumbers = value;
-	} else if (streq(name, "keepParentheses")) {
-		keepParentheses = value;
+	} else if (streq(name, "keepBrackets")) {
+		keepBrackets = value;
 	} else if (streq(name, "keepShiftPairs")) {
 		keepShiftPairs = value;
 	} else if (streq(name, "keepTab")) {
@@ -724,8 +724,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepQWERTY);
 	} else if (streq(name, "keepNumbers")) {
 		printf("%s = %d\n\n", name, keepNumbers);
-	} else if (streq(name, "keepParentheses")) {
-		printf("%s = %d\n\n", name, keepParentheses);
+	} else if (streq(name, "keepBrackets")) {
+		printf("%s = %d\n\n", name, keepBrackets);
 	} else if (streq(name, "keepShiftPairs")) {
 		printf("%s = %d\n\n", name, keepShiftPairs);
 	} else if (streq(name, "keepTab")) {
@@ -872,9 +872,16 @@ char getMatchingBracket(char c)
 	}
 }
 
-int alwaysKeepShiftPairP(char c)
+/* 
+ * If c should be kept in a pair with its shifted or unshifted character, 
+ * returns true. Otherwise, returns false.
+ * 
+ * Alphabetical characters and whitespace are kept in shifted pairs. Other keys 
+ * are not, unless the keepShiftPairs variable is set to TRUE.
+ */
+int keepShiftPair(char c)
 {
-	return isalpha(c) || isspace(c) || c == '\b';
+	return keepShiftPairs || isalpha(c) || isspace(c) || c == '\b';
 }
 
 void setksize(int type)

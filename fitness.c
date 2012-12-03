@@ -34,7 +34,7 @@ int calcFitnessDirect(Keyboard *k)
 	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
 
 	for (i = 0; i < monLen; ++i) { 
-		k->distance += distanceCosts[locWithoutShifted(k, monKeys[i])] * (monValues[i] / 100); // meters
+		k->distance += distanceCosts[locIgnoreShifted(k, monKeys[i])] * (monValues[i] / 100); // meters
 	}
 	
 	return 0;
@@ -44,7 +44,7 @@ int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier)
 {
 	int locs[2];
 	int i;
-	for (i = 0; i < 2; ++i) locs[i] = locWithoutShifted(k, digraph[i]);
+	for (i = 0; i < 2; ++i) locs[i] = locIgnoreShifted(k, digraph[i]);
 	
 	if (hand[locs[0]] == hand[locs[1]]) {
 		if (calcInRoll    (locs[0], locs[1]) != 0) k->inRoll     += multiplier;
@@ -150,7 +150,7 @@ int calcFitness(Keyboard *k)
         k->ringJump + k->toCenter + k->toOutside;
 	if (keepZXCV) k->fitness += calcShortcuts(k);
 	if (keepQWERTY) k->fitness += calcQWERTY(k);
-	if (keepParentheses) k->fitness += calcBrackets(k);
+	if (keepBrackets) k->fitness += calcBrackets(k);
 	if (keepNumbersShifted) k->fitness += calcNumbersShifted(k);
 
 	return 0;
@@ -201,10 +201,10 @@ int64_t calcShortcuts(Keyboard *k)
 {
 	int64_t result;
 	result = 
-	      shortcutCosts[locWithoutShifted(k, 'z')] * (int64_t) zCost
-		+ shortcutCosts[locWithoutShifted(k, 'x')] * (int64_t) xCost
-		+ shortcutCosts[locWithoutShifted(k, 'c')] * (int64_t) cCost
-		+ shortcutCosts[locWithoutShifted(k, 'v')] * (int64_t) vCost;
+	      shortcutCosts[locIgnoreShifted(k, 'z')] * (int64_t) zCost
+		+ shortcutCosts[locIgnoreShifted(k, 'x')] * (int64_t) xCost
+		+ shortcutCosts[locIgnoreShifted(k, 'c')] * (int64_t) cCost
+		+ shortcutCosts[locIgnoreShifted(k, 'v')] * (int64_t) vCost;
 		
 	return result * (totalMon / monLen);
 }
@@ -217,7 +217,7 @@ int64_t calcQWERTY(Keyboard *k)
 
 	int i, pos;
 	for (i = 0; i < 30; ++i) {
-		if ((pos = locWithoutShifted(k, qwerty[i])) != i) result += qwertyPosCost * averageMon;
+		if ((pos = locIgnoreShifted(k, qwerty[i])) != i) result += qwertyPosCost * averageMon;
 		if (finger[pos] != finger[i]) result += qwertyFingerCost * averageMon;
 		if (hand[pos] != hand[i]) result += qwertyHandCost * averageMon;
 	}

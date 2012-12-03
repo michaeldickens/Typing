@@ -82,4 +82,13 @@ For FK_STANDARD (varying GTB_ROUNDS, RUNS_BEFORE_GTB_ROUNDS):
 16, 64: 17363958 (15h of 20h)
 
 
+Running 4 threads, basic settings: 
+17356718 (30m of 4h)
+17358238 (1h of 11h)
+17359633 (15m of 5h)
+
+These all stop getting better stuff after only a short time.
+
+
+
  * TODO: after a certain point, stop running anneal() and only do greatToBest()

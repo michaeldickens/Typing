@@ -36,8 +36,8 @@ void greatToBest(Keyboard *k, int numRounds);
 void * greatToBestThreadRec(void *arg);
 void greatToBestBruteForce(Keyboard *k);
 
-int tryPermutations(int length, int *p, int index, int *used, int *locs,
-	Keyboard *bestk, Keyboard *origk);
+void tryPermutations(Keyboard *bestk, Keyboard *k, int *origLocs, int *locs,
+                    int length, int index);
 
 int64_t anneal(Keyboard *k, int lockins[][2], size_t lockin_length);
 int64_t improveLayout(int64_t evaluationToBeat, Keyboard *k, 

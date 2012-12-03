@@ -121,7 +121,7 @@ int initKeyboard(Keyboard *k)
 	if (keepNumbers && ksize > 30) {
 		char c;
 		for (c = '0'; c <= '9'; ++c) {
-			i = locWithoutShifted(k, c);
+			i = locIgnoreShifted(k, c);
 			if (i < 0) continue;
 			int n = (c - '0' + 9) % 10 + numStart;
 			swap(k, i, n);
@@ -147,7 +147,7 @@ int initKeyboard(Keyboard *k)
 		};
 				
 		for (i = 0; i < (long) (sizeof(halfIndices)/sizeof(int)); ++i)
-			swap(k, locWithoutShifted(k, consonants[i]), halfIndices[i]);
+			swap(k, locIgnoreShifted(k, consonants[i]), halfIndices[i]);
 	}
 	
 	k->fitness    = 0;
@@ -175,7 +175,7 @@ int setLayout(Keyboard *k, char *layout)
 			return -1;
 		}
 		if (printable[i]) k->layout[i] = *(layout++);
-		else k->layout[i] = '*';
+		else k->layout[i] = 1; /* 1 is used as a placeholder */
 	}
 	
 	savedLayout = layout;
@@ -186,7 +186,7 @@ int setLayout(Keyboard *k, char *layout)
 			return -1;
 		}
 		if (printable[i]) k->shiftedLayout[i] = *(layout++);
-		else k->shiftedLayout[i] = '*';
+		else k->shiftedLayout[i] = 1;
 	}
 	
 	k->layout[i] = '\0';
@@ -289,30 +289,33 @@ void copyKeyboard(Keyboard *k, Keyboard *original)
  * Return Codes
  * 0: Success.
  * -1: loc1 or loc2 is out of bounds.
- * -2: loc1 or loc2 is over an unprintable position.
+ * -2: loc1 or loc2 is at an unprintable position.
  */
 int swap(Keyboard *k, int loc1, int loc2)
 {
-	if (loc1 < 0 || loc2 < 0 || loc1 >= 2 * ksize || loc2 >= 2 * ksize) return -1;
-	if (printable[loc1 % ksize] ^ printable[loc2 % ksize]) return -2;
+	if (loc1 < 0 || loc2 < 0 || loc1 >= 2 * ksize || loc2 >= 2 * ksize)
+        return -1;
+	if (printable[loc1 % ksize] ^ printable[loc2 % ksize])
+        return -2;
 	
-	if (keepShiftPairs || 
-			(alwaysKeepShiftPairP(k->layout[loc1 % ksize]) || 
-			 alwaysKeepShiftPairP(k->layout[loc2 % ksize]))) {
+	if (keepShiftPair(k->layout[loc1 % ksize]) ||
+			 keepShiftPair(k->layout[loc2 % ksize])) {
 		return swapPair(k, loc1, loc2);
 	}
 	
 	char *layout1;
 	char *layout2;
 	
-	if (loc1 < ksize) layout1 = k->layout;
-	else {
+	if (loc1 < ksize) {
+        layout1 = k->layout;
+	} else {
 		layout1 = k->shiftedLayout;
 		loc1 -= ksize;
 	}
 	
-	if (loc2 < ksize) layout2 = k->layout;
-	else {
+	if (loc2 < ksize) {
+        layout2 = k->layout;
+    } else {
 		layout2 = k->shiftedLayout;
 		loc2 -= ksize;
 	}
@@ -476,7 +479,7 @@ int charToPrintable(char *buffer, char c, int changeSpace)
 
 int isSwappable(char c)
 {
-	return !(keepNumbers && c >= '0' && c <= '9');
+	return !(keepNumbers && isdigit(c));
 }
 
 int isLegalSwap(Keyboard *k, int i, int j)
@@ -487,8 +490,8 @@ int isLegalSwap(Keyboard *k, int i, int j)
 	if (!printable[i % ksize] || !printable[j % ksize])
 		return FALSE;
 	
-	if ((i >= ksize && (keepShiftPairs || alwaysKeepShiftPairP(k->shiftedLayout[i % ksize]))) || 
-			(j >= ksize && (keepShiftPairs || alwaysKeepShiftPairP(k->shiftedLayout[j % ksize])))) {
+	if ((i >= ksize && (keepShiftPairs || keepShiftPair(k->shiftedLayout[i % ksize]))) || 
+			(j >= ksize && (keepShiftPairs || keepShiftPair(k->shiftedLayout[j % ksize])))) {
 		return FALSE;
 	}
 	
@@ -542,12 +545,15 @@ void shuffleLayout(Keyboard *k)
 	}
 }
 
-int locWithoutShifted(Keyboard *k, char c)
+int locIgnoreShifted(Keyboard *k, char c)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {
-		if (k->layout[i] == c || k->shiftedLayout[i] == c)
+        if (!printable[i]) {
+            /* skip this index; any char here does not count */
+        } else if (k->layout[i] == c || k->shiftedLayout[i] == c) {
 			return i;
+        }
 	}
 	
 	return -1;
@@ -560,7 +566,9 @@ int locWithShifted(Keyboard *k, char c)
 {
 	int i;
 	for (i = 0; i < ksize; ++i) {
-		if (k->layout[i] == c) {
+        if (!printable[i]) {
+            /* skip this index; any char here does not count */
+		} else if (k->layout[i] == c) {
 			return i;
 		} else if (k->shiftedLayout[i] == c) {
 			 return i + ksize;

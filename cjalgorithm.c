@@ -73,7 +73,7 @@ void runAlgorithm()
 	for (runNum = 0; runNum < MAX_RUNS; ++runNum) {
         if (runNum % runsBeforeChanceInc == 0) {
             arg.chanceToUsePreviousLayout =
-                    pow(arg.chanceToUsePreviousLayout, 0.7);
+                    pow(arg.chanceToUsePreviousLayout, CHANCE_EXPONENTIATOR);
 			runsBeforeChanceInc = (int) (runsBeforeChanceInc * 1.2) + 1;
 			if (detailedOutput)
                 printf("Chance to use previous layout is now %f.\n",
@@ -192,9 +192,8 @@ void * runThreadsRec(void *arg)
         }
     }
 		
-	if (innerArg.bestk.fitness < threadArg->bestk.fitness) {
+	if (innerArg.bestk.fitness < threadArg->bestk.fitness)
 		copyKeyboard(&threadArg->bestk, &innerArg.bestk);
-	}
 	
 	threadArg->isFinished = TRUE;
 	return NULL;
@@ -237,58 +236,90 @@ void * greatToBestThreadRec(void *arg)
             return (void *) ret;
         }
     }
-	
-	int numberOfSwaps = GTB_NUMBER_OF_SWAPS;
-	
-	int i;
-	for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
-                !innerArg.isFinished; ++i) {
-		if (i % GTB_ROUNDS_BEFORE_SWAP_INC == GTB_ROUNDS_BEFORE_SWAP_INC - 1) {
-			++numberOfSwaps;
-		}
+    
+    if (rand() / (double) INT_MAX < CHANCE_TO_USE_BRUTE_FORCE) {
+        /* Use GTBBF(). If innerArg is still running when this finishes, it 
+         * will begin using the standard algorithm below.
+         */
+        int64_t prevBest = threadArg->bestk.fitness;
+        greatToBestBruteForce(&threadArg->bestk);
+        if (detailedOutput && threadArg->bestk.fitness < prevBest)
+            printf("\nFound with GTBBF(): %lld\n", threadArg->bestk.fitness);
+    }
+    
+    /* Use the standard greatToBest() algorithm. */
+
+    int numberOfSwaps = GTB_NUMBER_OF_SWAPS;
+    
+    int i;
+    for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
+         !innerArg.isFinished; ++i) {
+        if (i % GTB_ROUNDS_BEFORE_SWAP_INC == GTB_ROUNDS_BEFORE_SWAP_INC - 1) {
+            ++numberOfSwaps;
+        }
         
         copyKeyboard(&k, &threadArg->bestk);
-		
-		/* Any swaps made by smartMutate() are "locked in" and may not be 
+        
+        /* Any swaps made by smartMutate() are "locked in" and may not be
          * undone by anneal().
          */
-		int lockins[numberOfSwaps][2];
-		smartMutate(lockins, &k, numberOfSwaps);
-		
+        int lockins[numberOfSwaps][2];
+        smartMutate(lockins, &k, numberOfSwaps);
+        
         /* Use lockins only half the time. */
-		if (i % 2 == 0) anneal(&k, lockins, numberOfSwaps);
-		else anneal(&k, NULL, 0);
-		
-		calcFitness(&k);
-		if (k.fitness < threadArg->bestk.fitness) {
-			copyKeyboard(&threadArg->bestk, &k);
-		}
-	}
-	    
+        if (i % 2 == 0) anneal(&k, lockins, numberOfSwaps);
+        else anneal(&k, NULL, 0);
+        
+        calcFitness(&k);
+        if (k.fitness < threadArg->bestk.fitness) {
+            copyKeyboard(&threadArg->bestk, &k);
+        }
+    }	
+	   
+	if (innerArg.bestk.fitness < threadArg->bestk.fitness)
+		copyKeyboard(&threadArg->bestk, &innerArg.bestk);
+
     threadArg->isFinished = TRUE;
 	return NULL;
 }
 
+/*
+ * Chooses several indices and searches all permutations of keys at those
+ * indices to find the best one.
+ * 
+ * More likely to choose rare keys.
+ */
 void greatToBestBruteForce(Keyboard *k)
 {
-	int i, j, length = 9;
-	int locs[length], origLocs[length];
+	int i, j, length = GTBBF_ROUNDS;
+	int locs[length];
 		
 	/* Choose which locs to permute. */
-	for (i = 0, j = monLen - 1; i < length; ++i, --j) {
-		while (!isSwappable(monKeys[j]) || rand() % 4 == 0)
+	for (i = 0, j = monLen - 1; i < length; --j) {
+		while (!isSwappable(monKeys[j]) || isBracket(monKeys[j]) ||
+               keepShiftPair(monKeys[j]) || rand() % 4 == 0)
 			--j;
 		
-		/* If we run out of characters (which is unlikely), loop back around. */
+		/* If we run out of characters (which is unlikely), loop back around. 
+         * WARNING: This may add duplicate characters to locs[]. I don't expect 
+         * this to cause problems, but it might.
+         */
 		if (j < 0) j = monLen - 1;
-		origLocs[i] = locs[i] = locWithShifted(k, monKeys[j]);
+        
+		locs[i] = locWithShifted(k, monKeys[j]);
+        if (locs[i] != -1)
+            ++i;
 	}
 	
+    /* Always add brackets in pairs. */
 	for (i = 0; i < length; ++i) {
 		if (isBracket(charAt(k, locs[i]))) {
 			int savedLoc = locs[(i+1) % length];
-			origLocs[(i+1) % length] = locs[(i+1) % length] = 
-					locWithShifted(k, getMatchingBracket(charAt(k, locs[i])));
+            char match = getMatchingBracket(charAt(k, locs[i]));
+			locs[(i+1) % length] = locWithShifted(k, match);
+            if (locs[(i+1) % length] == -1) {
+                fprintf(stderr, "Error: Unable to find '%c'.\n", match);
+            }
 			++i;
 			
 			/* If locs already contained the matching bracket, remove one of 
@@ -297,7 +328,7 @@ void greatToBestBruteForce(Keyboard *k)
 			 */
 			for (j = 0; j < length; ++j)
 				if (i != j && locs[i] == locs[j])
-					origLocs[j] = locs[j] = savedLoc;
+					locs[j] = savedLoc;
 		}
 	}
 	
@@ -305,54 +336,67 @@ void greatToBestBruteForce(Keyboard *k)
 	calcFitness(k);
 	Keyboard origk;
 	copyKeyboard(&origk, k);
-
+    
 	/* Find the best permutation. */
-	int p[length];
-	int used[length];
-	memset(used, 0, sizeof(int) * length);
-	tryPermutations(length, p, 0, used, locs, k, &origk);
+    int origLocs[length];
+    memcpy(origLocs, locs, sizeof(int) * length);
+	tryPermutations(k, &origk, origLocs, locs, length, 0);
 }
 
-/* 
- * Adapted from the permutation algorithm used in the Ruby 1.9 standard library.
- * 
- * p: the array of indices that we're filling in
- * index: what index we're filling in now
- * used: an array of booleans: whether a given index is already used
- * locs: the keyboard locations that we are permuting
- */
-int tryPermutations(int length, int *p, int index, int *used, int *locs, 
-	Keyboard *bestk, Keyboard *origk)
+void tryPermutations(Keyboard *bestk, Keyboard *k, int *origLocs, int *locs,
+                    int length, int index)
 {
-	int i, j;
-	for (i = 0; i < length; ++i) {
-		if (!used[i]) {
-			p[index] = i;
-			if (index < length - 1) {
-				used[i] = TRUE;
-				tryPermutations(length, p, index + 1, used, locs, bestk, origk);
-				used[i] = FALSE;
-			} else {
-				char keys[length];
-				for (j = 0; j < length; ++j)
-					keys[j] = charAt(origk, locs[j]);
-				
-				for (j = 0; j < length; ++j)
-					if (isLegalSwap(origk, locs[p[j]], locs[j]))
-						setCharAt(origk, locs[p[j]], keys[j]);
-				calcFitness(origk);
-								
-				if (origk->fitness < bestk->fitness)
-					copyKeyboard(bestk, origk);
+    int i;
+    if (index == length - 1) {
+        Keyboard saved;
+        copyKeyboard(&saved, k);
+        
+        int hasPairMoved[ksize];
+        memset(hasPairMoved, FALSE, sizeof(hasPairMoved));
+        
+        for (i = 0; i < length; ++i) {
+            if (!isSwappable(charAt(k, origLocs[i])) ||
+                !isSwappable(charAt(&saved, locs[i]))) {
+                fprintf(stderr, "Error: In tryPermutations(), trying to swap unswappable %c and %c\n",
+                       charAt(k, origLocs[i]), charAt(&saved, locs[i]));
+            }
 
-				/* Put keys back to their original spots. */
-				for (j = 0; j < length; ++j)
-					setCharAt(origk, locs[j], keys[j]);
-			}
-		}
-	}
-	
-	return 0;
+            if (keepShiftPair(charAt(k, origLocs[i])) ||
+                    keepShiftPair(charAt(&saved, locs[i]))) {
+                fprintf(stderr, "Error: In tryPermutations(), trying to swap %c and %c where one of them must remain in a pair.\n",
+                        charAt(k, origLocs[i]), charAt(&saved, locs[i]));
+                copyKeyboard(k, &saved);
+                return;
+            }
+            setCharAt(k, origLocs[i], charAt(&saved, locs[i]));
+        }
+
+        /* If brackets are still properly aligned, score the permuted layout to 
+         * see if it's better. If brackets are not properly aligned, don't 
+         * bother. Note: This also works if keepBrackets == 0.
+         */
+        if (calcBrackets(k) == 0) {
+            calcFitness(k);
+            if (k->fitness < bestk->fitness) {
+                copyKeyboard(bestk, k);
+            }
+        }
+        
+        /* Put keys back in their original spots. */
+        copyKeyboard(k, &saved);
+    } else {
+        for (i = index; i < length; ++i) {
+            int temp = locs[index];
+            locs[index] = locs[i];
+            locs[i] = temp;
+            
+            tryPermutations(bestk, k, origLocs, locs, length, index + 1);
+            
+            temp = locs[index];
+            locs[index] = locs[i];
+            locs[i] = temp;
+        }
+    }
 }
 
 /* 
