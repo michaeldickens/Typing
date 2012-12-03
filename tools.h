@@ -77,7 +77,7 @@ void copyArray(int out[], const int in[], const int length);
 int initData();
 void initKeyboardData();
 void initTypingData();
-void internalError();
+void internalError( int code );
 int compileTypingData(char *outfileName, char *const filenames[], const int multipliers[], const size_t length, const int unit, const size_t max);
 char convertEscapeChar(char c);
 
@@ -141,7 +141,6 @@ int printable[KSIZE_MAX];
  */
 int rowChangeTableUp[5][5];
 int rowChangeTableDown[5][5];
-
 
 char diKeys[MAX_DI_LEN][2];
 int64_t diValues[MAX_DI_LEN];

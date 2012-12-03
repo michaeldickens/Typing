@@ -85,9 +85,3 @@ typedef struct {
 	uint max;			// max height of stack
 	JudyStack stack[1];	// current cursor
 } Judy;
-
-void * judy_open(uint max);
-JudySlot *judy_cell (Judy *judy, uchar *buff, uint max);
-uint judy_key (Judy *judy, uchar *buff, uint max);
-JudySlot *judy_nxt (Judy *judy);
-JudySlot *judy_strt (Judy *judy, uchar *buff, uint max);

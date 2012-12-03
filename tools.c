@@ -6,9 +6,9 @@
  *
  */
 
-#include "judy64.h"
+#include <stdbool.h>
+#include "keystroke.h"
 #include "tools.h"
-
 
 void copyArray(int out[], const int in[], const int length)
 {
@@ -532,22 +532,26 @@ int compileTypingData(char *const outfileName,
 {
 	int aMultiplier;
 	char *aFilename;
-	Judy *aJudy;
-	uchar *aKey;
+	Keystroke aKey;
 	char *aValueString;
 	int aValue;
-	JudySlot *aCell;
-	void outputTypingDataByDescendingValue( Judy *aJudy, FILE *outfile, size_t max);
-
+	void outputTypingData(const KeystrokeValueTable *table, FILE *outfile, const size_t max);
 	const int linelen = 100;
 	char line[linelen];
-	
+    void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);	
+    void sortTable(KeystrokeValueTable *kvTable);
+
 	FILE *outfile = fopen(outfileName, "w");
 	if (outfile == NULL) {
 		fprintf(stderr, "Error: null file %s.\n", outfileName);
 		return 1;
 	}
-	aJudy = judy_open(1024);
+	KeystrokeValueTable *kvTable = createTable();
+	if (kvTable == NULL) {
+		internalError(014);
+		fclose(outfile);
+		return 1;
+	}
 
 	size_t i;
 	for (i = 0; i < length; ++i) {
@@ -563,90 +567,57 @@ int compileTypingData(char *const outfileName,
 		if (file == NULL) {
 			fprintf(stderr, "Error: null file %s.\n", aFilename);
 			fclose(outfile);
+			free(kvTable->kvt_table);
+			kvTable->kvt_table = NULL;
+			free(kvTable);
 			return 1;
 		}
 		
 		while (fgets(line, linelen-1, file)) {			
 			line[linelen-1] = '\0';
 			line[unit] = 0;
-			aKey = (uchar *) line;
+			aKey = line;
 			aValueString = line + unit + 1;
 			aValue = atoi(aValueString);
-			aCell = judy_cell( aJudy, aKey, unit );
-			*aCell += aValue;
+			includeKeyInTable(aKey, aValue, kvTable);
 		}
 		
 		fclose(file);
 	}
-	
-	outputTypingDataByDescendingValue(aJudy, outfile, max);
+
+	sortTable(kvTable);
+	outputTypingData(kvTable, outfile, max);
 	fclose(outfile);
+	free(kvTable);
 	
 	return 0;
 }
 
-/* returns the maximum value stored within the Judy array
- */
-JudySlot getMaximumTypingValue(Judy *aJudy)
-{
-	JudySlot maximumValue = 0;
-	const JudySlot *aCell;
-
-	for (aCell = judy_strt(aJudy, NULL, 0);
-		 aCell;
-		 aCell = judy_nxt(aJudy))
-	{
-		if(*aCell > maximumValue) {
-			maximumValue = *aCell;
-		}
-	}
-	return maximumValue;
-}
-
 /* outputs the typing data, sorted by value from highest to lowest
  *
- * aJudy: the Judy array containing the typing data
+ * table: pointer to the KeystrokeValueTable containing the typing
+ *        data
  * outfile: the file to which the data is to be written
  * max: the maximum number of items to output
  */
-void outputTypingDataByDescendingValue(Judy *aJudy, FILE *outfile, size_t max)
+void outputTypingData(const KeystrokeValueTable *table, FILE *outfile, const size_t max)
 {
-	void outputTypingDataWithValue(Judy *aJudy,
-									FILE *outfile,
-									const JudySlot value,
-									size_t *pmax);
-	JudySlot maximumValue = getMaximumTypingValue(aJudy);
+	size_t count;
+	KeystrokeValue kv;
+	KeystrokeValue *innerTable = table->kvt_table;
+	size_t atMost;
+	uint64_t used = table->kvt_used;
 
-	for( ; (maximumValue > 0) && (max > 0); maximumValue-- ) {
-		outputTypingDataWithValue(aJudy, outfile, maximumValue, &max);
+	if (max > used) {
+		atMost = used;
 	}
-}
+	else {
+		atMost = max;
+	}
 
-/* locates each entry in the Judy array with a specific value and
- * outputs it and the value to a file
- *
- * aJudy: the Judy array
- * outfile: the file to which the function writes
- * value: the value for which to search
- * pmax: a pointer to the maximum number of items to output
- */
-void outputTypingDataWithValue(Judy *aJudy,
-								FILE *outfile,
-								const JudySlot value,
-								size_t *pmax)
-{
-	const JudySlot *aCell;
-	uchar buffer[10];
-
-	for (aCell = judy_strt(aJudy, NULL, 0);
-		 aCell && (*pmax > 0);
-		 aCell = judy_nxt(aJudy))
-	{
-		if(*aCell == value) {
-			(void) judy_key(aJudy, buffer, sizeof(buffer));
-			fprintf( outfile, "%s %ull\n", buffer, *aCell );
-			(*pmax)--;
-		}
+	for( count = 0; atMost > count; count++ ) {
+	  kv = innerTable[count];
+	  fprintf(outfile, "%s %llu\n", kv.theStroke, kv.theValue);
 	}
 }
 
@@ -890,6 +861,27 @@ int sortMonographs(char keys[], int64_t values[], const int left, const int righ
 	if (left < j) sortMonographs(keys, values, left, j);
 	
 	return 0;
+}
+
+/* sorts the given table by value from highest to lowest
+ *
+ * table: pointer to the KeystrokeValueTable containing the typing
+ *        data
+ */
+void sortTable(KeystrokeValueTable *table)
+{
+	if( table == NULL ) {
+		internalError(015);
+		return;
+	}
+	KeystrokeValue *actualTable = table->kvt_table;
+	if( actualTable == NULL ) {
+		internalError(016);
+		return;
+	}
+	int64_t used = table->kvt_used;
+	size_t kvSize = sizeof(actualTable[0]);
+	qsort(actualTable, used, kvSize, kvReverseComparingValues);
 }
 
 int alwaysKeepShiftPairP(const char c)
