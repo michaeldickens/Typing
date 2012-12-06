@@ -268,13 +268,13 @@ int swap(Keyboard *const k, int loc1, int loc2)
 	if (loc1 < ksize) layout1 = k->layout;
 	else {
 		layout1 = k->shiftedLayout;
-		loc1 -= ksize;
+		loc1 %= ksize;
 	}
 	
 	if (loc2 < ksize) layout2 = k->layout;
 	else {
 		layout2 = k->shiftedLayout;
-		loc2 -= ksize;
+		loc2 %= ksize;
 	}
 	
 	const char temp = layout1[loc1];
