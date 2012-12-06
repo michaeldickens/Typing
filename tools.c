@@ -6,7 +6,6 @@
  *
  */
 
-#include <stdbool.h>
 #include "keystroke.h"
 #include "tools.h"
 
