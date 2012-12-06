@@ -795,7 +795,7 @@ int getValue(char *const name)
 }
 
 int sortDigraphs(char keys[][2], int64_t values[], const int left, const int right)
-{	
+{
 	int64_t lltemp;
 	char ctemp;
 	

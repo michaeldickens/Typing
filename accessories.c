@@ -415,7 +415,12 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 			values[i] *= diValues[i];
 	}
 	
-	sortDigraphs(keys, values, 0, diLen - 1);
+	if (diLen <= 0) {
+        internalError(017);
+	}
+	else {
+		sortDigraphs(keys, values, 0, diLen - 1);
+	}
 	
 	for (i = 0; i < diLen; ++i) {
 		aKey = keys[i];
