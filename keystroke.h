@@ -24,4 +24,7 @@ void insertIntoTable(const KeystrokeValue *pKV,
                         KeystrokeValueTable *table,
                         int64_t atIndex);
 int kvReverseComparingValues(const void *kv1, const void *kv2);
+int kvComparingValues(const void *kv1, const void *kv2);
 KeystrokeValue *growTable(KeystrokeValueTable *table, int64_t *pCount);
+KeystrokeValueTable *createKVTableFromMatrix( char (*matrix)[2] );
+void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);

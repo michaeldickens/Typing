@@ -7,6 +7,7 @@
  */
 
 #include "accessories.h"
+#include "keystroke.h"
 
 int getCommands()
 {
@@ -358,22 +359,33 @@ void worstDigraphsFromFile(const char *const filename, const int damagingp)
 	}
 }
 
+/* outputs the "worst" digraphs for the given Keyboard.
+ *
+ * k: a pointer to a Keyboard object to analyze
+ * damagingp: a flag indicating whether or not an indication of
+ *     digraphs are the most "damaging" is desired
+ *
+ * The function returns 0 if processing occured as expected and
+ * non-zero if otherwise.
+ */
 int worstDigraphs(Keyboard *const k, const int damagingp)
 {
 	int i;
 	int loc0;
 	int loc1;
-	char *aKey;
 	char key0;
 	char key1;
 	char buf1[5];
 	char buf2[5];
+	KeystrokeValueTable *kvt = createKVTableFromMatrix( diKeys );
+
+	if (kvt == NULL) {
+		return 1;
+	}
+	KeystrokeValue *theTable = kvt->kvt_table;
+	KeystrokeValue kv;
+
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
-	
-	char keys[diLen][2];
-	memcpy(keys, diKeys, sizeof(char) * diLen * 2);
-	
-	int64_t values[diLen];
 
 	for (i = 0; i < diLen; ++i) {
 		k->distance		= 0;
@@ -385,9 +397,9 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 		k->homeJump		= 0;
 		k->toCenter		= 0;
 		k->toOutside	= 0;
-		aKey = diKeys[i];
-		key0 = aKey[0];
-		key1 = aKey[1];
+		kv = theTable[i];
+		key0 = kv.theStroke[0];
+		key1 = kv.theStroke[1];
 		loc0 = loc(k, key0);
 		loc1 = loc(k, key1);
 		
@@ -405,31 +417,32 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 		k->distance = (distanceCosts[loc0] + distanceCosts[loc1]) * distance;
 
 		/* Re-assign diValues[i] to the cost of that digraph. */
-		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
+		theTable[i].theValue = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
 		
 		/* This function will tell you...
 		 * Without this line: Which digraphs have the worst score.
 		 * With this line: Which digraphs are the most damaging, based on both score and frequency.
 		 */
 		if (damagingp)
-			values[i] *= diValues[i];
+			theTable[i].theValue *= diValues[i];
 	}
 	
 	if (diLen <= 0) {
         internalError(017);
 	}
 	else {
-		sortDigraphs(keys, values, 0, diLen - 1);
+		static const size_t kvSize = sizeof(KeystrokeValue);
+		qsort(theTable, kvt->kvt_used, kvSize, kvComparingValues);
 	}
 	
 	for (i = 0; i < diLen; ++i) {
-		aKey = keys[i];
-		key0 = aKey[0];
-		key1 = aKey[1];
+		kv = theTable[i];
+		key0 = kv.theStroke[0];
+		key1 = kv.theStroke[1];
 		charToPrintable(buf1, key0, FALSE);
 		charToPrintable(buf2, key1, FALSE);
 		
-		printf("%s%s = %lld\n", buf1, buf2, values[i]);
+		printf("%s%s = %lld\n", buf1, buf2, kv.theValue);
 		
 	}
 		

@@ -49,6 +49,29 @@ KeystrokeValueTable *createTable()
 	return theTable;
 }
 
+/* creates a KeystrokeValueTable pointer from a 2 dimensional
+ * array. The function returns the created table with the matrix
+ * information stored within and the corresponding values of the
+ * KeystrokeValueTable initialized to 0.
+ */
+KeystrokeValueTable *createKVTableFromMatrix( char (*matrix)[2] )
+{
+	KeystrokeValueTable *theTable = createTable();
+
+	if( theTable == NULL ) {
+		internalError(021);
+		return NULL;
+	}
+	const int64_t allocated = theTable->kvt_allocated;
+    Keystroke theStroke;
+
+	for( int64_t i = 0; i < allocated; i++ ) {
+		theStroke = matrix[i];
+        includeKeyInTable( theStroke, 0, theTable );
+	}
+    return theTable;
+}
+
 /* searches thru the given table and either finds the point where
  * to insert a keystroke with a given value and inserts it or adds
  * the value to the value already stored for that keystroke
@@ -193,6 +216,11 @@ void insertIntoTable(const KeystrokeValue *pKV,
  *
  * kv1: pointer to one KeystrokeValue to compare, presumed non-null
  * kv2: pointer to another KeystrokeValue to compare, presumed non-null
+ * 
+ * The function returns 0 if the values of the two KeystrokeValue
+ * objects are equal. The function returns +1 if kv2 comes before
+ * kv1 according to this comparison method. The function returns
+ * -1 if kv1 comes before kv2 according to the comparsion method.
  */
 int kvComparingValues(const void *kv1, const void *kv2)
 {
@@ -200,12 +228,11 @@ int kvComparingValues(const void *kv1, const void *kv2)
   KeystrokeValue *kvp2 = (KeystrokeValue *)kv2;
   int64_t v1 = kvp1->theValue;
   int64_t v2 = kvp2->theValue;
-  int64_t diff = v1 - v2;
   int rv;
 
-  if (diff == 0) {
+  if (v1 == v2) {
 	rv = 0;
-  } else if (diff > 0) {
+  } else if (v1 > v2) {
 	rv = 1;
   } else {
 	rv = -1;
