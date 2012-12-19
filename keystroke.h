@@ -1,3 +1,5 @@
+#ifndef KEYSTROKE_H
+#define KEYSTROKE_H
 #include <stdint.h>
 
 typedef const char *Keystroke;
@@ -15,16 +17,23 @@ typedef struct KeystrokeValueTable {
 } KeystrokeValueTable;
 
 KeystrokeValueTable *createTable();
+KeystrokeValueTable *copyKeystrokeValueTable(KeystrokeValueTable *source);
 int64_t findKeyInTable(const Keystroke key,
                         const KeystrokeValueTable *table,
                         const int64_t min,
                         const int64_t max,
                         _Bool *pExists);
+char getFirstKeystroke(const KeystrokeValueTable *const table,
+                            uint64_t index);
+Value getKVValue(const KeystrokeValueTable *const table,
+                    uint64_t index);
 void insertIntoTable(const KeystrokeValue *pKV,
                         KeystrokeValueTable *table,
                         int64_t atIndex);
 int kvReverseComparingValues(const void *kv1, const void *kv2);
 int kvComparingValues(const void *kv1, const void *kv2);
 KeystrokeValue *growTable(KeystrokeValueTable *table, int64_t *pCount);
-KeystrokeValueTable *createKVTableFromMatrix( char (*matrix)[2] );
 void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);
+typedef int (*sortingFunction)(const void *, const void *);
+void sortTable(KeystrokeValueTable *kvTable, sortingFunction function);
+#endif

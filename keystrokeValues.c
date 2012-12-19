@@ -4,6 +4,9 @@
 #include <string.h>
 #include "keystroke.h"
 
+KeystrokeValueTable *digraphs = NULL;
+KeystrokeValueTable *monographs = NULL;
+
 extern void internalError( int code );
 
 /* allocates the internal array for the given table
@@ -49,27 +52,97 @@ KeystrokeValueTable *createTable()
 	return theTable;
 }
 
-/* creates a KeystrokeValueTable pointer from a 2 dimensional
- * array. The function returns the created table with the matrix
- * information stored within and the corresponding values of the
- * KeystrokeValueTable initialized to 0.
+/* creates and returns a pointer to a duplicate of the given
+ * KeystrokveValueTable with all Value members set to 0. If the
+ * function fails to correctly copy the given table, the function
+ * null is returned. The pointer paramter is presumed to be non-null.
  */
-KeystrokeValueTable *createKVTableFromMatrix( char (*matrix)[2] )
+KeystrokeValueTable *copyKeystrokeValueTable(KeystrokeValueTable *source)
 {
-	KeystrokeValueTable *theTable = createTable();
+	KeystrokeValueTable *newTable = createTable();
+	if( newTable ) {
+		const uint64_t used = source->kvt_used;
+		uint64_t i;
+		KeystrokeValue kvSource;
+		Keystroke theStroke;
+		KeystrokeValue *innerTable = source->kvt_table;
 
-	if( theTable == NULL ) {
-		internalError(021);
-		return NULL;
+		for( i = 0; i < used; i++ ) {
+			kvSource = innerTable[i];
+			theStroke = kvSource.theStroke;
+			includeKeyInTable( theStroke, 0, newTable );
+		}
 	}
-	const int64_t allocated = theTable->kvt_allocated;
-    Keystroke theStroke;
+	return newTable;
+}
 
-	for( int64_t i = 0; i < allocated; i++ ) {
-		theStroke = matrix[i];
-        includeKeyInTable( theStroke, 0, theTable );
+/* retrieves the first character of the Keystroke of the given
+ * table at the given index.
+ */
+char getFirstKeystroke(const KeystrokeValueTable *const table, uint64_t theIndex)
+{
+	Keystroke getKeystroke(const KeystrokeValueTable *const table,
+	                        uint64_t index);
+	Keystroke theStroke = getKeystroke(table, theIndex);
+	char rv;
+
+	if( theStroke ) {
+		rv = theStroke[0];
+	} else {
+		rv = 0;
 	}
-    return theTable;
+	return rv;
+}
+
+/* retrieves the KeystrokeValue of the given table at the given index.
+ */
+KeystrokeValue getKeystrokeValue(const KeystrokeValueTable *const table, uint64_t theIndex)
+{
+	KeystrokeValue bad = { NULL, 0 };
+
+	if( table == NULL ) {
+		internalError(023);
+		return bad;
+	}
+
+	KeystrokeValue *innerTable = table->kvt_table;
+
+	if( innerTable == NULL ) {
+		internalError(024);
+		return bad;
+	}
+
+	const uint64_t used = table->kvt_used;
+
+	if( theIndex >= used ) {
+		internalError(025);
+		return bad;
+	}
+
+	KeystrokeValue kv = innerTable[theIndex];
+
+	return kv;
+}
+
+/* retrieves the Keystroke of the given table at the given index.
+ */
+Keystroke getKeystroke(const KeystrokeValueTable *const table, uint64_t theIndex)
+{
+	KeystrokeValue kv = getKeystrokeValue(table, theIndex);
+	Keystroke stroke = kv.theStroke;
+
+	return stroke;
+}
+
+/* retrieves the value of the KeystrokeValue of the given table at
+   the given index.
+ */
+Value getKVValue(const KeystrokeValueTable *const table, uint64_t theIndex)
+{
+	KeystrokeValue kv = getKeystrokeValue(table, theIndex);
+	Value value = kv.theValue;
+
+	return value;
 }
 
 /* searches thru the given table and either finds the point where

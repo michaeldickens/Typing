@@ -13,12 +13,22 @@
 // For all score calculators, it is assumed that loc0 and loc1 are on the same hand.
 
 // Calculates the stats for k. Useful for human-readable output.
+// The function returns 0 if completion occurs as expected and
+// non-0 otherwise.
 int calcFitnessDirect(Keyboard *const k)
 {
+	if( digraphs == NULL ) {
+		internalError(022);
+		return 1;
+	}
+	if( digraphs->kvt_table == NULL ) {
+		internalError(027);
+		return 1;
+	}
 	calcFitness(k); // Otherwise, k->fitness, k->fingerUsage, and k->fingerWork 
 	                // would not get assigned properly.
 
-	int i;
+	uint64_t i;
 	k->distance		= 0;
 	k->inRoll		= 0;
 	k->outRoll		= 0;
@@ -30,13 +40,59 @@ int calcFitnessDirect(Keyboard *const k)
 	k->toCenter		= 0;
 	k->toOutside	= 0;
 
-	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
+	extern void scoreAllDigraphsDirectly(Keyboard *const k);
 
-	for (i = 0; i < monLen; ++i) { 
-		k->distance += trueDistance[loc(k, monKeys[i])] * (monValues[i] / 100); // meters 
+	scoreAllDigraphsDirectly(k);
+
+	char key;
+	Value value;
+	const uint64_t used = monographs->kvt_used;
+
+	for (i = 0; i < used; ++i) { 
+        key = getFirstKeystroke(monographs, i);
+        value = getKVValue(monographs, i);
+		k->distance += trueDistance[loc(k, key)] * (value / 100); // meters 
 	}
 	
 	return 0;
+}
+
+// Scores all digraphs for the Keyboard object pointed to by
+// parameter 'k' using the location information in parameter
+// 'locs'.
+void scoreAllDigraphs(Keyboard *k, int locs[128]) {
+	const uint64_t used = digraphs->kvt_used;
+	const KeystrokeValue *theTable = digraphs->kvt_table;
+	KeystrokeValue kv;
+	Keystroke theStroke;
+	Value value;
+	int64_t i;
+
+	for (i = used - 1; i >= 0; --i) {
+		kv = theTable[i];
+		theStroke = kv.theStroke;
+		value = kv.theValue;
+		scoreDigraph(k, theStroke, value, locs);
+	}
+}
+
+// Directly scores all digraphs for the Keyboard object pointed to by
+// parameter 'k'.
+void scoreAllDigraphsDirectly(Keyboard *const k)
+{
+	const uint64_t used = digraphs->kvt_used;
+	const KeystrokeValue *theTable = digraphs->kvt_table;
+	KeystrokeValue kv;
+	Keystroke theStroke;
+	Value value;
+	uint64_t i;
+
+	for (i = 0; i < used; ++i) {
+		kv = theTable[i];
+		theStroke = kv.theStroke;
+		value = kv.theValue;
+		scoreDigraphDirect(k, theStroke, value);
+	}
 }
 
 int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multiplier)
@@ -63,7 +119,7 @@ int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multip
 
 int calcFitness(Keyboard *const k)
 {
-	int i;
+	uint64_t i;
 	
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	k->fitness		= 0;
@@ -88,23 +144,27 @@ int calcFitness(Keyboard *const k)
 			locs[k->shiftedLayout[i]] = ksize + i;
 		}
 	
-	for (i = diLen - 1; i >= 0; --i) {
-		scoreDigraph(k, diKeys[i], diValues[i], locs);
-	}
-	
+	scoreAllDigraphs(k, locs);
+
+	char key;
+	Value value;
+	const uint64_t used = monographs->kvt_used;
+
 	/* Calculate distance. Done here and not in scoreDigraph because it uses 
 	 * monographs instead of digraphs.
 	 */
-	for (i = 0; i < monLen; ++i) {
-		const int lc = locs[monKeys[i]] % ksize;
-		if (lc >= 0) k->distance += distanceCosts[lc] * monValues[i] * distance;
+	for (i = 0; i < used; ++i) {
+		key = getFirstKeystroke(monographs, i);
+		value = getKVValue(monographs, i);
+		const int lc = locs[key] % ksize;
+		if (lc >= 0) k->distance += distanceCosts[lc] * value * distance;
 		else {
 			internalError( 9 );
 			return 0;
 		}
 		
-		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
-		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += monValues[i];
+		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += value;
+		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += value;
 	}
 	calcFingerWork(k);	
 	
@@ -167,8 +227,8 @@ int64_t calcShortcuts(const Keyboard *const k)
 		+ shortcutCosts[loc(k, 'x')] * (int64_t) xCost
 		+ shortcutCosts[loc(k, 'c')] * (int64_t) cCost
 		+ shortcutCosts[loc(k, 'v')] * (int64_t) vCost;
-		
-	return result * (totalMon / monLen);
+	const uint64_t used = monographs->kvt_used;
+	return result * (totalMon / used);
 }
 
 int64_t calcQWERTY(const Keyboard *const k)

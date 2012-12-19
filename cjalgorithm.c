@@ -7,7 +7,7 @@
  */
 
 #include "cjalgorithm.h"
- 
+#include "keystroke.h" 
 
 int runCJAlgorithm(char *const filename)
 {
@@ -211,15 +211,17 @@ int smartMutate(Keyboard *const k, const int numberOfSwaps)
 	
 	const int swapslen = 2 * numberOfSwaps;	
 	char swaps[swapslen];
-	
+	char key;
+	uint64_t used = monographs->kvt_used;
 	int i, j;
 	
 	for (j = 0; j < swapslen; ++j) {
-		swaps[j] = monKeys[0];
+		swaps[j] = getFirstKeystroke(monographs, 0);
 
-		for (i = monLen - 1; i >= 0; --i) {
-			if (isSwappable(monKeys[i]) && rand() % q == 0) {
-				swaps[j] = monKeys[i];
+		for (i = used - 1; i >= 0; --i) {
+			key = getFirstKeystroke(monographs, i);
+			if (isSwappable(key) && rand() % q == 0) {
+				swaps[j] = key;
 				break;
 			}
 		}

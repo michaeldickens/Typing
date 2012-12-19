@@ -5,23 +5,19 @@
  *  Created by Michael Dickens on 8/7/09.
  *
  */
- 
+
+#include "keystroke.h" 
 #include "values.h"
 
 #define streq(str1, str2) (strcmp(str1, str2) == 0)
 #define streqn(str1, str2, n) (strncmp(str1, str2, n) == 0)
 
 #define ASCII_SHIFT 14
- 
-
-#define MAX_DI_LEN 5000
-#define MAX_MON_LEN 200
 
 #define ERROR_RATE_PERCENT 2
 
 int64_t totalMon;
 int64_t totalDi;
-int monLen, diLen;
 
 /* Constant definitions */
 
@@ -81,9 +77,6 @@ void internalError( int code );
 int compileTypingData(char *outfileName, char *const filenames[], const int multipliers[], const size_t length, const int unit, const size_t max);
 char convertEscapeChar(char c);
 
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
-int sortMonographs(char keys[], int64_t values[], int left, int right);
-
 int setValue(char *str);
 int getValue(char *name);
 
@@ -142,11 +135,8 @@ int printable[KSIZE_MAX];
 int rowChangeTableUp[5][5];
 int rowChangeTableDown[5][5];
 
-char diKeys[MAX_DI_LEN][2];
-int64_t diValues[MAX_DI_LEN];
-
-char monKeys[MAX_MON_LEN];
-int64_t monValues[MAX_MON_LEN];
+extern KeystrokeValueTable *digraphs;
+extern KeystrokeValueTable *monographs;
 
 /* Used in cjalgorithm.c. */
 int indices[2 * KSIZE_MAX];

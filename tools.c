@@ -365,7 +365,7 @@ void initKeyboardData()
  */
 void initTypingData()
 {
-	int i;
+	uint64_t i;
 	FILE *file;
 	
 	file = fopen("allDigraphs.txt", "r");
@@ -374,10 +374,24 @@ void initTypingData()
 		internalError( 7 );
 		return;
 	}
+	if( digraphs == NULL ) {
+		digraphs = createTable();
+		if( digraphs == NULL ) {
+			return;
+		}
+	}
+	if( monographs == NULL ) {
+		monographs = createTable();
+		if( monographs == NULL ) {
+			return;
+		}
+	}
+	char key1;
+	char key2;
+	Value value;
 	int c = '\0';
 	i = 0;
 	totalDi = 0;
-	diLen = 0;
 	while (TRUE) {
 		/* Skip any extra newlines. */
 		while ((c = getc(file)) == '\n')
@@ -390,7 +404,7 @@ void initTypingData()
 			fclose(file);
 			return;
 		}
-		diKeys[i][0] = c;
+		key1 = c;
 
 		c = getc(file);
 		if (c == '\\') c = convertEscapeChar(getc(file));
@@ -399,31 +413,30 @@ void initTypingData()
 			fclose(file);
 			return;
 		}
-		diKeys[i][1] = c;
+		key2 = c;
 		
 		c = getc(file); /* Skip the space between the digraph and the value. */
 		
-		if (strchr(keysToInclude, diKeys[i][0]) && 
-				strchr(keysToInclude, diKeys[i][1])) {
-			diValues[i] = 0;
+		if (strchr(keysToInclude, key1) && 
+				strchr(keysToInclude, key2)) {
+			value = 0;
 			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-				diValues[i] *= 10;
-				diValues[i] += c - '0';
+				value *= 10;
+				value += c - '0';
 			}
 			
-			diValues[i] /= DIVISOR;
-			totalDi += diValues[i++];
-			
-			if (i >= MAX_DI_LEN)
-				break;
+			value /= DIVISOR;
+			totalDi += value;
+
+			char keys[3] = { key1, key2, '\0' };
+
+			includeKeyInTable( keys, value, digraphs );
 		}
 
 		/* Skip all extra characters. */
 		while (c != EOF && c != '\n')
 			c = getc(file);
 	}
-	
-	diLen = i;
 	fclose(file);
 	
 
@@ -435,7 +448,6 @@ void initTypingData()
 	c = '\0';
 	i = 0;
 	totalMon = 0;
-	monLen = 0;
 	while (TRUE) {
 		/* Skip any extra newlines. */
 		while ((c = getc(file)) == '\n')
@@ -447,22 +459,23 @@ void initTypingData()
 			fprintf(stderr, "Error: In monograph file, unknown escape character \\%c.\n", c);
 			return;
 		}
-		monKeys[i] = c;
+		key1 = c;
 		
 		c = getc(file); /* Skip the space between the char and the value. */
 		
-		if (strchr(keysToInclude, monKeys[i])) {
-			monValues[i] = 0;
+		if (strchr(keysToInclude, key1)) {
+			value = 0;
 			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-				monValues[i] *= 10;
-				monValues[i] += c - '0';
+				value *= 10;
+				value += c - '0';
 			}
 			
-			monValues[i] /= DIVISOR;
-			totalMon += monValues[i++];
+			value /= DIVISOR;
+			totalMon += value;
 
-			if (i >= MAX_MON_LEN)
-				break;
+			char keys[2] = { key1, '\0' };
+
+			includeKeyInTable( keys, value, monographs );
 		}
 
 		/* Skip all extra characters. */
@@ -470,34 +483,42 @@ void initTypingData()
 			c = getc(file);
 	}
 	
-	monLen = i;
 	fclose(file);
 	
 	/* If necessary, add the stats for backspace. */
 	if (strchr(keysToInclude, '\b')) {
-		int64_t value;
+		const uint64_t used = monographs->kvt_used;
+		KeystrokeValue *theTable = monographs->kvt_table;
+		KeystrokeValue kv;
+		Value theValue;
+		Keystroke theStroke;
+		char theStrokeToAdd[3] = { '\0', '\0', '\0' };
+		char theKey;
+
 		/* Add backpace to the digraph list. */
-		for (i = 0; i < monLen; ++i) {
-			value = monValues[i] * ERROR_RATE_PERCENT / 100;
-			diKeys[diLen][0] = '\b';
-			diKeys[diLen][1] = monKeys[i];
-			diValues[diLen] = value;
-			++diLen;
-			
-			diKeys[diLen][1] = '\b';
-			diKeys[diLen][0] = monKeys[i];
-			diValues[diLen] = value;
-			++diLen;
+		for (i = 0; i < used; ++i) {
+			kv = theTable[i];
+			theValue = kv.theValue;
+			theStroke = kv.theStroke;
+			theKey = theStroke[0];
+			value = theValue * ERROR_RATE_PERCENT / 100;
+			theStrokeToAdd[0] = '\b';
+			theStrokeToAdd[1] = theKey;
+			includeKeyInTable(theStrokeToAdd, value, digraphs);
+			theStrokeToAdd[0] = theKey;
+			theStrokeToAdd[1] = '\b';
+			includeKeyInTable(theStrokeToAdd, value, digraphs);
 		}
 	 
 		/* Add backspace to the monograph list. */
-		monKeys[monLen] = '\b';
-		monValues[monLen] = totalMon * ERROR_RATE_PERCENT / 100;
-		++monLen;
+   		theStrokeToAdd[0] = '\b';
+   		theStrokeToAdd[1] = '\0';
+		value = totalMon * ERROR_RATE_PERCENT / 100;
+   		includeKeyInTable(theStrokeToAdd, value, monographs);
 	}
 	
-	sortDigraphs(diKeys, diValues, 0, diLen - 1);
-	sortMonographs(monKeys, monValues, 0, monLen - 1);
+	sortTable(digraphs, kvComparingValues);
+	sortTable(monographs, kvComparingValues);
 }
 
 /* Report an internal error.
@@ -538,7 +559,6 @@ int compileTypingData(char *const outfileName,
 	const int linelen = 100;
 	char line[linelen];
     void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);	
-    void sortTable(KeystrokeValueTable *kvTable);
 
 	FILE *outfile = fopen(outfileName, "w");
 	if (outfile == NULL) {
@@ -584,7 +604,7 @@ int compileTypingData(char *const outfileName,
 		fclose(file);
 	}
 
-	sortTable(kvTable);
+	sortTable(kvTable, kvReverseComparingValues);
 	outputTypingData(kvTable, outfile, max);
 	fclose(outfile);
 	free(kvTable);
@@ -794,80 +814,14 @@ int getValue(char *const name)
 	return 0;
 }
 
-int sortDigraphs(char keys[][2], int64_t values[], const int left, const int right)
-{
-	int64_t lltemp;
-	char ctemp;
-	
-	const int64_t pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	do {
-		while (values[i] < pivot) ++i;
-		while (values[j] > pivot) --j;
-		
-		if (i <= j) {
-			lltemp = values[i];
-			values[i] = values[j];
-			values[j] = lltemp;
-			
-			ctemp = keys[i][0];
-			keys[i][0] = keys[j][0];
-			keys[j][0] = ctemp;
-
-			ctemp = keys[i][1];
-			keys[i][1] = keys[j][1];
-			keys[j][1] = ctemp;
-			
-			++i;
-			--j;
-		}
-		
-	} while (i <= j);
-	
-	if (i < right) sortDigraphs(keys, values, i, right);
-	if (left < j) sortDigraphs(keys, values, left, j);
-	
-	return 0;
-}
-
-int sortMonographs(char keys[], int64_t values[], const int left, const int right)
-{	
-	int64_t lltemp;
-	char ctemp;
-	
-	const int64_t pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	do {
-		while (values[i] < pivot) ++i;
-		while (values[j] > pivot) --j;
-		
-		if (i <= j) {
-			lltemp = values[i];
-			values[i] = values[j];
-			values[j] = lltemp;
-			
-			ctemp = keys[i];
-			keys[i] = keys[j];
-			keys[j] = ctemp;
-			
-			++i;
-			--j;
-		}
-		
-	} while (i <= j);
-	
-	if (i < right) sortMonographs(keys, values, i, right);
-	if (left < j) sortMonographs(keys, values, left, j);
-	
-	return 0;
-}
-
-/* sorts the given table by value from highest to lowest
+/* sorts the given table in accordance with the given sorting function
  *
  * table: pointer to the KeystrokeValueTable containing the typing
  *        data
+ * function: a pointer to the function used to compare any two
+ *        KeystrokeValue objects
  */
-void sortTable(KeystrokeValueTable *table)
+void sortTable(KeystrokeValueTable *table, sortingFunction function)
 {
 	if( table == NULL ) {
 		internalError(015);
@@ -880,7 +834,7 @@ void sortTable(KeystrokeValueTable *table)
 	}
 	int64_t used = table->kvt_used;
 	size_t kvSize = sizeof(actualTable[0]);
-	qsort(actualTable, used, kvSize, kvReverseComparingValues);
+	qsort(actualTable, used, kvSize, function);
 }
 
 int alwaysKeepShiftPairP(const char c)

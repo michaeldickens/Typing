@@ -268,6 +268,10 @@ int game()
 	return 0;
 }
 
+/* performs calculations on behalf of the computer for the
+ * game. The function returns 0 if all goes as expected and non-0
+ * otherwise.
+ */
 int gameComputer(Keyboard *const k, const char difficulty)
 {
 	int bestp = -1; char bestc = '\0';
@@ -277,22 +281,26 @@ int gameComputer(Keyboard *const k, const char difficulty)
 	
 	shuffleIndices();
 	
-	int i, j, inx, total = 0, done = FALSE;
-	for (i = 0; i < monLen && !done; ++i) {
-		if (loc(k, monKeys[i]) != -1) continue;
+	uint64_t i;
+	int j, inx, total = 0, done = FALSE;
+	const uint64_t used = monographs->kvt_used;
+	char key;
+	for (i = 0; i < used && !done; ++i) {
+		key = getFirstKeystroke(monographs, i);
+		if (loc(k, key) != -1) continue;
 		
 		for (j = 0; j < ksize && !done; ++j) {
 			inx = indices[j];
 			if (k->layout[inx]) continue;
 			
 			copy(&k2, k);
-			k2.layout[inx] = monKeys[i];
+			k2.layout[inx] = key;
 			
 			calcFitness(&k2);
 			score = k2.fitness - k->fitness;
 			if (score < bestScore) {
 				bestp = inx;
-				bestc = monKeys[i];
+				bestc = key;
 				bestScore = score;
 			}
 			
@@ -370,24 +378,25 @@ void worstDigraphsFromFile(const char *const filename, const int damagingp)
  */
 int worstDigraphs(Keyboard *const k, const int damagingp)
 {
-	int i;
+	uint64_t i;
 	int loc0;
 	int loc1;
 	char key0;
 	char key1;
 	char buf1[5];
 	char buf2[5];
-	KeystrokeValueTable *kvt = createKVTableFromMatrix( diKeys );
+	KeystrokeValueTable *kvt = copyKeystrokeValueTable(digraphs);
 
 	if (kvt == NULL) {
 		return 1;
 	}
 	KeystrokeValue *theTable = kvt->kvt_table;
 	KeystrokeValue kv;
+	const uint64_t used = kvt->kvt_used;
 
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 
-	for (i = 0; i < diLen; ++i) {
+	for (i = 0; i < used; ++i) {
 		k->distance		= 0;
 		k->inRoll		= 0;
 		k->outRoll		= 0;
@@ -416,34 +425,32 @@ int worstDigraphs(Keyboard *const k, const int damagingp)
 		}
 		k->distance = (distanceCosts[loc0] + distanceCosts[loc1]) * distance;
 
-		/* Re-assign diValues[i] to the cost of that digraph. */
+		/* Re-assign theValues to the cost of that digraph. */
 		theTable[i].theValue = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
 		
 		/* This function will tell you...
 		 * Without this line: Which digraphs have the worst score.
 		 * With this line: Which digraphs are the most damaging, based on both score and frequency.
 		 */
-		if (damagingp)
-			theTable[i].theValue *= diValues[i];
+		if (damagingp) {
+			Value value = getKVValue(digraphs, i);
+			theTable[i].theValue *= value;
+		}
 	}
 	
-	if (diLen <= 0) {
-        internalError(017);
-	}
-	else {
-		static const size_t kvSize = sizeof(KeystrokeValue);
-		qsort(theTable, kvt->kvt_used, kvSize, kvComparingValues);
-	}
+   	static const size_t kvSize = sizeof(KeystrokeValue);
+   	qsort(theTable, kvt->kvt_used, kvSize, kvComparingValues);
 	
-	for (i = 0; i < diLen; ++i) {
+	Value value;
+
+	for (i = 0; i < used; ++i) {
 		kv = theTable[i];
 		key0 = kv.theStroke[0];
 		key1 = kv.theStroke[1];
 		charToPrintable(buf1, key0, FALSE);
 		charToPrintable(buf2, key1, FALSE);
-		
-		printf("%s%s = %lld\n", buf1, buf2, kv.theValue);
-		
+		value = kv.theValue;
+		printf("%s%s = %lld\n", buf1, buf2, value);
 	}
 		
 	return 0;	
