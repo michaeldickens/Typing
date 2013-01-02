@@ -20,7 +20,6 @@ int calcFitnessDirect(Keyboard *k)
 	                // would not get assigned properly.
 
 	int i;
-	k->distance   = 0;
 	k->inRoll     = 0;
 	k->outRoll    = 0;
 	k->sameHand   = 0;
@@ -31,12 +30,9 @@ int calcFitnessDirect(Keyboard *k)
 	k->toCenter   = 0;
 	k->toOutside  = 0;
 
-	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, diKeys[i], diValues[i]);
+	for (i = 0; i < diLen; ++i) scoreDigraphDirect(k, digraphs[i].key,
+                                                   digraphs[i].value);
 
-	for (i = 0; i < monLen; ++i) { 
-		k->distance += distanceCosts[locIgnoreShifted(k, monKeys[i])] * (monValues[i] / 100); // meters
-	}
-	
 	return 0;
 }
 
@@ -130,18 +126,20 @@ int calcFitness(Keyboard *k)
 		}
 	
 	for (i = 0; i < diLen; ++i) {
-		scoreDigraph(k, diKeys[i], diValues[i], locs);
+		scoreDigraph(k, digraphs[i].key, digraphs[i].value, locs);
 	}
 	
 	/* Calculate distance. Done here and not in scoreDigraph because it uses
 	 * monographs instead of digraphs.
 	 */
 	for (i = 0; i < monLen; ++i) {
-		int lc = locs[monKeys[i]] % ksize;
-		if (lc >= 0) k->distance += distanceCosts[lc] * monValues[i] * distance;
+		int lc = locs[monographs[i].key] % ksize;
+		if (lc >= 0)
+            k->distance += distanceCosts[lc] * monographs[i].value * distance;
 		
-		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monValues[i];
-		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] += monValues[i];
+		if (hand[lc] == LEFT) k->fingerUsage[finger[lc]] += monographs[i].value;
+		else k->fingerUsage[FINGER_COUNT - 1 - finger[lc]] +=
+                monographs[i].value;
 	}
 	calcFingerWork(k);	
 	

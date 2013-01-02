@@ -283,20 +283,20 @@ int gameComputer(Keyboard *k, char difficulty)
 	
 	int i, j, inx, total = 0, done = FALSE;
 	for (i = 0; i < monLen && !done; ++i) {
-		if (locIgnoreShifted(k, monKeys[i]) != -1) continue;
+		if (locIgnoreShifted(k, monographs[i].key) != -1) continue;
 		
 		for (j = 0; j < ksize && !done; ++j) {
 			inx = indices[j];
 			if (k->layout[inx]) continue;
 			
 			copyKeyboard(&k2, k);
-			k2.layout[inx] = monKeys[i];
+			k2.layout[inx] = monographs[i].key;
 			
 			calcFitness(&k2);
 			score = k2.fitness - k->fitness;
 			if (score < bestScore) {
 				bestp = inx;
-				bestc = monKeys[i];
+				bestc = monographs[i].key;
 				bestScore = score;
 			}
 			
@@ -368,11 +368,9 @@ int worstDigraphs(Keyboard *k, int damagingp)
 	int i;
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	
-	char keys[diLen][2];
-	memcpy(keys, diKeys, sizeof(char) * diLen * 2);
+	struct digraph worst[diLen];
+	memcpy(worst, digraphs, sizeof(worst) * diLen);
 	
-	int64_t values[diLen];
-
 	for (i = 0; i < diLen; ++i) {
 		k->distance	    = 0;
 		k->inRoll       = 0;
@@ -385,8 +383,8 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		k->toOutside    = 0;
 		int locs[2];
 		
-		locs[0] = locIgnoreShifted(k, diKeys[i][0]);
-		locs[1] = locIgnoreShifted(k, diKeys[i][1]);
+		locs[0] = locIgnoreShifted(k, worst[i].key[0]);
+		locs[1] = locIgnoreShifted(k, worst[i].key[1]);
 		
 		// These all require that the hand be the same.
 		if (hand[locs[0]] == hand[locs[1]]) {
@@ -401,26 +399,28 @@ int worstDigraphs(Keyboard *k, int damagingp)
 		}
 		k->distance = (distanceCosts[locs[0]] + distanceCosts[locs[1]]) * distance;
 
-		/* Re-assign diValues[i] to the cost of that digraph. */
-		values[i] = k->distance + k->inRoll + k->outRoll + k->sameHand + k->sameFinger + k->rowChange + k->homeJump + k->toCenter + k->toOutside;
+		/* Re-assign digraphs[i].value to the cost of that digraph. */
+		worst[i].value = k->distance + k->inRoll + k->outRoll +
+                k->sameHand + k->sameFinger + k->rowChange + k->homeJump +
+                k->toCenter + k->toOutside;
 		
 		/* This function will tell you...
 		 * Without this line: Which digraphs have the worst score.
 		 * With this line: Which digraphs are the most damaging, based on both score and frequency.
 		 */
 		if (damagingp)
-			values[i] *= diValues[i];
+			worst[i].value *= digraphs[i].value;
 	}
 	
-	sortDigraphs(keys, values, 0, diLen - 1);
+	qsort(worst, diLen, sizeof(struct digraph), &cmpDigraphsByValue);
 	
 	for (i = 0; i < diLen; ++i) {
 		char buf1[5];
 		char buf2[5];
-		charToPrintable(buf1, keys[i][0], FALSE);
-		charToPrintable(buf2, keys[i][1], FALSE);
+		charToPrintable(buf1, worst[i].key[0], FALSE);
+		charToPrintable(buf2, worst[i].key[1], FALSE);
 		
-		printf("%s%s = %lld\n", buf1, buf2, values[i]);
+		printf("%s%s = %lld\n", buf1, buf2, worst[i].value);
 		
 	}
 		
@@ -581,14 +581,20 @@ int getNumber(char *description)
 	do {
 		printf("%s", description);
 		fgets(input, 100, stdin);
-		if (streq(input, "0")) {
-			return 0;
+        int isInteger = TRUE;
+        char *ptr;
+        for (ptr = input; *ptr != '\0' && *ptr != '\n'; ++ptr) {
+            if (!isdigit(*ptr)) {
+                isInteger = FALSE;
+                break;
+            }
+        }
+        if (!isInteger) {
+			printf("You must input an integer.\n");
+            continue;
 		}
 		num = atoi(input);
-		if (num == 0) {
-			printf("Undefined input. Please try again.\n");
-		}
-	} while (num == 0);
+	} while (FALSE);
 	
 	return num;
 }

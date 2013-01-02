@@ -296,8 +296,8 @@ void greatToBestBruteForce(Keyboard *k)
 		
 	/* Choose which locs to permute. */
 	for (i = 0, j = monLen - 1; i < length; --j) {
-		while (!isSwappable(monKeys[j]) || isBracket(monKeys[j]) ||
-               keepShiftPair(monKeys[j]) || rand() % 4 == 0)
+		while (!isSwappable(monographs[j].key) || isBracket(monographs[j].key) ||
+               keepShiftPair(monographs[j].key) || rand() % 4 == 0)
 			--j;
 		
 		/* If we run out of characters (which is unlikely), loop back around. 
@@ -306,7 +306,7 @@ void greatToBestBruteForce(Keyboard *k)
          */
 		if (j < 0) j = monLen - 1;
         
-		locs[i] = locWithShifted(k, monKeys[j]);
+		locs[i] = locWithShifted(k, monographs[j].key);
         if (locs[i] != -1)
             ++i;
 	}
@@ -521,11 +521,11 @@ int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps)
 	
 	/* Fills charsToSwap. */
 	for (j = 0; j < swapslen; ++j) {
-		charsToSwap[j] = monKeys[0];
+		charsToSwap[j] = monographs[0].key;
 
 		for (i = monLen - 1; i >= 0; --i) {
-			if (isSwappable(monKeys[i]) && rand() % q == 0) {
-				charsToSwap[j] = monKeys[i];
+			if (isSwappable(monographs[i].key) && rand() % q == 0) {
+				charsToSwap[j] = monographs[i].key;
 				break;
 			}
 		}

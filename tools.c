@@ -342,7 +342,7 @@ int initTypingData()
 			fclose(file);
 			return 1;
 		}
-		diKeys[i][0] = c;
+		digraphs[i].key[0] = c;
 
 		c = getc(file);
 		if (c == '\\') c = convertEscapeChar(getc(file));
@@ -351,22 +351,22 @@ int initTypingData()
 			fclose(file);
 			return 1;
 		}
-		diKeys[i][1] = c;
+		digraphs[i].key[1] = c;
 		
 		c = getc(file); /* Skip the space between the digraph and the value. */
 		
-		if (strchr(keysToInclude, diKeys[i][0]) && 
-				strchr(keysToInclude, diKeys[i][1])) {
-			diValues[i] = 0;
+		if (strchr(keysToInclude, digraphs[i].key[0]) &&
+				strchr(keysToInclude, digraphs[i].key[1])) {
+			digraphs[i].value = 0;
 			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-				diValues[i] *= 10;
-				diValues[i] += c - '0';
+				digraphs[i].value *= 10;
+				digraphs[i].value += c - '0';
 			}
 			
-			diValues[i] /= DIVISOR;
-			totalDi += diValues[i++];
+			digraphs[i].value /= DIVISOR;
+			totalDi += digraphs[i++].value;
 			
-			if (i >= MAX_DI_LEN)
+			if (i >= DI_LEN_MAX)
 				break;
 		}
 
@@ -385,7 +385,7 @@ int initTypingData()
 	c = '\0';
 	totalMon = 0;
 	monLen = 0;
-	for (i = 0; i < MAX_MON_LEN; ) {
+	for (i = 0; i < MON_LEN_MAX; ) {
 		/* Skip any extra newlines. */
 		while ((c = getc(file)) == '\n')
 			;
@@ -397,19 +397,19 @@ int initTypingData()
 			fclose(file);
 			return 1;
 		}
-		monKeys[i] = (char) c;
+		monographs[i].key = (char) c;
 		
 		c = getc(file); /* Skip the space between the char and the value. */
 		
-		if (strchr(keysToInclude, monKeys[i])) {
-			monValues[i] = 0;
+		if (strchr(keysToInclude, monographs[i].key)) {
+			monographs[i].value = 0;
 			while ((c = getc(file)) != EOF && c >= '0' && c <= '9') {
-				monValues[i] *= 10;
-				monValues[i] += c - '0';
+				monographs[i].value *= 10;
+				monographs[i].value += c - '0';
 			}
 			
-			monValues[i] /= DIVISOR;
-			totalMon += monValues[i];
+			monographs[i].value /= DIVISOR;
+			totalMon += monographs[i].value;
 
 			++i;
 		}
@@ -426,26 +426,26 @@ int initTypingData()
 	if (strchr(keysToInclude, '\b')) {
 		/* Add backpace to the digraph list. */
 		for (i = 0; i < monLen; ++i) {
-			int64_t error_rate = monValues[i] * ERROR_RATE_PERCENT / 100;
-			diKeys[diLen][0] = '\b';
-			diKeys[diLen][1] = monKeys[i];
-			diValues[diLen] = error_rate;
+			int64_t errorRate = monographs[i].value * ERROR_RATE_PERCENT / 100;
+			digraphs[diLen].key[0] = '\b';
+			digraphs[diLen].key[1] = monographs[i].key;
+			digraphs[diLen].value = errorRate;
 			++diLen;
 			
-			diKeys[diLen][1] = '\b';
-			diKeys[diLen][0] = monKeys[i];
-			diValues[diLen] = error_rate;
+			digraphs[diLen].key[0] = monographs[i].key;
+			digraphs[diLen].key[1] = '\b';
+			digraphs[diLen].value = errorRate;
 			++diLen;
 		}
 	 
 		/* Add backspace to the monograph list. */
-		monKeys[monLen] = '\b';
-		monValues[monLen] = totalMon * ERROR_RATE_PERCENT / 100;
+		monographs[monLen].key = '\b';
+		monographs[monLen].value = totalMon * ERROR_RATE_PERCENT / 100;
 		++monLen;
 	}
-	
-	sortDigraphs(diKeys, diValues, 0, diLen - 1);
-	sortMonographs(monKeys, monValues, 0, monLen - 1);
+    
+    qsort(monographs, monLen, sizeof(struct monograph), &cmpMonographsByValue);
+    qsort(digraphs, diLen, sizeof(struct digraph), &cmpDigraphsByValue);
 	
 	return 0;
 }
@@ -462,6 +462,9 @@ int initTypingData()
  * 
  * Return Codes
  * 1: Null file.
+ * 
+ * TODO: Refactor this to use monograph and digraph structs instead of two 
+ *   parallel arrays of keys and values.
  */
 int compileTypingData(char *outfileName, const char *filenames[], 
 		int multipliers[], int length, int unit, int max)
@@ -778,72 +781,22 @@ int getValue(char *name)
 	return 0;
 }
 
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right)
-{	
-	int64_t vtemp;
-	char ctemp;
-	
-	int64_t pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	do {
-		while (values[i] > pivot) ++i;
-		while (values[j] < pivot) --j;
-		
-		if (i <= j) {
-			vtemp = values[i];
-			values[i] = values[j];
-			values[j] = vtemp;
-			
-			ctemp = keys[i][0];
-			keys[i][0] = keys[j][0];
-			keys[j][0] = ctemp;
-
-			ctemp = keys[i][1];
-			keys[i][1] = keys[j][1];
-			keys[j][1] = ctemp;
-			
-			++i;
-			--j;
-		}
-		
-	} while (i <= j);
-	
-	if (i < right) sortDigraphs(keys, values, i, right);
-	if (left < j) sortDigraphs(keys, values, left, j);
-	
-	return 0;
+int cmpDigraphsByValue(const void *one, const void *two)
+{
+    int64_t val1 = ((struct digraph *) one)->value;
+    int64_t val2 = ((struct digraph *) two)->value;
+    if (val1 > val2) return -1;
+    else if (val1 < val2) return 1;
+    return 0;
 }
 
-int sortMonographs(char keys[], int64_t values[], int left, int right)
-{	
-	int64_t vtemp;
-	char ctemp;
-	
-	int64_t pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	do {
-		while (values[i] > pivot) ++i;
-		while (values[j] < pivot) --j;
-		
-		if (i <= j) {
-			vtemp = values[i];
-			values[i] = values[j];
-			values[j] = vtemp;
-			
-			ctemp = keys[i];
-			keys[i] = keys[j];
-			keys[j] = ctemp;
-			
-			++i;
-			--j;
-		}
-		
-	} while (i <= j);
-	
-	if (i < right) sortMonographs(keys, values, i, right);
-	if (left < j) sortMonographs(keys, values, left, j);
-	
-	return 0;
+int cmpMonographsByValue(const void *one, const void *two)
+{
+    int64_t val1 = ((struct monograph *) one)->value;
+    int64_t val2 = ((struct monograph *) two)->value;
+    if (val1 > val2) return -1;
+    else if (val1 < val2) return 1;
+    return 0;
 }
 
 /* Returns the matching bracket for c. If c is not a bracket, returns 0.

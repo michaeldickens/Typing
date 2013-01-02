@@ -15,6 +15,9 @@
 #include <string.h>
 #include <time.h>
 
+/* If you have <sys/time.h>, un-comment the line below. */
+// #define SYS_TIME_H
+
 #ifdef SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -66,7 +69,7 @@ char *kbdFilename;
 #define GTB_NUMBER_OF_SWAPS 10          /* recommended 10-16 */
 #define GTB_ROUNDS_BEFORE_SWAP_INC 32   /* recommended ~64 */
 #define CHANCE_TO_USE_BRUTE_FORCE 0.25
-#define GTBBF_ROUNDS 10                 /* recommended 4-10 */
+#define GTBBF_ROUNDS 8                  /* recommended 4-10 */
 
 int64_t distanceCosts[KSIZE_MAX];
 int64_t shortcutCosts[KSIZE_MAX];

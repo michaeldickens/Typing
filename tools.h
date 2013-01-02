@@ -13,16 +13,31 @@
 
 #define ASCII_SHIFT 14
  
-#define MAX_DI_LEN 5000
-#define MAX_MON_LEN 200
+#define DI_LEN_MAX 5000
+#define MON_LEN_MAX 200
 
 #define ERROR_RATE_PERCENT 2
+
+/* Global variable declarations */
 
 int64_t totalMon;
 int64_t totalDi;
 int monLen, diLen, triLen;
 
-/* Constant definitions */
+struct monograph {
+    char key;
+    int64_t value;
+};
+
+struct digraph {
+    char key[2];
+    int64_t value;
+};
+
+struct digraph digraphs[DI_LEN_MAX];
+struct monograph monographs[MON_LEN_MAX];
+
+/* Constant declarations */
 
 #define LEFT 0
 #define RIGHT 1
@@ -84,7 +99,9 @@ int convertEscapeChar(int c);
 
 /* Sort by values from highest to lowest.
  */
-int sortDigraphs(char keys[][2], int64_t values[], int left, int right);
+int cmpDigraphsByValue(const void *one, const void *two);
+int cmpMonographsByValue(const void *one, const void *two);
+
 int sortMonographs(char keys[], int64_t values[], int left, int right);
 
 int setValue(char *str);
@@ -147,13 +164,4 @@ int printable[KSIZE_MAX];
  */
 int rowChangeTableUp[5][5];
 int rowChangeTableDown[5][5];
-
-
-int costs[900];
-
-char diKeys[MAX_DI_LEN][2];
-int64_t diValues[MAX_DI_LEN];
-
-char monKeys[MAX_MON_LEN];
-int64_t monValues[MAX_MON_LEN];
 
