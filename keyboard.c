@@ -379,8 +379,8 @@ int printPercentages(const Keyboard *const k)
 			 + k->fingerUsage[9]) / total);
 
 	if (total == 0) {
-        printf("warning: total = 0\n");
-        return 0;
+		printf("warning: total = 0\n");
+		return 0;
 	}
 	// Finger
 	printf("Fingers: ");

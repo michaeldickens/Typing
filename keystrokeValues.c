@@ -196,8 +196,8 @@ int64_t findKeyInTable(const Keystroke key,
 		 Keystroke stroke = table->kvt_table[mid].theStroke;
 		 
 		 if( stroke == NULL ) {
-		 	 internalError(4);
-		 exit(0);
+			 internalError(4);
+			 exit(0);
 		 }
 		 else {
 	 		  int relation = strcmp(key, stroke);

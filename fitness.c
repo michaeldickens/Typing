@@ -49,8 +49,8 @@ int calcFitnessDirect(Keyboard *const k)
 	const uint64_t used = monographs->kvt_used;
 
 	for (i = 0; i < used; ++i) { 
-        key = getFirstKeystroke(monographs, i);
-        value = getKVValue(monographs, i);
+		key = getFirstKeystroke(monographs, i);
+		value = getKVValue(monographs, i);
 		k->distance += trueDistance[loc(k, key)] * (value / 100); // meters 
 	}
 	
