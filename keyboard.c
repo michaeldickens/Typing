@@ -120,7 +120,7 @@ int setLayout(Keyboard *const k, char *layout)
 	char *savedLayout = layout;
 	for (i = 0; i < ksize; ++i) {
 		if (printable[i] && *layout == '\0') {
-			fprintf(stderr, "Error: in setLayout(), layout %s does not have enough characters (%d expected, %ld found).\n", 
+			fprintf(stderr, "Error: in setLayout(), layout %s does not have enough characters (%d expected, %lu found).\n", 
 					savedLayout, trueksize, strlen(savedLayout));
 			return -1;
 		}
@@ -131,7 +131,7 @@ int setLayout(Keyboard *const k, char *layout)
 	savedLayout = layout;
 	for (i = 0; i < ksize; ++i) {
 		if (printable[i] && *layout == '\0') {
-			fprintf(stderr, "Error: in setLayout(), layout %s does not have enough characters (%d expected, %ld found).\n", 
+			fprintf(stderr, "Error: in setLayout(), layout %s does not have enough characters (%d expected, %lu found).\n", 
 					savedLayout, trueksize, strlen(savedLayout));
 			return -1;
 		}
