@@ -33,7 +33,7 @@ void insertIntoTable(const KeystrokeValue *pKV,
 int kvReverseComparingValues(const void *kv1, const void *kv2);
 int kvComparingValues(const void *kv1, const void *kv2);
 KeystrokeValue *growTable(KeystrokeValueTable *table, int64_t *pCount);
-void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);
+void includeKeyInTable(Keystroke aKey, Value aValue, KeystrokeValueTable *table);
 typedef int (*sortingFunction)(const void *, const void *);
 void sortTable(KeystrokeValueTable *kvTable, sortingFunction function);
 #endif

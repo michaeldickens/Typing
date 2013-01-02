@@ -11,8 +11,8 @@
 
 int runCJAlgorithm(char *const filename)
 {
-	const int start = time(NULL);
-    int finish = 0;
+	const time_t start = time(NULL);
+    time_t finish = 0;
 	int i, roundNum, isFileEmpty;
 	
 	int64_t curEval;
@@ -108,12 +108,12 @@ int runCJAlgorithm(char *const filename)
 			copy(&bestk, &k);
 
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 		} else if (curEval == bestEval && detailedOutput) {
 			printf("Same layout found\n");
 		} else if (time(NULL) - finish >= intervalBetweenPrints) {
 			finish = time(NULL);
-			printf("Time elapsed after %d rounds: %d hours, %d minutes, %d seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+			printf("Time elapsed after %d rounds: %ld hours, %ld minutes, %ld seconds\n", roundNum, (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 			++intervalInc;
 			if (intervalInc >= 4) {
 				intervalInc = 0;
@@ -123,7 +123,7 @@ int runCJAlgorithm(char *const filename)
 	}
 		
 	finish = time(NULL);
-	printf("\nTime elapsed: %d hours, %d minutes, %d seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
+	printf("\nTime elapsed: %ld hours, %ld minutes, %ld seconds\n", (finish-start)/3600, ((finish - start)%3600)/60, (finish-start)%60);
 
     return 0;
 }
@@ -212,8 +212,8 @@ int smartMutate(Keyboard *const k, const int numberOfSwaps)
 	const int swapslen = 2 * numberOfSwaps;	
 	char swaps[swapslen];
 	char key;
-	uint64_t used = monographs->kvt_used;
-	int i, j;
+	int64_t used = monographs->kvt_used;
+	int64_t i, j;
 	
 	for (j = 0; j < swapslen; ++j) {
 		swaps[j] = getFirstKeystroke(monographs, 0);

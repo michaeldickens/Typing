@@ -44,9 +44,9 @@ int locWithShifted(const Keyboard *const k, const char c);
 
 
 int calcFitnessDirect(Keyboard *k);
-int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multiplier);
+int scoreDigraphDirect(Keyboard *const k, const char digraph[], const Value multiplier);
 int calcFitness(Keyboard *k);
-int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int allLocs[]);
+int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int64_t allLocs[]);
 
 
 

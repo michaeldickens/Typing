@@ -60,8 +60,8 @@ int calcFitnessDirect(Keyboard *const k)
 // Scores all digraphs for the Keyboard object pointed to by
 // parameter 'k' using the location information in parameter
 // 'locs'.
-void scoreAllDigraphs(Keyboard *k, int locs[128]) {
-	const uint64_t used = digraphs->kvt_used;
+void scoreAllDigraphs(Keyboard *k, int64_t locs[128]) {
+	const int64_t used = digraphs->kvt_used;
 	const KeystrokeValue *theTable = digraphs->kvt_table;
 	KeystrokeValue kv;
 	Keystroke theStroke;
@@ -80,12 +80,12 @@ void scoreAllDigraphs(Keyboard *k, int locs[128]) {
 // parameter 'k'.
 void scoreAllDigraphsDirectly(Keyboard *const k)
 {
-	const uint64_t used = digraphs->kvt_used;
+	const int64_t used = digraphs->kvt_used;
 	const KeystrokeValue *theTable = digraphs->kvt_table;
 	KeystrokeValue kv;
 	Keystroke theStroke;
 	Value value;
-	uint64_t i;
+	int64_t i;
 
 	for (i = 0; i < used; ++i) {
 		kv = theTable[i];
@@ -95,7 +95,7 @@ void scoreAllDigraphsDirectly(Keyboard *const k)
 	}
 }
 
-int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multiplier)
+int scoreDigraphDirect(Keyboard *const k, const char digraph[], const Value multiplier)
 {
 	int locs[2];
 	int i;
@@ -134,7 +134,7 @@ int calcFitness(Keyboard *const k)
 	k->toCenter		= 0;
 	k->toOutside	= 0;
 	
-	int locs[128];
+	int64_t locs[128];
 	for (i = 0; i < 128; ++i) locs[i] = -1;
 	
 	/* Calculate all the locations beforehand. This saves a lot of time. */
@@ -179,7 +179,7 @@ int calcFitness(Keyboard *const k)
 	return 0;
 }
 
-int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int allLocs[])
+int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int64_t allLocs[])
 {
 	const int loc0 = allLocs[digraph[0]] % ksize;
 	const int loc1 = allLocs[digraph[1]] % ksize;

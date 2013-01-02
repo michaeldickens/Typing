@@ -153,7 +153,7 @@ Value getKVValue(const KeystrokeValueTable *const table, uint64_t theIndex)
  * aValue: the value to add/assign
  * table: the table thru which to search, presumed to be non-null
  */
-void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table)
+void includeKeyInTable(Keystroke aKey, Value aValue, KeystrokeValueTable *table)
 {
 	_Bool alreadyExists;
 	int64_t keyIndex = findKeyInTable(aKey,

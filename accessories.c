@@ -207,7 +207,7 @@ int game()
 	
 	calcFitness(&k);
 	
-	int prev_fitness = k.fitness;
+	int64_t prev_fitness = k.fitness;
 	
 	int keynum;
 	for (keynum = 0; keynum < ksize; ++keynum) {

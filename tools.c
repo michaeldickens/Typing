@@ -20,7 +20,7 @@ int initData()
 	
 	int i, j;
 	
-	srand(time(NULL));
+	srand((unsigned) time(NULL));
 	
 	for (i = 0; i <= ksize; ++i)
 		nilKeyboard.layout[i] = nilKeyboard.shiftedLayout[i] = '\0';
@@ -558,7 +558,7 @@ int compileTypingData(char *const outfileName,
 	void outputTypingData(const KeystrokeValueTable *table, FILE *outfile, const size_t max);
 	const int linelen = 100;
 	char line[linelen];
-    void includeKeyInTable(Keystroke aKey, int aValue, KeystrokeValueTable *table);	
+    void includeKeyInTable(Keystroke aKey, Value aValue, KeystrokeValueTable *table);	
 
 	FILE *outfile = fopen(outfileName, "w");
 	if (outfile == NULL) {
@@ -671,7 +671,7 @@ char convertEscapeChar(const char c)
  */
 int setValue(char *const str)
 {
-	const int len = strlen(str);
+	const size_t len = strlen(str);
 	
 	if (len == 0) {
 		printf("No variable specified. Type \"variables\" for a complete listing of possible variables.\n\n");
