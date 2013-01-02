@@ -11,7 +11,7 @@ typedef struct KeystrokeValue {
 typedef struct KeystrokeValueTable {
     int64_t kvt_allocated;      /*  the number of elements
                                     allocated for kvt_table */
-    uint64_t kvt_used;          /*  the number of elements used in
+    int64_t kvt_used;           /*  the number of elements used in
                                     kvt_table   */
     KeystrokeValue *kvt_table;  /*  the actual table    */
 } KeystrokeValueTable;

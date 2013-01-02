@@ -119,7 +119,7 @@ int scoreDigraphDirect(Keyboard *const k, const char digraph[], const int multip
 
 int calcFitness(Keyboard *const k)
 {
-	uint64_t i;
+	int64_t i;
 	
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	k->fitness		= 0;
@@ -148,7 +148,7 @@ int calcFitness(Keyboard *const k)
 
 	char key;
 	Value value;
-	const uint64_t used = monographs->kvt_used;
+	const int64_t used = monographs->kvt_used;
 
 	/* Calculate distance. Done here and not in scoreDigraph because it uses 
 	 * monographs instead of digraphs.
@@ -227,7 +227,7 @@ int64_t calcShortcuts(const Keyboard *const k)
 		+ shortcutCosts[loc(k, 'x')] * (int64_t) xCost
 		+ shortcutCosts[loc(k, 'c')] * (int64_t) cCost
 		+ shortcutCosts[loc(k, 'v')] * (int64_t) vCost;
-	const uint64_t used = monographs->kvt_used;
+	const int64_t used = monographs->kvt_used;
 	return result * (totalMon / used);
 }
 
