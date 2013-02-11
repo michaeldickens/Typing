@@ -283,6 +283,10 @@ int gameComputer(Keyboard *const k, const char difficulty)
 	
 	uint64_t i;
 	int j, inx, total = 0, done = FALSE;
+	if( monographs == NULL ) {
+		internalError(030);
+		exit(0);
+	}
 	const uint64_t used = monographs->kvt_used;
 	char key;
 	for (i = 0; i < used && !done; ++i) {

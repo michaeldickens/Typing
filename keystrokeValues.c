@@ -59,6 +59,10 @@ KeystrokeValueTable *createTable()
  */
 KeystrokeValueTable *copyKeystrokeValueTable(KeystrokeValueTable *source)
 {
+	if( source == NULL ) {
+		internalError(037);
+		exit(0);
+	}
 	KeystrokeValueTable *newTable = createTable();
 	if( newTable ) {
 		const uint64_t used = source->kvt_used;

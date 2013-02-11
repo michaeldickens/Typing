@@ -21,7 +21,11 @@ int runCJAlgorithm(char *const filename)
 	Keyboard k = nilKeyboard;
 	Keyboard prevk;
 	Keyboard bestk = nilKeyboard;
-	
+
+	if( filename == NULL ) {
+		internalError(031);
+		exit(0);
+	}	
 	FILE *fp = fopen(filename, "r");
 
 	if( !fp )
@@ -212,6 +216,10 @@ int smartMutate(Keyboard *const k, const int numberOfSwaps)
 	const int swapslen = 2 * numberOfSwaps;	
 	char swaps[swapslen];
 	char key;
+	if( monographs == NULL ) {
+		internalError(031);
+		exit(0);
+	}
 	int64_t used = monographs->kvt_used;
 	int64_t i, j;
 	

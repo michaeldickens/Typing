@@ -46,6 +46,10 @@ int calcFitnessDirect(Keyboard *const k)
 
 	char key;
 	Value value;
+	if( monographs == NULL ) {
+		internalError(032);
+		exit(0);
+	}
 	const uint64_t used = monographs->kvt_used;
 
 	for (i = 0; i < used; ++i) { 
@@ -61,6 +65,10 @@ int calcFitnessDirect(Keyboard *const k)
 // parameter 'k' using the location information in parameter
 // 'locs'.
 void scoreAllDigraphs(Keyboard *k, int64_t locs[128]) {
+	if( digraphs == NULL ) {
+		internalError(033);
+		exit(0);
+	}
 	const int64_t used = digraphs->kvt_used;
 	const KeystrokeValue *theTable = digraphs->kvt_table;
 	KeystrokeValue kv;
@@ -80,6 +88,10 @@ void scoreAllDigraphs(Keyboard *k, int64_t locs[128]) {
 // parameter 'k'.
 void scoreAllDigraphsDirectly(Keyboard *const k)
 {
+	if( digraphs == NULL ) {
+		internalError(034);
+		exit(0);
+	}
 	const int64_t used = digraphs->kvt_used;
 	const KeystrokeValue *theTable = digraphs->kvt_table;
 	KeystrokeValue kv;
@@ -148,6 +160,10 @@ int calcFitness(Keyboard *const k)
 
 	char key;
 	Value value;
+	if( monographs == NULL ) {
+		internalError(035);
+		exit(0);
+	}
 	const int64_t used = monographs->kvt_used;
 
 	/* Calculate distance. Done here and not in scoreDigraph because it uses 
@@ -221,6 +237,10 @@ int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multipli
 
 int64_t calcShortcuts(const Keyboard *const k)
 {
+	if( monographs == NULL ) {
+		internalError(036);
+		exit(0);
+	}
 	int64_t result;
 	result = 
 	      shortcutCosts[loc(k, 'z')] * (int64_t) zCost
