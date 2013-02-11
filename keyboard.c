@@ -365,6 +365,10 @@ int printLayoutRaw(const char layout[])
 
 int printPercentages(const Keyboard *const k)
 {
+	if( totalDi == 0 ) {
+		internalError(042);
+		exit(0);
+	}
 	int i;
 	
 	int64_t total = 0;

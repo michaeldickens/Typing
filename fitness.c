@@ -197,6 +197,10 @@ int calcFitness(Keyboard *const k)
 
 int scoreDigraph(Keyboard *const k, const char digraph[], const int64_t multiplier, const int64_t allLocs[])
 {
+	if( ksize == 0 ) {
+		internalError(040);
+		exit(0);
+	}
 	const int loc0 = allLocs[digraph[0]] % ksize;
 	const int loc1 = allLocs[digraph[1]] % ksize;
 	
@@ -275,6 +279,10 @@ int64_t calcParentheses(const Keyboard *const k)
 
 int64_t calcParensGeneric(const Keyboard *const k, const char openChar, const char closeChar)
 {
+	if( ksize == 0 ) {
+		internalError(041);
+		exit(0);
+	}
 	int openPar = locWithShifted(k, openChar);
 	if (openPar == -1) return -1;
 	int closePar = locWithShifted(k, closeChar);
