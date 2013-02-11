@@ -187,7 +187,7 @@ int64_t findKeyInTable(const Keystroke key,
 						const int64_t max,
 						_Bool *pExists)
 {
-	if( max < min ) {
+	if( (max < min) || (min == table->kvt_used) ) {
 		 *pExists = false;
 		 return min;
 	}

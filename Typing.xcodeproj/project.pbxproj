@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0141A89716C94A8C007D4F20 /* keystrokeValues.c in Sources */ = {isa = PBXBuildFile; fileRef = 0141A89616C94A8C007D4F20 /* keystrokeValues.c */; };
 		861464E1104CC2C700052F69 /* costs.c in Sources */ = {isa = PBXBuildFile; fileRef = 861464E0104CC2C700052F69 /* costs.c */; };
 		862456351051D223002DD016 /* cjalgorithm.c in Sources */ = {isa = PBXBuildFile; fileRef = 862456341051D223002DD016 /* cjalgorithm.c */; };
 		862C5BB7102F905100D95A5C /* trikeys.c in Sources */ = {isa = PBXBuildFile; fileRef = 862C5BB6102F905100D95A5C /* trikeys.c */; };
@@ -35,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0141A89616C94A8C007D4F20 /* keystrokeValues.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keystrokeValues.c; sourceTree = "<group>"; };
 		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		861464E0104CC2C700052F69 /* costs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = costs.c; sourceTree = "<group>"; };
 		86240ABD148A90590010665B /* Fitness */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fitness; sourceTree = "<group>"; wrapsLines = 1; };
@@ -95,6 +97,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0141A89616C94A8C007D4F20 /* keystrokeValues.c */,
 				08FB7796FE84155DC02AAC07 /* main.c */,
 				8687000B1031FFA8000845D5 /* accessories.h */,
 				8687000C1031FFA8000845D5 /* accessories.c */,
@@ -175,7 +178,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "Typing" */;
 			compatibilityVersion = "Xcode 3.1";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -208,6 +210,7 @@
 				861464E1104CC2C700052F69 /* costs.c in Sources */,
 				862456351051D223002DD016 /* cjalgorithm.c in Sources */,
 				86B41D3811D3CCC3005B910F /* trifitness.c in Sources */,
+				0141A89716C94A8C007D4F20 /* keystrokeValues.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
