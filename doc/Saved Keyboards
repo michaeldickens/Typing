@@ -1,0 +1,547 @@
+INDEX
+
+3.1a and 3.1b calculated with 2048/16/32/4096/16
+3.2 calculated with 128/16/1/1024/2048
+
+8/17/09 MTGAP 3.0: 
+
+k c f d b  j h u w .
+o s a t g  l n e r i
+q v , p z  ; m y x '
+
+Fitness: 2304337
+Distance: 2086800
+Inward rolls: -185598 (13257 infractions)
+Outward rolls: -37308 (9327 infractions)
+Same hand: 78858 (39429 infractions)
+Same finger: 102385 (1329 infractions)
+Row change: 179150 (17915 infractions)
+Home jump: 29180 (583 infractions)
+To center: 50870 (5087 infractions)
+
+Time elapsed: 1 hours, 8 minutes, 3 seconds
+
+NOTES: This layout is better than MTGAP 2.0 in every single aspect except for outward rolls.
+
+
+***************
+***************
+***************
+
+
+Improved MTGAP 2.0 a.k.a. MTGAP 2.0.1: 
+
+k c p g b  j l u f ,
+o s i t d  h n e r a
+' v y w q  ; m . x z
+
+Fitness: 2304214
+Distance: 2095260
+Inward rolls: -190484 (13606 infractions)
+Outward rolls: -37252 (9313 infractions)
+Same hand: 80490 (40245 infractions)
+Same finger: 110740 (1438 infractions)
+Row change: 160760 (16076 infractions)
+Home jump: 28660 (573 infractions)
+To center: 56040 (5604 infractions)
+
+NOTES: I ran the improver twice with 4096 copies and 120 generations, and both times it came up with the same result. I came up with a very similar result with 2048 copies and 120 
+	generations, and an identical layout with 1024 copies and 180 generations.
+	
+
+***************
+***************
+***************
+
+
+8/17/09 MTGAP 3.1a: 
+k c f g b  j h u w .
+o s a t d  l n e r i
+q v , p z  ; m y x '
+
+Fitness: 2304432
+Distance: 2086800
+Inward rolls: -185598
+Outward rolls: -37308
+Same hand: 78858
+Same finger: 105780
+Row change: 174940
+Home jump: 25100
+To center: 55860
+
+Time elapsed: 5 hours, 41 minutes, 58 seconds
+
+
+***************
+***************
+***************
+
+
+8/17/09 MTGAP 3.1b: 
+, m u p b  j c l y k
+a r e n h  d s t i o
+; x . f z  v g w ' q
+
+
+Fitness: 2307042
+Distance: 2084009
+Inward rolls: -188720
+Outward rolls: -34380
+Same hand: 82298
+Same finger: 106005
+Row change: 161840
+Home jump: 24510
+To center: 71480
+
+
+Time elapsed: 5 hours, 50 minutes, 46 seconds
+
+
+***************
+***************
+***************
+
+8/18/09 MTGAP 3.2: 
+
+k c f p b  j h u w .
+o s a t d  l n e r i
+q v , g z  ; m y x '
+
+Fitness: 2304182
+Distance: 2087600
+Inward rolls: -185598
+Outward rolls: -37308
+Same hand: 78858
+Same finger: 105780
+Row change: 174730
+Home jump: 24260
+To center: 55860
+
+Time elapsed: 0 hours, 36 minutes, 47 seconds
+
+***************
+***************
+***************
+
+8/19/09 MTGAP 3.2.1: 
+
+. c f g b  x h u w '
+o s a t d  l n e r i
+q v , p z  ; m y k j
+
+Fitness: 2384320
+Distance: 2086490
+Inward rolls: -180670
+Outward rolls: -39416
+Same hand: 158616
+Same finger: 99850
+Row change: 178540
+Home jump: 21740
+To center: 59170
+
+(Increased same hand cost.) Better distance, same hand (I assume), same finger. Worse inward rolls.
+
+***************
+***************
+***************
+
+8/22/09 MTGAP 3.3: 
+
+' y l d b  j p u m ,
+o i t s c  h n e r a
+x q w g z  v f . k ;
+
+Fitness: 2284723
+Distance: 2086944
+Inward rolls: -189784
+Outward rolls: -35252
+Same hand: 82786
+Same finger: 108385
+Row change: 131284
+Home jump: 20980
+To center: 79380
+
+(Hand warp factored in.)
+
+***************
+***************
+***************
+
+8/22/09 MTGAP 3.4: 
+
+k y d c b  j l u f ,
+o i t s g  h n e r a
+q ' w p z  v m . x ;
+
+Fitness: 2322916
+Distance: 2082349
+Inward rolls: -189434
+Outward rolls: 0
+Same hand: 82060
+Same finger: 110195
+Row change: 147616
+Home jump: 26190
+To center: 63940
+
+(Outward rolls eliminated.)
+
+***************
+***************
+***************
+
+8/23/09 MTGAP 3.5.1: 
+
+' y l d b  j p u m ,
+o i t s c  h n e r a
+x q w g z  v f . k ;
+
+Fitness: 2286601
+Distance: 2086944
+Inward rolls: -189784
+Outward rolls: 0
+Same hand: 82786
+Same finger: 118165
+Row change: 88130/99618
+Home jump: 20980
+To center: 79380
+
+(Same finger increased, row change decreased, hand warp increased.) Also won with hand smooth implemented and hand warp decreased. Notice that this is a replica of 3.3.
+
+
+***************
+***************
+***************
+
+8/31/09 MTGAP 3.7
+
+, y h c b  j m u l .
+a i n s d  g t e r o
+q ' p f z  k w ; v x
+
+Fitness: 2396956
+Distance: 2123249
+Inward rolls: -113900
+Outward rolls: 0
+Same hand: 83700
+Same finger: 103400
+Row change: 130277
+Home jump: 16790
+To center: 53440
+
+(Roll bug fixed, same finger cost increased.)
+
+***************
+***************
+***************
+
+9/1/09 MTGAP 3.8
+
+; g u c b  x h p w .
+a t e s d  l n i r o
+' v y f z  j m , k q
+
+Fitness:       20.38
+Distance:      7814.03
+Inward rolls:  7.59%
+Outward rolls: 5.49%
+Same hand:     22.26%
+Same finger:   0.77%
+Row change:    9.10%
+Home jump:     0.39%
+To center:     3.55%
+
+(Stats balanced more effectively.)
+
+***************
+***************
+***************
+
+9/2/09 MTGAP 3.9
+
+y p u c b  x l d , .
+i n e s f  h r t a o
+j v ' w z  k m g ; q
+
+Fitness:       2283981
+Distance:      7864.37
+Inward rolls:  7.02%
+Outward rolls: 4.47%
+Same hand:     22.73%
+Same finger:   0.67%
+Row change:    8.97%
+Home jump:     0.33%
+To center:     4.16%
+
+Hands: 33% 66%
+Fingers: 7% 8% 7% 9% 22% 20% 14% 9% 
+
+***************
+***************
+***************
+
+9/4/09 Tilburg 1.1
+
+q w u f b  y r o l p
+a s d c g  h n e t i
+z x k v j  ; m , . '
+
+Fitness:       5071280
+Distance:      9275.32
+Inward rolls:  7.31%
+Outward rolls: 7.34%
+Same hand:     26.49%
+Same finger:   1.24%
+Row change:    12.41%
+Home jump:     1.15%
+To center:     5.44%
+
+***************
+***************
+***************
+
+9/5/09 MTGAP 3.10
+
+Hands: 48% 51%
+Fingers: 8% 9% 11% 18% 14% 16% 11% 9% 
+
+. p l d b  x c u h ,
+o i n t g  m s e r a
+q ' v w j  ; f y k z
+
+Fitness:       2231091
+Distance:      7852.54
+Inward rolls:  8.43%
+Outward rolls: 5.32%
+Same hand:     25.13%
+Same finger:   0.88%
+Row change:    10.93%
+Home jump:     0.41%
+To center:     3.03%
+
+(Inward roll cost increased from -15 to -22.) Note: It may be better to switch l and h.
+
+***************
+***************
+***************
+
+9/7/09 unusual but very good layout
+
+Hands: 47% 51%
+Fingers: 8% 10% 14% 14% 20% 13% 8% 9% 
+
+k l d c b  ' f h y ,
+o r t s g  u e n i a
+q x v w z  ; . p j w
+
+Fitness:       2104939
+Distance:      7375.44
+Inward rolls:  5.47%
+Outward rolls: 3.93%
+Same hand:     19.04%
+Same finger:   0.99%
+Row change:    8.52%
+Home jump:     0.22%
+To center:     1.71%
+
+THIS KEYBOARD IS BROKEN
+
+***************
+***************
+***************
+
+9/7/09 MTGAP 3.11
+
+Hands: 50% 49%
+Fingers: 7% 15% 11% 15% 18% 13% 9% 9% 
+
+. l u c b  q h g y ,
+o r e s d  p n t i a
+' x ; w z  v f k j w
+
+Fitness:       2084759
+Distance:      7386.58
+Inward rolls:  6.91%
+Outward rolls: 6.88%
+Same hand:     26.28%
+Same finger:   0.58%
+Row change:    12.34%
+Home jump:     0.14%
+To center:     3.50%
+
+(Simulated annealing implemented.) THIS KEYBOARD IS BROKEN
+
+***************
+***************
+***************
+
+9/7/09 found with brute force
+
+Hands: 46% 53%
+Fingers: 6% 9% 11% 19% 18% 16% 8% 8% 
+
+; w p f g  j l u y q
+r a s t d  h n e i o
+x z c v b  k m , ' .
+
+Fitness:       2495395
+Distance:      8001.06
+Inward rolls:  3.95%
+Outward rolls: 5.13%
+Same hand:     21.30%
+Same finger:   1.06%
+Row change:    9.08%
+Home jump:     0.48%
+To center:     3.73%
+
+
+Time elapsed: 1 hours, 52 minutes, 31 seconds
+
+***************
+***************
+***************
+
+9/10/09 MTGAP 3.9
+
+Hands: 48% 51%
+Fingers: 8% 9% 15% 14% 18% 14% 9% 8% 
+
+y p u c b  x l d , .
+i n e s f  h r t a o
+j v ' w z  k m g ; q
+
+Fitness:       2263451098
+Distance:      9003112
+Inward rolls:  7.04%
+Outward rolls: 4.48%
+Same hand:     22.80%
+Same finger:   0.68%
+Row change:    9.01%
+Home jump:     0.34%
+To center:     4.17%
+
+***************
+***************
+***************
+
+9/10/09 MTGAP 3.12.1
+
+Hands: 52% 47%
+Fingers: 8% 9% 19% 14% 15% 14% 10% 7% 
+
+y c o u ;  k m d p w
+i s e a .  l h t n r
+j z ' , x  v f g b q
+
+Fitness:       2263597180
+Distance:      9599916
+Inward rolls:  7.20%
+Outward rolls: 2.20%
+Same hand:     16.85%
+Same finger:   0.64%
+Row change:    7.64%
+Home jump:     0.28%
+To center:     1.74%
+
+(This is so weird that I almost don't believe it. Notice that it's not as good as 3.12, but it's close.)
+
+***************
+***************
+***************
+
+9/11/09 MTGAP 3.12.2
+
+Hands: 51% 48%
+Fingers: 8% 9% 19% 14% 15% 14% 10% 7% 
+
+y c o u ;  k l d p w
+i s e a .  m h t n r
+q j ' , z  v f g b x
+
+Fitness:       2290452641 // costs were increased so this is lower than it looks
+Distance:      9578700
+Inward rolls:  7.05%
+Outward rolls: 2.23%
+Same hand:     16.82%
+Same finger:   0.61%
+Row change:    7.50%
+Home jump:     0.58%
+To center:     1.13%
+
+***************
+***************
+***************
+
+6/21/10 MTGAP 3.13.1
+
+Redefined inward and outward rolls to refer to ANY inward or outward movement.
+
+Hands: 50% 49%
+Fingers: 10% 9% 15% 15% 17% 13% 9% 8% 
+
+w p u c y  z l d , .
+r i e s f  b n t a o
+j ' ; g w  x h v k q
+
+Fitness:       2254429476
+Distance:      8410168
+Inward rolls:  11.60%
+Outward rolls: 9.89%
+Same hand:     23.81%
+Same finger:   0.90%
+Row change:    11.56%
+Home jump:     0.31%
+To center:     1.81%
+
+***************
+***************
+***************
+
+MTGAP 3.13.2
+
+(slightly better than the mirror image)
+
+Hands: 48% 51%
+Fingers: 8% 9% 11% 19% 14% 19% 10% 6% 
+
+y p c d w  z u o l b
+i n s t m  , a e r h
+q v f g j  ; . ' x k
+
+Fitness:       2197702516
+Distance:      9580468
+Inward rolls:  13.54%
+Outward rolls: 7.12%
+Same hand:     22.68%
+Same finger:   0.59%
+Row change:    9.51%
+Home jump:     0.24%
+To center:     1.38%
+
+***************
+***************
+***************
+
+MTGAP 3.14 (8/4/12)
+
+Hands: 50% 49%
+Fingers: 9.0% 9.0% 19% 14% 0.00% 0.00% 16% 15% 10% 8.0% 
+
+ Y  P  O  U  J   K  D  L  C  W
+ I  N  E  A  ;   M  H  T  S  R
+ Q  Z  <  >  ?   B  F  G  V  X
+
+ y  p  o  u  j   k  d  l  c  w
+ i  n  e  a  ,   m  h  t  s  r
+ q  z  /  .  :   b  f  g  v  x
+
+Fitness:       14239952
+Distance:      55843
+Finger work:   0
+Inward rolls:  10.49%
+Outward rolls: 2.41%
+Same hand:     34.47%
+Same finger:   1.40%
+Row change:    12.56%
+Home jump:     0.99%
+Ring jump:     3.16%
+To center:     2.41%

@@ -1,0 +1,5 @@
+// MTGAP
+//1234567890-\tqwfpgjluy;=arstdhneio'zxcvbkm,./`\\[]\n !@#$%^&*()_\tQWFPGJLUY:+ARSTDHNEIO"ZXCVBKM<>?~|{}\n  Colemak
+//1234567890-\tql,p/;fudk=arenbgsito'zw.hjvcynx`\\[]\n !@#$%^&*()_\tQL<P?:FUDK+ARENBGSITO"ZW>HJVCYNX~|{}\n  Arensito, normalized
+//1234567890=\t',.pyfgcrl/aoeuidhtns-;qjkxbmwvz`\\[]\n !@#$%^&*()+\t"<>PYFGCRL?AOEUIDHTNS_:QJKXBMWVZ~|{}\n  Dvorak
+//1234567890-\tqwertyuiop=asdfghjkl;'zxcvbnm,./`\\[]\n !@#$%^&*()_\tQWERTYUIOP+ASDFGHJKL:"ZXCVBNM<>?~|{}\n  QWERTY

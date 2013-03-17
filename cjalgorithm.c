@@ -157,7 +157,7 @@ void * runThreadsRec(void *arg)
                                  (void *) (&innerArg));
         if (ret) {
             threadArg->isFinished = TRUE;
-            return (void *) ret;
+            return (void *) (size_t) ret;
         }
     }
 	
@@ -231,7 +231,7 @@ void * greatToBestThreadRec(void *arg)
                                  (void *) (&innerArg));
         if (ret) {
             threadArg->isFinished = TRUE;
-            return (void *) ret;
+            return (void *) (size_t) ret;
         }
     }
     

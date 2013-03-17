@@ -1,0 +1,111 @@
+MTGAP Full 0.1
+
+Hands: 52% 47%
+Fingers: 9% 10% 18% 13% 13% 14% 10% 9% 
+
+1 2 3 4 5  6 7 8 9 0 q
+y c o u (  ) l d p w x
+i s e a ,  m h t n r k
+_ v " . ;  ' f g b -  
+/ =              z j  
+
+Fitness:       178672149
+Distance:      956628
+Inward rolls:  14.90%
+Outward rolls: 5.18%
+Same hand:     36.00%
+Same finger:   1.48%
+Row change:    17.14%
+Home jump:     0.26%
+To center:     2.29%
+To outside:    0.50%
+
+***************
+***************
+***************
+
+
+MTGAP Kinesis -- Tentative Version
+
+1 2 3 4 5  6 7 8 9 0 q
+y p o u -  v d l c w x
+i n e a ,  m h t s r "
+( ) ; . _  k f g b '  
+/ =              z j  
+
+Fitness:       186751864
+Distance:      959128
+Inward rolls:  10.16%
+Outward rolls: 2.36%
+Same hand:     34.94%
+Same finger:   1.60%
+Row change:    13.40%
+Home jump:     0.30%
+To center:     2.38%
+To outside:    0.39%
+
+
+Time elapsed: 0 hours, 6 minutes, 14 seconds
+
+***************
+***************
+***************
+
+
+MTGAP Full -- Tentative Version
+
+= 1 2 3 4 5  6 7 8 9 0 q z   
+  y p o u -  k d l c w x / j
+  i n e a ,  m h t s r "     
+  ( ) ; . _  v f g b '       
+
+Fitness:       184428299
+Distance:      364416
+Inward rolls:  10.16%
+Outward rolls: 2.36%
+Same hand:     34.93%
+Same finger:   1.60%
+Row change:    13.17%
+Home jump:     0.27%
+To center:     2.38%
+To outside:    0.52%
+
+
+Time elapsed: 0 hours, 23 minutes, 25 seconds
+
+***************
+***************
+***************
+
+
+MTGAP Full (10/19/12)
+
+Hands: 50% 49%
+Fingers: 9.0% 9.0% 19% 14% 0.00% 0.00% 15% 15% 10% 9.0% 
+
+ ~  `  [  {  <  |   ^  >  }  ]  %  Q  Z    
+    Y  P  O  U  ?   K  D  L  C  W  X  +  #
+    I  N  E  A  :   M  H  T  S  R  =       
+    &  !  *  ;  @   B  F  G  V  J          
+
+ \  1  2  3  4  5   6  7  8  9  0  q  z    
+    y  p  o  u  -   k  d  l  c  w  x  /  $
+    i  n  e  a  ,   m  h  t  s  r  "       
+    (  )  '  .  _   b  f  g  v  j          
+
+Fitness:       17355213
+Distance:      139269
+Finger work:   34898
+Inward rolls:  10.09%
+Outward rolls: 2.35%
+Same hand:     34.48%
+Same finger:   1.56%
+Row change:    12.80%
+Home jump:     1.07%
+Ring jump:     3.16%
+To center:     2.70%
+To outside:    0.43%
+
+6 min
+
+

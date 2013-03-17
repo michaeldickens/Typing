@@ -8,10 +8,10 @@
 CC = gcc
 
 # Compiler flags.
-CFLAGS = 
+CFLAGS = -std=c99
 
 # Flags used for debug mode.
-DEBUG_FLAGS = -g -O0
+DEBUG_FLAGS = -g -O0 -Wall
 
 # Flags used for profile mode.
 PROFILE_FLAGS = -g -pg -O3
@@ -19,30 +19,32 @@ PROFILE_FLAGS = -g -pg -O3
 # Flags used for release mode.
 RELEASE_FLAGS = -O3
 
+# Default compilation mode.
+DEFAULT_FLAGS = -g -O3 -Wall
+
 # Libraries to link against.
 LDLIBS = -lm -lpthread
 
-programs = main
+programs = optimizer
 
-main: accessories.o cjalgorithm.o fitness.o keyboard.o tools.o values.o
-accessories.o:
-cjalgorithm.o:
-fitness.o:
-keyboard.o:
-tools.o:
-values.o:
+optimizer: accessories.o cjalgorithm.o fitness.o keyboard.o tools.o values.o
 
+
+# Make the program under the default compilation mode.
 all: $(programs)
-all: CFLAGS += $(RELEASE_FLAGS)
+all: CFLAGS += $(DEFAULT_FLAGS)
 
+# Make the program for debugging.
 debug: $(programs)
 debug: CFLAGS += $(DEBUG_FLAGS)
 
+# Make the program for profiling.
 profile: $(programs)
 profile: CFLAGS += $(PROFILE_FLAGS)
 
-build: accessories cjalgorithm fitness keyboard main tools values
-    gcc -o optimizer -O0 accessories.c cjalgorithm.c fitness.c keyboard.c main.c tools.c values.c -lm -lpthread
+# Make the program for releasing.
+release: $(programs)
+release: CFLAGS += $(RELEASE_FLAGS)
 
 clean: 
 	rm -f $(programs) *.o
