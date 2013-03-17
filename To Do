@@ -1,5 +1,7 @@
 ***BIG CHANGES***
 
+ - Run the program through Valgrind and clean it up.
+ - Add unit tests.
  - Add convergence hacks to the multithreaded algorithm.
  - Score keyboards using a cost array instead of repeatedly re-calculating costs.
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
@@ -8,6 +10,8 @@
 
 ***SMALL CHANGES***
 
+ - Where I read in numbers using atoi() and overly complicated functions to test if something's a number, I could just use scanf().
+ - Improve the makefile. Add options -Wall, -std=gnu99
  - In GTBRec(), if GTBBruteForce() runs, it could take a longer or shorter amount of time than everything else. Try to minimize downtime.
  - Refactor diKeys and diValues to be a struct instead of two arrays.
  - Instead of running GTB on the single best every time, run it on the best of the run with some probability.
@@ -19,7 +23,7 @@
 
 ***BUGS***
 
- - GTBBF() sometimes duplicates a character.
+ - GTBBF() sometimes duplicates a character. Re-enable it and fix bugs.
  - Numbers don't always stay where they are supposed to. On Kinesis, the keys get shifted over so that 2 is where 1 should be, 3 is where 2 should be, etc.
  - shortcutCosts only works for FK_NO.
  - runAlgorithm() occasionally prints the same layout twice in a row.

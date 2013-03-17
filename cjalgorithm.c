@@ -2,7 +2,7 @@
  *  cjalgorithm.m
  *  Typing
  *
- *  Written by Chris Johnson and Michael Dickens.
+ *  Written by Michael Dickens.
  *
  */
 
@@ -181,9 +181,7 @@ void * runThreadsRec(void *arg)
 		if (k.fitness < threadArg->bestk.fitness) {
             copyKeyboard(&threadArg->bestk, &k);
             
-            /* Only print keyboards on the bottom thread. This is less 
-             * cluttered than printing from every thread, and the user still 
-             * gets to see something.
+            /* Only print keyboards on the bottom thread.
              */
             if (threadArg->threadCount <= 1) {
                 printPercentages(&threadArg->bestk);
@@ -237,7 +235,10 @@ void * greatToBestThreadRec(void *arg)
         }
     }
     
-    if (rand() / (double) INT_MAX < CHANCE_TO_USE_BRUTE_FORCE) {
+    /* Temporarily disabled until bugs are fixed in greatToBestBruteForce().
+     */
+    if (FALSE &&
+        rand() / (double) INT_MAX < CHANCE_TO_USE_BRUTE_FORCE) {
         /* Use GTBBF(). If innerArg is still running when this finishes, it 
          * will begin using the standard algorithm below.
          */
@@ -285,9 +286,9 @@ void * greatToBestThreadRec(void *arg)
 
 /*
  * Chooses several indices and searches all permutations of keys at those
- * indices to find the best one.
+ * indices to find the best one. More likely to choose rare keys.
  * 
- * More likely to choose rare keys.
+ * WARNING: Currently buggy. Do not use until bugs are fixed.
  */
 void greatToBestBruteForce(Keyboard *k)
 {
