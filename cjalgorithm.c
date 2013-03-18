@@ -48,7 +48,7 @@ void runSimpleAlgorithm()
 }
 
 /*
- * Uses multiple threads to search for an optimal keyboard layout.
+ * Search for an optimal keyboard layout. Equipped to use multithreading.
  */
 void runAlgorithm()
 {	
@@ -56,7 +56,7 @@ void runAlgorithm()
 	copyKeyboard(&arg.bestk, &nilKeyboard);
 	arg.numRounds = ALGORITHM_ROUNDS;
 	arg.startTime = time(NULL);
-	arg.threadCount = threadCount;
+	arg.numThreads = numThreads;
     arg.chanceToUsePreviousLayout = CHANCE_TO_USE_PREVIOUS_LAYOUT;
     arg.numberOfSwaps = NUM_SWAPS_BETWEEN_ROUNDS;
 	arg.isFinished = FALSE;
@@ -126,11 +126,11 @@ void runAlgorithm()
 }
 
 /* 
- * This is the core function called by runThreadedAlgorithm(). It uses the 
+ * This is the core function called by runAlgorithm(). It uses the 
  * following process to avoid as much downtime as possible.
  * 
- *  1. If threadCount <= 1, run anneal() numRounds times.
- *  2. Otherwise, recursively call this function with a decremented threadCount.
+ *  1. If numThreads <= 1, run anneal() numRounds times.
+ *  2. Otherwise, recursively call this function with a decremented numThreads.
  *  3. Until the inner call of this function returns, keep running anneal().
  *  4. If the inner call found a bestk better than the current call, set the 
  *     current bestk to the inner bestk.
@@ -139,7 +139,7 @@ void runAlgorithm()
  * just be starting a new call to anneal() as the inner function returns, so 
  * the most possible time that can be wasted is the length of one anneal() call 
  * multiplied by the depth of the recursive call tree. The greatest proportion 
- * of time that can be wasted is (threadCount / numRounds), so for sufficiently 
+ * of time that can be wasted is (numThreads / numRounds), so for sufficiently 
  * large values of numRounds (perhaps 16 and above), the wasted time is trivial.
  */
 void * runThreadsRec(void *arg)
@@ -148,10 +148,10 @@ void * runThreadsRec(void *arg)
 		
 	struct ThreadArg innerArg;
 	copyThreadArg(&innerArg, threadArg);
-	innerArg.threadCount = threadArg->threadCount - 1;
+	innerArg.numThreads = threadArg->numThreads - 1;
 	innerArg.isFinished = FALSE;
 	
-    if (threadArg->threadCount > 1) {
+    if (threadArg->numThreads > 1) {
         pthread_t thread;
         int ret = pthread_create(&thread, NULL, &runThreadsRec, 
                                  (void *) (&innerArg));
@@ -166,7 +166,7 @@ void * runThreadsRec(void *arg)
     copyKeyboard(&prevk, &nilKeyboard);
     
     int i;
-	for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
+	for (i = 0; threadArg->numThreads <= 1 ? i < threadArg->numRounds :
                 !innerArg.isFinished; ++i) {
         if (i > 0 && rand() / RAND_MAX < threadArg->chanceToUsePreviousLayout) {
             copyKeyboard(&k, &prevk);
@@ -183,7 +183,7 @@ void * runThreadsRec(void *arg)
             
             /* Only print keyboards on the bottom thread.
              */
-            if (threadArg->threadCount <= 1) {
+            if (threadArg->numThreads <= 1) {
                 printPercentages(&threadArg->bestk);
                 printTime(threadArg->startTime);
             }
@@ -206,7 +206,7 @@ void greatToBest(Keyboard *k, int numRounds)
     initThreadArg(&arg);
 	copyKeyboard(&arg.bestk, k);
 	arg.numRounds = numRounds;
-	arg.threadCount = threadCount;
+	arg.numThreads = numThreads;
 	arg.isFinished = FALSE;
 	
 	greatToBestThreadRec((void *) (&arg));
@@ -222,10 +222,10 @@ void * greatToBestThreadRec(void *arg)
 	
 	struct ThreadArg innerArg;
 	copyThreadArg(&innerArg, threadArg);
-	innerArg.threadCount = threadArg->threadCount - 1;
+	innerArg.numThreads = threadArg->numThreads - 1;
 	innerArg.isFinished = FALSE;
 	
-    if (threadArg->threadCount > 1) {
+    if (threadArg->numThreads > 1) {
         pthread_t thread;
         int ret = pthread_create(&thread, NULL, &greatToBestThreadRec, 
                                  (void *) (&innerArg));
@@ -253,7 +253,7 @@ void * greatToBestThreadRec(void *arg)
     int numberOfSwaps = GTB_NUMBER_OF_SWAPS;
     
     int i;
-    for (i = 0; threadArg->threadCount <= 1 ? i < threadArg->numRounds :
+    for (i = 0; threadArg->numThreads <= 1 ? i < threadArg->numRounds :
          !innerArg.isFinished; ++i) {
         if (i % GTB_ROUNDS_BEFORE_SWAP_INC == GTB_ROUNDS_BEFORE_SWAP_INC - 1) {
             ++numberOfSwaps;

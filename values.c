@@ -14,7 +14,7 @@ int initValues()
 	
 	initCosts();
 	
-	if (fullKeyboard == FK_NO) {
+	if (fullKeyboard == K_NO) {
 		// Set keyboard position costs. These costs were determined by looking 
 		// at how the positions were valued on some of the best alternative 
 		// layouts.
@@ -27,7 +27,7 @@ int initValues()
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
-	} else if (fullKeyboard == FK_STANDARD) {
+	} else if (fullKeyboard == K_STANDARD) {
 		
 		// These costs are optimized for a full standard layout. Any cost that 
 		// is 999 is not supposed to contain any character.
@@ -40,7 +40,7 @@ int initValues()
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 			
-	} else if (fullKeyboard == FK_KINESIS) {
+	} else if (fullKeyboard == K_KINESIS) {
 		
 		// These costs are optimized for Kinesis. Any cost that is 999 is not 
 		// supposed to contain any character.
@@ -55,7 +55,7 @@ int initValues()
 		for (i = 0; i < ksize; ++i)
 			distanceCosts[i] = costsCopy[i];
 		
-	} else if (fullKeyboard == FK_IPHONE) {
+	} else if (fullKeyboard == K_IPHONE) {
 		
 		// Thumbs are centered over the QWERTY D and K keys.
 		static int64_t costsCopy[KSIZE_MAX] = {
@@ -83,8 +83,8 @@ void initCosts()
 {
 	detailedOutput = TRUE;
     
-    /* If you do not wish to use multithreading, set threadCount to 1. */
-	threadCount = 1;
+    /* If you do not wish to use multithreading, set numThreads to 1. */
+	numThreads = 1;
 	
 	keepZXCV = FALSE;
 	keepQWERTY = FALSE;
@@ -105,7 +105,7 @@ void initCosts()
 	bracketsCost = 5000000;
 	numbersShiftedCost = -1000000;
 
-	if (fullKeyboard == FK_KINESIS) {
+	if (fullKeyboard == K_KINESIS) {
 		fingerPercentMaxes[0] = fingerPercentMaxes[FINGER_COUNT - 1] =  7.5;
 		fingerPercentMaxes[1] = fingerPercentMaxes[FINGER_COUNT - 2] = 10.0;
 		fingerPercentMaxes[2] = fingerPercentMaxes[FINGER_COUNT - 3] = 20.0;

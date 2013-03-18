@@ -12,7 +12,7 @@ int getCommands()
 {
 	printf("Welcome to the Keyboard Layout Optimizer. If you have questions or comments, contact Michael Dickens by email (mdickens93@gmail.com) or leave a comment at http://mathematicalmulticore.wordpress.com/category/keyboards/.\n");
 	printf("Type \"help\" for a listing of commands.\n\n");
-
+	
 	int length = 5000;
 	char cmd[length];
 
@@ -33,7 +33,7 @@ int getCommands()
 			printf("make typing data: Use the files in freq_types to customize character and digraph frequency.\n");
             printf("run: See 'algorithm'.\n");
 			printf("set <variable> <value>: Set the specified variable to the given value.\n");
-			printf("setksize <K_setting>: Set the keyboard type. Type \"setksize help\" for more information.\n");
+			printf("setksize <fk_setting>: Set the keyboard type. Type \"setksize help\" for more information.\n");
 			printf("test fitness: Test that the fitness functions are working properly.\n");
 			printf("use <keys>: Use <keys> in the keyboard layout instead of the default.\n");
 			printf("worst <filename>: Find the worst digraphs for the keyboard layouts in <filename>.\n");
@@ -83,16 +83,16 @@ int getCommands()
 		} else if (streqn(cmd, "setksize ", strlen("setksize "))) {
 			size_t str_len = strlen("setksize ");
 			if (streq(cmd + str_len, "no")) {
-				setksize(K_NO);
+				setksize(FK_NO);
 				printf("Keyboard set to non-full. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd + str_len, "standard")) {
-				setksize(K_STANDARD);
+				setksize(FK_STANDARD);
 				printf("Keyboard set to full standard. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd + str_len, "kinesis")) {
-				setksize(K_KINESIS);
+				setksize(FK_KINESIS);
 				printf("Keyboard set to full Kinesis. All user-defined values have been reset.\n\n");
 			} else if (streq(cmd + str_len, "iphone")) {
-				setksize(K_IPHONE);
+				setksize(FK_IPHONE);
 				printf("Keyboard set to iPhone. All user-defined values have been reset.\n\n");
 			} else {
 				printf("Undefined input. Valid inputs: \"setksize no\" (do not use full keyboard), \"setksize standard\" (use standard full keyboard), \"setksize kinesis\" (use Kinesis full keyboard).\n\n");
@@ -117,7 +117,7 @@ int getCommands()
 			printf("\t(bool) keepShiftPairs    : shifted/unshifted pairs of special characters stay together\n");
 			printf("\t(bool) keepTab           : keep Tab in place\n");
 			printf("\t(bool) keepNumbersShifted: numbers do not move between shifted and unshifted\n");
-            printf("\tnumThreads: number of threads to create\n");
+            printf("\tthreadCount: number of threads to create\n");
 			printf("\nThese variables determine the costs for particular key combinations. Higher cost is worse.\n");
 			printf("\tdistance\n");
 			printf("\tinRoll\n");
@@ -577,7 +577,7 @@ int makeTypingData()
 int getNumber(char *description)
 {
 	char input[100];
-	int num = 0;
+	int num;
 	
 	do {
 		printf("%s", description);
@@ -704,7 +704,7 @@ int runTimingTests()
  */
 int testFitness()
 {
-	if (fullKeyboard == K_NO) {
+	if (fullKeyboard == FK_NO) {
 		printf("\nTesting calcInRoll():\n");
 		testResult(calcInRoll(0, 0), 0);
 		testResult(calcInRoll(10, 11), inRoll);
@@ -759,7 +759,7 @@ int testFitness()
 		testResult(calcToCenter(25, 9), toCenter);
 		testResult(calcToCenter(25, 15), 0);
 	
-	} else if (fullKeyboard == K_STANDARD) {
+	} else if (fullKeyboard == FK_STANDARD) {
 		printf("\nTesting calcHomeJump():\n");
 		testResult(calcHomeJump(8, 8), 0);
 		testResult(calcHomeJump(14, 0), 0);

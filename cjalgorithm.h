@@ -23,7 +23,7 @@ struct ThreadArg {
 	/* Indicates that the subroutine should keep creating new threads until 
 	 * this reaches 0.
 	 */
-	int threadCount;
+	int numThreads;
 	
 	/* Indicates whether the current thread is done running. */
 	int isFinished;

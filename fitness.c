@@ -400,6 +400,6 @@ int calcToCenter(int loc0, int loc1)
  */
 int calcToOutside(int loc0, int loc1)
 {
-	if (fullKeyboard != FK_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
+	if (fullKeyboard != K_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
 	else return 0;
 }

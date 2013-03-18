@@ -22,10 +22,10 @@
 #include <sys/time.h>
 #endif
  
-#define FK_NO 0
-#define FK_STANDARD 1
-#define FK_KINESIS 2
-#define FK_IPHONE 3
+#define K_NO 0
+#define K_STANDARD 1
+#define K_KINESIS 2
+#define K_IPHONE 3
 
 #define TRUE 1
 #define FALSE 0
@@ -77,7 +77,7 @@ int64_t shortcutCosts[KSIZE_MAX];
 double fingerPercentMaxes[FINGER_COUNT];
 int64_t fingerWorkCosts[FINGER_COUNT];
 
-int detailedOutput, threadCount;
+int detailedOutput, numThreads;
 
 /* 0 for false, 1 for true. 
  * keepNumbers: 2 if numbers can move about but must stay in number row.

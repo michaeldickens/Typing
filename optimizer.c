@@ -12,9 +12,9 @@
 int main()
 {
 	/* Initialize the typing data and the keyboard layout settings. */
-    setksize(FK_NO);
+    setksize(K_NO);
     getCommands();
-	
+    
 	return 0;
 }
 

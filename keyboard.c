@@ -112,7 +112,6 @@ int initKeyboard(Keyboard *k)
 	
 	copyKeyboard(k, &nilKeyboard);
 	setLayout(k, keysToInclude);
-			
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	
 	shuffleLayout(k);
@@ -123,11 +122,13 @@ int initKeyboard(Keyboard *k)
 		for (c = '0'; c <= '9'; ++c) {
 			i = locIgnoreShifted(k, c);
 			if (i < 0) continue;
-			int n = (c - '0' + 9) % 10 + numStart;
+            
+            /* + 9 so that 1 will be first and 0 will be last. */
+			int n = (c - '0' + 9) % 10 + firstNumberIndex;
 			swap(k, i, n);
 		}
 	}
-	
+    
 	if (keepTab) {
 		int tabLoc = locWithShifted(k, '\t');
 		if (tabLoc >= 0) {
@@ -136,7 +137,7 @@ int initKeyboard(Keyboard *k)
 		}		
 	}
 	
-	if (keepConsonantsRight && fullKeyboard == FK_STANDARD) {
+	if (keepConsonantsRight && fullKeyboard == K_STANDARD) {
 		const char *consonants = "bcdfghjklmnpqrstvwxyz";
 		/* TODO: Swap both shifted and unshifted */
 		static int halfIndices[] = {
@@ -376,7 +377,7 @@ int printLayoutRaw(char layout[])
 	for (i = 0; i < ksize; ++i) {
 		charToPrintable(str, layout[i], TRUE);
 		
-		if (fullKeyboard == FK_KINESIS) {
+		if (fullKeyboard == K_KINESIS) {
 			if (printable[i]) {
 				if (i % 12 == 11) printf("%s\n", str);
 				else if (i % 12 == 5) printf("%s  ", str);
@@ -386,7 +387,7 @@ int printLayoutRaw(char layout[])
 				else if (i % 12 == 5) printf("    ");
 				else printf("   ");
 			}
-		} else if (fullKeyboard == FK_STANDARD) {
+		} else if (fullKeyboard == K_STANDARD) {
 			if (printable[i] == FALSE) {
 				if (i % 14 == 13) printf("   \n");
 				else printf("   ");
@@ -502,12 +503,12 @@ int isLegalSwap(Keyboard *k, int i, int j)
 	i %= ksize;
 	j %= ksize;
 	
-	if (fullKeyboard == FK_NO) {
+	if (fullKeyboard == K_NO) {
 		return legalBox[i] == legalBox[j];
-	} else if (fullKeyboard == FK_STANDARD) {
+	} else if (fullKeyboard == K_STANDARD) {
 		if (keepConsonantsRight) return bigLegalBoxConsonants[i] == bigLegalBoxConsonants[j];
 		else return bigLegalBox[i] == bigLegalBox[j];
-	} else if (fullKeyboard == FK_KINESIS) {
+	} else if (fullKeyboard == K_KINESIS) {
 		return kinesisLegalBox[i] == kinesisLegalBox[j];
 	}
 

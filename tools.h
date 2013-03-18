@@ -18,6 +18,9 @@
 
 #define ERROR_RATE_PERCENT 2
 
+#define CHAR_FILE "doc/allChars.txt"
+#define DIGRAPH_FILE "doc/allDigraphs.txt"
+
 /* Global variable declarations */
 
 int64_t totalMon;
@@ -115,12 +118,13 @@ int keepShiftPair(char c);
 
 int qwerty[30];
 
-/* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing that key.
+/* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing 
+ * that key.
  */
 int hand[KSIZE_MAX];
 
-/* For each key, indicates which finger (PINKY, RING, MIDDLE or INDEX) is responsible for 
- * typing that key.
+/* For each key, indicates which finger (PINKY, RING, MIDDLE or INDEX) is 
+ * responsible for typing that key.
  */
 int finger[KSIZE_MAX];
 
@@ -129,8 +133,8 @@ int finger[KSIZE_MAX];
  */
 int column[KSIZE_MAX];
 
-/* For each key, indicates which row that key lies on. The top row is 0, the row below it 
- * is 1, the row below that is 2, etc.
+/* For each key, indicates which row that key lies on. The top row is 0, 
+ * the row below it is 1, the row below that is 2, etc.
  */
 int row[KSIZE_MAX];
 
@@ -138,9 +142,10 @@ int row[KSIZE_MAX];
  */
 int homeRow;
 
-/* Indicates the index of the first number in the layout, assuming keepNumbers == TRUE.
+/* Indicates the index of the first number in the layout, assuming 
+ * keepNumbers is TRUE.
  */
-int numStart;
+int firstNumberIndex;
 
 /* For each key, indicates whether that key requires a reach to the center.
  */
@@ -150,13 +155,14 @@ int isCenter[KSIZE_MAX];
  */
 int isOutside[KSIZE_MAX];
 
-/* For each key, indicates whether that key requires a reach to the center OR a reach to 
- * the outside. This one is produced automatically from isCenter[] and isOutside[].
+/* For each key, indicates whether that key requires a reach to the center OR 
+ * a reach to the outside. This one is produced automatically from isCenter[] 
+ * and isOutside[].
  */
 int isCenterOrOutside[KSIZE_MAX];
 
-/* For each key, indicates whether that key should be printed. Any place-holder key that 
- * does not actually exist on the keyboard should not be printed.
+/* For each key, indicates whether that key should be printed. Any place-holder 
+ * key that does not actually exist on the keyboard should not be printed.
  */
 int printable[KSIZE_MAX];
 

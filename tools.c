@@ -63,9 +63,9 @@ int initData()
 			}
 		}
 
-	if (fullKeyboard == FK_NO) strcpy(keysToInclude, DEFAULT_KEYBOARD_30);
-	else if (fullKeyboard == FK_STANDARD) strcpy(keysToInclude, DEFAULT_KEYBOARD_STANDARD);
-	else if (fullKeyboard == FK_KINESIS) strcpy(keysToInclude, DEFAULT_KEYBOARD_KINESIS);
+	if (fullKeyboard == K_NO) strcpy(keysToInclude, DEFAULT_KEYBOARD_30);
+	else if (fullKeyboard == K_STANDARD) strcpy(keysToInclude, DEFAULT_KEYBOARD_STANDARD);
+	else if (fullKeyboard == K_KINESIS) strcpy(keysToInclude, DEFAULT_KEYBOARD_KINESIS);
 	
 	initKeyboardData();
 	initTypingData();
@@ -77,11 +77,7 @@ void initKeyboardData()
 {
 	int i;
 	
-	char *ptrToOne = strchr(keysToInclude, '1');
-	if (ptrToOne) numStart = (int) (ptrToOne - keysToInclude);
-	else numStart = -1;
-	
-	if (fullKeyboard == FK_NO) {
+	if (fullKeyboard == K_NO) {
 		static int fingerCopy[KSIZE_MAX] = {
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
 			PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, 
@@ -129,7 +125,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);
 	
-	} else if (fullKeyboard == FK_STANDARD) {
+	} else if (fullKeyboard == K_STANDARD) {
 		static int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
 			PINKY, PINKY, RING,  MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING,  PINKY, PINKY, PINKY, PINKY, 
@@ -195,7 +191,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);
 		
-	} else if (fullKeyboard == FK_KINESIS) {
+	} else if (fullKeyboard == K_KINESIS) {
 		static int fingerCopy[KSIZE_MAX] = {
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
 			PINKY, PINKY, RING, MIDDLE, INDEX, INDEX, INDEX, INDEX, MIDDLE, RING, PINKY, PINKY, 
@@ -268,7 +264,7 @@ void initKeyboardData()
 		};
 		copyArray(printable, printableCopy, ksize);		
 
-	} else if (fullKeyboard == FK_IPHONE) {
+	} else if (fullKeyboard == K_IPHONE) {
 		static int fingerCopy[KSIZE_MAX] = {
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
 			THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, THUMB, 
@@ -312,6 +308,19 @@ void initKeyboardData()
 	
 	for (i = 0; i < ksize; ++i)
 		isCenterOrOutside[i] = isCenter[i] || isOutside[i];
+    
+    /* Find firstNumberIndex. */
+    char *ptrToOne = strchr(keysToInclude, '1');
+	if (ptrToOne) firstNumberIndex = (int) (ptrToOne - keysToInclude);
+	else firstNumberIndex = -1;
+    
+    /* Adjust firstNumberIndex to fix for non-printable indices. */
+    if (firstNumberIndex >= 0) {
+        int saved = firstNumberIndex;
+        int i;
+        for (i = 0; i <= saved; ++i)
+            if (!printable[i]) ++firstNumberIndex;
+    }
 
 }
 
@@ -323,8 +332,8 @@ void initKeyboardData()
 int initTypingData()
 {
 	int i;	
-	FILE *file = fopen("allDigraphs.txt", "r");
-	CHECK_FILE_FOR_NULL(file, "allDigraphs.txt");
+	FILE *file = fopen(DIGRAPH_FILE, "r");
+	CHECK_FILE_FOR_NULL(file, DIGRAPH_FILE);
 	
 	int c = '\0';
 	i = 0;
@@ -338,7 +347,8 @@ int initTypingData()
 
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
-			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			fprintf(stderr, "Error: In file %s, unknown escape character \\%c.\n",
+                    DIGRAPH_FILE, c);
 			fclose(file);
 			return 1;
 		}
@@ -347,7 +357,8 @@ int initTypingData()
 		c = getc(file);
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
-			fprintf(stderr, "Error: In digraph file, unknown escape character \\%c.\n", c);
+			fprintf(stderr, "Error: In file %s, unknown escape character \\%c.\n",
+                    DIGRAPH_FILE, c);
 			fclose(file);
 			return 1;
 		}
@@ -377,10 +388,14 @@ int initTypingData()
 	
 	diLen = i;
 	fclose(file);
+    
+    if (diLen == 0)
+        fprintf(stderr, "Warning: In file %s, no digraphs found.\n",
+                DIGRAPH_FILE);
 	
 
-	file = fopen("allChars.txt", "r");
-	CHECK_FILE_FOR_NULL(file, "allChars.txt");
+	file = fopen(CHAR_FILE, "r");
+	CHECK_FILE_FOR_NULL(file, CHAR_FILE);
 	
 	c = '\0';
 	totalMon = 0;
@@ -393,7 +408,8 @@ int initTypingData()
 		
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
-			fprintf(stderr, "Error: In monograph file, unknown escape character \\%c.\n", c);
+			fprintf(stderr, "Error: In file %s, unknown escape character \\%c.\n",
+                    CHAR_FILE, c);
 			fclose(file);
 			return 1;
 		}
@@ -421,6 +437,10 @@ int initTypingData()
 	
 	monLen = i;
 	fclose(file);
+    
+    if (monLen == 0)
+        fprintf(stderr, "Warning: In file %s, no monographs found.\n",
+                CHAR_FILE);
 	
 	/* If necessary, add the stats for backspace. */
 	if (strchr(keysToInclude, '\b')) {
@@ -663,8 +683,8 @@ int setValue(char *str)
 		keepTab = value;
 	} else if (streq(name, "keepNumbersShifted")) {
 		keepNumbersShifted = value;
-    } else if (streq(name, "threadCount")) {
-        threadCount = value;
+    } else if (streq(name, "numThreads")) {
+        numThreads = value;
 	} else if (streq(name, "distance")) {
 		distance = value;
 	} else if (streq(name, "inRoll")) {
@@ -735,8 +755,8 @@ int getValue(char *name)
 		printf("%s = %d\n\n", name, keepTab);
 	} else if (streq(name, "keepNumbersShifted")) {
 		printf("%s = %d\n\n", name, keepNumbersShifted);
-    } else if (streq(name, "threadCount")) {
-		printf("%s = %d\n\n", name, threadCount);
+    } else if (streq(name, "numThreads")) {
+		printf("%s = %d\n\n", name, numThreads);
 	} else if (streq(name, "distance")) {
 		printf("%s = %d\n\n", name, distance);
 	} else if (streq(name, "inRoll")) {
@@ -842,22 +862,22 @@ void setksize(int type)
 	fullKeyboard = type;
 	
 	switch (fullKeyboard) {
-	case FK_NO:
+	case K_NO:
 		ksize = 30;
 		trueksize = 30;
 		kbdFilename = "layoutStore.txt";
 		break;
-	case FK_STANDARD:
+	case K_STANDARD:
 		ksize = 56;
 		trueksize = 47;
 		kbdFilename = "fullLayoutStore.txt";
 		break;
-	case FK_KINESIS:
+	case K_KINESIS:
 		ksize = 72;
 		trueksize = 50;
 		kbdFilename = "kinesisLayoutStore.txt";
 		break;
-	case FK_IPHONE:
+	case K_IPHONE:
 		ksize = 30;
 		trueksize = 26;
 		kbdFilename = NULL;
