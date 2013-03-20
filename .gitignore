@@ -1,8 +1,9 @@
 # Compiled source
 *.o
-a.out
+*.out
 build
 optimizer
+unit
 
 # Backup files
 *\#*
