@@ -33,6 +33,10 @@ int verify(int expected, int found, const char *message)
 
 int main()
 {
+    /* Initialize. */
+    setksize(K_NO);
     
+    /* TODO: Write some unit tests. */
+                 
     return 0;
 }

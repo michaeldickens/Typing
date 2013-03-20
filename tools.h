@@ -117,8 +117,8 @@ struct VarInfo {
 };
 
 #define VARIABLES_MAX_LEN 100
-struct VarInfo variables[VARIABLES_MAX_LEN];
-int variablesLength;
+static struct VarInfo variables[VARIABLES_MAX_LEN];
+static int variablesLength;
 
 void initVariables();
 int getValue(const char *name);

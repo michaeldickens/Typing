@@ -11,7 +11,7 @@ CC = gcc
 CFLAGS = -std=c99 
 
 # Flags used for debug mode.
-DEBUG_FLAGS = -g -O0 -Wall
+DEBUG_FLAGS = -g -O3 -fno-inline
 
 # Flags used for profile mode.
 PROFILE_FLAGS = -g -pg -O3 -fno-inline
@@ -19,8 +19,8 @@ PROFILE_FLAGS = -g -pg -O3 -fno-inline
 # Flags used for release mode.
 RELEASE_FLAGS = -O3
 
-# Default compilation mode.
-DEFAULT_FLAGS = -g -O3 -fno-inline
+# Flags used for default compilation mode.
+DEFAULT_FLAGS = $(RELEASE_FLAGS)
 
 # Libraries to link against.
 LDLIBS = -lm -lpthread

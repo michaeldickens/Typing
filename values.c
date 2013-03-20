@@ -91,7 +91,7 @@ void initCosts()
 	keepNumbers = 1;
 	keepBrackets = TRUE;
 	keepShiftPairs = FALSE;
-	keepTab = FALSE;
+	keepTab = TRUE;
 	keepConsonantsRight = FALSE;
 	keepNumbersShifted = FALSE;
 	
