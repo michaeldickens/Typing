@@ -1,6 +1,6 @@
 # Compiled source
 *.o
-*.out
+*.out*
 build
 optimizer
 unit
@@ -10,7 +10,6 @@ unit
 *~
 
 # Other
-callgrind*
 *.dSYM
 Typing.1
 *.xcodeproj

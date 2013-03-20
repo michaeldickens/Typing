@@ -20,7 +20,8 @@
 
 ***REFACTORING***
 
- - Where I read in numbers using atoi() and overly complicated functions to test if something's a number, I could just use scanf().
+ - Fix sort functions to use qsort() and not separate keys and values.
+ - Change order of digraphs to alphabetical and see if this increases cache hits.
  - Modify code to take advantage of C99.
  - Change initTypingData() to avoid repetition.
  - Make getCommands() less messy.

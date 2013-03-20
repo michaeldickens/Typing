@@ -13,7 +13,14 @@ int main()
 {
     /* Initialize the typing data and the keyboard layout settings. */
     setksize(K_NO);
-    getCommands();
+    
+    setksize(K_KINESIS);
+    Keyboard k;
+    initKeyboard(&k);
+    for (int i = 0; i < 50; i++)
+        anneal(&k, NULL, 0);
+
+//    getCommands();
     
 	return 0;
 }
