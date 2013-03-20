@@ -4,6 +4,10 @@ a.out
 build
 optimizer
 
+# Backup files
+*\#*
+*~
+
 # Other
 callgrind*
 *.dSYM
