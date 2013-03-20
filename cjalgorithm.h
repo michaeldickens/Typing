@@ -6,6 +6,9 @@
  *
  */
 
+#ifndef __CJALGORITHM_H__
+#define __CJALGORITHM_H__
+
 #include <limits.h>
 #include "keyboard.h"
 
@@ -46,3 +49,5 @@ int smartMutate(int swapIndices[][2], Keyboard *k, int numberOfSwaps);
 
 void initThreadArg(struct ThreadArg *arg);
 void copyThreadArg(struct ThreadArg *dest, struct ThreadArg *src);
+
+#endif

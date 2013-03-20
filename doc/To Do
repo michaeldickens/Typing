@@ -1,6 +1,5 @@
 ***BIG CHANGES***
 
- - Run the program through Valgrind and clean it up.
  - Add unit tests.
  - Add convergence hacks to the multithreaded algorithm.
  - Score keyboards using a cost array instead of repeatedly re-calculating costs.
@@ -21,13 +20,17 @@
 
 ***REFACTORING***
 
- - Refactor diKeys and diValues to be a struct instead of two arrays.
- - Add #ifndef __TOOLS_H__ etc to .h files.
  - Where I read in numbers using atoi() and overly complicated functions to test if something's a number, I could just use scanf().
  - Modify code to take advantage of C99.
  - Change initTypingData() to avoid repetition.
  - Make getCommands() less messy.
- - Don't re-read typing data files every time setksize() is called.
+ - Run the program through Valgrind and clean it up.
+ - Don't re-read typing data files or do other redundant tasks every time setksize() is called.
+ - Inline common functions.
+ - Use bools instead of ints where possible.
+ - Make functions statis where possible.
+ - For functions that don't modify Keyboard k, pass it in directly instead of passing a pointer.
+ - "compare" doesn't return a helpful error message. You have to type "compare ". Similarly for all inputs that require one or more arguments.
 
 
 ***BUGS***

@@ -52,7 +52,6 @@ int getCommands()
 			
 			Keyboard k;
 			if (layoutFromFile(file, &k) != -1) {
-				layoutFromFile(file, &k);
 				bestSwap(&k);
 			}
 
@@ -109,33 +108,16 @@ int getCommands()
 
 		} else if (streq(cmd, "variables")) {
 			printf("Boolean variables should be set to 0 for false and 1 for true. Variables not specified as booleans are integers.\n");
-			printf("\t(bool) detailedOutput    : provide additional information while running the algorithm\n");
-			printf("\t(bool) keepZXCV          : keep keys Z, X, C, and V in place\n");
-			printf("\t(bool) keepQWERTY        : try to keep keys in their QWERTY positions\n");
-			printf("\t(bool) keepNumbers       : keep numbers in place\n");
-			printf("\t(bool) keepBrackets      : keep brackets symmetrical\n");
-			printf("\t(bool) keepShiftPairs    : shifted/unshifted pairs of special characters stay together\n");
-			printf("\t(bool) keepTab           : keep Tab in place\n");
-			printf("\t(bool) keepNumbersShifted: numbers do not move between shifted and unshifted\n");
-            printf("\tnumThreads: number of threads to create\n");
-			printf("\nThese variables determine the costs for particular key combinations. Higher cost is worse.\n");
-			printf("\tdistance\n");
-			printf("\tinRoll\n");
-			printf("\toutRoll\n");
-			printf("\tsameHand\n");
-			printf("\tsameFingerP\n");
-			printf("\tsameFingerR\n");
-			printf("\tsameFingerM\n");
-			printf("\tsameFingerI\n");
-			printf("\trowChangeUp\n");
-			printf("\trowChangeDown\n");
-			printf("\thandWarp\n");
-			printf("\thandSmooth\n");
-			printf("\thomeJump\n");
-			printf("\thomeJumpIndex\n");
-			printf("\tdoubleJump\n");
-			printf("\ttoCenter\n");
-			printf("\ttoOutside\n");
+            
+            int i;
+            for (i = 0; i < variablesLength; ++i) {
+                printf("\t%s", variables[i].name);
+                if (variables[i].description)
+                    printf(": %s", variables[i].description);
+                printf("\n");
+            }
+            
+            printf("\n");
 
 		} else if (streqn(cmd, "worst ", 6)) {
 			const char *const filename = cmd + 6;
@@ -360,7 +342,8 @@ int worstDigraphsFromFile(const char *const filename, int damagingp)
 		printLayoutOnly(&k);
 		worstDigraphs(&k, damagingp);
 	}
-	
+    
+    fclose(file);
 	return 0;
 }
 
@@ -475,6 +458,7 @@ int improveFromFile(const char *const filename)
 		fprintf(stderr, "Error: File %s does not contain a valid keyboard.\n\n", filename);
 	}
     
+    fclose(file);
     return 0;
 }
 
@@ -552,52 +536,39 @@ int makeTypingData()
 		multipliers[6] = 15;
 		multipliers[7] = 20;
 	} else {
-		multipliers[0] = getNumber("prose: ");
-		multipliers[1] = getNumber("casual: ");
-		multipliers[2] = getNumber("C: ");
-		multipliers[3] = getNumber("Java: ");
-		multipliers[4] = getNumber("Perl: ");
-		multipliers[5] = getNumber("Ruby: ");
-		multipliers[6] = getNumber("formal: ");
-		multipliers[7] = getNumber("news: ");
+		multipliers[0] = getInteger("prose: ");
+		multipliers[1] = getInteger("casual: ");
+		multipliers[2] = getInteger("C: ");
+		multipliers[3] = getInteger("Java: ");
+		multipliers[4] = getInteger("Perl: ");
+		multipliers[5] = getInteger("Ruby: ");
+		multipliers[6] = getInteger("formal: ");
+		multipliers[7] = getInteger("news: ");
 	}
 	
 	printf("\nPlease specify the maximum number of strings to put in the file. The optimizer will run faster ");
 	printf("with fewer strings and more accurately with more strings. (The recommended number is 1000-2000.)\n");
-	int max = getNumber("max: ");
+	int max = getInteger("max: ");
 	
 	compileTypingData(DIGRAPH_FILE, diFilenames, multipliers, 8, 2, max);
-	compileTypingData(CHAR_FILE, charFilenames, multipliers, 8, 1, max);
+	compileTypingData(MONOGRAPHFILE, charFilenames, multipliers, 8, 1, max);
 	
 	printf("\nDone writing typing data. See allChars.txt and allDigraphs.txt for the result.\n\n");
 	
 	return 0;
 }
 
-int getNumber(char *description)
+int getInteger(const char *description)
 {
-	char input[100];
-	int num = 0;
+    printf("%s", description);
+    int number = 0;
+    int numRead = scanf("%d", &number);
+    if (numRead < 1) {
+        printf("You must input an integer.\n");
+        return getInteger(description);
+    }
 	
-	do {
-		printf("%s", description);
-		fgets(input, 100, stdin);
-        int isInteger = TRUE;
-        char *ptr;
-        for (ptr = input; *ptr != '\0' && *ptr != '\n'; ++ptr) {
-            if (!isdigit(*ptr)) {
-                isInteger = FALSE;
-                break;
-            }
-        }
-        if (!isInteger) {
-			printf("You must input an integer.\n");
-            continue;
-		}
-		num = atoi(input);
-	} while (FALSE);
-	
-	return num;
+	return number;
 }
 
 /*

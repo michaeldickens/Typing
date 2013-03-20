@@ -6,6 +6,9 @@
  *
  * Includes the keyboard struct and the fitness function.
  */
+
+#ifndef __KEYBOARD_H__
+#define __KEYBOARD_H__
  
 #include <stdlib.h>
 #include <limits.h>
@@ -76,3 +79,5 @@ int calcRingJump(int loc0, int loc1);
 int calcToCenter(int loc0, int loc1);
 int calcToOutside(int loc0, int loc1);
 
+
+#endif

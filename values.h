@@ -6,6 +6,9 @@
  *
  */
 
+#ifndef __VALUES_H__
+#define __VALUES_H__
+
 #include <ctype.h>
 #include <math.h>
 #include <pthread.h>
@@ -104,3 +107,5 @@ void setksize(int type);
 
 /* Defined in fitness.c */
 int preCalculateFitness();
+
+#endif

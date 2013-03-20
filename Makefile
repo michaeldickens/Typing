@@ -14,18 +14,18 @@ CFLAGS = -std=c99
 DEBUG_FLAGS = -g -O0 -Wall
 
 # Flags used for profile mode.
-PROFILE_FLAGS = -g -pg -O3
+PROFILE_FLAGS = -g -pg -O3 -fno-inline
 
 # Flags used for release mode.
 RELEASE_FLAGS = -O3
 
 # Default compilation mode.
-DEFAULT_FLAGS = -g -O3
+DEFAULT_FLAGS = -g -O3 -fno-inline
 
 # Libraries to link against.
 LDLIBS = -lm -lpthread
 
-programs = optimizer
+programs = optimizer unit
 
 # Make the program under the default compilation mode.
 all: $(programs)
@@ -43,7 +43,9 @@ profile: CFLAGS += $(PROFILE_FLAGS)
 release: $(programs)
 release: CFLAGS += $(RELEASE_FLAGS)
 
+# Dependencies
 optimizer: accessories.o cjalgorithm.o fitness.o keyboard.o tools.o values.o
+unit: accessories.o cjalgorithm.o fitness.o keyboard.o tools.o values.o
 
 clean: 
-	rm -f $(programs) *.o
+	rm -f $(programs) *.o callgrind.out.*

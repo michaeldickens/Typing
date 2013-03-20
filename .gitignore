@@ -5,6 +5,7 @@ build
 optimizer
 
 # Other
+callgrind*
 *.dSYM
 Typing.1
 *.xcodeproj

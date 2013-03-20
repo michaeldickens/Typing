@@ -36,7 +36,7 @@ int calcFitnessDirect(Keyboard *k)
 	return 0;
 }
 
-int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier)
+inline int scoreDigraphDirect(Keyboard *k, char digraph[], int64_t multiplier)
 {
 	int locs[2];
 	int i;
@@ -154,7 +154,8 @@ int calcFitness(Keyboard *k)
 	return 0;
 }
 
-int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
+inline int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier,
+                        int allLocs[])
 {
 	int loc0 = allLocs[digraph[0]];
 	int loc1 = allLocs[digraph[1]];
@@ -195,7 +196,7 @@ int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier, int allLocs[])
 	return 0;
 }
 
-int64_t calcShortcuts(Keyboard *k)
+inline int64_t calcShortcuts(Keyboard *k)
 {
 	int64_t result;
 	result = 
@@ -207,7 +208,7 @@ int64_t calcShortcuts(Keyboard *k)
 	return result * (totalMon / monLen);
 }
 
-int64_t calcQWERTY(Keyboard *k)
+inline int64_t calcQWERTY(Keyboard *k)
 {
 	NOT_WORK_WITH_FULL_KEYBOARD("calcQWERTY")
 	int64_t result = 0;
@@ -223,13 +224,13 @@ int64_t calcQWERTY(Keyboard *k)
 	return result;
 }
 
-int64_t calcBrackets(Keyboard *k)
+inline int64_t calcBrackets(Keyboard *k)
 {
 	return calcBracketsGeneric(k, '(', ')') + calcBracketsGeneric(k, '<', '>') + 
 			calcBracketsGeneric(k, '[', ']') + calcBracketsGeneric(k, '{', '}');
 }
 
-int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
+inline int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
 {
     /* Some layouts do not contain brackets. That's okay; just return 0. */
 	int openPar = locWithShifted(k, openChar);
@@ -255,7 +256,7 @@ int64_t calcBracketsGeneric(Keyboard *k, char openChar, char closeChar)
 	else return bracketsCost / DIVISOR;
 }
 
-int64_t calcNumbersShifted(Keyboard *k)
+inline int64_t calcNumbersShifted(Keyboard *k)
 {
 	int64_t score = 0;
 	
@@ -268,7 +269,7 @@ int64_t calcNumbersShifted(Keyboard *k)
 }
 
 /* Requires that k->fingerUsage has been calculated. */
-int calcFingerWork(Keyboard *k)
+inline int calcFingerWork(Keyboard *k)
 {
 	int64_t total = 0;
 	int i;
@@ -299,7 +300,7 @@ int calcFingerWork(Keyboard *k)
  * 
  * Rolls must occur on the same row.
  */
-int calcInRoll(int loc0, int loc1)
+inline int calcInRoll(int loc0, int loc1)
 {
 	if (finger[loc1] == finger[loc0] + 1 && row[loc0] == row[loc1] && 
 			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
@@ -309,7 +310,7 @@ int calcInRoll(int loc0, int loc1)
 //	else return 0;
 }
 
-int calcOutRoll(int loc0, int loc1)
+inline int calcOutRoll(int loc0, int loc1)
 {
 	if (finger[loc1] == finger[loc0] - 1 && row[loc0] == row[loc1] && 
 			!isCenterOrOutside[loc0] && !isCenterOrOutside[loc1])
@@ -319,7 +320,7 @@ int calcOutRoll(int loc0, int loc1)
 //	else return 0;
 }
 
-int calcSameFinger(int loc0, int loc1)
+inline int calcSameFinger(int loc0, int loc1)
 {
 	if (finger[loc0] == finger[loc1]) {
 		if (loc0 == loc1) return 0;
@@ -343,7 +344,7 @@ int calcSameFinger(int loc0, int loc1)
 // If the row changes on the same hand, there is a penalty.
 // Jumping over the home row is an additional penalty, but 
 // isn't calculated here (see calcHomeJump()).
-int calcRowChange(int loc0, int loc1)
+inline int calcRowChange(int loc0, int loc1)
 {
 	int row0 = row[loc0];
 	int row1 = row[loc1];
@@ -358,7 +359,7 @@ int calcRowChange(int loc0, int loc1)
 	return 0;
 }
 
-int calcHomeJump(int loc0, int loc1)
+inline int calcHomeJump(int loc0, int loc1)
 {
 	int row0 = row[loc0];
 	int row1 = row[loc1];
@@ -382,7 +383,7 @@ int calcHomeJump(int loc0, int loc1)
 	return 0;
 }
 
-int calcRingJump(int loc0, int loc1)
+inline int calcRingJump(int loc0, int loc1)
 {
 	if ((finger[loc0] == PINKY && finger[loc1] == MIDDLE) || 
 			(finger[loc0] == MIDDLE && finger[loc1] == PINKY)) return ringJump;
@@ -390,7 +391,7 @@ int calcRingJump(int loc0, int loc1)
 	
 }
 
-int calcToCenter(int loc0, int loc1)
+inline int calcToCenter(int loc0, int loc1)
 {
 	if (isCenter[loc0] ^ isCenter[loc1]) return toCenter;
 	else return 0;
@@ -398,7 +399,7 @@ int calcToCenter(int loc0, int loc1)
 
 /* Only applies for the extended keyboard.
  */
-int calcToOutside(int loc0, int loc1)
+inline int calcToOutside(int loc0, int loc1)
 {
 	if (fullKeyboard != K_NO && (isOutside[loc0] ^ isOutside[loc1])) return toOutside;
 	else return 0;

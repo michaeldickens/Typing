@@ -5,6 +5,9 @@
  *  Created by Michael Dickens on 8/7/09.
  *
  */
+
+#ifndef __TOOLS_H__
+#define __TOOLS_H__
  
 #include "values.h"
 
@@ -18,8 +21,8 @@
 
 #define ERROR_RATE_PERCENT 2
 
-#define CHAR_FILE "doc/allChars.txt"
-#define DIGRAPH_FILE "doc/allDigraphs.txt"
+#define MONOGRAPHFILE "data/allChars.txt"
+#define DIGRAPH_FILE "data/allDigraphs.txt"
 
 /* Global variable declarations */
 
@@ -107,8 +110,19 @@ int cmpMonographsByValue(const void *one, const void *two);
 
 int sortMonographs(char keys[], int64_t values[], int left, int right);
 
+struct VarInfo {
+    const char *name; /* The name of the variable. */
+    int *addr; /* A pointer to the variable itself. */
+    const char *description;
+};
+
+#define VARIABLES_MAX_LEN 100
+struct VarInfo variables[VARIABLES_MAX_LEN];
+int variablesLength;
+
+void initVariables();
+int getValue(const char *name);
 int setValue(char *str);
-int getValue(char *name);
 
 #define isBracket(c) (getMatchingBracket(c) != 0)
 char getMatchingBracket(char c);
@@ -116,7 +130,7 @@ char getMatchingBracket(char c);
 int keepShiftPair(char c);
 
 
-int qwerty[30];
+char qwerty[30];
 
 /* For each key, indicates which hand (LEFT or RIGHT) is responsible for typing 
  * that key.
@@ -171,3 +185,5 @@ int printable[KSIZE_MAX];
 int rowChangeTableUp[5][5];
 int rowChangeTableDown[5][5];
 
+
+#endif

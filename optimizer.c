@@ -11,7 +11,7 @@
 
 int main()
 {
-	/* Initialize the typing data and the keyboard layout settings. */
+    /* Initialize the typing data and the keyboard layout settings. */
     setksize(K_NO);
     getCommands();
     

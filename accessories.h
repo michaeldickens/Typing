@@ -5,6 +5,9 @@
  *  Created by Michael Dickens on 8/11/09.
  *
  */
+
+#ifndef __ACCESSORIES_H__
+#define __ACCESSORIES_H__
  
 #include "cjalgorithm.h"
 
@@ -24,7 +27,7 @@ int improveFromFile(const char *filename);
 Keyboard improver(Keyboard k);
 
 int makeTypingData();
-int getNumber(char *description);
+int getInteger(const char *description);
 
 #ifdef SYS_TIME_H
 int runTimingTests();
@@ -32,3 +35,5 @@ int runTimingTests();
 
 int testFitness();
 int testResult(int result, int expected);
+
+#endif

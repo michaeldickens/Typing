@@ -274,7 +274,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 	return 0;
 }
 
-void copyKeyboard(Keyboard *k, Keyboard *original)
+inline void copyKeyboard(Keyboard *k, Keyboard *original)
 {
 	memcpy(k, original, sizeof(Keyboard));
 }
@@ -292,7 +292,7 @@ void copyKeyboard(Keyboard *k, Keyboard *original)
  * -1: loc1 or loc2 is out of bounds.
  * -2: loc1 or loc2 is at an unprintable position.
  */
-int swap(Keyboard *k, int loc1, int loc2)
+inline int swap(Keyboard *k, int loc1, int loc2)
 {
 	if (loc1 < 0 || loc2 < 0 || loc1 >= 2 * ksize || loc2 >= 2 * ksize)
         return -1;
@@ -331,7 +331,7 @@ int swap(Keyboard *k, int loc1, int loc2)
 /* 
  * Simultaneously swaps two keys' shifted and unshifted values.
  */
-int swapPair(Keyboard *k, int loc1, int loc2)
+inline int swapPair(Keyboard *k, int loc1, int loc2)
 {
 	if (loc1 < 0 || loc2 < 0 || loc1 >= ksize || loc2 >= ksize) return -1;
 	if (printable[loc1] ^ printable[loc2]) return -2;
@@ -515,7 +515,7 @@ int isLegalSwap(Keyboard *k, int i, int j)
 	return TRUE;
 }
 
-void shuffleLayout(Keyboard *k)
+inline void shuffleLayout(Keyboard *k)
 {
 	int x, n = 2 * ksize;
 	int i, legalSwapExists;
@@ -541,16 +541,13 @@ void shuffleLayout(Keyboard *k)
 	}
 }
 
-int locIgnoreShifted(Keyboard *k, char c)
+inline int locIgnoreShifted(Keyboard *k, char c)
 {
-	int i;
-	for (i = 0; i < ksize; ++i) {
-        if (!printable[i]) {
-            /* skip this index; any char here does not count */
-        } else if (k->layout[i] == c || k->shiftedLayout[i] == c) {
-			return i;
-        }
-	}
+	char *ptr = strchr(k->layout, c);
+    if (ptr) return (int) (ptr - k->layout);
+    
+    ptr = strchr(k->shiftedLayout, c);
+    if (ptr) return (int) (ptr - k->shiftedLayout);
 	
 	return -1;
 }
@@ -558,18 +555,13 @@ int locIgnoreShifted(Keyboard *k, char c)
 /* Guaranteed to check unshifted first, so if a character is the same on both 
  * shifted and unshifted layouts, it will return unshifted first.
  */
-int locWithShifted(Keyboard *k, char c)
+inline int locWithShifted(Keyboard *k, char c)
 {
-	int i;
-	for (i = 0; i < ksize; ++i) {
-        if (!printable[i]) {
-            /* skip this index; any char here does not count */
-		} else if (k->layout[i] == c) {
-			return i;
-		} else if (k->shiftedLayout[i] == c) {
-			 return i + ksize;
-		}
-	}
+	char *ptr = strchr(k->layout, c);
+    if (ptr) return (int) (ptr - k->layout);
+    
+    ptr = strchr(k->shiftedLayout, c);
+    if (ptr) return (int) (ptr - k->shiftedLayout) + ksize;
 	
 	return -1;	
 }

@@ -42,13 +42,8 @@ int initData()
 	nilKeyboard.homeJump = 0;
 	nilKeyboard.toCenter = 0;
 	nilKeyboard.toOutside = 0;
-	
-	qwerty[ 0] = 'q'; qwerty[ 1] = 'w'; qwerty[ 2] = 'e'; qwerty[ 3] = 'r'; qwerty[ 4] = 't'; 
-	qwerty[ 5] = 'y'; qwerty[ 6] = 'u'; qwerty[ 7] = 'i'; qwerty[ 8] = 'o'; qwerty[ 9] = 'p'; 
-	qwerty[10] = 'a'; qwerty[11] = 's'; qwerty[12] = 'd'; qwerty[13] = 'f'; qwerty[14] = 'g'; 
-	qwerty[15] = 'h'; qwerty[16] = 'j'; qwerty[17] = 'k'; qwerty[18] = 'l'; qwerty[19] = ';'; 
-	qwerty[20] = 'z'; qwerty[21] = 'x'; qwerty[22] = 'c'; qwerty[23] = 'v'; qwerty[24] = 'b'; 
-	qwerty[25] = 'n'; qwerty[26] = 'm'; qwerty[27] = ','; qwerty[28] = '.'; qwerty[29] = '\'';
+    
+    strncpy(qwerty, "qwertyuiopasdfghjkl;zxcvbnm,./", 30);
 	
 	for (i = 0; i < 5; ++i)
 		for (j = 0; j < 5; ++j) {
@@ -394,8 +389,10 @@ int initTypingData()
                 DIGRAPH_FILE);
 	
 
-	file = fopen(CHAR_FILE, "r");
-	CHECK_FILE_FOR_NULL(file, CHAR_FILE);
+	file = fopen(MONOGRAPHFILE, "r");
+	CHECK_FILE_FOR_NULL(file, MONOGRAPHFILE);
+    
+    initVariables();
 	
 	c = '\0';
 	totalMon = 0;
@@ -409,7 +406,7 @@ int initTypingData()
 		if (c == '\\') c = convertEscapeChar(getc(file));
 		if (c == 0) {
 			fprintf(stderr, "Error: In file %s, unknown escape character \\%c.\n",
-                    CHAR_FILE, c);
+                    MONOGRAPHFILE, c);
 			fclose(file);
 			return 1;
 		}
@@ -440,7 +437,7 @@ int initTypingData()
     
     if (monLen == 0)
         fprintf(stderr, "Warning: In file %s, no monographs found.\n",
-                CHAR_FILE);
+                MONOGRAPHFILE);
 	
 	/* If necessary, add the stats for backspace. */
 	if (strchr(keysToInclude, '\b')) {
@@ -647,9 +644,67 @@ int convertEscapeChar(int c)
 	} else return 0;
 }
 
-/* 
- * Takes a string containing a name and a value. Sets the variable with the given name to
- * the given value.
+void initVariables()
+{
+    variablesLength = 0;
+    
+#define ADD_VAR(varName, desc) \
+    variables[variablesLength].name = #varName; \
+    variables[variablesLength].addr = &varName; \
+    variables[variablesLength].description = desc; \
+    ++variablesLength;
+    
+    ADD_VAR(detailedOutput, "(bool) provide additional information while running the algorithm");
+    ADD_VAR(keepZXCV, "(bool) keep keys Z, X, C, and V in place");
+    ADD_VAR(keepQWERTY, "(bool) try to keep keys in their QWERTY positions");
+    ADD_VAR(keepNumbers, "(bool) keep numbers in place");
+    ADD_VAR(keepBrackets, "(bool) keep brackets symmetrical");
+    ADD_VAR(keepShiftPairs, "(bool) shifted/unshifted pairs of non-alphabetic characters stay together");
+    ADD_VAR(keepTab, "(bool) keep Tab in place");
+    ADD_VAR(keepNumbersShifted, "(bool) numbers do not move between shifted and unshifted");
+    ADD_VAR(numThreads, "number of threads to create\n");
+    ADD_VAR(distance, NULL);
+    ADD_VAR(inRoll, NULL);
+    ADD_VAR(outRoll, NULL);
+    ADD_VAR(sameHand, NULL);
+    ADD_VAR(sameFingerP, NULL);
+    ADD_VAR(sameFingerR, NULL);
+    ADD_VAR(sameFingerM, NULL);
+    ADD_VAR(sameFingerI, NULL);
+    ADD_VAR(rowChangeUp, NULL);
+    ADD_VAR(rowChangeDown, NULL);
+    ADD_VAR(handWarp, NULL);
+    ADD_VAR(handSmooth, NULL);
+    ADD_VAR(homeJump, NULL);
+    ADD_VAR(homeJumpIndex, NULL);
+    ADD_VAR(doubleJump, NULL);
+    ADD_VAR(toCenter, NULL);
+    ADD_VAR(toOutside, NULL);
+    
+#undef ADD_VAR
+}
+
+int getValue(const char *name)
+{
+    /* This is O(n), but it's a smallish n and speed is not essential. */
+    int i;
+    for (i = 0; i < variablesLength; ++i) {
+        if (streq(name, variables[i].name)) {
+            printf("%s = %d\n\n", variables[i].name, *variables[i].addr);
+            return 0;
+        }
+    }
+    
+    printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
+    return 1;
+}
+
+/*
+ * Takes a string containing a name and a value. Sets the variable with the 
+ * given name to the given value.
+ * 
+ * If the variable is successfully changed, returns 0. Otherwise, returns 
+ * nonzero.
  */
 int setValue(char *str)
 {
@@ -657,151 +712,37 @@ int setValue(char *str)
 	
 	char *name = str;
 	char *valstr = strchr(str, ' ');
-
+    
 	if (len == 0 || valstr == NULL) {
 		printf("No variable specified. Type \"variables\" for a complete listing of possible variables.\n\n");
-		return 0;
+		return 2;
 	}
-
+    
 	*valstr = '\0'; ++valstr;
 	
 	int value = atoi(valstr);
-	
-	if (streq(name, "detailedOutput")) {
-		detailedOutput = value;
-	} else if (streq(name, "keepZXCV")) {
-		keepZXCV = value;
-	} else if (streq(name, "keepQWERTY")) {
-		keepQWERTY = value;
-	} else if (streq(name, "keepNumbers")) {
-		keepNumbers = value;
-	} else if (streq(name, "keepBrackets")) {
-		keepBrackets = value;
-	} else if (streq(name, "keepShiftPairs")) {
-		keepShiftPairs = value;
-	} else if (streq(name, "keepTab")) {
-		keepTab = value;
-	} else if (streq(name, "keepNumbersShifted")) {
-		keepNumbersShifted = value;
-    } else if (streq(name, "numThreads")) {
-        numThreads = value;
-	} else if (streq(name, "distance")) {
-		distance = value;
-	} else if (streq(name, "inRoll")) {
-		inRoll = value;
-	} else if (streq(name, "outRoll")) {
-		outRoll = value;
-	} else if (streq(name, "sameHand")) {
-		sameHand = value;
-	} else if (streq(name, "sameFingerP")) {
-		sameFingerP = value;
-	} else if (streq(name, "sameFingerR")) {
-		sameFingerR = value;
-	} else if (streq(name, "sameFingerM")) {
-		sameFingerM = value;
-	} else if (streq(name, "sameFingerI")) {
-		sameFingerI = value;
-	} else if (streq(name, "sameFingerT")) {
-		sameFingerT = value;
-	} else if (streq(name, "rowChangeUp")) {
-		rowChangeUp = value;
-	} else if (streq(name, "rowChangeDown")) {
-		rowChangeDown = value;
-	} else if (streq(name, "handWarp")) {
-		handWarp = value;
-	} else if (streq(name, "handSmooth")) {
-		handSmooth = value;
-	} else if (streq(name, "homeJump")) {
-		homeJump = value;
-	} else if (streq(name, "homeJumpIndex")) {
-		homeJumpIndex = value;
-	} else if (streq(name, "doubleJump")) {
-		doubleJump = value;
-	} else if (streq(name, "toCenter")) {
-		toCenter = value;
-	} else if (streq(name, "toOutside")) {
-		toOutside = value;
-	} else {
-		printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
-		return 1;
-	}
     
-    /* If the user changes a cost, it is necessary to redo 
-     * preCalculateFitness().
-     */
-    if (USE_COST_ARRAY)
-        preCalculateFitness();
+    /* This is O(n), but it's a smallish n and speed is not essential. */
+    int i;
+    for (i = 0; i < variablesLength; ++i) {
+        if (streq(name, variables[i].name)) {
+            *variables[i].addr = value;
+            /* If the user changes a cost, it is necessary to redo
+             * preCalculateFitness().
+             */
+            if (USE_COST_ARRAY)
+                preCalculateFitness();
+            
+            printf("%s set to %d.\n\n", name, value);
+            return 0;
+        }
+    }
 	
-	printf("%s set to %d.\n", name, value);
-	
-	return 0;
+    printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
+    return 1;
 }
 
-int getValue(char *name)
-{
-	if (streq(name, "detailedOutput")) {
-		printf("%s = %d\n\n", name, detailedOutput);
-	} else if (streq(name, "keepZXCV")) {
-		printf("%s = %d\n\n", name, keepZXCV);
-	} else if (streq(name, "keepQWERTY")) {
-		printf("%s = %d\n\n", name, keepQWERTY);
-	} else if (streq(name, "keepNumbers")) {
-		printf("%s = %d\n\n", name, keepNumbers);
-	} else if (streq(name, "keepBrackets")) {
-		printf("%s = %d\n\n", name, keepBrackets);
-	} else if (streq(name, "keepShiftPairs")) {
-		printf("%s = %d\n\n", name, keepShiftPairs);
-	} else if (streq(name, "keepTab")) {
-		printf("%s = %d\n\n", name, keepTab);
-	} else if (streq(name, "keepNumbersShifted")) {
-		printf("%s = %d\n\n", name, keepNumbersShifted);
-    } else if (streq(name, "numThreads")) {
-		printf("%s = %d\n\n", name, numThreads);
-	} else if (streq(name, "distance")) {
-		printf("%s = %d\n\n", name, distance);
-	} else if (streq(name, "inRoll")) {
-		printf("%s = %d\n\n", name, inRoll);
-	} else if (streq(name, "outRoll")) {
-		printf("%s = %d\n\n", name, outRoll);
-	} else if (streq(name, "sameHand")) {
-		printf("%s = %d\n\n", name, sameHand);
-	} else if (streq(name, "sameFingerP")) {
-		printf("%s = %d\n\n", name, sameFingerP);
-	} else if (streq(name, "sameFingerR")) {
-		printf("%s = %d\n\n", name, sameFingerR);
-	} else if (streq(name, "sameFingerM")) {
-		printf("%s = %d\n\n", name, sameFingerM);
-	} else if (streq(name, "sameFingerI")) {
-		printf("%s = %d\n\n", name, sameFingerI);
-	} else if (streq(name, "sameFingerT")) {
-		printf("%s = %d\n\n", name, sameFingerT);
-	} else if (streq(name, "rowChangeUp")) {
-		printf("%s = %d\n\n", name, rowChangeUp);
-	} else if (streq(name, "rowChangeDown")) {
-		printf("%s = %d\n\n", name, rowChangeDown);
-	} else if (streq(name, "handWarp")) {
-		printf("%s = %d\n\n", name, handWarp);
-	} else if (streq(name, "handSmooth")) {
-		printf("%s = %d\n\n", name, handSmooth);
-	} else if (streq(name, "homeJump")) {
-		printf("%s = %d\n\n", name, homeJump);
-	} else if (streq(name, "homeJumpIndex")) {
-		printf("%s = %d\n\n", name, homeJumpIndex);
-	} else if (streq(name, "doubleJump")) {
-		printf("%s = %d\n\n", name, doubleJump);
-	} else if (streq(name, "toCenter")) {
-		printf("%s = %d\n\n", name, toCenter);
-	} else if (streq(name, "toOutside")) {
-		printf("%s = %d\n\n", name, toOutside);
-	} else {
-		printf("Unknown variable \"%s\". Type \"variables\" for a complete listing of possible variables.\n\n", name);
-		return 1;
-	}
-	
-	return 0;
-}
-
-int cmpDigraphsByValue(const void *one, const void *two)
+inline int cmpDigraphsByValue(const void *one, const void *two)
 {
     int64_t val1 = ((struct digraph *) one)->value;
     int64_t val2 = ((struct digraph *) two)->value;
@@ -810,7 +751,7 @@ int cmpDigraphsByValue(const void *one, const void *two)
     return 0;
 }
 
-int cmpMonographsByValue(const void *one, const void *two)
+inline int cmpMonographsByValue(const void *one, const void *two)
 {
     int64_t val1 = ((struct monograph *) one)->value;
     int64_t val2 = ((struct monograph *) two)->value;
@@ -821,7 +762,7 @@ int cmpMonographsByValue(const void *one, const void *two)
 
 /* Returns the matching bracket for c. If c is not a bracket, returns 0.
  */
-char getMatchingBracket(char c)
+inline char getMatchingBracket(char c)
 {
 	switch (c) {
 	case '(':
@@ -852,7 +793,7 @@ char getMatchingBracket(char c)
  * Alphabetical characters and whitespace are kept in shifted pairs. Other keys 
  * are not, unless the keepShiftPairs variable is set to TRUE.
  */
-int keepShiftPair(char c)
+inline int keepShiftPair(char c)
 {
 	return keepShiftPairs || isalpha(c) || isspace(c) || c == '\b';
 }
