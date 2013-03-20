@@ -19,7 +19,7 @@ PROFILE_FLAGS = -g -pg -O3 -fno-inline
 # Flags used for release mode.
 RELEASE_FLAGS = -O3
 
-# Flags used for default compilation mode.
+# Flags used with the default compilation mode.
 DEFAULT_FLAGS = $(RELEASE_FLAGS)
 
 # Libraries to link against.
