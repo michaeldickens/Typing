@@ -167,7 +167,7 @@ inline int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier,
 	
 	if (loc0 >= ksize && loc1 >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
-	} else if ((loc0 >= ksize) != (loc1 >= ksize)) {
+	} else if ((loc0 >= ksize) ^ (loc1 >= ksize)) {
 		k->distance += shiftCost * multiplier;
 	}
 	
