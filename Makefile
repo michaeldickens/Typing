@@ -8,16 +8,16 @@
 CC = gcc
 
 # Compiler flags.
-CFLAGS = -std=c99 -Wno-unused-result
+CFLAGS = -std=c99 -Wall
 
 # Flags used for debug mode.
-DEBUG_FLAGS = -g -O3 -fno-inline
+DEBUG_FLAGS = -g -O0 -fno-inline
 
 # Flags used for profile mode.
 PROFILE_FLAGS = -g -pg -O3 -fno-inline
 
 # Flags used for release mode.
-RELEASE_FLAGS = -O3
+RELEASE_FLAGS = -O3 -DNDEBUG
 
 # Flags used with the default compilation mode.
 DEFAULT_FLAGS = $(RELEASE_FLAGS)

@@ -461,14 +461,14 @@ int initTypingData()
 		++monLen;
 	}
     
-    qsort(monographs, monLen, sizeof(struct monograph), &cmpMonographsByValue);
-    qsort(digraphs, diLen, sizeof(struct digraph), &cmpDigraphsByValue);
+    qsort(monographs, monLen, sizeof(struct Monograph), &cmpMonographsByValue);
+    qsort(digraphs, diLen, sizeof(struct Digraph), &cmpDigraphsByValue);
 	
 	return 0;
 }
 
 /* 
- * Compile the typing data from each of the given files into  a single file.
+ * Compile the typing data from each of the given files into a single file.
  * 
  * outfileName: The file to which the new typing data will be written.
  * filenames: The names of each file to be read.
@@ -479,6 +479,7 @@ int initTypingData()
  * 
  * Return Codes
  * 1: Null file.
+ * 2: Allocation failure.
  * 
  * TODO: Refactor this to use monograph and digraph structs instead of two 
  *   parallel arrays of keys and values.
@@ -488,10 +489,10 @@ int compileTypingData(char *outfileName, const char *filenames[],
 {
 	size_t size = 5000;
 	/* Number of elements in keys and values. */
-	int datalen = 0;
+	int dataLen = 0;
 
-	int linelen = 100;
-	char line[linelen];
+	const int lineLen = 100;
+	char line[lineLen];
 	
 	FILE *outfile = fopen(outfileName, "w");
 	CHECK_FILE_FOR_NULL(outfile, outfileName);
@@ -500,15 +501,10 @@ int compileTypingData(char *outfileName, const char *filenames[],
 		return 1;
 	}
 	
-	char **keys = malloc(sizeof(char *) * size);
-	int *values = malloc(sizeof(int) * size);
-	if (keys == NULL) {
-		fprintf(stderr, "Error: In compileTypingData(), keys is null (malloc failure).\n");
-		return 1;
-	}
-	if (values == NULL) {
-		fprintf(stderr, "Error: In compileTypingData(), values is null (malloc failure).\n");
-		return 1;
+	struct NGraph *ngraphs = malloc(sizeof(char *) * size);
+	if (ngraphs == NULL) {
+		fprintf(stderr, "Error: In compileTypingData(), ngraphs is null (malloc failure).\n");
+		return 2;
 	}
 
 	int i, k;
@@ -522,51 +518,43 @@ int compileTypingData(char *outfileName, const char *filenames[],
 		if (file == NULL) {
 			fprintf(stderr, "Error: In compileTypingData(), null file %s.\n", filenames[i]);
 			fclose(outfile);
-			free(keys);
-			free(values);
+			free(ngraphs);
 			return 1;
 		}
 		
-		while (fgets(line, linelen-1, file)) {			
-			line[linelen-1] = '\0';
-			if (datalen >= size) {
+		while (fgets(line, lineLen-1, file)) {
+			if (dataLen >= size) {
 				size *= 2;
-				keys = realloc(keys, sizeof(char) * size);
-				values = realloc(values, sizeof(int) * size);
+				ngraphs = realloc(ngraphs, sizeof(struct NGraph) * size);
 				
-				if (keys == NULL) {
-					fprintf(stderr, "Error: In compileTypingData(), keys is null (realloc failure).\n");
-					return 1;
-				}
-				if (values == NULL) {
-					fprintf(stderr, "Error: In compileTypingData(), values is null (realloc failure).\n");
-					return 1;
+				if (ngraphs == NULL) {
+					fprintf(stderr, "Error: In compileTypingData(), ngraphs is null (realloc failure).\n");
+					return 2;
 				}
 			}
 			
 			/* If the n-graph already exists, add to its value. */
 			int found = FALSE;
-			for (k = 0; k < datalen; ++k) {
-				if (streqn(keys[k], line, unit)) {
+			for (k = 0; k < dataLen; ++k) {
+				if (streqn(ngraphs[k].key, line, unit)) {
 					found = TRUE;
-					values[k] += atoi(line + unit + 1) * multipliers[i];
+					ngraphs[k].value += atoi(line + unit + 1) * multipliers[i];
 				}
 			}
 			
 			/* If the n-graph does not already exist, add it. */
 			if (found == FALSE) {
-				keys[datalen] = malloc(sizeof(char) * (unit + 1));
-				if (keys[datalen] == NULL) {
-					free(keys);
-					free(values);
-					fprintf(stderr, "Error: In compileTypingData(), keys[%d] is null (malloc failure).\n", datalen);
-					return 1;
+				ngraphs[dataLen].key = malloc(sizeof(char) * (unit + 1));
+				if (ngraphs[dataLen].key == NULL) {
+                    /* TODO: free all allocated memory */
+					fprintf(stderr, "Error: In compileTypingData(), ngraphs[%d].key is null (malloc failure).\n", dataLen);
+					return 2;
 				}
 				
-				strncpy(keys[datalen], line, unit);
-				keys[datalen][unit] = '\0';
-				values[k] = atoi(line + unit + 1) * multipliers[i];
-				++datalen;
+				strncpy(ngraphs[dataLen].key, line, unit);
+				ngraphs[dataLen].key[unit] = '\0';
+				ngraphs[k].value = atoi(line + unit + 1) * multipliers[i];
+				++dataLen;
 			}
 			
 		}
@@ -574,47 +562,18 @@ int compileTypingData(char *outfileName, const char *filenames[],
 		fclose(file);
 	}
 	
-	sortTypingData(keys, values, 0, datalen-1);
+    qsort(ngraphs, dataLen, sizeof(struct NGraph), cmpNGraphsByValue);
 	
-	for (i = 0; i < datalen && i < max; ++i) {
-		strncpy(line, keys[i], unit);
-		sprintf(line + unit, " %d\n", values[i]);
+	for (i = 0; i < dataLen && i < max; ++i) {
+		strncpy(line, ngraphs[i].key, unit);
+		sprintf(line + unit, " %lld\n", ngraphs[i].value);
 		
 		fputs(line, outfile);
-		free(keys[i]);
+		free(ngraphs[i].key);
 	}
 	
 	fclose(outfile);
-	
-	free(keys);
-	free(values);
-	
-	return 0;
-}
-
-/* Give left = 0 and right = (length of arrays minus 1). */
-int sortTypingData(char **keys, int *values, int left, int right)
-{
-	int pivot = values[(left + right) / 2];
-	int i = left, j = right;
-	
-	while (i <= j) {
-		while (values[i] > pivot) ++i;
-		while (values[j] < pivot) --j;
-		
-		if (i <= j) {
-			char *ctemp = keys[i];
-			keys[i] = keys[j];
-			keys[j] = ctemp;
-			int itemp = values[i];
-			values[i] = values[j];
-			values[j] = itemp;
-			++i; --j;
-		}
-	}
-	
-	if (left < j) sortTypingData(keys, values, left, j);
-	if (i < right) sortTypingData(keys, values, i, right);
+	free(ngraphs);
 	
 	return 0;
 }
@@ -742,19 +701,28 @@ int setValue(char *str)
     return 1;
 }
 
-inline int cmpDigraphsByValue(const void *one, const void *two)
+int cmpMonographsByValue(const void *one, const void *two)
 {
-    int64_t val1 = ((struct digraph *) one)->value;
-    int64_t val2 = ((struct digraph *) two)->value;
+    int64_t val1 = ((struct Monograph *) one)->value;
+    int64_t val2 = ((struct Monograph *) two)->value;
     if (val1 > val2) return -1;
     else if (val1 < val2) return 1;
     return 0;
 }
 
-inline int cmpMonographsByValue(const void *one, const void *two)
+int cmpDigraphsByValue(const void *one, const void *two)
 {
-    int64_t val1 = ((struct monograph *) one)->value;
-    int64_t val2 = ((struct monograph *) two)->value;
+    int64_t val1 = ((struct Digraph *) one)->value;
+    int64_t val2 = ((struct Digraph *) two)->value;
+    if (val1 > val2) return -1;
+    else if (val1 < val2) return 1;
+    return 0;
+}
+
+int cmpNGraphsByValue(const void *one, const void *two)
+{
+    int64_t val1 = ((struct NGraph *) one)->value;
+    int64_t val2 = ((struct NGraph *) two)->value;
     if (val1 > val2) return -1;
     else if (val1 < val2) return 1;
     return 0;

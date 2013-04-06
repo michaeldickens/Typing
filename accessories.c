@@ -352,7 +352,7 @@ int worstDigraphs(Keyboard *k, int damagingp)
 	int i;
 	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
 	
-	struct digraph worst[diLen];
+	struct Digraph worst[diLen];
 	memcpy(worst, digraphs, sizeof(worst) * diLen);
 	
 	for (i = 0; i < diLen; ++i) {
@@ -396,7 +396,7 @@ int worstDigraphs(Keyboard *k, int damagingp)
 			worst[i].value *= digraphs[i].value;
 	}
 	
-	qsort(worst, diLen, sizeof(struct digraph), &cmpDigraphsByValue);
+	qsort(worst, diLen, sizeof(struct Digraph), &cmpDigraphsByValue);
 	
 	for (i = 0; i < diLen; ++i) {
 		char buf1[5];
@@ -500,7 +500,7 @@ int makeTypingData()
 		"freq_types/digraphs_04allNews.txt", 
 	};
 	
-	static const char *charFilenames[] = {
+	static const char *monFilenames[] = {
 		"freq_types/chars_00allProse.txt", 
 		"freq_types/chars_01allCasual.txt", 
 		"freq_types/chars_02allC.txt", 
@@ -551,7 +551,7 @@ int makeTypingData()
 	int max = getInteger("max: ");
 	
 	compileTypingData(DIGRAPH_FILE, diFilenames, multipliers, 8, 2, max);
-	compileTypingData(MONOGRAPHFILE, charFilenames, multipliers, 8, 1, max);
+	compileTypingData(MONOGRAPHFILE, monFilenames, multipliers, 8, 1, max);
 	
 	printf("\nDone writing typing data. See allChars.txt and allDigraphs.txt for the result.\n\n");
 	
@@ -595,12 +595,13 @@ int getInteger(const char *description)
  *  
  *  
  *  This program can score about 60,000 layouts per second. This is about 20 
- *  times as fast as Michael Capewell's program (http://www.michaelcapewell.com/projects/keyboard/) 
- *  when you adjust for clock speed, and many times faster than 
- *  Peter Klausler's program (http://klausler.com/evolved.html)
+ *  times as fast as Michael Capewell's program 
+ *  ( http://www.michaelcapewell.com/projects/keyboard/ ) when adjusted 
+ *  for clock speed, and many times faster than Peter Klausler's program 
+ *  ( http://klausler.com/evolved.html ).
  *  
  */
-#ifdef SYS_TIME_H
+#ifdef __SYS_TIME_H__
 int runTimingTests()
 {
 	time_t start, startsec;

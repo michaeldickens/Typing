@@ -19,7 +19,7 @@
 #include <time.h>
 
 /* If you have <sys/time.h>, you may un-comment the line below. */
-// #define SYS_TIME_H
+//#define __SYS_TIME_H__
 
 #ifdef SYS_TIME_H
 #include <sys/time.h>

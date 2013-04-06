@@ -2,7 +2,6 @@
 
  - Add unit tests.
  - Add convergence hacks to the multithreaded algorithm.
- - Score keyboards using a cost array instead of repeatedly re-calculating costs.
  - Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
  - Make it easier to add new physical keyboard types.
  - Write a subroutine that automatically generates a .keylayout file for any platform.
@@ -10,18 +9,16 @@
 
 ***SMALL CHANGES***
 
- - In GTBRec(), if GTBBruteForce() runs, it could take a longer or shorter amount of time than everything else. Try to minimize downtime.
+ - In GTBRec(), if GTBBruteForce() runs, it could take a longer or shorter amount of time than everything else. Try to minimize downtime for multithreading.
  - Instead of running GTB on the single best every time, run it on the best of the run with some probability.
  - Check to see which keys change between best layouts, and integrate that into smartMutate().
  - Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
  - Every movement from one finger to another has its own specific cost.
  - Create an option to not use shifted keys.
- 
+
 
 ***REFACTORING***
 
- - Fix sort functions to use qsort() and not separate keys and values.
- - Change order of digraphs to alphabetical and see if this increases cache hits.
  - Modify code to take advantage of C99.
  - Change initTypingData() to avoid repetition.
  - Make getCommands() less messy.
@@ -36,6 +33,7 @@
 
 ***BUGS***
 
+ - compileTypingData() crashes.
  - GTBBF() sometimes duplicates a character. Re-enable it and fix bugs.
  - shortcutCosts only works for K_NO.
  - runAlgorithm() occasionally prints the same layout twice in a row.
