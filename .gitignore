@@ -14,3 +14,4 @@ unit
 Typing.1
 *.xcodeproj
 performance data
+*.org

@@ -102,7 +102,8 @@ int calcFitness(Keyboard *k)
 {
 	int i;
 	
-	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
+	for (i = 0; i < FINGER_COUNT; ++i)
+        k->fingerUsage[i] = 0;
 	k->fitness    = 0;
 	k->distance   = 0;
 	k->inRoll     = 0;
@@ -373,11 +374,13 @@ inline int calcHomeJump(int loc0, int loc1)
 	
 	if (abs(row0 - row1) == 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING)))
+            return homeJump + homeJumpIndex;
 		else return homeJump;
 	} else if (abs(row0 - row1) > 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING)))
+            return doubleJump + homeJumpIndex;
 		else return doubleJump;
 	}
 

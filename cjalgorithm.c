@@ -1,8 +1,8 @@
 /*
- *  cjalgorithm.m
+ *  cjalgorithm.c
  *  Typing
  *
- *  Written by Michael Dickens.
+ *  Written by Michael Dickens and Chris Johnson.
  *
  */
 
