@@ -102,7 +102,8 @@ int calcFitness(Keyboard *k)
 {
 	int i;
 	
-	for (i = 0; i < FINGER_COUNT; ++i) k->fingerUsage[i] = 0;
+	for (i = 0; i < FINGER_COUNT; ++i)
+        k->fingerUsage[i] = 0;
 	k->fitness    = 0;
 	k->distance   = 0;
 	k->inRoll     = 0;
@@ -121,8 +122,8 @@ int calcFitness(Keyboard *k)
 	/* Calculate all the locations beforehand. This saves a lot of time. */
 	for (i = 0; i < ksize; ++i)
 		if (printable[i]) {
-			locs[k->layout[i]] = i;
-			locs[k->shiftedLayout[i]] = ksize + i;
+			locs[(int) k->layout[i]] = i;
+			locs[(int) k->shiftedLayout[i]] = ksize + i;
 		}
 	
 	for (i = 0; i < diLen; ++i) {
@@ -133,7 +134,7 @@ int calcFitness(Keyboard *k)
 	 * monographs instead of digraphs.
 	 */
 	for (i = 0; i < monLen; ++i) {
-		int lc = locs[monographs[i].key] % ksize;
+		int lc = locs[(int) monographs[i].key] % ksize;
 		if (lc >= 0)
             k->distance += distanceCosts[lc] * monographs[i].value * distance;
 		
@@ -157,17 +158,17 @@ int calcFitness(Keyboard *k)
 inline int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier,
                         int allLocs[])
 {
-	int loc0 = allLocs[digraph[0]];
-	int loc1 = allLocs[digraph[1]];
+	int loc0 = allLocs[(int) digraph[0]];
+	int loc1 = allLocs[(int) digraph[1]];
 	
-	if (USE_COST_ARRAY) {
-		k->fitness += allDigraphCosts[loc0][loc1] * multiplier;
-        return 0;
-    }
-	
+#ifdef USE_COST_ARRAY
+    k->fitness += allDigraphCosts[loc0][loc1] * multiplier;
+    return 0;
+    
+#else
 	if (loc0 >= ksize && loc1 >= ksize) {
 		k->distance += doubleShiftCost * multiplier;
-	} else if ((loc0 >= ksize) != (loc1 >= ksize)) {
+	} else if ((loc0 >= ksize) ^ (loc1 >= ksize)) {
 		k->distance += shiftCost * multiplier;
 	}
 	
@@ -194,6 +195,7 @@ inline int scoreDigraph(Keyboard *k, char digraph[], int64_t multiplier,
 	}
 	
 	return 0;
+#endif
 }
 
 inline int64_t calcShortcuts(Keyboard *k)
@@ -372,11 +374,13 @@ inline int calcHomeJump(int loc0, int loc1)
 	
 	if (abs(row0 - row1) == 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return homeJump + homeJumpIndex;
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING)))
+            return homeJump + homeJumpIndex;
 		else return homeJump;
 	} else if (abs(row0 - row1) > 2) {
 		if ((row0 > row1 && finger[loc0] == INDEX && (finger[loc1] == MIDDLE || finger[loc1] == RING)) || 
-			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING))) return doubleJump + homeJumpIndex;
+			(row1 > row0 && finger[loc1] == INDEX && (finger[loc0] == MIDDLE || finger[loc0] == RING)))
+            return doubleJump + homeJumpIndex;
 		else return doubleJump;
 	}
 

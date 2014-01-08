@@ -1,12 +1,17 @@
 # Compiled source
 *.o
-a.out
+*.out*
 build
 optimizer
+unit
+
+# Backup files
+*\#*
+*~
 
 # Other
-callgrind*
 *.dSYM
 Typing.1
 *.xcodeproj
 performance data
+*.org

@@ -29,9 +29,7 @@ Keyboard improver(Keyboard k);
 int makeTypingData();
 int getInteger(const char *description);
 
-#ifdef SYS_TIME_H
 int runTimingTests();
-#endif
 
 int testFitness();
 int testResult(int result, int expected);

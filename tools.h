@@ -1,5 +1,5 @@
 /*
- *  charsets.h
+ *  tools.h
  *  Typing
  *
  *  Created by Michael Dickens on 8/7/09.
@@ -30,18 +30,23 @@ int64_t totalMon;
 int64_t totalDi;
 int monLen, diLen, triLen;
 
-struct monograph {
+struct Monograph {
     char key;
     int64_t value;
 };
 
-struct digraph {
+struct Digraph {
     char key[2];
     int64_t value;
 };
 
-struct digraph digraphs[DI_LEN_MAX];
-struct monograph monographs[MON_LEN_MAX];
+struct NGraph {
+    char *key;
+    int64_t value;
+};
+
+struct Monograph monographs[MON_LEN_MAX];
+struct Digraph digraphs[DI_LEN_MAX];
 
 /* Constant declarations */
 
@@ -107,6 +112,7 @@ int convertEscapeChar(int c);
  */
 int cmpDigraphsByValue(const void *one, const void *two);
 int cmpMonographsByValue(const void *one, const void *two);
+int cmpNGraphsByValue(const void *one, const void *two);
 
 int sortMonographs(char keys[], int64_t values[], int left, int right);
 
@@ -117,8 +123,8 @@ struct VarInfo {
 };
 
 #define VARIABLES_MAX_LEN 100
-static struct VarInfo variables[VARIABLES_MAX_LEN];
-static int variablesLength;
+struct VarInfo variables[VARIABLES_MAX_LEN];
+int variablesLength;
 
 void initVariables();
 int getValue(const char *name);

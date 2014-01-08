@@ -1,5 +1,5 @@
 /*
- *  optimizer.z
+ *  optimizer.c
  *  Typing
  *
  *  Created by Michael Dickens on 8/11/09.
