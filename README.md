@@ -3,7 +3,7 @@ ABOUT
 
 This is a program designed to efficiently optimize keyboard layouts, inspired by the work done by Peter Klausler. It uses a (relatively) friendly command-line interface to allow the user to customize a keyboard layout.
 
-I began developing this program in 2008 and have been working on it since then. For updates, see http://mathematicalmulticore.wordpress.com/category/keyboards/ and https://github.com/MTGandP/Typing.
+I began developing this program in 2008 and have been working on it since then. For updates, see http://mathematicalmulticore.wordpress.com/category/keyboards/ and https://github.com/michaeldickens/Typing.
 
 
 INSTALLATION

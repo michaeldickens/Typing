@@ -501,11 +501,12 @@ int compileTypingData(char *outfileName, const char *filenames[],
 		return 1;
 	}
 	
-	struct NGraph *ngraphs = malloc(sizeof(char *) * size);
+	struct NGraph *ngraphs = malloc(sizeof(struct NGraph) * size);
 	if (ngraphs == NULL) {
 		fprintf(stderr, "Error: In compileTypingData(), ngraphs is null (malloc failure).\n");
 		return 2;
 	}
+    memset(ngraphs, 0, sizeof(struct NGraph) * size);
 
 	int i, k;
 	for (i = 0; i < length; ++i) {

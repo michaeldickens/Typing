@@ -14,10 +14,10 @@ CFLAGS = -std=c99 -Wall
 DEBUG_FLAGS = -g -O0 -fno-inline
 
 # Flags used for profile mode.
-PROFILE_FLAGS = -g -pg -O3 -fno-inline
+PROFILE_FLAGS = -g -pg -O2 -fno-inline
 
 # Flags used for release mode.
-RELEASE_FLAGS = -O3 -DNDEBUG
+RELEASE_FLAGS = -O2 -DNDEBUG
 
 # Flags used with the default compilation mode.
 DEFAULT_FLAGS = $(RELEASE_FLAGS)
