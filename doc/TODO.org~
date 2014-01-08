@@ -1,0 +1,45 @@
+*** BIG CHANGES*** 
+** TODO Add unit tests.
+** TODO Add convergence hacks to the multithreaded algorithm.
+** TODO Make it easier to change the keys on a keyboard (i.e. for other languages).
+** TODO Make it easier to add new physical keyboard types.
+** TODO Use trigraphs; try to make a layout with two rolls on one hand plus one key on the other. Do something like Carpalx.
+** TODO Write a subroutine that automatically generates a .keylayout file for any platform.
+- Implement tab and thumb keys for the standard keyboard.
+
+
+*** SMALL CHANGES*** 
+** TODO In GTBRec(), if GTBBruteForce() runs, it could take a longer or shorter amount of time than everything else. Try to minimize downtime for multithreading.
+** TODO Instead of running GTB on the single best every time, run it on the best of the run with some probability.
+** TODO Check to see which keys change between best layouts, and integrate that into smartMutate().
+** TODO Moving further along one hand costs more. For example, moving from a pinky to an index finger costs more than moving from a middle finger to an index finger.
+** TODO Every movement from one finger to another has its own specific cost.
+** TODO Create an option to not use shifted keys.
+
+
+*** REFACTORING*** 
+** TODO Modify code to take advantage of C99.
+** TODO Change initTypingData() to avoid repetition.
+** TODO Make getCommands() less messy.
+** TODO Run the program through Valgrind and clean it up.
+** TODO Don't re-read typing data files or do other redundant tasks every time setksize() is called.
+** TODO Inline common functions.
+** TODO Use bools instead of ints where possible.
+** TODO Make functions statis where possible.
+** TODO For functions that don't modify Keyboard k, pass it in directly instead of passing a pointer.
+** TODO "compare" doesn't return a helpful error message. You have to type "compare ". Similarly for all inputs that require one or more arguments.
+
+
+*** BUGS*** 
+** TODO compileTypingData() crashes.
+** TODO GTBBF() sometimes duplicates a character. Re-enable it and fix bugs.
+** TODO shortcutCosts only works for K_NO.
+** TODO runAlgorithm() occasionally prints the same layout twice in a row.
+
+
+*** MISCELLANEOUS*** 
+
+** TODO Convert layouts in allLayouts.txt to full-layout form.
+
+
+
