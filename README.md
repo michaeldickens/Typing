@@ -151,6 +151,12 @@ Add a new section that looks like this:
 
 5. Now you need to define the default keyboard. In tools.h, write
 
-        #define DEFAULT_KEYBOARD_BINARY "<list of characters to include on the keyboard>" 
+        #define DEFAULT_KEYBOARD_BINARY "<list of characters to include on the keyboard>"
+
+6. If you want to be able to set your keyboard from the command prompt, go to accessories.c in `getCommands()`. Under the line
+
+    } else if (streqn(cmd, "setksize ", strlen("setksize "))) {
+
+There's a series of if/else statements that check if the user typed in the name of one of the available keyboards. Add your keyboard to the list.
    
 And you're done.
