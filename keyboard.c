@@ -244,7 +244,7 @@ int layoutFromFile(FILE *file, Keyboard *k)
 				char saved = c;
 				c = convertEscapeChar(c);
 				if (c == 0) {
-					fprintf(stderr, "Error: Unknown escape character \\%c.\n", saved);
+					fprintf(stderr, "Error: Unknown escape character \\%c (#%d).\n", saved, saved);
 					return -1;
 				} else if (strchr(keysToInclude, c) == NULL) {
 					fprintf(stderr, "Error: In layoutFromFile(), escape character '%c' (#%d) may not be used in a keyboard.\n", c, c);

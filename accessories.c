@@ -489,6 +489,8 @@ Keyboard improver(Keyboard k)
  */
 int makeTypingData()
 {
+    printf("makeTypingData is broken. It is temporarily disabled until it gets fixed.\n");
+    
 	static const char *diFilenames[] = {
 		"freq_types/digraphs_00allProse.txt", 
 		"freq_types/digraphs_01allCasual.txt", 
