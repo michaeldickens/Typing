@@ -79,7 +79,7 @@ values.c: Contains some fitness costs as arrays.
 FITNESS
 -------
 
-See Fitness.txt.
+See [Fitness.txt.](/doc/Fitness.md)
  
 
 ADDING YOUR OWN PHYSICAL KEYBOARD
